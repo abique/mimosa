@@ -8,3 +8,11 @@
 
 소소
 
+Mimosa is a high level framework on top of melon (https://github.com/babali/melon)
+
+Mimosa provides :
+ - logging framework
+ - streams
+ - rpc
+ - web server
+ - and more ... :-)
