@@ -7,7 +7,7 @@ namespace mimosa
 {
   namespace sync
   {
-    class BarrierHandle
+    class BarrierHandle : private NonCopyable
     {
     public:
       inline BarrierHandle(Barrier & barrier)
@@ -29,8 +29,6 @@ namespace mimosa
       inline void wait() { barrier_.wait(); }
 
     private:
-      BarrierHandle & operator=(const BarrierHandle & handle);
-
       Barrier & barrier_;
     };
   }
