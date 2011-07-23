@@ -1,6 +1,8 @@
 #ifndef MIMOSA_NET_SERVER_HH
 # define MIMOSA_NET_SERVER_HH
 
+# include <functional>
+
 namespace mimosa
 {
   namespace net
@@ -8,8 +10,12 @@ namespace mimosa
     class Server
     {
     public:
+      bool bindUnix(const std::string & path);
+      void onAccept(Function<void (int fd)>::Ptr handler);
+
     private:
-      int fd_;
+      Function<void (int fd)>::Ptr handler_;
+      int                          fd_;
     };
   }
 }
