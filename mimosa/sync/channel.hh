@@ -9,7 +9,8 @@ namespace mimosa
   namespace sync
   {
     template <typename T, typename QueueType = std::queue<T> >
-    class Channel : private NonCopyable
+    class Channel : public RefCountable<Channel>,
+                    private NonCopyable
     {
     public:
       inline Channel()
