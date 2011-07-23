@@ -1,19 +1,22 @@
-#ifndef MIMOSA_LOCKER_HH
-# define MIMOSA_LOCKER_HH
+#ifndef MIMOSA_SYNC_LOCKER_HH
+# define MIMOSA_SYNC_LOCKER_HH
 
 # include "../non-copyable.hh"
 
 namespace mimosa
 {
-  template <typename T>
-  class Locker : private NonCopyable
+  namespace sync
   {
-  public:
-    inline Locker(T & mutex) : mutex_(mutex) { mutex.lock(); }
-    inline ~Locker() { mutex.unlock(); }
-  private:
-    T & mutex_;
-  };
+    template <typename T>
+    class Locker : private NonCopyable
+    {
+    public:
+      inline Locker(T & mutex) : mutex_(mutex) { mutex.lock(); }
+      inline ~Locker() { mutex.unlock(); }
+    private:
+      T & mutex_;
+    };
+  }
 }
 
-#endif /* !MIMOSA_LOCKER_HH */
+#endif /* !MIMOSA_SYNC_LOCKER_HH */
