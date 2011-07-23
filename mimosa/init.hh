@@ -3,7 +3,7 @@
 
 namespace mimosa
 {
-  void init(uint16_t nb_threads = 0);
+  void init(int argc, char ** argv);
   void wait();
   void deinit();
 }
