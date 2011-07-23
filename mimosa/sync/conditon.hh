@@ -11,7 +11,7 @@ namespace mimosa
 {
   namespace sync
   {
-    class Condition : public NonCopyable
+    class Condition : private NonCopyable
     {
     public:
       inline Condition() throw std::bad_alloc

@@ -14,7 +14,7 @@ namespace mimosa
 {
   namespace sync
   {
-    class RWLock : public NonCopyable
+    class RWLock : private NonCopyable
     {
     public:
       typedef Locker<RwLock>       Locker;
