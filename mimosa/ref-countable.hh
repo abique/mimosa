@@ -18,6 +18,8 @@ namespace mimosa
     {
     }
 
+    virtual ~RefCountable() {}
+
     inline operator=(const RefCountableBase & other)
     {
     }
