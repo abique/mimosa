@@ -1,6 +1,8 @@
 #ifndef MIMOSA_FUNCTION_HH
 # define MIMOSA_FUNCTION_HH
 
+# include <functional>
+
 # include "ref-countable.hh"
 # include "non-copyable.hh"
 

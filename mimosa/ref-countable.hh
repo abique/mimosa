@@ -13,25 +13,26 @@ namespace mimosa
     {
     }
 
-    inline RefCountableBase(const RefCountableBase & other)
+    inline RefCountableBase(const RefCountableBase & /*other*/)
       : ref_count_(0)
     {
     }
 
-    virtual ~RefCountable() {}
+    virtual ~RefCountableBase() {}
 
-    inline operator=(const RefCountableBase & other)
+    inline RefCountableBase & operator=(const RefCountableBase & /*other*/)
     {
+      return *this;
     }
 
     inline int addRef() const
     {
-      return __sync_add_and_fetch(&obj->ref_count_, 1);
+      return __sync_add_and_fetch(&ref_count_, 1);
     }
 
     inline int releaseRef() const
     {
-      return __sync_add_and_fetch(&obj->ref_count_, -1);
+      return __sync_add_and_fetch(&ref_count_, -1);
     }
 
     mutable int ref_count_;

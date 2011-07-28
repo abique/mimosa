@@ -16,7 +16,7 @@ namespace mimosa
       : ptr_(ptr)
     {
       if (ptr)
-        ::mimosa::addRef(ptr);
+        addRef(ptr);
     }
 
     template <typename U>
@@ -30,14 +30,16 @@ namespace mimosa
       assign(0);
     }
 
-    inline operator=(T * ptr)
+    inline RefCountedPtr<T> & operator=(T * ptr)
     {
       assign(ptr);
+      return *this;
     }
 
-    inline operator=(const RefCountedPtr<T> & ptr)
+    inline RefCountedPtr<T> & operator=(const RefCountedPtr<T> & ptr)
     {
       assign(ptr.get());
+      return *this;
     }
 
     inline T & operator*() const { return *ptr_; }
@@ -45,11 +47,11 @@ namespace mimosa
     inline T * get() const { return ptr_; }
     inline void assign(T * ptr)
     {
+      if (ptr)
+        addRef(ptr);
       if (ptr_)
-        ::mimosa::releaseRef(ptr_);
-      ptr_ = ptr.get();
-      if (ptr_)
-        ::mimosa::addRef(ptr);
+        releaseRef(ptr_);
+      ptr_ = ptr;
     }
 
   private:
