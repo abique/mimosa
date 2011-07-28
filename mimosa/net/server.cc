@@ -1,3 +1,4 @@
+#include <sys/socket.h>
 #include <cassert>
 
 #include "server.hh"
@@ -23,7 +24,31 @@ namespace mimosa
     bool
     Server::listenInet4(uint16_t port, const struct ::in_addr * interface)
     {
+      stop();
+      fd_ = ::socket(AF_INET, SOCK_STREAM, PF_INET);
+      if (fd_ < 0)
+        return false;
+
+      struct sockaddr_in addr;
+      addr.sin_addr.s_addr = interface ? interface->s_addr : INADDR_ANY;
+      addr.sin_family = AF_INET;
+      addr.sin_port = port;
+      if (::bind(fd_, (struct sockaddr *)&addr, sizeof (addr)))
+        goto failure;
+      if (listen(fd_, 10))
+        goto failure;
+      try {
+        this->accept_loop_ = new runtime::Fiber(std::bind(&Server::acceptLoop, this));
+      } catch (...) {
+        goto failure;
+      }
       return true;
+
+      failure:
+      ::close(fd_);
+      fd_ = -1;
+      this->accept_loop_ = 0;
+      return false;
     }
 
     void
@@ -54,6 +79,7 @@ namespace mimosa
         accept_loop_->join();
         delete accept_loop_;
         accept_loop_ = 0;
+        fd_ = -1;
       }
       else
         assert(!accept_loop_);

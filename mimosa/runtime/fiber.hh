@@ -37,8 +37,8 @@ namespace mimosa
 
       Fiber(std::function<void ()> && fct);
       ~Fiber();
-      inline void join();
-      inline void detach();
+      void join();
+      void detach();
 
     private:
       melon_fiber * fiber_;

@@ -1,6 +1,8 @@
 #ifndef MIMOSA_BIND_HH
 # define MIMOSA_BIND_HH
 
+# include "function.hh"
+
 namespace mimosa
 {
   template <typename Proto, typename ... Args>
