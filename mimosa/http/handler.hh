@@ -1,7 +1,7 @@
 #ifndef MIMOSA_HTTP_HANDLER_HH
 # define MIMOSA_HTTP_HANDLER_HH
 
-# include "../function.hh"
+# include "../ref-countable.hh"
 
 namespace mimosa
 {
@@ -10,7 +10,12 @@ namespace mimosa
     class Resquest;
     class Response;
 
-    typedef Function<void (Request &, Response &)> Handler;
+    class Handler : public RefCountable<Handler>
+    {
+    public:
+      virtual ~Handler() {}
+      virtual void handle(Request & request, Response & response) = 0;
+    };
   }
 }
 
