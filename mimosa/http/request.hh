@@ -1,9 +1,12 @@
 #ifndef MIMOSA_HTTP_REQUEST_HH
 # define MIMOSA_HTTP_REQUEST_HH
 
+# include <string>
+# include <vector>
 # include <unordered>
 
 # include "coding.hh"
+# include "../stream/stream.hh"
 
 namespace mimosa
 {
@@ -27,7 +30,7 @@ namespace mimosa
       uint64_t                                     range_end_;
       std::string                                  referer_;
       std::unordered_map<std::string, std::string> unparsed_headers_;
-      std::string                                  body_;
+      stream::Stream::Ptr                          body_;
     };
   }
 }
