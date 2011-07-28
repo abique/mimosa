@@ -1,9 +1,8 @@
 #ifndef MIMOSA_RUNTIME_FIBER_HH
 # define MIMOSA_RUNTIME_FIBER_HH
 
-# define restrict
-
 # include <functional>
+# include <stdexcept>
 
 # include <melon/melon.h>
 
@@ -18,13 +17,31 @@ namespace mimosa
     public:
 
       template <typename T>
-      static inline bool start(void* (*fct)(T *), T * ctx)
+      static inline void start(void* (*fct)(T *), T * ctx)
       {
-        return !::melon_fiber_startlight(reinterpret_cast<void*(*)(void*)>(fct),
-                                         static_cast<void*>(ctx));
+        if (::melon_fiber_startlight(reinterpret_cast<void*(*)(void*)>(fct),
+                                     static_cast<void*>(ctx)))
+          throw std::runtime_error("failed to start new fiber");
       }
 
-      static bool start(std::function<void ()> && fct);
+      static void start(std::function<void ()> && fct);
+
+      template <typename T>
+      inline Fiber(void* (*fct)(T *), T * ctx)
+        : fiber_(::melon_fiber_start(reinterpret_cast<void*(*)(void*)>(fct),
+                                     static_cast<void*>(ctx)))
+      {
+        if (!fiber_)
+          throw std::runtime_error("failed to start new fiber");
+      }
+
+      Fiber(std::function<void ()> && fct);
+      ~Fiber();
+      inline void join();
+      inline void detach();
+
+    private:
+      melon_fiber * fiber_;
     };
   }
 }

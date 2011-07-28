@@ -5,6 +5,8 @@ namespace mimosa
 {
   class NonCopyable
   {
+  public:
+    inline NonCopyable() {}
   private:
     NonCopyable(const NonCopyable &);
     NonCopyable & operator=(const NonCopyable &);

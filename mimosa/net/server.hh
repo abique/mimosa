@@ -8,6 +8,7 @@
 # include <string>
 
 # include "../function.hh"
+# include "../runtime/fiber.hh"
 
 namespace mimosa
 {
@@ -33,6 +34,7 @@ namespace mimosa
       AcceptHandler::Ptr handler_;
       int                fd_;
       bool               stop_;
+      runtime::Fiber *   accept_loop_;
     };
   }
 }
