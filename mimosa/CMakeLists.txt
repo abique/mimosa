@@ -8,6 +8,7 @@ install(FILES
   ref-counted-ptr.hh
   DESTINATION include/mimosa/)
 
+add_subdirectory(stream)
 add_subdirectory(string)
 add_subdirectory(uri)
 add_subdirectory(runtime)
