@@ -20,9 +20,9 @@ namespace mimosa
       inline const char * data() const { return data_; }
 
     protected:
-      container::IntrusiveSlist<Buffer> next_;
-      uint64_t                          size_;
-      char *                            data_;
+      container::IntrusiveSlistHook<Buffer> next_;
+      uint64_t                              size_;
+      char *                                data_;
     };
   }
 }

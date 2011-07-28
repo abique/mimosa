@@ -28,7 +28,7 @@ namespace mimosa
 
       inline void acquire(int nb) { ::melon_sem_acquire(sem_, nb); }
       inline bool tryAcquire(int nb) { return !::melon_sem_tryacquire(sem_, nb); }
-      inline bool timedAcquire(int nb) { return !::melon_sem_timedAcquire(sem_, nb); }
+      inline bool timedAcquire(int nb) { return !::melon_sem_timedacquire(sem_, nb); }
       inline void release(int nb) { ::melon_sem_release(sem_, nb); }
     };
   }
