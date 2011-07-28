@@ -1,11 +1,15 @@
 #ifndef MIMOSA_STREAM_STREAM_HH
 # define MIMOSA_STREAM_STREAM_HH
 
+# include "../ref-coutable.hh"
+# include "../non-copyable.hh"
+
 namespace mimosa
 {
   namespace stream
   {
-    class Stream : public RefCountable<Stream>
+    class Stream : public RefCountable<Stream>,
+                   private NonCopyable
     {
     public:
 
