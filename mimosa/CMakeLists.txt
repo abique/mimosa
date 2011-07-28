@@ -11,3 +11,4 @@ install(FILES
 add_subdirectory(string)
 add_subdirectory(runtime)
 add_subdirectory(net)
+add_subdirectory(http)
