@@ -7,13 +7,18 @@ namespace mimosa
 {
   namespace http
   {
-    class Server
+    class Server : public net::Server,
+                   public RefCountable<Server>
     {
     public:
       Server();
-      void setHandler(Handler::Ptr & handler);
+      inline void setHandler(Handler::Ptr handler) { handler_ = handler; }
 
     private:
+      static void newClient(Server::Ptr server, int fd);
+
+      Time read_timeout_;
+      Time write_timeout_;
       Handler::Ptr handler_;
     };
   }
