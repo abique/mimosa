@@ -9,6 +9,7 @@ install(FILES
   DESTINATION include/mimosa/)
 
 add_subdirectory(string)
+add_subdirectory(uri)
 add_subdirectory(runtime)
 add_subdirectory(net)
 add_subdirectory(http)
