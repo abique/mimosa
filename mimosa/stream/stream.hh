@@ -3,6 +3,7 @@
 
 # include "../ref-countable.hh"
 # include "../non-copyable.hh"
+# include "../runtime/time.hh"
 
 namespace mimosa
 {
