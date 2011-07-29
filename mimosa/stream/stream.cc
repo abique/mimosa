@@ -7,18 +7,37 @@ namespace mimosa
     int64_t
     Stream::writev(const struct iovec * iov, int iovcnt)
     {
-      int64_t wbytes = 0;
+      int64_t bytes = 0;
       for (int i = 0; i < iovcnt; ++i)
       {
         int64_t ret = write(iov[i].iov_base, iov[i].iov_len, timeout);
         if (ret <= 0)
         {
-          if (wbytes > 0)
-            return wbytes;
+          if (bytes > 0)
+            return bytes;
           return ret;
         }
+        bytes += ret;
       }
-      return wbytes;
+      return bytes;
+    }
+
+    int64_t
+    Stream::readv(const struct iovec * iov, int iovcnt)
+    {
+      int64_t bytes = 0;
+      for (int i = 0; i < iovcnt; ++i)
+      {
+        int64_t ret = read(iov[i].iov_base, iov[i].iov_len, timeout);
+        if (ret <= 0)
+        {
+          if (bytes > 0)
+            return bytes;
+          return ret;
+        }
+        bytes += ret;
+      }
+      return bytes;
     }
   }
 }
