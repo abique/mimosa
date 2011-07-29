@@ -16,6 +16,7 @@ namespace mimosa
       inline virtual ~Stream() {}
 
       virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0) = 0;
+      virtual int64_t writev(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
       virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0) = 0;
 
       /** flushes the write buffer */
