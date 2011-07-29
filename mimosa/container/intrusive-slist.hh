@@ -24,7 +24,7 @@ namespace mimosa
     class IntrusiveSlist : private NonCopyable
     {
     public:
-      inline IntrusiveSlist() : tail_(nullptr) {}
+      inline IntrusiveSlist() : tail_(nullptr), size_(0) {}
       inline ~IntrusiveSlist()
       {
         while (!empty())
@@ -36,8 +36,14 @@ namespace mimosa
         return !tail_;
       }
 
+      inline size_t size() const
+      {
+        return size_;
+      }
+
       inline void push(T & item)
       {
+        ++size_;
         if (!tail_)
           (item.*Member).next_ = &item;
         else
@@ -64,6 +70,7 @@ namespace mimosa
       {
         if (!tail_)
           return;
+        --size_;
         if (tail_ == (tail_->*Member).next_)
         {
           (tail_->*Member).next_ = nullptr;
@@ -78,7 +85,8 @@ namespace mimosa
       }
 
     private:
-      T * tail_;
+      T *    tail_;
+      size_t size_;
     };
   }
 }
