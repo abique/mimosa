@@ -1,32 +1,16 @@
 #ifndef MIMOSA_STREAM_FD_STREAM_HH
 # define MIMOSA_STREAM_FD_STREAM_HH
 
-# include "stream.hh"
+# include "buffered-stream.hh"
 
 namespace mimosa
 {
   namespace stream
   {
-    class FdStream : public Stream
+    class FdStream : public BufferedStream
     {
     public:
-      FdStream(int fd);
-      virtual ~FdStream();
-
-      virtual bool atEnd() const;
-
-      virtual uint64_t bytesAvailable() const;
-      virtual uint64_t bytesToWrite() const;
-
-      virtual int64_t write(const char * data, uint64_t nbytes);
-      virtual int64_t read(char * data, uint64_t nbytes);
-      virtual void flush();
-
-      virtual int64_t pos() const;
-      virtual bool seek(int64_t offset, SeekType whence);
-
-    private:
-      int fd_;
+      FdStream(int fd, uint64_t buffer_size = 64 * 1024, bool is_readable = 1, bool is_writable = 1);
     };
   }
 }

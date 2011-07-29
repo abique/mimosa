@@ -10,7 +10,7 @@ namespace mimosa
     class DirectFdStream : public Stream
     {
     public:
-      DirectFdStream(int fd, bool readable = 1, bool writable = 1, bool is_sequential = 1);
+      DirectFdStream(int fd, bool is_readable = 1, bool is_writable = 1);
       virtual ~DirectFdStream();
 
       virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);

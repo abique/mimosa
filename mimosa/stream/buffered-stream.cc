@@ -9,7 +9,8 @@ namespace mimosa
   {
     BufferedStream::BufferedStream(Stream::Ptr stream, uint64_t buffer_size)
       : stream_(stream),
-        wbuffer_(nullptr),
+        buffer_size_(buffer_size),
+        wbuffers_(),
         wpos_(0),
         wappend_(0),
         rbuffer_(nullptr),
@@ -76,7 +77,7 @@ namespace mimosa
         struct iovec   iov[iov_cnt];
         struct iovec * p = iov;
 
-        for (auto it = wbuffers_.cbegin(); it != wbuffers_.cend(); ++it, ++p)
+        for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++p)
         {
           p->iov_base = it->data();
           p->iov_len  = buffer_size_;
@@ -88,11 +89,11 @@ namespace mimosa
           if (p == iov + iov_cnt - 1)
             p->iov_len -= wappend_;
         }
-        iov[iov_cnt - 1].iov_base = data;
+        iov[iov_cnt - 1].iov_base = const_cast<char *>(data);
         iov[iov_cnt - 1].iov_len  = nbytes;
 
         // write and remove completed buffers
-        int64_t wbytes = stream->writev(iov, iov_cnt, timeout);
+        int64_t wbytes = stream_->writev(iov, iov_cnt, timeout);
         if (wbytes < 0)
         {
           if (nbytes_orig == nbytes)
@@ -102,7 +103,7 @@ namespace mimosa
 
         // remove completed buffers
         p = iov;
-        for (auto it = wbuffers_.cbegin(); it != wbuffers_.cend(); ++it, ++p)
+        for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++p)
         {
           if (wbytes >= p->iov_len)
           {
@@ -133,7 +134,7 @@ namespace mimosa
           rbuffer_ = new Buffer(buffer_size_);
         rpos_    = 0;
         rappend_ = 0;
-        int64_t rbytes = stream_->read(rbuffer->data(), rbuffer->size(), timeout);
+        int64_t rbytes = stream_->read(rbuffer_->data(), rbuffer_->size(), timeout);
         if (rbytes <= 0)
           return 0;
         rappend_ = rbytes;

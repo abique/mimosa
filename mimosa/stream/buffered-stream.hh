@@ -11,7 +11,7 @@ namespace mimosa
     class BufferedStream : public Stream
     {
     public:
-      BufferedStream(Stream::Ptr stream, uint64_t buffer_size = 0);
+      BufferedStream(Stream::Ptr stream, uint64_t buffer_size = 64 * 1024);
       virtual ~BufferedStream();
 
       virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);

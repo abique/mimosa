@@ -1,11 +1,15 @@
+#include <errno.h>
+
 #include "direct-fd-stream.hh"
 
 namespace mimosa
 {
   namespace stream
   {
-    DirectFdStream::DirectFdStream(int fd, bool readable, bool writable)
-      : fd_(fd)
+    DirectFdStream::DirectFdStream(int fd, bool is_readable, bool is_writable)
+      : fd_(fd),
+        is_readable_(is_readable),
+        is_writable_(is_writable)
     {
     }
 
@@ -23,7 +27,7 @@ namespace mimosa
         errno = EINVAL;
         return -1;
       }
-      return ::mimosa_write(fd_, data, nbytes, timeout);
+      return ::melon_write(fd_, data, nbytes, timeout);
     }
 
     int64_t
@@ -34,7 +38,7 @@ namespace mimosa
         errno = EINVAL;
         return -1;
       }
-      return ::mimosa_writev(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX, timeout);
+      return ::melon_writev(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX, timeout);
     }
 
     int64_t
@@ -45,7 +49,7 @@ namespace mimosa
         errno = EINVAL;
         return -1;
       }
-      return ::mimosa_read(fd_, data, nbytes, timeout);
+      return ::melon_read(fd_, data, nbytes, timeout);
     }
 
     int64_t
@@ -56,7 +60,7 @@ namespace mimosa
         errno = EINVAL;
         return -1;
       }
-      return ::mimosa_readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX, timeout);
+      return ::melon_readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX, timeout);
     }
   }
 }

@@ -1,7 +1,10 @@
 #ifndef MIMOSA_STREAM_STREAM_HH
 # define MIMOSA_STREAM_STREAM_HH
 
+# include <sys/types.h>
 # include <sys/uio.h>
+# include <unistd.h>
+# include <limits.h>
 
 # include "../ref-countable.hh"
 # include "../non-copyable.hh"
@@ -23,7 +26,7 @@ namespace mimosa
       virtual int64_t readv(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
 
       /** flushes the write buffer */
-      virtual bool flush(runtime::Time timeout) {}
+      virtual bool flush(runtime::Time /*timeout*/) { return true; }
     };
   }
 }

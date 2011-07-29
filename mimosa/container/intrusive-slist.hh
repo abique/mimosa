@@ -21,10 +21,13 @@ namespace mimosa
     };
 
     template <typename T, IntrusiveSlistHook<T> T::*Member>
+    class IntrusiveSlist;
+
+    template <typename T, IntrusiveSlistHook<T> T::*Member>
     class IntrusiveSlistIterator
     {
     public:
-      inline IntrusiveSlistIterator(const IntrusiveSlist<T, Member> & slist_, T * item)
+      inline IntrusiveSlistIterator(const IntrusiveSlist<T, Member> & slist, T * item)
         : slist_(slist), item_(item)
       {
       }
@@ -47,6 +50,11 @@ namespace mimosa
         return &slist_ == &other.slist_ && item_ == other.item_;
       }
 
+      inline bool operator!=(const IntrusiveSlistIterator<T, Member> & other) const
+      {
+        return !(*this == other);
+      }
+
     private:
       const IntrusiveSlist<T, Member> & slist_;
       T *                               item_;
@@ -57,7 +65,7 @@ namespace mimosa
     {
     public:
       typedef IntrusiveSlistIterator<T, Member> iterator;
-      typedef IntrusiveSlistIterator<const T, Member> const_iterator;
+      friend class IntrusiveSlistIterator<T, Member>;
 
       inline IntrusiveSlist() : tail_(nullptr), size_(0) {}
       inline ~IntrusiveSlist()
@@ -121,8 +129,6 @@ namespace mimosa
 
       iterator begin() const { return iterator(*this, (tail_->*Member).next_); }
       iterator end() const { return iterator(*this, nullptr); }
-      const_iterator cbegin() const { return const_iterator(*this, (tail_->*Member).next_); }
-      const_iterator cend() const { return const_iterator(*this, nullptr); }
 
     private:
       T *    tail_;

@@ -8,7 +8,7 @@ namespace mimosa
   {
     Buffer::Buffer(uint64_t size)
       : size_(size),
-        data_(::malloc(size))
+        data_(reinterpret_cast<char *>(::malloc(size)))
     {
     }
 
@@ -22,7 +22,7 @@ namespace mimosa
     void
     Buffer::resize(uint64_t size)
     {
-      data_ = ::realloc(data_, size);
+      data_ = reinterpret_cast<char *>(::realloc(data_, size));
       size_ = size;
     }
   }
