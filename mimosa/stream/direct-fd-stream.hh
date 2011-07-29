@@ -13,8 +13,9 @@ namespace mimosa
       DirectFdStream(int fd, bool readable = 1, bool writable = 1, bool is_sequential = 1);
       virtual ~DirectFdStream();
 
-      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout);
-      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout);
+      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t writev(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
 
       int fd() const { return fd_; }
 
