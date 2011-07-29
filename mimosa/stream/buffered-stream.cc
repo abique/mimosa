@@ -136,7 +136,7 @@ namespace mimosa
         rappend_ = 0;
         int64_t rbytes = stream_->read(rbuffer_->data(), rbuffer_->size(), timeout);
         if (rbytes <= 0)
-          return 0;
+          return rbytes;
         rappend_ = rbytes;
       }
 
@@ -145,7 +145,38 @@ namespace mimosa
       nbytes = nbytes <= rappend_ - rpos_ ? nbytes : rappend_ - rpos_;
       ::memcpy(data, rbuffer_->data(), nbytes);
       rpos_ += nbytes;
+      if (rpos_ == rappend_)
+      {
+        rpos_    = 0;
+        rappend_ = 0;
+      }
       return nbytes;
+    }
+
+    Buffer::Ptr
+    BufferedStream::read(uint64_t buffer_size, runtime::Time timeout)
+    {
+      if (rappend_ > rpos_)
+      {
+        assert(!rbuffer_);
+        ::memmove(rbuffer_->data(), rbuffer_->data() + rpos_, rappend_ - rpos_);
+        rbuffer_->resize(rappend_ - rpos_);
+        auto tmp = rbuffer_;
+        rbuffer_ = nullptr;
+        rappend_ = 0;
+        rpos_ = 0;
+        return rbuffer_;
+      }
+
+      if (!rbuffer_)
+        rbuffer_ = new Buffer(buffer_size);
+      int64_t bytes = stream_->read(rbuffer_->data(), rbuffer_->size(), timeout);
+      if (bytes <= 0)
+        return nullptr;
+      rbuffer_->resize(bytes);
+      auto tmp = rbuffer_;
+      rbuffer_ = nullptr;
+      return tmp;
     }
   }
 }

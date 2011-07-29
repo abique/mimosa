@@ -8,7 +8,7 @@ namespace mimosa
 {
   namespace stream
   {
-    class BufferedStream : public Stream
+    class BufferedStream : public Stream, public Ptr<BufferedStream>
     {
     public:
       BufferedStream(Stream::Ptr stream, uint64_t buffer_size = 64 * 1024);
@@ -17,6 +17,10 @@ namespace mimosa
       virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
       virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
       virtual bool flush(runtime::Time timeout = 0);
+
+      /* zero copy stuff */
+      inline Buffer::Ptr read(runtime::Time timeout = 0) { return read(buffer_size_, timeout); }
+      Buffer::Ptr read(uint64_t buffer_size, runtime::Time timeout = 0);
 
     private:
       inline uint64_t readyWrite() const;
