@@ -1,7 +1,7 @@
 #ifndef MIMOSA_STREAM_STREAM_HH
 # define MIMOSA_STREAM_STREAM_HH
 
-# include "../ref-coutable.hh"
+# include "../ref-countable.hh"
 # include "../non-copyable.hh"
 
 namespace mimosa
@@ -28,12 +28,19 @@ namespace mimosa
         kSeekCur,
         kSeekSet,
         kSeekEnd,
-      }
+      };
 
       inline bool isReadable() const { return is_readable_; }
       inline bool isWritable() const { return is_writable_; }
       inline bool isSequential() const { return is_sequential_; }
 
+      inline bool getChar(char * c) { return 1 == read(c, 1); }
+      inline bool putChar(char c) { return 1 == write(&c, 1); }
+
+      inline void setTimeout(runtime::Time timeout) { timeout_ = timeout; }
+      inline runtime::Time timeout() const { return timeout_; }
+
+      // Virtual methods
       virtual bool atEnd() const = 0;
 
       virtual uint64_t bytesAvailable() const = 0;
@@ -46,15 +53,9 @@ namespace mimosa
       virtual int64_t pos() const = 0;
       virtual bool seek(int64_t offset, SeekType whence) = 0;
 
-      inline bool getChar(char * c) { return 1 == read(c, 1); }
-      inline bool putChar(char c) { return 1 == write(&c, 1); }
-
-      inline void setTimeout(runtime::Time timeout) { timeout_ = timeout; }
-      inline Time timeout() const { return timeout_; }
-
     private:
       unsigned is_readable_ : 1;
-      unsigned is_writeable_ : 1;
+      unsigned is_writable_ : 1;
       unsigned is_sequential_ : 1;
       runtime::Time timeout_;
     };
