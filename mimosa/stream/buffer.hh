@@ -19,6 +19,7 @@ namespace mimosa
       inline uint64_t size() const { return size_; }
       inline char * data() { return data_; }
       inline const char * data() const { return data_; }
+      void resize(uint64_t size);
 
     private:
       container::IntrusiveSlistHook<Buffer> next_;
