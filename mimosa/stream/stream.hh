@@ -1,6 +1,8 @@
 #ifndef MIMOSA_STREAM_STREAM_HH
 # define MIMOSA_STREAM_STREAM_HH
 
+# include <sys/uio.h>
+
 # include "../ref-countable.hh"
 # include "../non-copyable.hh"
 # include "../runtime/time.hh"
