@@ -15,3 +15,6 @@ add_subdirectory(runtime)
 add_subdirectory(net)
 add_subdirectory(http)
 add_subdirectory(sync)
+
+add_library(mimosa init.cc)
+target_link_libraries(mimosa gnutls)
