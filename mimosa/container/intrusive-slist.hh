@@ -1,6 +1,8 @@
 #ifndef MIMOSA_CONTAINER_INTRUSIVE_SLIST_HH
 # define MIMOSA_CONTAINER_INTRUSIVE_SLIST_HH
 
+# include <cassert>
+
 # include "../non-copyable.hh"
 
 namespace mimosa
@@ -34,39 +36,38 @@ namespace mimosa
         return !tail_;
       }
 
-      inline void push(T * item)
+      inline void push(T & item)
       {
         if (!tail_)
-          item.Member.next_ = &item;
+          item.*Member.next_ = &item;
         else
         {
-          item.Member.next_ = tail_->Member.next_;
-          tail_->Member.next_ = &item;
+          item.*Member.next_ = tail_->*Member.next_;
+          tail_->*Member.next_ = &item;
         }
         tail_ = &item;
       }
 
-      inline T * front() const
+      inline T & front() const
       {
-        if (!tail_)
-          return 0;
-        return tail_->Member.next_;
+        assert(tail_);
+        return tail_->*Member.next_;
       }
 
       inline void pop()
       {
         if (!tail_)
           return;
-        if (tail_ == tail_->Member.next_)
+        if (tail_ == tail_->*Member.next_)
         {
-          tail_->Member.next_ = 0;
+          tail_->*Member.next_ = 0;
           tail_ = 0;
         }
         else
         {
-          T * tmp            = tail_->Member.next;
-          tail_->Member.next = tmp->Member.next;
-          tmp->Member.next   = 0;
+          T * tmp            = tail_->*Member.next;
+          tail_->*Member.next = tmp->*Member.next;
+          tmp->*Member.next   = 0;
         }
       }
 
