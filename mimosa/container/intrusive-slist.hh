@@ -25,7 +25,7 @@ namespace mimosa
     {
     public:
       inline IntrusiveSlist() : tail_(0) {}
-      inline IntrusiveSlist()
+      inline ~IntrusiveSlist()
       {
         while (!empty())
           pop();
