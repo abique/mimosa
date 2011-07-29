@@ -1,15 +1,25 @@
 #ifndef MIMOSA_BIND_HH
 # define MIMOSA_BIND_HH
 
+# include <functional>
+
 # include "function.hh"
 
 namespace mimosa
 {
-  template <typename Proto, typename ... Args>
-  inline Function<Proto>::Ptr
-  bind(Proto function, Args ... args)
+  // TODO
+
+  template <typename Fct, typename ... Args>
+  struct GetFunction
   {
-    return new Function<Proto>(std::bind(function, ...args));
+    typedef Function<decltype(std::bind(Fct, Args...))>::Ptr Type;
+  };
+
+  template <typename Fct, typename ... Args>
+  inline GetFunction<Fct, Args...>::Type
+  bind(Fct fct, Args ... args)
+  {
+    return new T(std::bind(fct, args...));
   }
 }
 
