@@ -50,11 +50,17 @@ namespace mimosa
   }
 
   template <typename T>
-  class RefCountable : public RefCountableBase
+  class Ptr
   {
   public:
     typedef RefCountedPtr<T> Ptr;
     typedef RefCountedPtr<const T> ConstPtr;
+  };
+
+  template <typename T>
+  class RefCountable : public RefCountableBase,
+                       public Ptr<T>
+  {
   };
 }
 
