@@ -13,6 +13,13 @@ namespace mimosa
                    public RefCountable<Function<Proto> >,
                    private NonCopyable
   {
+  public:
+    inline Function(std::function<Proto> && fct)
+      : std::function<Proto>(fct)
+    {
+    }
+
+    inline Function() {}
   };
 }
 
