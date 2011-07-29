@@ -13,8 +13,8 @@ namespace mimosa
     class IntrusiveSlistHook
     {
     public:
-      inline IntrusiveSlistHook() : next_(0) {}
-      inline IntrusiveSlistHook(const IntrusiveSlistHook<T> &) : next_(0) {}
+      inline IntrusiveSlistHook() : next_(nullptr) {}
+      inline IntrusiveSlistHook(const IntrusiveSlistHook<T> &) : next_(nullptr) {}
       inline IntrusiveSlistHook<T> & operator=(const IntrusiveSlistHook<T> &) { return *this; }
 
       T * next_;
@@ -24,7 +24,7 @@ namespace mimosa
     class IntrusiveSlist : private NonCopyable
     {
     public:
-      inline IntrusiveSlist() : tail_(0) {}
+      inline IntrusiveSlist() : tail_(nullptr) {}
       inline ~IntrusiveSlist()
       {
         while (!empty())
@@ -39,11 +39,11 @@ namespace mimosa
       inline void push(T & item)
       {
         if (!tail_)
-          item.*Member.next_ = &item;
+          (item.*Member).next_ = &item;
         else
         {
-          item.*Member.next_ = tail_->*Member.next_;
-          tail_->*Member.next_ = &item;
+          (item.*Member).next_   = (tail_->*Member).next_;
+          (tail_->*Member).next_ = &item;
         }
         tail_ = &item;
       }
@@ -51,23 +51,29 @@ namespace mimosa
       inline T & front() const
       {
         assert(tail_);
-        return tail_->*Member.next_;
+        return *(tail_->*Member).next_;
+      }
+
+      inline T & back() const
+      {
+        assert(tail_);
+        return *tail_;
       }
 
       inline void pop()
       {
         if (!tail_)
           return;
-        if (tail_ == tail_->*Member.next_)
+        if (tail_ == (tail_->*Member).next_)
         {
-          tail_->*Member.next_ = 0;
-          tail_ = 0;
+          (tail_->*Member).next_ = nullptr;
+          tail_ = nullptr;
         }
         else
         {
-          T * tmp            = tail_->*Member.next;
-          tail_->*Member.next = tmp->*Member.next;
-          tmp->*Member.next   = 0;
+          T * tmp                = (tail_->*Member).next_;
+          (tail_->*Member).next_ = (tmp->*Member).next_;
+          (tmp->*Member).next_   = nullptr;
         }
       }
 
