@@ -26,7 +26,8 @@ namespace mimosa
       return ::mimosa_write(fd_, data, nbytes, timeout);
     }
 
-    int64_t writev(const struct iovec *iov, int iovcnt, runtime::Time timeout)
+    int64_t
+    DirectFdStream::writev(const struct iovec *iov, int iovcnt, runtime::Time timeout)
     {
       if (!is_writable_)
       {
@@ -45,6 +46,17 @@ namespace mimosa
         return -1;
       }
       return ::mimosa_read(fd_, data, nbytes, timeout);
+    }
+
+    int64_t
+    DirectFdStream::readv(const struct iovec *iov, int iovcnt, runtime::Time timeout)
+    {
+      if (!is_readable_)
+      {
+        errno = EINVAL;
+        return -1;
+      }
+      return ::mimosa_readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX, timeout);
     }
   }
 }

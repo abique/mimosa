@@ -16,6 +16,7 @@ namespace mimosa
       virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
       virtual int64_t writev(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
       virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t readv(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
 
       int fd() const { return fd_; }
 
