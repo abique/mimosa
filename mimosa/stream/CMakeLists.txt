@@ -1,2 +1,5 @@
 add_library(mimosa-stream
-  buffer.cc)
+  buffer.cc
+  buffered-stream.cc
+  direct-fd-stream.cc
+)
