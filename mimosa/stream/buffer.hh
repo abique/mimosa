@@ -1,7 +1,10 @@
 #ifndef MIMOSA_STREAM_BUFFER_HH
 # define MIMOSA_STREAM_BUFFER_HH
 
+# include <cstdint>
+
 # include "../ref-countable.hh"
+# include "../container/intrusive-slist.hh"
 
 namespace mimosa
 {
@@ -10,8 +13,6 @@ namespace mimosa
     class Buffer : public RefCountable<Buffer>
     {
     public:
-      typedef container::IntrusiveSlist<Buffer, &Buffer::next_> Slist;
-
       Buffer(uint64_t size = 64 * 1024);
       ~Buffer();
 
@@ -19,10 +20,14 @@ namespace mimosa
       inline char * data() { return data_; }
       inline const char * data() const { return data_; }
 
-    protected:
+    private:
       container::IntrusiveSlistHook<Buffer> next_;
       uint64_t                              size_;
       char *                                data_;
+
+    public:
+      typedef container::IntrusiveSlist<Buffer, &Buffer::next_> Slist;
+      friend class container::IntrusiveSlist<Buffer, &Buffer::next_>;
     };
   }
 }
