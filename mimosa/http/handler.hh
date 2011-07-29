@@ -7,7 +7,7 @@ namespace mimosa
 {
   namespace http
   {
-    class Resquest;
+    class Request;
     class Response;
 
     class Handler : public RefCountable<Handler>

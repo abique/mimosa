@@ -1,6 +1,9 @@
 #ifndef MIMOSA_HTTP_DISPATCH_HANDLER_HH
 # define MIMOSA_HTTP_DISPATCH_HANDLER_HH
 
+# include <string>
+# include <map>
+
 # include "handler.hh"
 
 namespace mimosa

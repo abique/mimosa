@@ -2,6 +2,8 @@
 # define MIMOSA_HTTP_SERVER_HH
 
 # include "handler.hh"
+# include "../net/server.hh"
+# include "../runtime/time.hh"
 
 namespace mimosa
 {
@@ -17,8 +19,8 @@ namespace mimosa
     private:
       static void newClient(Server::Ptr server, int fd);
 
-      Time read_timeout_;
-      Time write_timeout_;
+      runtime::Time read_timeout_;
+      runtime::Time write_timeout_;
       Handler::Ptr handler_;
     };
   }

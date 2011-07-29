@@ -1,5 +1,7 @@
+#include <functional>
+
 #include "server.hh"
-#include "../bind.hh"
+#include "../stream/fd-stream.hh"
 
 namespace mimosa
 {
@@ -10,13 +12,7 @@ namespace mimosa
         write_timeout_(0),
         handler_()
     {
-      onAccept(bind(std::bind(&Server::newClient, this, _1)));
-    }
-
-    void
-    Server::setHandler(Handler::Ptr handler)
-    {
-      handler_ = handler;
+      onAccept(new AcceptHandler(std::bind(&Server::newClient, Server::Ptr(this), std::placeholders::_1)));
     }
 
     void
