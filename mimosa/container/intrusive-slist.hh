@@ -21,9 +21,44 @@ namespace mimosa
     };
 
     template <typename T, IntrusiveSlistHook<T> T::*Member>
+    class IntrusiveSlistIterator
+    {
+    public:
+      inline IntrusiveSlistIterator(const IntrusiveSlist<T, Member> & slist_, T * item)
+        : slist_(slist), item_(item)
+      {
+      }
+
+      inline T & operator*() const { return *item_; }
+      inline T * operator->() const { return item_; }
+      inline IntrusiveSlistIterator<T, Member> & operator++()
+      {
+        assert(item_);
+        if ((item_->*Member).next_ == item_ ||
+            item_ == slist_.tail_)
+          item_ = nullptr;
+        else
+          item_ = (item_->*Member).next_;
+        return *this;
+      }
+
+      inline bool operator==(const IntrusiveSlistIterator<T, Member> & other) const
+      {
+        return &slist_ == &other.slist_ && item_ == other.item_;
+      }
+
+    private:
+      const IntrusiveSlist<T, Member> & slist_;
+      T *                               item_;
+    };
+
+    template <typename T, IntrusiveSlistHook<T> T::*Member>
     class IntrusiveSlist : private NonCopyable
     {
     public:
+      typedef IntrusiveSlistIterator<T, Member> iterator;
+      typedef IntrusiveSlistIterator<const T, Member> const_iterator;
+
       inline IntrusiveSlist() : tail_(nullptr), size_(0) {}
       inline ~IntrusiveSlist()
       {
@@ -83,6 +118,11 @@ namespace mimosa
           (tmp->*Member).next_   = nullptr;
         }
       }
+
+      iterator begin() const { return iterator(*this, (tail_->*Member).next_); }
+      iterator end() const { return iterator(*this, nullptr); }
+      const_iterator cbegin() const { return const_iterator(*this, (tail_->*Member).next_); }
+      const_iterator cend() const { return const_iterator(*this, nullptr); }
 
     private:
       T *    tail_;
