@@ -20,10 +20,9 @@ namespace mimosa
 
       /**
        * @brief parses the buffer
-       * @param data non const to do inplace scanning
        * @return true on success and false otherwise
        */
-      bool parse(char * data, size_t size);
+      bool parse(const char * data, size_t size);
 
       // mandatory stuff
       Method                                            method_;

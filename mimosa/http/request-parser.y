@@ -11,6 +11,7 @@
 %parse-param {mimosa::http::Request & rq}
 
 %{
+#include <stdio.h>
 #include <utility>
 
 #include "request.hh"
@@ -21,7 +22,7 @@
                       mimosa::http::Request & rq,
                       const char *            str)
   {
-    ;
+    fprintf(stderr, "%s\n", str);
   }
 
 %}

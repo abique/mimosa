@@ -11,3 +11,5 @@ add_library(mimosa-http
   )
 
 target_link_libraries(mimosa-http mimosa-stream mimosa-net)
+
+add_subdirectory(tests)

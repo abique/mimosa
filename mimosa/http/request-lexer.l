@@ -47,11 +47,11 @@ spaces   [\t\v ]
 <INITIAL>(?i:CONNECT)   BEGIN(location); return CONNECT;
 <INITIAL>(?i:PATCH)     BEGIN(location); return PATCH;
 
-<location>[^[:space:]]  BEGIN(protover); yylval->text = strdup(yytext); return LOCATION;
+<location>[^\t\v\r\n ]+ BEGIN(protover); yylval->text = strdup(yytext); return LOCATION;
 
 <protover>(?i:http)\/   BEGIN(proto_major);
-<proto_major>\d+\.      BEGIN(proto_minor); return PROTO_MAJOR;
-<proto_minor>\d+        BEGIN(eol); return PROTO_MINOR;
+<proto_major>[[:digit:]]+\.      BEGIN(proto_minor); return PROTO_MAJOR;
+<proto_minor>[[:digit:]]+        BEGIN(eol); return PROTO_MINOR;
 
 
 <key>(?i:Accept-Encoding){spaces}*:     BEGIN(value_accept_encoding); return KEY_ACCEPT_ENCODING;

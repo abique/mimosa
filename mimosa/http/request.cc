@@ -19,12 +19,12 @@ namespace mimosa
     }
 
     bool
-    Request::parse(char * data, size_t size)
+    Request::parse(const char * data, size_t size)
     {
       yyscan_t scanner;
       if (mimosa_http_request_lex_init(&scanner))
         return false;
-      mimosa_http_request__scan_buffer(data, size, scanner);
+      mimosa_http_request__scan_bytes(data, size, scanner);
       bool succeed = !mimosa_http_request_parse(scanner, *this);
       mimosa_http_request_lex_destroy(scanner);
       return succeed;
