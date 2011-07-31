@@ -24,7 +24,7 @@ namespace mimosa
       uint8_t                                           proto_minor_;
       Coding                                            accept_encoding_;
       bool                                              keep_alive_;
-      std::vector<Cookie::Ptr>                          cookies_;
+      std::unordered_multimap<std::string, std::string> cookies_;
       uint64_t                                          content_length_;
       std::string                                       content_type_;
       std::string                                       host_;
