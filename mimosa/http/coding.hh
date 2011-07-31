@@ -7,13 +7,13 @@ namespace mimosa
   {
     enum Coding
     {
-      kCodingIdentity     = 0,
-      kCodingDeflate      = 1 << 0,
-      kCodingGzip         = 1 << 1,
-      kCodingExi          = 1 << 2,
-      kCodingCompress     = 1 << 3,
-      kCodingPack200_gzip = 1 << 4,
-      kCodingChunked      = 1 << 5,
+      kCodingIdentity     = 1 << 0,
+      kCodingDeflate      = 1 << 1,
+      kCodingGzip         = 1 << 2,
+      kCodingExi          = 1 << 3,
+      kCodingCompress     = 1 << 4,
+      kCodingPack200_gzip = 1 << 5,
+      kCodingChunked      = 1 << 6,
     };
   }
 }

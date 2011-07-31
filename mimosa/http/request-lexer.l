@@ -13,6 +13,13 @@
 #include <stdint.h>
 
 #include "request-parser.hh"
+
+#define SAVE_TEXT                                \
+  do {                                           \
+    yylval->text = (char*)::malloc(yyleng + 1);  \
+    if (yylval->text)                            \
+      memcpy(yylval->text, yytext, yyleng + 1);  \
+  } while (0)
 %}
 
 %x location
@@ -47,7 +54,7 @@ spaces   [\t\v ]
 <INITIAL>(?i:CONNECT)   BEGIN(location); return CONNECT;
 <INITIAL>(?i:PATCH)     BEGIN(location); return PATCH;
 
-<location>[^\t\v\r\n ]+ BEGIN(protover); yylval->text = strdup(yytext); return LOCATION;
+<location>[^\t\v\r\n ]+ BEGIN(protover); SAVE_TEXT; return LOCATION;
 
 <protover>(?i:http)\/   BEGIN(proto_major);
 <proto_major>[[:digit:]]+\.      BEGIN(proto_minor); return PROTO_MAJOR;
@@ -62,11 +69,11 @@ spaces   [\t\v ]
 <key>(?i:Host)                          BEGIN(colon); return KEY_HOST;
 <key>(?i:Referr?er)                     BEGIN(colon); return KEY_REFERRER;
 <key>(?i:User-Agent)                    BEGIN(colon); return KEY_USER_AGENT;
-<key>[-_[:alnum:]]                      BEGIN(colon); yylval->text = strdup(yytext); return KEY;
+<key>[-_[:alnum:]]                      BEGIN(colon); SAVE_TEXT; return KEY;
 
 <colon>:                                BEGIN(value);
 
-<value>[^[:space:]].*/\r\n      yylval->text = strdup(yytext); return VALUE;
+<value>[^[:space:]].*/\r\n      SAVE_TEXT; return VALUE;
 
 <value_accept_encoding>(?i:compress) return COMPRESS;
 <value_accept_encoding>(?i:identity) return IDENTITY;
@@ -74,17 +81,17 @@ spaces   [\t\v ]
 <value_accept_encoding>(?i:gzip)     return GZIP;
 <value_accept_encoding>;|[qQ]|=[01](.[0-9]{1,3})?|,
 
-<value_cookie_attr>{token}      BEGIN(value_cookie_eq); yylval->text = strdup(yytext); return ATTR;
+<value_cookie_attr>{token}      BEGIN(value_cookie_eq); SAVE_TEXT; return ATTR;
 <value_cookie_eq>=              BEGIN(value_cookie_value); return '=';
-<value_cookie_value>{token}     BEGIN(value_cookie_sm); yylval->text = strdup(yytext); return VALUE;
+<value_cookie_value>{token}     BEGIN(value_cookie_sm); SAVE_TEXT; return VALUE;
 <value_cookie_value>\"          yymore(); BEGIN(value_cookie_str);
 <value_cookie_str>[^\\"]+       yymore();
 <value_cookie_str>\\.           yymore();
-<value_cookie_str>\"            BEGIN(value_cookie_sm); yylval->text = strdup(yytext); return QUOTED_VALUE;
+<value_cookie_str>\"            BEGIN(value_cookie_sm); SAVE_TEXT; return QUOTED_VALUE;
 <value_cookie_sm>;              BEGIN(value_cookie_attr); return ';';
 
-<value_connection>(?i:keep-?alive) yylval->ival = 0; return VALUE_CONNECTION;
-<value_connection>(?i:close)       yylval->ival = 1; return VALUE_CONNECTION;
+<value_connection>(?i:keep-alive)  yylval->ival = 1; return VALUE_CONNECTION;
+<value_connection>(?i:close)       yylval->ival = 0; return VALUE_CONNECTION;
 
 <value64>[0-9]+         yylval->val64 = strtoll(yytext, 0, 0); return VAL64;
 

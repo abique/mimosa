@@ -24,6 +24,25 @@ namespace mimosa
       METHOD_TEST(OPTIONS)
       METHOD_TEST(CONNECT)
       METHOD_TEST(PATCH)
+
+      TEST(RequestParser, CheckFields)
+      {
+        char str[] = "GET / HTTP/1.0\r\n"
+          "Host: www.toto.com\r\n"
+          "Connection: keep-alive\r\n"
+          "Content-Length: 854\r\n"
+          "Content-Type: text/*\r\n"
+          "Referer: http://tutu.com/hoho%34/?tutu=tata;#anchor\r\n"
+          //"SomeKey:  SomeValue\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        EXPECT_EQ(rq.host_, "www.toto.com");
+        EXPECT_EQ(rq.keep_alive_, true);
+        EXPECT_EQ(rq.content_length_, 854);
+        EXPECT_EQ(rq.content_type_, "text/*");
+        EXPECT_EQ(rq.referrer_, "http://tutu.com/hoho%34/?tutu=tata;#anchor");
+      }
     }
   }
 }

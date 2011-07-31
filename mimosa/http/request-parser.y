@@ -56,12 +56,12 @@
 %token <val64> VAL64
 %token COMPRESS IDENTITY DEFLATE GZIP
 
-%destructor { free($$); } <text>
+%destructor { abort(); free($$); } <text>
 
 %%
 
 request: method LOCATION PROTO_MAJOR PROTO_MINOR kvs {
-  rq.raw_location_ = $2;
+  rq.raw_location_ = $2; free($2);
   rq.proto_major_  = $3;
   rq.proto_minor_  = $4;
 };
@@ -79,15 +79,15 @@ method:
 kvs: kv kvs | /* epsilon */ ;
 
 kv:
-  KEY VALUE { rq.unparsed_headers_.insert(std::make_pair($1, $2)); }
+  KEY VALUE { rq.unparsed_headers_.insert(std::make_pair($1, $2)); free($1); free($2); }
 | KEY_ACCEPT_ENCODING accept_encodings
 | KEY_CONNECTION VALUE_CONNECTION { rq.keep_alive_ = $2; }
 | KEY_COOKIE cookie cookies
 | KEY_CONTENT_LENGTH VAL64 { rq.content_length_ = $2; }
-| KEY_CONTENT_TYPE VALUE { rq.content_type_ = $2; }
-| KEY_HOST VALUE { rq.host_ = $2; }
-| KEY_REFERRER VALUE { rq.referrer_ = $2; }
-| KEY_USER_AGENT VALUE { rq.user_agent_ = $2; };
+| KEY_CONTENT_TYPE VALUE { rq.content_type_ = $2; free($2); }
+| KEY_HOST VALUE { rq.host_ = $2; free($2); }
+| KEY_REFERRER VALUE { rq.referrer_ = $2; free($2); }
+| KEY_USER_AGENT VALUE { rq.user_agent_ = $2; free($2); };
 
 accept_encodings: /* epsilon */
 | COMPRESS accept_encodings { rq.accept_encoding_ |= mimosa::http::kCodingCompress; }
@@ -97,11 +97,11 @@ accept_encodings: /* epsilon */
 
 cookies:
   /* epsilon */
-| ';' cookie cookies;
+| ';' cookie cookies {}
 
 cookie:
-  ATTR { rq.cookies_.insert(std::make_pair($1, nullptr)); }
-| ATTR '=' VALUE { rq.cookies_.insert(std::make_pair($1, $3)); }
-| ATTR '=' QUOTED_VALUE { rq.cookies_.insert(std::make_pair($1, $3)); /*todo unescape*/ };
+  ATTR { rq.cookies_.insert(std::make_pair($1, nullptr)); free($1); }
+| ATTR '=' VALUE { rq.cookies_.insert(std::make_pair($1, $3)); free($1); free($3); }
+| ATTR '=' QUOTED_VALUE { rq.cookies_.insert(std::make_pair($1, $3)); free($1); free($3); /*todo unescape*/ };
 
 %%
