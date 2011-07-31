@@ -69,7 +69,7 @@ spaces   [\t\v ]
 <key>(?i:Host)                          BEGIN(colon); return KEY_HOST;
 <key>(?i:Referr?er)                     BEGIN(colon); return KEY_REFERRER;
 <key>(?i:User-Agent)                    BEGIN(colon); return KEY_USER_AGENT;
-<key>[-_[:alnum:]]                      BEGIN(colon); SAVE_TEXT; return KEY;
+<key>[-_[:alnum:]]+                     BEGIN(colon); SAVE_TEXT; return KEY;
 
 <colon>:                                BEGIN(value);
 

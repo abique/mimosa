@@ -56,7 +56,7 @@
 %token <val64> VAL64
 %token COMPRESS IDENTITY DEFLATE GZIP
 
-%destructor { abort(); free($$); } <text>
+%destructor { free($$); } <text>
 
 %%
 

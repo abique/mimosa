@@ -33,7 +33,8 @@ namespace mimosa
           "Content-Length: 854\r\n"
           "Content-Type: text/*\r\n"
           "Referer: http://tutu.com/hoho%34/?tutu=tata;#anchor\r\n"
-          //"SomeKey:  SomeValue\r\n"
+          "User-Agent: TomBoy (esapce compatible)\r\n"
+          "SomeKey:  SomeValue\r\n"
           "\r\n";
         Request rq;
         EXPECT_EQ(true, rq.parse(str, sizeof (str)));
@@ -42,6 +43,7 @@ namespace mimosa
         EXPECT_EQ(rq.content_length_, 854);
         EXPECT_EQ(rq.content_type_, "text/*");
         EXPECT_EQ(rq.referrer_, "http://tutu.com/hoho%34/?tutu=tata;#anchor");
+        EXPECT_EQ(rq.user_agent_, "TomBoy (esapce compatible)");
       }
     }
   }
