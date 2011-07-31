@@ -27,6 +27,9 @@ namespace mimosa
 
       TEST(RequestParser, CheckFields)
       {
+        // ASSERT_NE(std::hash<std::string>(std::string("attr0")),
+        //           std::hash<std::string>(std::string("attr1")));
+
         char str[] = "GET / HTTP/1.0\r\n"
           "Host: www.toto.com\r\n"
           "Connection: keep-alive\r\n"
@@ -35,6 +38,7 @@ namespace mimosa
           "Referer: http://tutu.com/hoho%34/?tutu=tata;#anchor\r\n"
           "User-Agent: TomBoy (esapce compatible)\r\n"
           "SomeKey:  SomeValue\r\n"
+          "Cookie: attr0; attr01; attr02; attr1=value1; attr2=value2; attr3; attr4=value4; attr5=\"xvalue\\o\\\"\"\r\n"
           "\r\n";
         Request rq;
         EXPECT_EQ(true, rq.parse(str, sizeof (str)));
@@ -44,6 +48,17 @@ namespace mimosa
         EXPECT_EQ(rq.content_type_, "text/*");
         EXPECT_EQ(rq.referrer_, "http://tutu.com/hoho%34/?tutu=tata;#anchor");
         EXPECT_EQ(rq.user_agent_, "TomBoy (esapce compatible)");
+
+        for (auto it = rq.cookies_.begin(); it != rq.cookies_.end(); ++it)
+          std::cout << it->first << " -> " << it->second << std::endl;
+        auto it = rq.cookies_.find("attr1");
+        EXPECT_NE(it, rq.cookies_.end());
+        if (it != rq.cookies_.end())
+          EXPECT_EQ(it->second, "value1");
+        it = rq.cookies_.find("attr2");
+        EXPECT_NE(it, rq.cookies_.end());
+        if (it != rq.cookies_.end())
+          EXPECT_EQ(it->second, std::string("\"value\\o\\\"\""));
       }
     }
   }

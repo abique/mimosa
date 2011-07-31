@@ -83,12 +83,12 @@ spaces   [\t\v ]
 
 <value_cookie_attr>{token}      BEGIN(value_cookie_eq); SAVE_TEXT; return ATTR;
 <value_cookie_eq>=              BEGIN(value_cookie_value); return '=';
+<value_cookie_eq,value_cookie_sm>; BEGIN(value_cookie_attr); return ';';
 <value_cookie_value>{token}     BEGIN(value_cookie_sm); SAVE_TEXT; return VALUE;
 <value_cookie_value>\"          yymore(); BEGIN(value_cookie_str);
 <value_cookie_str>[^\\"]+       yymore();
 <value_cookie_str>\\.           yymore();
 <value_cookie_str>\"            BEGIN(value_cookie_sm); SAVE_TEXT; return QUOTED_VALUE;
-<value_cookie_sm>;              BEGIN(value_cookie_attr); return ';';
 
 <value_connection>(?i:keep-alive)  yylval->ival = 1; return VALUE_CONNECTION;
 <value_connection>(?i:close)       yylval->ival = 0; return VALUE_CONNECTION;

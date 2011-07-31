@@ -100,8 +100,8 @@ cookies:
 | ';' cookie cookies {}
 
 cookie:
-  ATTR { rq.cookies_.insert(std::make_pair($1, nullptr)); free($1); }
+  ATTR { rq.cookies_.insert(std::make_pair($1, "")); free($1); }
 | ATTR '=' VALUE { rq.cookies_.insert(std::make_pair($1, $3)); free($1); free($3); }
-| ATTR '=' QUOTED_VALUE { rq.cookies_.insert(std::make_pair($1, $3)); free($1); free($3); /*todo unescape*/ };
+| ATTR '=' QUOTED_VALUE { printf("quoted value: %s\n", $3); rq.cookies_.insert(std::make_pair($1, $3)); free($1); free($3); /*todo unescape*/ };
 
 %%
