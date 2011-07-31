@@ -1,0 +1,3 @@
+http header fields rfc: http://tools.ietf.org/html/rfc4229
+http 1.1 rfc: http://tools.ietf.org/html/rfc2616
+http state management: http://tools.ietf.org/html/rfc2965
