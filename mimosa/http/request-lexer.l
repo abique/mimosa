@@ -1,7 +1,7 @@
 %option reentrant noyywrap batch 8bit
 %option bison-bridge stack
 %option warn ansi-definitions ansi-prototypes
-%option prefix="request_"
+%option prefix="mimosa_http_request_"
 %option outfile="request-lexer.cc" header-file="request-lexer.hh"
 /* %option nodefault */
 %option align

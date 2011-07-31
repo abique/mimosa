@@ -5,6 +5,7 @@ add_library(mimosa-http
   dispatch-handler.cc
   status.cc
   server.cc
+  request.cc
   request-lexer.cc
   request-parser.cc
   )

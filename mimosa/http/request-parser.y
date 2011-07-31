@@ -3,7 +3,7 @@
 %start request
 %defines
 %error-verbose
-%name-prefix "request_"
+%name-prefix "mimosa_http_request_"
 %output "request-parser.cc"
 
 %lex-param {yyscan_t yyscanner}
