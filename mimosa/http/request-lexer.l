@@ -47,24 +47,22 @@ spaces   [\t\v ]
 <INITIAL>(?i:CONNECT)   BEGIN(location); return CONNECT;
 <INITIAL>(?i:PATCH)     BEGIN(location); return PATCH;
 
-<location>[^[:space:]]  BEGIN(protover); yylval->text_ = strdup(yytext); return LOCATION;
+<location>[^[:space:]]  BEGIN(protover); yylval->text = strdup(yytext); return LOCATION;
 
 <protover>(?i:http)\/   BEGIN(proto_major);
 <proto_major>\d+\.      BEGIN(proto_minor); return PROTO_MAJOR;
 <proto_minor>\d+        BEGIN(eol); return PROTO_MINOR;
 
 
-<key>(?i:Accept-Encoding){spaces}*:  BEGIN(value_accept_encoding); return KEY_ACCEPT_ENCODING;
-<key>(?i:Authori[sz]ation)              return KEY_AUTHORIZATION;
-<key>(?i:Cache-Control)                 return KEY_CACHE_CONTROL;
-<key>(?i:Connection){spaces}*:       BEGIN(value_connection); return KEY_CONNECTION;
-<key>(?i:Cookie){spaces}*:           BEGIN(value_cookie_attr); return KEY_COOKIE;
-<key>(?i:Content-Length){spaces}*:   BEGIN(value_length); return KEY_CONTENT_LENGTH;
+<key>(?i:Accept-Encoding){spaces}*:     BEGIN(value_accept_encoding); return KEY_ACCEPT_ENCODING;
+<key>(?i:Connection){spaces}*:          BEGIN(value_connection); return KEY_CONNECTION;
+<key>(?i:Cookie){spaces}*:              BEGIN(value_cookie_attr); return KEY_COOKIE;
+<key>(?i:Content-Length){spaces}*:      BEGIN(value64); return KEY_CONTENT_LENGTH;
 <key>(?i:Content-Type)                  BEGIN(colon); return KEY_CONTENT_TYPE;
 <key>(?i:Host)                          BEGIN(colon); return KEY_HOST;
 <key>(?i:Referr?er)                     BEGIN(colon); return KEY_REFERRER;
 <key>(?i:User-Agent)                    BEGIN(colon); return KEY_USER_AGENT;
-<key>[-_[:alnum:]]                      BEGIN(colon); yylval->text_ = strdup(yytext); return KEY;
+<key>[-_[:alnum:]]                      BEGIN(colon); yylval->text = strdup(yytext); return KEY;
 
 <colon>:                                BEGIN(value);
 
@@ -93,5 +91,5 @@ spaces   [\t\v ]
 <*>{spaces}+            /* ignore */
 <*>\r\n\r\n             yyterminate();
 <*>\r\n                 BEGIN(key);
-<*>.                    yylval->st.text_ = 0; yyterminate();
+<*>.                    yyterminate();
 %%

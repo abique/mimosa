@@ -1,6 +1,8 @@
 #ifndef MIMOSA_STREAM_BUFFERED_STREAM_HH
 # define MIMOSA_STREAM_BUFFERED_STREAM_HH
 
+# include <string>
+
 # include "stream.hh"
 # include "buffer.hh"
 
@@ -8,7 +10,7 @@ namespace mimosa
 {
   namespace stream
   {
-    class BufferedStream : public Stream, public Ptr<BufferedStream>
+    class BufferedStream : public Stream, public DefPtr<BufferedStream>
     {
     public:
       BufferedStream(Stream::Ptr stream, uint64_t buffer_size = 64 * 1024);
@@ -21,6 +23,9 @@ namespace mimosa
       /* zero copy stuff */
       inline Buffer::Ptr read(runtime::Time timeout = 0) { return read(buffer_size_, timeout); }
       Buffer::Ptr read(uint64_t buffer_size, runtime::Time timeout = 0);
+
+      /* helper */
+      std::string && readUntil(const char * str, size_t len, runtime::Time timeout = 0);
 
     private:
       inline uint64_t readyWrite() const;

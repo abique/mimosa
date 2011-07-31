@@ -5,7 +5,7 @@ namespace mimosa
 {
   namespace http
   {
-    enum TransferEncoding
+    enum Coding
     {
       kCodingIdentity     = 0,
       kCodingDeflate      = 1 << 0,
@@ -14,7 +14,7 @@ namespace mimosa
       kCodingCompress     = 1 << 3,
       kCodingPack200_gzip = 1 << 4,
       kCodingChunked      = 1 << 5,
-    }
+    };
   }
 }
 

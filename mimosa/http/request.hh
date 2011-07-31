@@ -3,7 +3,7 @@
 
 # include <string>
 # include <vector>
-# include <unordered>
+# include <unordered_map>
 
 # include "../stream/stream.hh"
 # include "coding.hh"
@@ -22,7 +22,7 @@ namespace mimosa
       std::string                                       raw_location_;
       uint8_t                                           proto_major_;
       uint8_t                                           proto_minor_;
-      Coding                                            accept_encoding_;
+      int                                               accept_encoding_; // Coding bitfield
       bool                                              keep_alive_;
       std::unordered_multimap<std::string, std::string> cookies_;
       uint64_t                                          content_length_;

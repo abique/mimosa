@@ -11,7 +11,7 @@
 %parse-param {mimosa::http::Request & rq}
 
 %{
-#include <utils>
+#include <utility>
 
 #include "request.hh"
 #include "request-parser.hh"
@@ -60,20 +60,20 @@
 %%
 
 request: method LOCATION PROTO_MAJOR PROTO_MINOR kvs {
-  rq.location_ = $2;
-  rq.proto_major_ = $3;
-  rq.proto_minor_ = $4;
+  rq.raw_location_ = $2;
+  rq.proto_major_  = $3;
+  rq.proto_minor_  = $4;
 };
 
 method:
-  HEAD    { rq.method_ = kMethodHead; }
-| GET     { rq.method_ = kMethodGet; }
-| PUT     { rq.method_ = kMethodPut; }
-| DELETE  { rq.method_ = kMethodDelete; }
-| TRACE   { rq.method_ = kMethodTrace; }
-| OPTIONS { rq.method_ = kMethodOptions; }
-| CONNECT { rq.method_ = kMethodConnect; }
-| PATCH   { rq.method_ = kMethodPatch; };
+  HEAD    { rq.method_ = mimosa::http::kMethodHead; }
+| GET     { rq.method_ = mimosa::http::kMethodGet; }
+| PUT     { rq.method_ = mimosa::http::kMethodPut; }
+| DELETE  { rq.method_ = mimosa::http::kMethodDelete; }
+| TRACE   { rq.method_ = mimosa::http::kMethodTrace; }
+| OPTIONS { rq.method_ = mimosa::http::kMethodOptions; }
+| CONNECT { rq.method_ = mimosa::http::kMethodConnect; }
+| PATCH   { rq.method_ = mimosa::http::kMethodPatch; };
 
 kvs: kv kvs | /* epsilon */ ;
 
@@ -89,10 +89,10 @@ kv:
 | KEY_USER_AGENT VALUE { rq.user_agent_ = $2; };
 
 accept_encodings: /* epsilon */
-| COMPRESS accept_encodings { rq.accept_encoding_ |= kCodingCompress; }
-| IDENTITY accept_encodings { rq.accept_encoding_ |= kCodingIdentify; }
-| DEFLATE  accept_encodings { rq.accept_encoding_ |= kCodingDeflate; }
-| GZIP     accept_encodings { rq.accept_encoding_ |= kCodingGzip; };
+| COMPRESS accept_encodings { rq.accept_encoding_ |= mimosa::http::kCodingCompress; }
+| IDENTITY accept_encodings { rq.accept_encoding_ |= mimosa::http::kCodingIdentity; }
+| DEFLATE  accept_encodings { rq.accept_encoding_ |= mimosa::http::kCodingDeflate; }
+| GZIP     accept_encodings { rq.accept_encoding_ |= mimosa::http::kCodingGzip; };
 
 cookies:
   /* epsilon */

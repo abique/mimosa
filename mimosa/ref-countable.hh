@@ -50,7 +50,7 @@ namespace mimosa
   }
 
   template <typename T>
-  class Ptr
+  class DefPtr
   {
   public:
     typedef RefCountedPtr<T> Ptr;
@@ -59,7 +59,7 @@ namespace mimosa
 
   template <typename T>
   class RefCountable : public RefCountableBase,
-                       public Ptr<T>
+                       public DefPtr<T>
   {
   };
 }
