@@ -16,5 +16,8 @@ add_subdirectory(net)
 add_subdirectory(http)
 add_subdirectory(sync)
 
-add_library(mimosa init.cc)
+# just to make files appears on qtcreator
+file(GLOB HEADERS *.hh *.hxx */*.hh */*.hxx)
+
+add_library(mimosa init.cc ${HEADERS})
 target_link_libraries(mimosa gnutls)
