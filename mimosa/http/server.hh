@@ -21,7 +21,7 @@ namespace mimosa
 
       runtime::Time read_timeout_;
       runtime::Time write_timeout_;
-      Handler::Ptr handler_;
+      Handler::Ptr  handler_;
     };
   }
 }
