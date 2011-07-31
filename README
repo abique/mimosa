@@ -16,3 +16,10 @@ Mimosa provides:
  - rpc
  - web server
  - and more ... :-)
+
+Depends
+ - gcc >= 4.6
+ - flex
+ - bison
+ - gnutls
+ - melon
