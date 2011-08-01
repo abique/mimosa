@@ -18,7 +18,10 @@ namespace mimosa
     void
     Server::newClient(Server::Ptr server, int fd)
     {
-      stream::Stream::Ptr stream(new stream::FdStream(fd));
+      stream::BufferedStream::Ptr stream(new stream::FdStream(fd));
+      std::scoped_ptr<ServerChannel> channel =
+        new ServerChannel(stream, handler, read_timeout_, write_timeout_);
+      channel->run();
     }
   }
 }
