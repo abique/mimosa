@@ -51,8 +51,6 @@ namespace mimosa
         EXPECT_EQ(rq.referrer_, "http://tutu.com/hoho%34/?tutu=tata;#anchor");
         EXPECT_EQ(rq.user_agent_, "TomBoy (esapce compatible)");
 
-        for (auto it = rq.cookies_.begin(); it != rq.cookies_.end(); ++it)
-          std::cout << it->first << " -> " << it->second << std::endl;
         auto it = rq.cookies_.find("attr1");
         EXPECT_NE(it, rq.cookies_.end());
         if (it != rq.cookies_.end())

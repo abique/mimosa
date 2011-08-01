@@ -37,7 +37,7 @@ namespace mimosa
       bool                                              keep_alive_; // keep the connection ?
 
       // mmmiiam cookies :^)
-      std::multimap<std::string, std::string> cookies_;
+      std::unordered_multimap<std::string, std::string> cookies_;
 
       // post and put details
       uint64_t                                          content_length_;
