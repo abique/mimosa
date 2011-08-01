@@ -6,19 +6,19 @@
 /* %option nodefault */
 %option align
 %option fast
+%option extra-type="std::string *"
 
 %{
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <string>
 
 #include "request-parser.hh"
 
-#define SAVE_TEXT                                \
-  do {                                           \
-    yylval->text = (char*)::malloc(yyleng + 1);  \
-    if (yylval->text)                            \
-      memcpy(yylval->text, yytext, yyleng + 1);  \
+#define SAVE_TEXT                                   \
+  do {                                              \
+    yylval->text = new std::string(yytext, yyleng); \
   } while (0)
 %}
 
@@ -85,10 +85,10 @@ spaces   [\t\v ]
 <value_cookie_eq>=              BEGIN(value_cookie_value); return '=';
 <value_cookie_eq,value_cookie_sm>\; BEGIN(value_cookie_attr); return ';';
 <value_cookie_value>{token}     BEGIN(value_cookie_sm); SAVE_TEXT; return VALUE;
-<value_cookie_value>\"          yymore(); BEGIN(value_cookie_str);
-<value_cookie_str>[^\\"]+       yymore();
-<value_cookie_str>\\.           yymore();
-<value_cookie_str>\"            BEGIN(value_cookie_sm); SAVE_TEXT; return QUOTED_VALUE;
+<value_cookie_value>\"          BEGIN(value_cookie_str); yyextra->clear();
+<value_cookie_str>[^\\"]+       yyextra->append(yytext, yyleng);
+<value_cookie_str>\\.           yyextra->push_back(yytext[1]);
+<value_cookie_str>\"            BEGIN(value_cookie_sm); yylval->text = new std::string(*yyextra); return VALUE;
 
 <value_connection>(?i:keep-alive)  yylval->ival = 1; return VALUE_CONNECTION;
 <value_connection>(?i:close)       yylval->ival = 0; return VALUE_CONNECTION;
