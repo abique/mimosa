@@ -59,6 +59,11 @@ namespace mimosa
         EXPECT_NE(it, rq.cookies_.end());
         if (it != rq.cookies_.end())
           EXPECT_EQ(it->second, std::string("\"xvalue\\o\\\"\""));
+
+        it = rq.unparsed_headers_.find("SomeKey");
+        EXPECT_NE(it, rq.unparsed_headers_.end());
+        if (it != rq.unparsed_headers_.end())
+          EXPECT_EQ(it->second, "SomeValue");
       }
     }
   }
