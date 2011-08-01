@@ -38,7 +38,9 @@ namespace mimosa
           "Referer: http://tutu.com/hoho%34/?tutu=tata;#anchor\r\n"
           "User-Agent: TomBoy (esapce compatible)\r\n"
           "SomeKey:  SomeValue\r\n"
-          "Cookie: attr0; attr01; attr02; attr1=value1; attr2=value2; attr3; attr4=value4; attr5=\"xvalue\\o\\\"\"\r\n"
+          "Cookie: attr0; attr01; attr02; attr1=value1; attr2=value2;"
+          "        attr3; attr4=value4; attr5=\"xvalue\\o\\\"\"\r\n"
+          "Cookie: attr6 = value6 ; attr7 ; attr8 = \" value 8 \" \r\n"
           "\r\n";
         Request rq;
         EXPECT_EQ(true, rq.parse(str, sizeof (str)));
@@ -55,10 +57,10 @@ namespace mimosa
         EXPECT_NE(it, rq.cookies_.end());
         if (it != rq.cookies_.end())
           EXPECT_EQ(it->second, "value1");
-        it = rq.cookies_.find("attr2");
+        it = rq.cookies_.find("attr5");
         EXPECT_NE(it, rq.cookies_.end());
         if (it != rq.cookies_.end())
-          EXPECT_EQ(it->second, std::string("\"value\\o\\\"\""));
+          EXPECT_EQ(it->second, std::string("\"xvalue\\o\\\"\""));
       }
     }
   }

@@ -40,7 +40,7 @@
 %x value_cookie_sm
 
 separtor [\(\)<>@,;:\\"/\[\]\?={} \t]
-token    [^\(\)<>@,;:\\"/\[\]\?={} \t\r\n\v2]+
+token    [^\(\)<>@,;:\\"/\[\]\?={} \t\r\n\v]+
 spaces   [\t\v ]
 
 %%
@@ -83,7 +83,7 @@ spaces   [\t\v ]
 
 <value_cookie_attr>{token}      BEGIN(value_cookie_eq); SAVE_TEXT; return ATTR;
 <value_cookie_eq>=              BEGIN(value_cookie_value); return '=';
-<value_cookie_eq,value_cookie_sm>; BEGIN(value_cookie_attr); return ';';
+<value_cookie_eq,value_cookie_sm>\; BEGIN(value_cookie_attr); return ';';
 <value_cookie_value>{token}     BEGIN(value_cookie_sm); SAVE_TEXT; return VALUE;
 <value_cookie_value>\"          yymore(); BEGIN(value_cookie_str);
 <value_cookie_str>[^\\"]+       yymore();
