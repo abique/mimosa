@@ -42,8 +42,20 @@ namespace mimosa
       return *this;
     }
 
+    inline bool operator!() const
+    {
+      return !ptr_;
+    }
+
+    inline operator bool () const
+    {
+      return ptr_;
+    }
+
     inline T & operator*() const { return *ptr_; }
     inline T * operator->() const { return ptr_; }
+    template <typename Member>
+    inline auto operator->*(Member member) const -> decltype(((T*)nullptr)->*member) { return ptr_->*member; }
     inline T * get() const { return ptr_; }
     inline void assign(T * ptr)
     {
