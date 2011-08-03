@@ -14,7 +14,7 @@ namespace mimosa
     {
     public:
       virtual ~Handler() {}
-      virtual void handle(Request & request, Response & response) const = 0;
+      virtual bool handle(Request & request, Response & response) const = 0;
     };
   }
 }
