@@ -10,6 +10,11 @@ namespace mimosa
 {
   namespace stream
   {
+    /**
+     *
+     * @info the real size of the buffer is size + 4. So it's null terminated
+     * and you can pass the buffer to flex without duplicating it.
+     */
     class Buffer : public RefCountable<Buffer>
     {
     public:
