@@ -31,7 +31,7 @@ namespace mimosa
 
       // enable reuse of the port after the close
       static const int enable = 1;
-      setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &enalbe, sizeof(enable));
+      setsockopt(fd_, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable));
 
       struct sockaddr_in addr;
       addr.sin_addr.s_addr = interface ? interface->s_addr : INADDR_ANY;
