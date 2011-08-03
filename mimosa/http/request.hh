@@ -19,11 +19,21 @@ namespace mimosa
     public:
       Request();
 
+      void reset();
+
       /**
        * @brief parses the buffer
        * @return true on success and false otherwise
        */
       bool parse(const char * data, size_t size);
+
+      /**
+       * @brief parses the buffer
+       * @param data the buffer is directly passed to flex so it can be
+       * realloced/freed, and data[size] = data[size - 1] = 0;
+       * @return true on success and false otherwise
+       */
+      bool parseZeroCopy(char * data, size_t size);
 
       // mandatory stuff
       Method                                            method_;
