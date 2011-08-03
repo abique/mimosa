@@ -13,7 +13,7 @@ namespace mimosa
         wbuffers_(),
         wpos_(0),
         wappend_(0),
-        rbuffer_(nullptr),
+        rbuffer_(),
         rpos_(0),
         rappend_(0)
     {
@@ -21,14 +21,6 @@ namespace mimosa
 
     BufferedStream::~BufferedStream()
     {
-      while (!wbuffers_.empty())
-      {
-        auto tmp = &wbuffers_.front();
-        wbuffers_.pop();
-        delete tmp;
-      }
-      delete rbuffer_;
-      rbuffer_ = nullptr;
     }
 
     inline
@@ -132,6 +124,8 @@ namespace mimosa
       {
         if (!rbuffer_)
           rbuffer_ = new Buffer(buffer_size_);
+        else if (rbuffer_->size() != buffer_size_)
+          rbuffer_->resize(buffer_size_);
         rpos_    = 0;
         rappend_ = 0;
         int64_t rbytes = stream_->read(rbuffer_->data(), rbuffer_->size(), timeout);
@@ -165,7 +159,7 @@ namespace mimosa
         rbuffer_ = nullptr;
         rappend_ = 0;
         rpos_ = 0;
-        return rbuffer_;
+        return tmp;
       }
 
       if (!rbuffer_)
@@ -177,6 +171,48 @@ namespace mimosa
       auto tmp = rbuffer_;
       rbuffer_ = nullptr;
       return tmp;
+    }
+
+    Buffer::Ptr
+    BufferedStream::readUntil(const char * const str,
+                              runtime::Time      timeout)
+    {
+      Buffer::Ptr buffer;
+      size_t      str_len = strlen(str);
+
+      while (true)
+      {
+        Buffer::Ptr tmp_buffer = read(timeout);
+        if (!tmp_buffer || tmp_buffer->size() == 0)
+        {
+          assert(!rbuffer_);
+          rbuffer_ = buffer;
+          rappend_ = buffer->size();
+          return nullptr;
+        }
+
+        if (buffer)
+        {
+          buffer->resize(buffer->size() + tmp_buffer->size());
+          memcpy(buffer->data() + buffer->size() - tmp_buffer->size(),
+                 tmp_buffer->data(), tmp_buffer->size());
+        }
+        else
+          buffer = tmp_buffer;
+
+        int64_t offset = buffer->size() - tmp_buffer->size() - str_len + 1;
+        const char * found = ::strstr(buffer->data() + (offset > 0 ? offset : 0), str);
+        if (found)
+        {
+          assert(!rbuffer_);
+          rbuffer_ = new Buffer(buffer_size_);
+          const int64_t buffer_size = found + str_len - buffer->data();
+          rappend_ = buffer->size() - buffer_size;
+          memcpy(rbuffer_->data(), buffer->data() + buffer_size, rappend_);
+          buffer->resize(buffer_size_);
+          return buffer;
+        }
+      }
     }
   }
 }
