@@ -1,6 +1,8 @@
 #include <functional>
+#include <memory>
 
 #include "server.hh"
+#include "server-channel.hh"
 #include "../stream/fd-stream.hh"
 
 namespace mimosa
@@ -19,8 +21,11 @@ namespace mimosa
     Server::newClient(Server::Ptr server, int fd)
     {
       stream::BufferedStream::Ptr stream(new stream::FdStream(fd));
-      std::scoped_ptr<ServerChannel> channel =
-        new ServerChannel(stream, handler, read_timeout_, write_timeout_);
+      std::unique_ptr<ServerChannel> channel(
+        new ServerChannel(stream,
+                          server->handler_,
+                          server->read_timeout_,
+                          server->write_timeout_));
       channel->run();
     }
   }
