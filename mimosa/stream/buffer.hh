@@ -22,13 +22,13 @@ namespace mimosa
       void resize(uint64_t size);
 
     private:
-      container::IntrusiveSlistHook<Buffer> next_;
-      uint64_t                              size_;
-      char *                                data_;
+      container::IntrusiveSlistHook<Buffer::Ptr> next_;
+      uint64_t                                   size_;
+      char *                                     data_;
 
     public:
-      typedef container::IntrusiveSlist<Buffer, &Buffer::next_> Slist;
-      friend class container::IntrusiveSlist<Buffer, &Buffer::next_>;
+      typedef container::IntrusiveSlist<Buffer, Buffer::Ptr, &Buffer::next_> Slist;
+      friend class container::IntrusiveSlist<Buffer, Buffer::Ptr, &Buffer::next_>;
     };
   }
 }
