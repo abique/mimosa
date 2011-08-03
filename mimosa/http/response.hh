@@ -5,7 +5,8 @@
 
 # include "coding.hh"
 # include "status.hh"
-# include "../stream/steram.hh"
+# include "cookie.hh"
+# include "../stream/stream.hh"
 
 namespace mimosa
 {
@@ -14,12 +15,12 @@ namespace mimosa
     class Response
     {
     public:
-      Status                   status_;
-      bool                     keep_alive_;
-      Coding                   content_encoding_;
-      Coding                   transfer_encoding_;
-      std::vector<Cookie::Ptr> cookies_;
-      stream::Stream::Ptr      body_;
+      Status              status_;
+      bool                keep_alive_;
+      Coding              content_encoding_;
+      Coding              transfer_encoding_;
+      Cookie::Slist       cookies_;
+      stream::Stream::Ptr body_;
     };
   }
 }
