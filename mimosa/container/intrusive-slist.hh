@@ -121,7 +121,7 @@ namespace mimosa
         }
         else
         {
-          T * tmp                = (tail_->*Member).next_;
+          Ptr tmp                = (tail_->*Member).next_;
           (tail_->*Member).next_ = (tmp->*Member).next_;
           (tmp->*Member).next_   = nullptr;
         }
