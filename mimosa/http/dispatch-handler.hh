@@ -14,7 +14,7 @@ namespace mimosa
     {
     public:
       void registerHandler(const std::string & pattern, Handler::ConstPtr handler);
-      void handle(Request & request, Response & response) const;
+      virtual bool handle(Request & request, Response & response) const;
 
     private:
       std::map<std::string /*pattern*/, Handler::ConstPtr /*handler*/> handlers_;
