@@ -4,6 +4,8 @@
 # include "../non-copyable.hh"
 # include "../stream/buffered-stream.hh"
 # include "handler.hh"
+# include "request.hh"
+# include "response.hh"
 
 namespace mimosa
 {
@@ -12,26 +14,30 @@ namespace mimosa
     class ServerChannel : private NonCopyable
     {
     public:
-      ServerChannel(BufferedStream::Ptr stream,
-                    Handler::Ptr        handler,
-                    runtime::Time       read_timeout  = 0,
-                    runtime::Time       write_timeout = 0);
+      ServerChannel(stream::BufferedStream::Ptr stream,
+                    Handler::Ptr                handler,
+                    runtime::Time               read_timeout  = 0,
+                    runtime::Time               write_timeout = 0);
 
       void run();
 
     private:
       bool readRequest();
-      bool readBody();
-      void runHandler();
+      bool setupBodyReader();
+      bool setupResponseWriter();
+      bool runHandler();
       bool sendResponse();
 
-      BufferedStream::Ptr stream_;
-      Handler::Ptr        handler_;
-      runtime::Time       read_timeout_;
-      runtime::Time       write_timeout_;
-      runtime::Time       timeout_;
-      Request             request_;
-      Response            response_;
+      void requestTimeout();
+      void badRequest();
+
+      stream::BufferedStream::Ptr stream_;
+      Handler::Ptr                handler_;
+      runtime::Time               read_timeout_;
+      runtime::Time               write_timeout_;
+      runtime::Time               timeout_;
+      Request                     request_;
+      Response                    response_;
     };
   }
 }

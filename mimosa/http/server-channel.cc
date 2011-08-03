@@ -19,21 +19,61 @@ namespace mimosa
     ServerChannel::run()
     {
       do {
-        if (!readRequest())
+        if (!readRequest() ||
+            !setupBodyReader() ||
+            !setupResponseWriter() ||
+            !runHandler() ||
+            !sendResponse())
           break;
-        if (hasBody() && !readBody())
-          break;
-        runHandler();
-        if (!sendResponse())
-          break;
-      } while (keep_alive_);
+      } while (response_.keep_alive_);
     }
 
     bool
     ServerChannel::readRequest()
     {
       timeout_ = read_timeout_ > 0 ? runtime::time() + read_timeout_ : 0;
-      std::string raw_request = stream_->readUntil("\r\n\r\n");
+      stream::Buffer::Ptr buffer = stream_->readUntil("\r\n\r\n", timeout_);
+      if (!buffer)
+      {
+        requestTimeout();
+        return false;
+      }
+
+      if (!request_.parse(buffer->data(), buffer->size() + 2))
+      {
+        badRequest();
+        return false;
+      }
+
+      return true;
+    }
+
+    bool
+    ServerChannel::setupBodyReader()
+    {
+      if (!request_.hasBody())
+        return true;
+      // TODO
+      return true;
+    }
+
+    bool
+    ServerChannel::setupResponseWriter()
+    {
+      // TODO
+      return true;
+    }
+
+    bool
+    ServerChannel::runHanlder()
+    {
+      return handler_->handle(request_, response_);
+    }
+
+    bool
+    ServerChannel::sendResponse()
+    {
+      // TODO
       return true;
     }
   }
