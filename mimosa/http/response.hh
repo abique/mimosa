@@ -15,6 +15,8 @@ namespace mimosa
     class Response
     {
     public:
+      bool hasBody const ();
+
       Status              status_;
       bool                keep_alive_;
       Coding              content_encoding_;
