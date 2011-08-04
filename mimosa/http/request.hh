@@ -42,6 +42,8 @@ namespace mimosa
       std::string                                       raw_location_;
       std::string                                       host_;
 
+      std::string                                       location_;
+
       // basic stuff
       int                                               accept_encoding_; // Coding bitfield
       bool                                              keep_alive_; // keep the connection ?
