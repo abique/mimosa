@@ -5,6 +5,7 @@
 # include <map>
 
 # include "handler.hh"
+# include "error-handler.hh"
 
 namespace mimosa
 {
@@ -13,11 +14,16 @@ namespace mimosa
     class DispatchHandler : public Handler
     {
     public:
+      /**
+       * @param pattern a globbing pattern */
       void registerHandler(const std::string & pattern, Handler::ConstPtr handler);
       virtual bool handle(Request & request, Response & response) const;
 
+      inline void setErrorHandler(ErrorHandler::ConstPtr handler) { error_handler_ = handler; }
+
     private:
       std::map<std::string /*pattern*/, Handler::ConstPtr /*handler*/> handlers_;
+      ErrorHandler::ConstPtr                                           error_handler_;
     };
   }
 }
