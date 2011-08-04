@@ -1,6 +1,9 @@
 #ifndef MIMOSA_URI_PERCENT_ENCODING_HH
 # define MIMOSA_URI_PERCENT_ENCODING_HH
 
+# include <cstdint>
+# include <string>
+
 namespace mimosa
 {
   namespace uri
@@ -12,14 +15,14 @@ namespace mimosa
     };
 
     void percentEncode(const char *  input,
-                       size_t        input_len,
+                       uint32_t      input_len,
                        std::string * output,
                        EncodingType  rfc = kRfc3986);
 
-    void percentDencode(const char *  input,
-                        size_t        input_len,
-                        std::string * output,
-                        EncodingType  rfc = kRfc3986);
+    void percentDecode(const char *  input,
+                       uint32_t      input_len,
+                       std::string * output,
+                       EncodingType  rfc = kRfc3986);
   }
 }
 
