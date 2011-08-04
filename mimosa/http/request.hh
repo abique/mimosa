@@ -42,7 +42,9 @@ namespace mimosa
       std::string                                       raw_location_;
       std::string                                       host_;
 
+      // cleaned up location and queries
       std::string                                       location_;
+      std::unordered_multimap<std::string, std::string> query_;
 
       // basic stuff
       int                                               accept_encoding_; // Coding bitfield
