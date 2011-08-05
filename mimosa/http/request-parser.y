@@ -62,46 +62,45 @@
 %%
 
 request: method LOCATION PROTO_MAJOR PROTO_MINOR kvs {
-  rq.raw_location_ = *$2; delete $2;
-  rq.proto_major_  = $3;
-  rq.proto_minor_  = $4;
+  rq.setRawLocation(*$2); delete $2;
+  rq.setProto($3, $4);
 };
 
 method:
-  HEAD    { rq.method_ = mimosa::http::kMethodHead; }
-| GET     { rq.method_ = mimosa::http::kMethodGet; }
-| PUT     { rq.method_ = mimosa::http::kMethodPut; }
-| DELETE  { rq.method_ = mimosa::http::kMethodDelete; }
-| TRACE   { rq.method_ = mimosa::http::kMethodTrace; }
-| OPTIONS { rq.method_ = mimosa::http::kMethodOptions; }
-| CONNECT { rq.method_ = mimosa::http::kMethodConnect; }
-| PATCH   { rq.method_ = mimosa::http::kMethodPatch; };
+  HEAD    { rq.setMethod(mimosa::http::kMethodHead); }
+| GET     { rq.setMethod(mimosa::http::kMethodGet); }
+| PUT     { rq.setMethod(mimosa::http::kMethodPut); }
+| DELETE  { rq.setMethod(mimosa::http::kMethodDelete); }
+| TRACE   { rq.setMethod(mimosa::http::kMethodTrace); }
+| OPTIONS { rq.setMethod(mimosa::http::kMethodOptions); }
+| CONNECT { rq.setMethod(mimosa::http::kMethodConnect); }
+| PATCH   { rq.setMethod(mimosa::http::kMethodPatch); };
 
 kvs: kv kvs | /* epsilon */ ;
 
 kv:
-  KEY VALUE { rq.unparsed_headers_.insert(std::make_pair(*$1, *$2)); delete $1; delete $2; }
+  KEY VALUE { rq.addHeader(*$1, *$2); delete $1; delete $2; }
 | KEY_ACCEPT_ENCODING accept_encodings
-| KEY_CONNECTION VALUE_CONNECTION { rq.keep_alive_ = $2; }
+| KEY_CONNECTION VALUE_CONNECTION { rq.setKeepAlive($2); }
 | KEY_COOKIE cookie cookies
-| KEY_CONTENT_LENGTH VAL64 { rq.content_length_ = $2; }
-| KEY_CONTENT_TYPE VALUE { rq.content_type_ = *$2; delete $2; }
-| KEY_HOST VALUE { rq.host_ = *$2; delete $2; }
-| KEY_REFERRER VALUE { rq.referrer_ = *$2; delete $2; }
-| KEY_USER_AGENT VALUE { rq.user_agent_ = *$2; delete $2; };
+| KEY_CONTENT_LENGTH VAL64 { rq.setContentLength($2); }
+| KEY_CONTENT_TYPE VALUE { rq.setContentType(*$2); delete $2; }
+| KEY_HOST VALUE { rq.setHost(*$2); delete $2; }
+| KEY_REFERRER VALUE { rq.setReferrer(*$2); delete $2; }
+| KEY_USER_AGENT VALUE { rq.setUserAgent(*$2); delete $2; };
 
 accept_encodings: /* epsilon */
-| COMPRESS accept_encodings { rq.accept_encoding_ |= mimosa::http::kCodingCompress; }
-| IDENTITY accept_encodings { rq.accept_encoding_ |= mimosa::http::kCodingIdentity; }
-| DEFLATE  accept_encodings { rq.accept_encoding_ |= mimosa::http::kCodingDeflate; }
-| GZIP     accept_encodings { rq.accept_encoding_ |= mimosa::http::kCodingGzip; };
+| COMPRESS accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingCompress); }
+| IDENTITY accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingIdentity); }
+| DEFLATE  accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingDeflate); }
+| GZIP     accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingGzip); };
 
 cookies:
   /* epsilon */
 | ';' cookie cookies {}
 
 cookie:
-  ATTR { rq.cookies_.insert(std::make_pair(*$1, "")); delete $1; }
-| ATTR '=' VALUE { rq.cookies_.insert(std::make_pair(*$1, *$3)); delete $1; delete $3; };
+  ATTR { rq.addCookie(*$1, ""); delete $1; }
+| ATTR '=' VALUE { rq.addCookie(*$1, *$3); delete $1; delete $3; };
 
 %%

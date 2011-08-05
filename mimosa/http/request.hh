@@ -17,9 +17,12 @@ namespace mimosa
     class Request
     {
     public:
+
+      typedef std::unordered_multimap<std::string, std::string> kvs;
+
       Request();
 
-      void reset();
+      void clear();
 
       /**
        * @brief parses the buffer
@@ -35,35 +38,90 @@ namespace mimosa
        */
       bool parseZeroCopy(char * data, size_t size);
 
+      inline Method method() const { return method_; }
+      inline void setMethod(Method m) { method_ = m; }
+
+      inline uint8_t protoMajor() const { return proto_major_; }
+      inline uint8_t protoMinor() const { return proto_minor_; }
+      inline void setProto(uint8_t major, uint8_t minor) { proto_major_ = major; proto_minor_ = minor; }
+
+      inline const std::string & rawLocation() const { return raw_location_; }
+      inline void setRawLocation(const std::string & s) { raw_location_ = s; }
+
+      inline const std::string & host() const { return host_; }
+      inline void setHost(const std::string & s) { host_ = s; }
+
+      const std::string & location() const;
+      const kvs & query() const;
+
+      int acceptEncoding() const { return accept_encoding_; }
+      void setAcceptEncoding(int v) { accept_encoding_ = v; }
+
+      bool keepAlive() const { return keep_alive_; }
+      void setKeepAlive(bool v) { keep_alive_ = v; }
+
+      const kvs & cookies() const { return cookies_; }
+      inline void addCookie(const std::string & key,
+                            const std::string & value)
+      {
+        cookies_.insert(std::make_pair(key, value));
+      }
+
+      inline uint64_t contentLength() const { return content_length_; }
+      inline void setContentLength(uint64_t v) { content_length_ = v; }
+
+      inline const std::string & contentType() const { return content_type_; }
+      inline void setContentType(const std::string & s) { content_type_ = s; }
+
+      inline stream::Stream::Ptr body() const { return body_; }
+      inline void setBody(stream::Stream::Ptr stream) { body_ = stream; }
+
+      inline const std::string & userAgent() const { return user_agent_; }
+      inline void setUserAgent(const std::string & s) { user_agent_ = s; }
+
+      inline const std::string & referrer() const { return referrer_; }
+      inline void setReferrer(const std::string & s) { referrer_ = s; }
+
+      inline const kvs & unparsedHeaders() const { return unparsed_headers_; }
+      inline void addHeader(const std::string & key,
+                            const std::string & value)
+      {
+        unparsed_headers_.insert(std::make_pair(key, value));
+      }
+
+    private:
+
       // mandatory stuff
-      Method                                            method_;
-      uint8_t                                           proto_major_;
-      uint8_t                                           proto_minor_;
-      std::string                                       raw_location_;
-      std::string                                       host_;
+      Method      method_;
+      uint8_t     proto_major_;
+      uint8_t     proto_minor_;
+      std::string raw_location_;
+      std::string host_;
 
       // cleaned up location and queries
-      std::string                                       location_;
-      std::unordered_multimap<std::string, std::string> query_;
+      mutable bool        location_normalized_;
+      mutable std::string location_;
+      mutable bool        query_parsed_;
+      mutable kvs         query_;
 
       // basic stuff
-      int                                               accept_encoding_; // Coding bitfield
-      bool                                              keep_alive_; // keep the connection ?
+      int  accept_encoding_;    // Coding bitfield
+      bool keep_alive_;         // keep the connection ?
 
       // mmmiiam cookies :^)
-      std::unordered_multimap<std::string, std::string> cookies_;
+      kvs cookies_;
 
       // post and put details
-      uint64_t                                          content_length_;
-      std::string                                       content_type_;
-      stream::Stream::Ptr                               body_;
+      uint64_t            content_length_;
+      std::string         content_type_;
+      stream::Stream::Ptr body_;
 
       // usefull for stats
-      std::string                                       referrer_;
-      std::string                                       user_agent_;
+      std::string referrer_;
+      std::string user_agent_;
 
       // other headers
-      std::unordered_multimap<std::string, std::string> unparsed_headers_;
+      kvs unparsed_headers_;
     };
   }
 }
