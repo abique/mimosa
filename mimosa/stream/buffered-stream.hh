@@ -33,9 +33,12 @@ namespace mimosa
        * @{ */
 
       /**
+       * @param max_size if str is not reached until max_size,
+       * returns nullptr and errno is set to EFBIG
        * @param str the string to search
-       * @return a valid buffer on success, null otherwise */
+       * @return a valid buffer on success, null otherwise. */
       Buffer::Ptr readUntil(const char * const str,
+                            uint64_t           max_size = 0,
                             runtime::Time      timeout = 0);
       /** @} */
 

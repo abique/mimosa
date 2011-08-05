@@ -175,6 +175,7 @@ namespace mimosa
 
     Buffer::Ptr
     BufferedStream::readUntil(const char * const str,
+                              uint64_t           max_size, // TODO
                               runtime::Time      timeout)
     {
       Buffer::Ptr buffer;
@@ -182,6 +183,12 @@ namespace mimosa
 
       while (true)
       {
+        if (max_size > 0 && buffer->size() > max_size)
+        {
+          errno = EFBIG;
+          return nullptr;
+        }
+
         Buffer::Ptr tmp_buffer = read(timeout);
         if (!tmp_buffer || tmp_buffer->size() == 0)
         {
