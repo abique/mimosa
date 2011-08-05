@@ -3,4 +3,7 @@ install(FILES
   DESTINATION include/mimosa/uri/)
 
 add_library(mimosa-uri
-  percent-encoding.cc)
+  percent-encoding.cc
+  normalize-path.cc)
+
+add_subdirectory(tests)
