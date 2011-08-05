@@ -6,6 +6,7 @@ enable_testing()
 
 add_definitions(-D_GNU_SOURCE -D_LARGEFILE64_SOURCE -std=c++0x -Wall -Wextra)
 
+include(cmake/Tests.cmake)
 include(cmake/Flex.cmake)
 include(cmake/Bison.cmake)
 
