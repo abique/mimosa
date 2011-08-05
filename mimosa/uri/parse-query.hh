@@ -4,13 +4,12 @@
 # include <string>
 # include <unordered_map>
 
-# include "../string/string-ref.hh"
-
 namespace mimosa
 {
   namespace uri
   {
-    void parseQuery(const string::StringRef &                           query,
+    void parseQuery(const char *                                        input,
+                    uint32_t                                            len,
                     std::unordered_multimap<std::string, std::string> * kvs);
   }
 }
