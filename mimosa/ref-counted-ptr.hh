@@ -8,7 +8,7 @@ namespace mimosa
   {
   public:
     inline RefCountedPtr()
-      : ptr_(0)
+      : ptr_(nullptr)
     {
     }
 
@@ -27,7 +27,7 @@ namespace mimosa
 
     inline ~RefCountedPtr()
     {
-      assign(0);
+      assign(nullptr);
     }
 
     inline RefCountedPtr<T> & operator=(T * ptr)
@@ -65,6 +65,8 @@ namespace mimosa
         releaseRef(ptr_);
       ptr_ = ptr;
     }
+
+    inline void clear() { assign(nullptr); }
 
   private:
     T * ptr_;
