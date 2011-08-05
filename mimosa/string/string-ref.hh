@@ -3,6 +3,7 @@
 
 # include <cstring>
 # include <cassert>
+# include <string>
 
 namespace mimosa
 {
@@ -12,8 +13,10 @@ namespace mimosa
     {
     public:
       inline StringRef() : data_(0), len_(0) {}
-      inline StringRef(const char * string, size_t len = ::strlen(string)) : data_(string), len_(len) {}
-      inline StringRef(const std::string & str) : data_(str.data()), len_(data.length()) {}
+      inline StringRef(const char * string) : data_(string), len_(::strlen(string)) {}
+      inline StringRef(const char * string, size_t len) : data_(string), len_(len) {}
+      inline StringRef(const char * string, const char * end) : data_(string), len_(end - string) {}
+      inline StringRef(const std::string & str) : data_(str.data()), len_(str.size()) {}
 
       inline size_t size() const { return len_; }
       inline const char * data() const { return data_; }
@@ -25,13 +28,13 @@ namespace mimosa
       }
 
       inline bool streq(const StringRef & other) const {
-        other.len_ == len_ && (other.data_ == data_ || !::strncmp(other.data_, data_, len_));
+        return other.len_ == len_ && (other.data_ == data_ || !::strncmp(other.data_, data_, len_));
       }
       inline bool strcaseeq(const StringRef & other) const {
-        other.len_ == len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, len_));
+        return other.len_ == len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, len_));
       }
 
-      inline StringRef && substring(size_t start = 0, size_t n = -1) const {
+      inline StringRef substring(size_t start = 0, size_t n = -1) const {
         assert(start + n <= len_);
         return StringRef(data_ + start, n);
       }
