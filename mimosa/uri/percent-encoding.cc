@@ -6,7 +6,7 @@ namespace mimosa
 {
   namespace uri
   {
-    /* see tools/gen-percent-encoding-tables */
+    /* see tools/gen-percent-encoding-tables.cc */
 
     static const uint64_t is_valid[4] = {
       0b1010111111111111111101111101101000000000000000000000000000000001ULL,
