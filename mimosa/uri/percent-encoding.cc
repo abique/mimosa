@@ -8,32 +8,24 @@ namespace mimosa
   {
     /* see tools/gen-percent-encoding-tables */
 
-    static const uint64_t is_valid[2][4] = {
-      {
-        0b0000000000000000000000000000000001011011111011111111111111110101ULL,
-        0b1111111111111111111111111111010101111111111111111111111111100010ULL,
-        0b0000000000000000000000000000000000000000000000000000000000000000ULL,
-        0b0000000000000000000000000000000000000000000000000000000000000000ULL,
-      },
-      {
-        0b0000000000000000000000000000000001011011111111111111111111110101ULL,
-        0b1111111111111111111111111111010101111111111111111111111111100010ULL,
-        0b0000000000000000000000000000000000000000000000000000000000000000ULL,
-        0b0000000000000000000000000000000000000000000000000000000000000000ULL,
-      },
+    static const uint64_t is_valid[4] = {
+      0b1010111111111111111101111101101000000000000000000000000000000001ULL,
+      0b0100011111111111111111111111111010101111111111111111111111111111ULL,
+      0b0000000000000000000000000000000000000000000000000000000000000000ULL,
+      0b0000000000000000000000000000000000000000000000000000000000000000ULL,
     };
 
     static const char hex[] = "0123456789ABCDEF";
 
-    static bool isValid(uint8_t c, EncodingType rfc)
+    static bool isValid(uint8_t c)
     {
-      return is_valid[rfc][c >> 6] & (1 << (c & 0x3f));
+      return is_valid[c >> 6] & (1ULL << (c & 0x3f));
     }
 
     void percentEncode(const char *  input,
-                       size_t        input_len,
+                       uint32_t      input_len,
                        std::string * output,
-                       EncodingType  rfc = kRfc3986)
+                       EncodingType  rfc)
     {
       output->clear();
       output->resize(input_len * 3);
@@ -46,7 +38,7 @@ namespace mimosa
         uint8_t c = *input;
         if (rfc == kRfc2396 && c == ' ')
           *out = '+';
-        else if (isValid(c, rfc))
+        else if (isValid(c))
           *out = c;
         else
         {
@@ -70,9 +62,9 @@ namespace mimosa
     }
 
     void percentDecode(const char *  input,
-                       size_t        input_len,
+                       uint32_t      input_len,
                        std::string * output,
-                       EncodingType  rfc = kRfc3986)
+                       EncodingType  rfc)
     {
       output->clear();
       output->resize(input_len);
