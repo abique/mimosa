@@ -10,6 +10,6 @@ add_library(mimosa-http
   request-parser.cc
   )
 
-target_link_libraries(mimosa-http mimosa-stream mimosa-net)
+target_link_libraries(mimosa-http mimosa-uri mimosa-stream mimosa-net)
 
 add_subdirectory(tests)

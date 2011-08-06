@@ -27,9 +27,6 @@ namespace mimosa
 
       TEST(RequestParser, CheckFields)
       {
-        // ASSERT_NE(std::hash<std::string>(std::string("attr0")),
-        //           std::hash<std::string>(std::string("attr1")));
-
         char str[] = "GET / HTTP/1.0\r\n"
           "Host: www.toto.com\r\n"
           "Connection: keep-alive\r\n"
@@ -44,25 +41,25 @@ namespace mimosa
           "\r\n";
         Request rq;
         EXPECT_EQ(true, rq.parse(str, sizeof (str)));
-        EXPECT_EQ(rq.host_, "www.toto.com");
-        EXPECT_EQ(rq.keep_alive_, true);
-        EXPECT_EQ(rq.content_length_, 854);
-        EXPECT_EQ(rq.content_type_, "text/*");
-        EXPECT_EQ(rq.referrer_, "http://tutu.com/hoho%34/?tutu=tata;#anchor");
-        EXPECT_EQ(rq.user_agent_, "TomBoy (esapce compatible)");
+        EXPECT_EQ(rq.host(), "www.toto.com");
+        EXPECT_EQ(rq.keepAlive(), true);
+        EXPECT_EQ(rq.contentLength(), 854);
+        EXPECT_EQ(rq.contentType(), "text/*");
+        EXPECT_EQ(rq.referrer(), "http://tutu.com/hoho%34/?tutu=tata;#anchor");
+        EXPECT_EQ(rq.userAgent(), "TomBoy (esapce compatible)");
 
-        auto it = rq.cookies_.find("attr1");
-        EXPECT_NE(it, rq.cookies_.end());
-        if (it != rq.cookies_.end())
+        auto it = rq.cookies().find("attr1");
+        EXPECT_NE(it, rq.cookies().end());
+        if (it != rq.cookies().end())
           EXPECT_EQ(it->second, "value1");
-        it = rq.cookies_.find("attr5");
-        EXPECT_NE(it, rq.cookies_.end());
-        if (it != rq.cookies_.end())
+        it = rq.cookies().find("attr5");
+        EXPECT_NE(it, rq.cookies().end());
+        if (it != rq.cookies().end())
           EXPECT_EQ(it->second, std::string("xvalueo\""));
 
-        it = rq.unparsed_headers_.find("SomeKey");
-        EXPECT_NE(it, rq.unparsed_headers_.end());
-        if (it != rq.unparsed_headers_.end())
+        it = rq.unparsedHeaders().find("SomeKey");
+        EXPECT_NE(it, rq.unparsedHeaders().end());
+        if (it != rq.unparsedHeaders().end())
           EXPECT_EQ(it->second, "SomeValue");
       }
     }
