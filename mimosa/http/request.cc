@@ -3,6 +3,7 @@
 #include "request-lexer.hh"
 #include "../uri/normalize-path.hh"
 #include "../uri/parse-query.hh"
+#include "../uri/percent-encoding.hh"
 
 int mimosa_http_request_parse(yyscan_t scanner, mimosa::http::Request & request);
 
@@ -71,7 +72,9 @@ namespace mimosa
       auto pos = raw_location_.find_first_of("?#");
       if (pos == std::string::npos)
         pos = raw_location_.size();
-      uri::normalizePath(raw_location_.data(), pos, &location_);
+      std::string decoded;
+      uri::percentDecode(raw_location_.data(), pos, &decoded);
+      uri::normalizePath(decoded.data(), decoded.size(), &location_);
       return location_;
     }
 
@@ -89,7 +92,9 @@ namespace mimosa
       auto end = raw_location_.find_first_of('#');
       if (end == std::string::npos)
         end = raw_location_.size();
-      uri::parseQuery(raw_location_.data() + start, end - start, &query_);
+      std::string decoded;
+      uri::percentDecode(raw_location_.data() + start, end - start, &decoded);
+      uri::parseQuery(decoded.data(), decoded.size(), &query_);
       return query_;
     }
   }
