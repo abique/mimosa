@@ -18,10 +18,7 @@ namespace mimosa
     {
       uint64_t can_write = nbytes > wbytes_left_ ? wbytes_left_ : nbytes;
       if (can_write == 0)
-      {
-        errno = EFBIG;
-        return -1;
-      }
+        return 0;
 
       int64_t wbytes = stream_->write(data, can_write, timeout);
       if (wbytes <= 0)
@@ -36,10 +33,7 @@ namespace mimosa
     {
       uint64_t can_read = nbytes > rbytes_left_ ? rbytes_left_ : nbytes;
       if (can_read == 0)
-      {
-        errno = EFBIG;
-        return -1;
-      }
+        return 0;
 
       int64_t rbytes = stream_->write(data, can_read, timeout);
       if (rbytes <= 0)
