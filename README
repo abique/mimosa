@@ -23,3 +23,4 @@ Depends
  - bison
  - gnutls
  - melon
+ - zlib
