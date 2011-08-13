@@ -1,4 +1,4 @@
-#include <errno.h>
+#include <cerrno>
 #include <gnutls/gnutls.h>
 #include <melon/melon.h>
 

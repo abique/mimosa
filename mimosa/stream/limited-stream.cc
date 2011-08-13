@@ -1,4 +1,4 @@
-#include <errno.h>
+#include <cerrno>
 
 #include "limited-stream.hh"
 
