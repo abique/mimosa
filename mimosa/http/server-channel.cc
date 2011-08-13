@@ -31,8 +31,7 @@ namespace mimosa
     bool
     ServerChannel::readRequest()
     {
-      timeout_ = read_timeout_ > 0 ? runtime::time() + read_timeout_ : 0;
-      stream::Buffer::Ptr buffer = stream_->readUntil("\r\n\r\n", timeout_);
+      stream::Buffer::Ptr buffer = stream_->readUntil("\r\n\r\n", readTimeout());
       if (!buffer)
       {
         requestTimeout();
@@ -53,14 +52,14 @@ namespace mimosa
     {
       if (!request_.hasBody())
         return true;
-      // TODO
+      assert(false && "TODO");
       return true;
     }
 
     bool
     ServerChannel::setupResponseWriter()
     {
-      // TODO
+      response_.stream_ = new ResponseWriter(response_, stream_);
       return true;
     }
 
@@ -73,7 +72,9 @@ namespace mimosa
     bool
     ServerChannel::sendResponse()
     {
-      // TODO
+      assert(false && "TODO");
+      if (!response_.stream_->flush(writeTimeout()))
+        return false;
       return true;
     }
   }

@@ -37,9 +37,8 @@ namespace mimosa
 
       Buffer buffer(rsize);
       rsize = stream_->read(buffer.data(), rsize, timeout);
-      if (rsize == -1)
+      if (rsize == (uLong)-1)
         return -1;
-      uLong nbytes_ = nbytes;
       int ret = ::compress2((Bytef*)data, &nbytes, (Bytef*)buffer.data(), rsize, level_);
       if (ret != Z_OK)
         return -1; // kind of fatal error at this point if we don't save

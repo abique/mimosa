@@ -127,6 +127,12 @@ namespace mimosa
         }
       }
 
+      inline void clear()
+      {
+        size_ = 0;
+        tail_ = nullptr;
+      }
+
       iterator begin() const { return iterator(*this, (tail_->*Member).next_); }
       iterator end() const { return iterator(*this, nullptr); }
 

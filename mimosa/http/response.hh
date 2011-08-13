@@ -12,6 +12,8 @@ namespace mimosa
 {
   namespace http
   {
+    class ResponseWriter;
+
     class Response
     {
     public:
@@ -35,6 +37,8 @@ namespace mimosa
       stream::Stream::Ptr body_;
 
     private:
+      friend class ResponseWriter;
+
       bool                is_response_header_sent_;
       bool                is_finished_;
     };

@@ -19,6 +19,8 @@ namespace mimosa
     {
     public:
       Buffer(uint64_t size = 64 * 1024);
+      /** constructs a copy of the data buffer */
+      Buffer(const char * data, uint64_t size);
       ~Buffer();
 
       inline uint64_t size() const { return size_; }

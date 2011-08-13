@@ -8,6 +8,7 @@ add_library(mimosa-http
   request.cc
   request-lexer.cc
   request-parser.cc
+  response-writer.cc
   )
 
 target_link_libraries(mimosa-http mimosa-uri mimosa-stream mimosa-net)
