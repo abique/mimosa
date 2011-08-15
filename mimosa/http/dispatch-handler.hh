@@ -17,7 +17,7 @@ namespace mimosa
       /**
        * @param pattern a globbing pattern */
       void registerHandler(const std::string & pattern, Handler::ConstPtr handler);
-      virtual bool handle(Request & request, Response & response) const;
+      virtual bool handle(Request & request, ResponseWriter & response) const;
 
       inline void setErrorHandler(ErrorHandler::ConstPtr handler) { error_handler_ = handler; }
 

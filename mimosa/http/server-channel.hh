@@ -2,7 +2,7 @@
 # define MIMOSA_HTTP_SERVERCHANNEL_HH
 
 # include "../non-copyable.hh"
-# include "../stream/buffered-stream.hh"
+# include "../stream/fd-stream.hh"
 # include "handler.hh"
 # include "request.hh"
 # include "response.hh"
@@ -14,10 +14,10 @@ namespace mimosa
     class ServerChannel : private NonCopyable
     {
     public:
-      ServerChannel(stream::BufferedStream::Ptr stream,
-                    Handler::Ptr                handler,
-                    runtime::Time               read_timeout  = 0,
-                    runtime::Time               write_timeout = 0);
+      ServerChannel(stream::FdStream::Ptr stream,
+                    Handler::Ptr          handler,
+                    runtime::Time         read_timeout  = 0,
+                    runtime::Time         write_timeout = 0);
 
       void run();
 
@@ -34,13 +34,13 @@ namespace mimosa
       inline runtime::Time readTimeout() const { return read_timeout_ > 0 ? runtime::time() + read_timeout_ : 0; }
       inline runtime::Time writeTimeout() const { return write_timeout_ > 0 ? runtime::time() + write_timeout_ : 0; }
 
-      stream::BufferedStream::Ptr stream_;
-      Handler::Ptr                handler_;
-      runtime::Time               read_timeout_;
-      runtime::Time               write_timeout_;
-      runtime::Time               timeout_;
-      Request                     request_;
-      Response                    response_;
+      stream::FdStream::Ptr stream_;
+      Handler::Ptr          handler_;
+      runtime::Time         read_timeout_;
+      runtime::Time         write_timeout_;
+      runtime::Time         timeout_;
+      Request               request_;
+      Response              response_;
     };
   }
 }

@@ -8,13 +8,13 @@ namespace mimosa
   namespace http
   {
     class Request;
-    class Response;
+    class ResponseWriter;
 
     class Handler : public RefCountable<Handler>
     {
     public:
       virtual ~Handler() {}
-      virtual bool handle(Request & request, Response & response) const = 0;
+      virtual bool handle(Request & request, ResponseWriter & response) const = 0;
     };
   }
 }

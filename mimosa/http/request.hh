@@ -1,11 +1,10 @@
 #ifndef MIMOSA_HTTP_REQUEST_HH
 # define MIMOSA_HTTP_REQUEST_HH
 
-# include <string>
 # include <vector>
 # include <map>
-# include <unordered_map>
 
+# include "../container/kvs.hh"
 # include "../stream/stream.hh"
 # include "coding.hh"
 # include "method.hh"
@@ -17,8 +16,6 @@ namespace mimosa
     class Request
     {
     public:
-
-      typedef std::unordered_multimap<std::string, std::string> kvs;
 
       Request();
 
@@ -52,7 +49,7 @@ namespace mimosa
       inline void setHost(const std::string & s) { host_ = s; }
 
       const std::string & location() const;
-      const kvs & query() const;
+      const container::kvs & query() const;
 
       int acceptEncoding() const { return accept_encoding_; }
       void setAcceptEncoding(int v) { accept_encoding_ = v; }
@@ -60,7 +57,7 @@ namespace mimosa
       bool keepAlive() const { return keep_alive_; }
       void setKeepAlive(bool v) { keep_alive_ = v; }
 
-      const kvs & cookies() const { return cookies_; }
+      const container::kvs & cookies() const { return cookies_; }
       inline void addCookie(const std::string & key,
                             const std::string & value)
       {
@@ -82,7 +79,7 @@ namespace mimosa
       inline const std::string & referrer() const { return referrer_; }
       inline void setReferrer(const std::string & s) { referrer_ = s; }
 
-      inline const kvs & unparsedHeaders() const { return unparsed_headers_; }
+      inline const container::kvs & unparsedHeaders() const { return unparsed_headers_; }
       inline void addHeader(const std::string & key,
                             const std::string & value)
       {
@@ -99,17 +96,17 @@ namespace mimosa
       std::string host_;
 
       // cleaned up location and queries
-      mutable bool        location_normalized_;
-      mutable std::string location_;
-      mutable bool        query_parsed_;
-      mutable kvs         query_;
+      mutable bool           location_normalized_;
+      mutable std::string    location_;
+      mutable bool           query_parsed_;
+      mutable container::kvs query_;
 
       // basic stuff
       int  accept_encoding_;    // Coding bitfield
       bool keep_alive_;         // keep the connection ?
 
       // mmmiiam cookies :^)
-      kvs cookies_;
+      container::kvs cookies_;
 
       // post and put details
       uint64_t            content_length_;
@@ -121,7 +118,7 @@ namespace mimosa
       std::string user_agent_;
 
       // other headers
-      kvs unparsed_headers_;
+      container::kvs unparsed_headers_;
     };
   }
 }

@@ -28,7 +28,7 @@ namespace mimosa
     int64_t
     ResponseWriter::write(const char * data, uint64_t nbytes, runtime::Time timeout)
     {
-      if (response_.is_response_header_sent_)
+      if (header_sent_)
         return stream_->write(data, nbytes, timeout);
       stream::Buffer::Ptr buffer = new stream::Buffer(data, nbytes);
       buffers_.push(*buffer);

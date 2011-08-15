@@ -13,12 +13,12 @@ namespace mimosa
     public:
       inline virtual ~ErrorHandler() {}
 
-      inline virtual bool handle(Request & request, Response & response, Status status) const
+      inline virtual bool handle(Request & request, ResponseWriter & response, Status status) const
       {
         return basicResponse(request, response, status);
       }
 
-      static bool basicResponse(Request & request, Response & response, Status status);
+      static bool basicResponse(Request & request, ResponseWriter & response, Status status);
     };
   }
 }

@@ -78,7 +78,7 @@ namespace mimosa
       return location_;
     }
 
-    const Request::kvs &
+    const container::kvs &
     Request::query() const
     {
       if (query_parsed_)

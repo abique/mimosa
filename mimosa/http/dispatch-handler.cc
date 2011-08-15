@@ -14,7 +14,7 @@ namespace mimosa
     }
 
     bool
-    DispatchHandler::handle(Request & request, Response & response) const
+    DispatchHandler::handle(Request & request, ResponseWriter & response) const
     {
       for (auto it = handlers_.cbegin(); it != handlers_.cend(); ++it)
         if (!::fnmatch(it->first.c_str(), request.location().c_str(), FNM_PATHNAME))
