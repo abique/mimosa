@@ -20,7 +20,7 @@ namespace mimosa
     void
     Server::newClient(Server::Ptr server, int fd)
     {
-      stream::BufferedStream::Ptr stream(new stream::FdStream(fd));
+      stream::FdStream::Ptr stream(new stream::FdStream(fd));
       std::unique_ptr<ServerChannel> channel(
         new ServerChannel(stream,
                           server->handler_,

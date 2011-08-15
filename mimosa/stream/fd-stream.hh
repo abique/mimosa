@@ -10,6 +10,8 @@ namespace mimosa
     class FdStream : public BufferedStream
     {
     public:
+      MIMOSA_DEF_PTR(FdStream);
+
       FdStream(int fd, uint64_t buffer_size = 64 * 1024, bool is_readable = 1, bool is_writable = 1);
     };
   }

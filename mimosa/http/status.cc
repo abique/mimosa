@@ -11,7 +11,7 @@ namespace mimosa
       case kStatusContinue:                     return "Continue";
       case kStatusSwitchingProtocols:           return "SwitchingProtocols";
 
-      case kStatusOK:                           return "OK";
+      case kStatusOk:                           return "OK";
       case kStatusCreated:                      return "Created";
       case kStatusAccepted:                     return "Accepted";
       case kStatusNonAuthoritativeInfo:         return "NonAuthoritativeInfo";

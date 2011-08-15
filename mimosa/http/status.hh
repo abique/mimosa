@@ -10,7 +10,7 @@ namespace mimosa
       kStatusContinue                     = 100,
       kStatusSwitchingProtocols           = 101,
 
-      kStatusOK                           = 200,
+      kStatusOk                           = 200,
       kStatusCreated                      = 201,
       kStatusAccepted                     = 202,
       kStatusNonAuthoritativeInfo         = 203,

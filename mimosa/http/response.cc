@@ -4,17 +4,22 @@ namespace mimosa
 {
   namespace http
   {
-    bool
-    Response::hasBody() const
+    Response::Response()
+      : status_(200),
+        keep_alive_(kStatusOk),
+        content_encoding_(kCodingIdentity),
+        transfer_encoding_(kCodingIdentity),
+        content_length_(0),
+        cookies_(),
+        unparsed_headers_()
     {
-      return body_;
     }
 
     std::string &&
     Response::toHttpHeader() const
     {
       std::ostringstream os;
-      os << "HTTP/1.1 " << status_ << "\r\n"
+      os << "HTTP/1.1 " << status_ << " " << statusToString(status_) <<"\r\n"
          << "Server: mimosa\r\n"
          << "Connection: " << (keep_alive_ ? "Keep-Alive" : "Close") << "\r\n";
       if (content_length_ > 0)
