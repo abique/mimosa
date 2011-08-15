@@ -72,6 +72,9 @@ namespace mimosa
     bool
     ServerChannel::sendResponse()
     {
+      if (response_.is_response_header_sent_)
+        return true;
+      return response_.sendResponseHeader();
       assert(false && "TODO");
       if (!response_.stream_->flush(writeTimeout()))
         return false;

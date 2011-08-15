@@ -2,6 +2,7 @@
 # define MIMOSA_HTTP_RESPONSE_HH
 
 # include <string>
+# include <unordered>
 
 # include "coding.hh"
 # include "status.hh"
@@ -18,6 +19,7 @@ namespace mimosa
     {
     public:
       bool hasBody() const;
+      stream::Stream::Ptr body() const;
 
       /** Writes the header to the client.
        * If content_length_ is 0 then the content length is unspecified
@@ -28,19 +30,23 @@ namespace mimosa
        * amount of data to be written and set content_length_ */
       bool sendResponseHeader();
 
+      /** convert the response to an http response header */
+      std::string && toHttpHeader() const;
+
       Status              status_;
       bool                keep_alive_;
       Coding              content_encoding_;
       Coding              transfer_encoding_;
       uint64_t            content_length_;
       Cookie::Slist       cookies_;
-      stream::Stream::Ptr body_;
+      std::unordered_map<std::string, std::string> unparsed_headers_;
 
     private:
       friend class ResponseWriter;
 
       bool                is_response_header_sent_;
       bool                is_finished_;
+      stream::Stream::Ptr body_;
     };
   }
 }
