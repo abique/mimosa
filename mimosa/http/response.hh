@@ -2,7 +2,7 @@
 # define MIMOSA_HTTP_RESPONSE_HH
 
 # include <string>
-# include <unordered>
+# include <unordered_map>
 
 # include "coding.hh"
 # include "status.hh"

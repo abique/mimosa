@@ -2,6 +2,7 @@
 # define MIMOSA_CONTAINER_INTRUSIVE_SLIST_HH
 
 # include <cassert>
+# include <cstddef>
 
 # include "../non-copyable.hh"
 
