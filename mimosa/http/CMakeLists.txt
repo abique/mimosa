@@ -4,6 +4,7 @@ mimosa_bison(request-parser)
 add_library(mimosa-http
   cookie.cc
   dispatch-handler.cc
+  error-handler.cc
   fs-handler.cc
   status.cc
   server.cc

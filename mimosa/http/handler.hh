@@ -2,6 +2,8 @@
 # define MIMOSA_HTTP_HANDLER_HH
 
 # include "../ref-countable.hh"
+# include "request.hh"
+# include "response-writer.hh"
 
 namespace mimosa
 {
