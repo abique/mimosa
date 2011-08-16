@@ -10,7 +10,7 @@ namespace mimosa
   {
     Server::Server()
       : handler_(0),
-        fd_(0),
+        fd_(-1),
         stop_(false),
         accept_loop_(0)
     {
@@ -25,7 +25,7 @@ namespace mimosa
     Server::listenInet4(uint16_t port, const struct ::in_addr * interface)
     {
       stop();
-      fd_ = ::socket(AF_INET, SOCK_STREAM, PF_INET);
+      fd_ = ::socket(AF_INET, SOCK_STREAM, 0);
       if (fd_ < 0)
         return false;
 

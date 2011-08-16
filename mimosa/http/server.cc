@@ -14,7 +14,7 @@ namespace mimosa
         write_timeout_(0),
         handler_()
     {
-      onAccept(new AcceptHandler(std::bind(&Server::newClient, Server::Ptr(this), std::placeholders::_1)));
+      onAccept(new AcceptHandler(std::bind(&Server::newClient, this, std::placeholders::_1)));
     }
 
     void

@@ -11,7 +11,9 @@ MIMOSA_MAIN(argc, argv)
   (void)argv;
 
   g_server = new http::Server;
-  assert(false);
   auto ret = g_server->listenInet4(4242);
+  if (!ret)
+    puts("failed to listen");
+  //assert(false);
   return 0;
 }
