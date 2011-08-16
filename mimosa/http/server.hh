@@ -9,10 +9,11 @@ namespace mimosa
 {
   namespace http
   {
-    class Server : public net::Server,
-                   public RefCountable<Server>
+    class Server : public net::Server
     {
     public:
+      MIMOSA_DEF_PTR(Server);
+
       Server();
       inline void setHandler(Handler::Ptr handler) { handler_ = handler; }
 

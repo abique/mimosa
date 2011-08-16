@@ -26,7 +26,7 @@ namespace mimosa
       virtual int64_t readv(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
 
       /** flushes the write buffer */
-      virtual bool flush(runtime::Time /*timeout*/) { return true; }
+      inline virtual bool flush(runtime::Time /*timeout*/) { return true; }
     };
   }
 }

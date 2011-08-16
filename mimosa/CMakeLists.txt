@@ -8,6 +8,12 @@ install(FILES
   ref-counted-ptr.hh
   DESTINATION include/mimosa/)
 
+# just to make files appears on qtcreator
+file(GLOB HEADERS *.hh *.hxx */*.hh */*.hxx)
+
+add_library(mimosa init.cc ${HEADERS})
+target_link_libraries(mimosa melon gnutls)
+
 add_subdirectory(stream)
 add_subdirectory(string)
 add_subdirectory(uri)
@@ -16,8 +22,4 @@ add_subdirectory(net)
 add_subdirectory(http)
 add_subdirectory(sync)
 
-# just to make files appears on qtcreator
-file(GLOB HEADERS *.hh *.hxx */*.hh */*.hxx)
-
-add_library(mimosa init.cc ${HEADERS})
-target_link_libraries(mimosa gnutls)
+add_subdirectory(tests)

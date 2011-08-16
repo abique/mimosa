@@ -1,3 +1,4 @@
+#include <sstream>
 #include "response.hh"
 
 namespace mimosa
@@ -5,8 +6,8 @@ namespace mimosa
   namespace http
   {
     Response::Response()
-      : status_(200),
-        keep_alive_(kStatusOk),
+      : status_(kStatusOk),
+        keep_alive_(false),
         content_encoding_(kCodingIdentity),
         transfer_encoding_(kCodingIdentity),
         content_length_(0),
@@ -26,7 +27,7 @@ namespace mimosa
         os << "Content-Length: " << content_length_ << "\r\n";
       for (auto it = cookies_.begin(); it != cookies_.end(); ++it)
       {
-        os << "Set-Cookie: " << it->key() << "=" << value->value();
+        os << "Set-Cookie: " << it->key() << "=" << it->value();
         if (it->isSecure())
           os << "; Secure";
         if (it->isHttpOnly())

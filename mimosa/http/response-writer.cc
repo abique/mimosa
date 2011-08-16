@@ -7,9 +7,8 @@ namespace mimosa
 {
   namespace http
   {
-    ResponseWriter::ResponseWriter(Response & response, stream::FdStream::Ptr stream)
-      : response_(response),
-        stream_(stream),
+    ResponseWriter::ResponseWriter(stream::FdStream::Ptr stream)
+      : stream_(stream),
         buffers_(),
         header_sent_(false)
     {
@@ -65,6 +64,13 @@ namespace mimosa
     ResponseWriter::finish(runtime::Time timeout)
     {
       return sendHeader(timeout) && flush(timeout);
+    }
+
+    bool
+    ResponseWriter::sendHeader(runtime::Time timeout)
+    {
+      assert(false);
+      return false;
     }
   }
 }

@@ -4,10 +4,10 @@ namespace mimosa
 {
   namespace http
   {
-    ServerChannel::ServerChannel(BufferedStream::Ptr stream,
-                                 Handler::Ptr        handler,
-                                 runtime::Time       read_timeout,
-                                 runtime::Time       write_timeout)
+    ServerChannel::ServerChannel(stream::FdStream::Ptr stream,
+                                 Handler::Ptr          handler,
+                                 runtime::Time         read_timeout,
+                                 runtime::Time         write_timeout)
       : stream_(stream),
         handler_(handler),
         read_timeout_(read_timeout),
@@ -21,11 +21,10 @@ namespace mimosa
       do {
         if (!readRequest() ||
             !setupBodyReader() ||
-            !setupResponseWriter() ||
             !runHandler() ||
             !sendResponse())
           break;
-      } while (response_.keep_alive_);
+      } while (response_->keep_alive_);
     }
 
     bool
@@ -38,6 +37,7 @@ namespace mimosa
         return false;
       }
 
+      request_.clear();
       if (!request_.parse(buffer->data(), buffer->size() + 2))
       {
         badRequest();
@@ -50,29 +50,39 @@ namespace mimosa
     bool
     ServerChannel::setupBodyReader()
     {
-      if (!request_.hasBody())
-        return true;
-      assert(false && "TODO");
+      //assert(false && "TODO");
       return true;
     }
 
     bool
     ServerChannel::setupResponseWriter()
     {
-      response_.stream_ = new ResponseWriter(response_, stream_);
+      response_ = new ResponseWriter(stream_);
       return true;
     }
 
     bool
-    ServerChannel::runHanlder()
+    ServerChannel::runHandler()
     {
-      return handler_->handle(request_, response_);
+      return handler_->handle(request_, *response_);
     }
 
     bool
     ServerChannel::sendResponse()
     {
-      return response_.finish(writeTimeout());
+      return response_->finish(writeTimeout());
     }
+
+    void
+    ServerChannel::requestTimeout()
+    {
+      assert(false);
+    }
+
+    void
+    ServerChannel::badRequest()
+    {
+      assert(false);
+    };
   }
 }

@@ -14,7 +14,7 @@ namespace mimosa
 {
   namespace net
   {
-    class Server
+    class Server : public RefCountable<Server>
     {
     public:
       Server();
@@ -25,11 +25,11 @@ namespace mimosa
       bool listenUnix(const std::string & path);
       bool listenInet4(uint16_t port, const struct ::in_addr * interface = 0);
       bool listenInet6(uint16_t port, const struct ::in6_addr * interface = 0);
-      void onAccept(AcceptHandler::Ptr handler);
+      inline void onAccept(AcceptHandler::Ptr handler) { handler_ = handler; }
       void stop();
 
     private:
-      void acceptLoop();
+      static void acceptLoop(Server::Ptr server);
 
       AcceptHandler::Ptr handler_;
       int                fd_;

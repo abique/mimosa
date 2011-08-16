@@ -221,5 +221,12 @@ namespace mimosa
         }
       }
     }
+
+    bool
+    BufferedStream::flush(runtime::Time timeout)
+    {
+      assert(false);
+      return true;
+    }
   }
 }

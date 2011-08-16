@@ -6,3 +6,5 @@ install(FILES
 
 add_library(mimosa-runtime
   fiber.cc)
+
+target_link_libraries(mimosa-runtime mimosa)

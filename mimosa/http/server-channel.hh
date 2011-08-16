@@ -5,7 +5,7 @@
 # include "../stream/fd-stream.hh"
 # include "handler.hh"
 # include "request.hh"
-# include "response.hh"
+# include "response-writer.hh"
 
 namespace mimosa
 {
@@ -40,7 +40,7 @@ namespace mimosa
       runtime::Time         write_timeout_;
       runtime::Time         timeout_;
       Request               request_;
-      Response              response_;
+      ResponseWriter::Ptr   response_;
     };
   }
 }

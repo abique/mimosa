@@ -31,7 +31,7 @@ namespace mimosa
 
       // enable reuse of the port after the close
       static const int enable = 1;
-      setsockopt(fd_, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable));
+      ::setsockopt(fd_, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable));
 
       struct sockaddr_in addr;
       addr.sin_addr.s_addr = interface ? interface->s_addr : INADDR_ANY;
@@ -39,10 +39,10 @@ namespace mimosa
       addr.sin_port = port;
       if (::bind(fd_, (struct sockaddr *)&addr, sizeof (addr)))
         goto failure;
-      if (listen(fd_, 10))
+      if (::listen(fd_, 10))
         goto failure;
       try {
-        this->accept_loop_ = new runtime::Fiber(std::bind(&Server::acceptLoop, this));
+        this->accept_loop_ = new runtime::Fiber(std::bind(&Server::acceptLoop, Server::Ptr(this)));
       } catch (...) {
         goto failure;
       }
@@ -56,15 +56,15 @@ namespace mimosa
     }
 
     void
-    Server::acceptLoop()
+    Server::acceptLoop(Server::Ptr server)
     {
-      while (!stop_)
+      while (!server->stop_)
       {
-        int fd = ::melon_accept(fd_, 0, 0, 0);
+        int fd = ::melon_accept(server->fd_, 0, 0, 0);
         if (fd < 0)
           continue;
         try {
-          runtime::Fiber::start([handler_, fd]() { (*handler_)(fd); });
+          runtime::Fiber::start([server, fd]() { (*server->handler_)(fd); });
         } catch (...) {
           ::close(fd);
         }

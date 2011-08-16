@@ -19,7 +19,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(ResponseWriter);
 
-      ResponseWriter(Response & response, stream::FdStream::Ptr stream);
+      ResponseWriter(stream::FdStream::Ptr stream);
       ~ResponseWriter();
 
       /** Stream related stuff
@@ -50,7 +50,6 @@ namespace mimosa
       /** body length (to be written) */
       uint64_t pendingWrite() const;
 
-      Response &            response_;
       stream::FdStream::Ptr stream_;
       stream::Buffer::Slist buffers_;
       bool                  header_sent_;
