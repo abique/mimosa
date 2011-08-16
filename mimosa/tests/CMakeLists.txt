@@ -1,0 +1,1 @@
+mimosa_test(mimosa tst-ref-countable.cc)
