@@ -8,6 +8,7 @@
 
 namespace mimosa
 {
+#if 0
   static int gnutls_mutex_init(void ** mutex)
   {
     ::melon_mutex ** m = reinterpret_cast< ::melon_mutex **>(mutex);
@@ -39,6 +40,7 @@ namespace mimosa
     ::melon_mutex_destroy(*m);
     return 0;
   }
+#endif
 
   void init(int argc, char ** argv)
   {
@@ -46,9 +48,9 @@ namespace mimosa
       throw int(0); // FIXME
 
     google::ParseCommandLineFlags(&argc, &argv, true);
-    ::gnutls_global_set_mutex(gnutls_mutex_init, gnutls_mutex_lock,
-                              gnutls_mutex_unlock, gnutls_mutex_deinit);
-    ::gnutls_global_init();
+    // ::gnutls_global_set_mutex(gnutls_mutex_init, gnutls_mutex_lock,
+    //                           gnutls_mutex_unlock, gnutls_mutex_deinit);
+    // ::gnutls_global_init();
   }
 
   void wait()
@@ -58,7 +60,7 @@ namespace mimosa
 
   void deinit()
   {
-    ::gnutls_global_deinit ();
+    //::gnutls_global_deinit ();
     ::melon_deinit();
   }
 }
