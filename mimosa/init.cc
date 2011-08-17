@@ -61,6 +61,7 @@ namespace mimosa
   void deinit()
   {
     //::gnutls_global_deinit ();
+    google::ShutDownCommandLineFlags();
     ::melon_deinit();
   }
 }
