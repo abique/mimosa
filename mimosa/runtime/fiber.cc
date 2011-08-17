@@ -40,6 +40,28 @@ namespace mimosa
       fiber_ = 0;
     }
 
+    bool Fiber::tryJoin()
+    {
+      if (!fiber_)
+        return false;
+
+      if (::melon_fiber_tryjoin(fiber_, NULL))
+        return false;
+      fiber_ = 0;
+      return true;
+    }
+
+    bool Fiber::timedJoin(Time timeout)
+    {
+      if (!fiber_)
+        return false;
+
+      if (::melon_fiber_timedjoin(fiber_, NULL, timeout))
+        return false;
+      fiber_ = 0;
+      return true;
+    }
+
     void Fiber::detach()
     {
       if (!fiber_)

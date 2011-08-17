@@ -7,6 +7,7 @@
 # include <melon/melon.h>
 
 # include "../non-copyable.hh"
+# include "time.hh"
 
 namespace mimosa
 {
@@ -37,7 +38,10 @@ namespace mimosa
 
       Fiber(std::function<void ()> && fct);
       ~Fiber();
+
       void join();
+      bool tryJoin();
+      bool timedJoin(Time timeout);
       void detach();
 
     private:
