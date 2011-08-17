@@ -15,7 +15,7 @@ namespace mimosa
 
     DirectFdStream::~DirectFdStream()
     {
-      ::close(fd_);
+      ::melon_close(fd_);
       fd_ = -1;
     }
 
