@@ -79,9 +79,12 @@ namespace mimosa
         assert(accept_loop_);
 
         stop_ = true;
-        ::melon_close(fd_);
-        accept_loop_->join();
+        do {
+          puts("canceling io...");
+          ::melon_cancelio(fd_);
+        } while (!accept_loop_->timedJoin(runtime::time() + runtime::milliseconds(1)));
         delete accept_loop_;
+        ::melon_close(fd_);
         accept_loop_ = 0;
         fd_ = -1;
       }
