@@ -130,8 +130,9 @@ namespace mimosa
 
       inline void clear()
       {
-        size_ = 0;
-        tail_ = nullptr;
+        // poping everything to unlink (and potentially release while unref)
+        while (!empty())
+          pop();
       }
 
       iterator begin() const { return empty() ? end() : iterator(*this, (tail_->*Member).next_); }
