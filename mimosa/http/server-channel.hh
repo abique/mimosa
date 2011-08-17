@@ -18,6 +18,7 @@ namespace mimosa
                     Handler::Ptr          handler,
                     runtime::Time         read_timeout  = 0,
                     runtime::Time         write_timeout = 0);
+      ~ServerChannel();
 
       void run();
 

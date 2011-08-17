@@ -18,6 +18,10 @@ namespace mimosa
     {
     }
 
+    ServerChannel::~ServerChannel()
+    {
+    }
+
     void
     ServerChannel::run()
     {
