@@ -19,13 +19,14 @@ namespace mimosa
       Response();
 
       /** convert the response to an http response header */
-      std::string && toHttpHeader() const;
+      std::string toHttpHeader() const;
 
       Status         status_;
       bool           keep_alive_;
       Coding         content_encoding_;
       Coding         transfer_encoding_;
       uint64_t       content_length_;
+      std::string    content_type_;
       Cookie::Slist  cookies_;
       container::kvs unparsed_headers_;
     };

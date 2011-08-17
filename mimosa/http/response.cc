@@ -11,12 +11,13 @@ namespace mimosa
         content_encoding_(kCodingIdentity),
         transfer_encoding_(kCodingIdentity),
         content_length_(0),
+        content_type_("text/plain"),
         cookies_(),
         unparsed_headers_()
     {
     }
 
-    std::string &&
+    std::string
     Response::toHttpHeader() const
     {
       std::ostringstream os;
@@ -25,6 +26,8 @@ namespace mimosa
          << "Connection: " << (keep_alive_ ? "Keep-Alive" : "Close") << "\r\n";
       if (content_length_ > 0)
         os << "Content-Length: " << content_length_ << "\r\n";
+      if (!content_type_.empty())
+        os << "Content-Type: " << content_type_ << "\r\n";
       for (auto it = cookies_.begin(); it != cookies_.end(); ++it)
       {
         os << "Set-Cookie: " << it->key() << "=" << it->value();
@@ -41,6 +44,7 @@ namespace mimosa
         os << "\r\n";
       }
       os << "\r\n";
+      return os.str();
     }
   }
 }

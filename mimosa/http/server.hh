@@ -15,6 +15,8 @@ namespace mimosa
       MIMOSA_DEF_PTR(Server);
 
       Server();
+      ~Server();
+
       inline void setHandler(Handler::Ptr handler) { handler_ = handler; }
 
     private:

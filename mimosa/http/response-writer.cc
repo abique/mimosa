@@ -57,20 +57,27 @@ namespace mimosa
                                    // and lazy programmer ;-)
       }
       buffers_.clear();
+      stream_->flush();
       return true;
     }
 
     bool
     ResponseWriter::finish(runtime::Time timeout)
     {
+      if (!header_sent_ && content_length_ == 0 && !buffers_.empty())
+        for (auto it = buffers_.begin(); it != buffers_.end(); ++it)
+          content_length_ += it->size();
       return sendHeader(timeout) && flush(timeout);
     }
 
     bool
     ResponseWriter::sendHeader(runtime::Time timeout)
     {
-      assert(false);
-      return false;
+      if (header_sent_)
+        return true;
+      header_sent_ = true;
+      auto data = toHttpHeader();
+      return stream_->write(data.data(), data.size(), timeout) == data.size();
     }
   }
 }

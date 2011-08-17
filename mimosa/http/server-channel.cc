@@ -11,7 +11,10 @@ namespace mimosa
       : stream_(stream),
         handler_(handler),
         read_timeout_(read_timeout),
-        write_timeout_(write_timeout)
+        write_timeout_(write_timeout),
+        timeout_(0),
+        request_(),
+        response_(nullptr)
     {
     }
 
@@ -21,6 +24,7 @@ namespace mimosa
       do {
         if (!readRequest() ||
             !setupBodyReader() ||
+            !setupResponseWriter() ||
             !runHandler() ||
             !sendResponse())
           break;
