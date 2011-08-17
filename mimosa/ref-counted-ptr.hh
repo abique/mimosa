@@ -15,14 +15,23 @@ namespace mimosa
     inline RefCountedPtr(T * ptr)
       : ptr_(ptr)
     {
-      if (ptr)
-        addRef(ptr);
+      if (ptr_)
+        addRef(ptr_);
+    }
+
+    inline RefCountedPtr(const RefCountedPtr<T> & ptr)
+      : ptr_(ptr.get())
+    {
+      if (ptr_)
+        addRef(ptr_);
     }
 
     template <typename U>
     inline RefCountedPtr(const RefCountedPtr<U> & ptr)
+      : ptr_(ptr.get())
     {
-      assign(ptr.get());
+      if (ptr_)
+        addRef(ptr_);
     }
 
     inline ~RefCountedPtr()

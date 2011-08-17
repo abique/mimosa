@@ -17,10 +17,10 @@ namespace mimosa
       obj = 0;
     }
 
-    TEST(RefCountable, CopyConstructor)
+    TEST(RefCountable, SimplePtr)
     {
       A::Ptr obj = new A;
-      A::Ptr obj2(obj);
+      A::Ptr obj2(obj.get());
     }
 
     TEST(RefCountable, Assign)
@@ -32,6 +32,12 @@ namespace mimosa
       obj2 = obj;
       obj2 = nullptr;
       obj2 = obj;
+    }
+
+    TEST(RefCountable, CopyConstructor)
+    {
+      A::Ptr obj = new A;
+      A::Ptr obj2(obj);
     }
   }
 }

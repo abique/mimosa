@@ -1,6 +1,8 @@
 #ifndef MIMOSA_REF_COUNTABLE_HH
 # define MIMOSA_REF_COUNTABLE_HH
 
+# include <cassert>
+
 # include "ref-counted-ptr.hh"
 
 namespace mimosa
@@ -27,12 +29,16 @@ namespace mimosa
 
     inline int addRef() const
     {
-      return __sync_add_and_fetch(&ref_count_, 1);
+      auto ret = __sync_add_and_fetch(&ref_count_, 1);
+      assert(ret >= 1);
+      return ret;
     }
 
     inline int releaseRef() const
     {
-      return __sync_add_and_fetch(&ref_count_, -1);
+      auto ret = __sync_add_and_fetch(&ref_count_, -1);
+      assert(ret >= 0);
+      return ret;
     }
 
     mutable int ref_count_;
