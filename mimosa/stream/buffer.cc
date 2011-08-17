@@ -18,7 +18,7 @@ namespace mimosa
     }
 
     Buffer::Buffer(const char * data, uint64_t size)
-      : size_(size + 4),
+      : size_(size),
         data_(reinterpret_cast<char *>(::malloc(size + 4)))
     {
       ::memcpy(data_, data, size);
