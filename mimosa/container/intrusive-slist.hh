@@ -134,7 +134,7 @@ namespace mimosa
         tail_ = nullptr;
       }
 
-      iterator begin() const { return iterator(*this, (tail_->*Member).next_); }
+      iterator begin() const { return empty() ? end() : iterator(*this, (tail_->*Member).next_); }
       iterator end() const { return iterator(*this, nullptr); }
 
     private:
