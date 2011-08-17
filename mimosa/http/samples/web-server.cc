@@ -33,11 +33,13 @@ MIMOSA_MAIN(argc, argv)
   server->setHandler(new HelloHandler);
   auto ret = server->listenInet4(FLAGS_port);
   if (!ret)
+  {
     puts("failed to listen");
-  else
-    printf("successfully listened on %d\n", FLAGS_port);
+    return 1;
+  }
 
-  mimosa::runtime::sleep(mimosa::runtime::seconds(1));
+  printf("listen on %d succeed\n", FLAGS_port);
+  mimosa::runtime::sleep(mimosa::runtime::minutes(15));
   server->stop();
   return 0;
 }
