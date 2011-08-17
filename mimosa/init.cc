@@ -2,6 +2,7 @@
 #include <cerrno>
 #include <gnutls/gnutls.h>
 #include <melon/melon.h>
+#include <gflags/gflags.h>
 
 #include "init.hh"
 
@@ -39,11 +40,12 @@ namespace mimosa
     return 0;
   }
 
-  void init(int /*argc*/, char ** /*argv*/)
+  void init(int argc, char ** argv)
   {
     if (::melon_init(0))
       throw int(0); // FIXME
 
+    google::ParseCommandLineFlags(&argc, &argv, true);
     ::gnutls_global_set_mutex(gnutls_mutex_init, gnutls_mutex_lock,
                               gnutls_mutex_unlock, gnutls_mutex_deinit);
     ::gnutls_global_init();
