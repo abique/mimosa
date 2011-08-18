@@ -15,6 +15,7 @@ namespace mimosa
         cookies_(),
         unparsed_headers_()
     {
+      clear(); // to ensure the same state
     }
 
     std::string
@@ -50,7 +51,14 @@ namespace mimosa
     void
     Response::clear()
     {
-      
+      status_            = kStatusOk;
+      keep_alive_        = false;
+      content_encoding_  = kCodingIdentity;
+      transfer_encoding_ = kCodingIdentity;
+      content_length_    = 0;
+      content_type_      = "text/plain";
+      cookies_.clear();
+      unparsed_headers_.clear();
     }
   }
 }

@@ -10,6 +10,7 @@ add_library(mimosa-http
   server.cc
   server-channel.cc
   request.cc
+  request-reader.cc
   request-lexer.cc
   request-parser.cc
   response.cc

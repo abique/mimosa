@@ -79,5 +79,13 @@ namespace mimosa
       auto data = toHttpHeader();
       return stream_->write(data.data(), data.size(), timeout) == data.size();
     }
+
+    void
+    ResponseWriter::clear()
+    {
+      Response::clear();
+      buffers_.clear();
+      header_sent_ = false;
+    }
   }
 }
