@@ -18,6 +18,15 @@ namespace mimosa
       virtual bool handle(RequestReader & request, ResponseWriter & response) const;
 
     private:
+      bool streamFile(RequestReader &     request,
+                      ResponseWriter &    response,
+                      const std::string & real_path,
+                      struct stat &       st) const;
+
+      bool readDir(RequestReader &     request,
+                   ResponseWriter &    response,
+                   const std::string & real_path) const;
+
       std::string root_;  // the root
       int         nskip_; // the number of directory to skip
                           // from the begining of the path

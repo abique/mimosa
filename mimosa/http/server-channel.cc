@@ -13,7 +13,7 @@ namespace mimosa
         read_timeout_(read_timeout),
         write_timeout_(write_timeout),
         timeout_(0),
-        request_(new RequestReader),
+        request_(new RequestReader(stream_)),
         response_(new ResponseWriter(stream_))
     {
     }
@@ -45,7 +45,7 @@ namespace mimosa
         return false;
       }
 
-      request_.clear();
+      request_->clear();
       if (!request_->parse(buffer->data(), buffer->size() + 2))
       {
         badRequest();

@@ -13,8 +13,8 @@ namespace mimosa
 
     /** This stream buffers output until sendHeader is called.
      * Then it writes directly to the underlying stream */
-    class ResponseWriter : public Response,
-                           public stream::Stream
+    class ResponseWriter : public stream::Stream,
+                           public Response
     {
     public:
       MIMOSA_DEF_PTR(ResponseWriter);

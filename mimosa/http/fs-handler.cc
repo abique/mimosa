@@ -1,3 +1,10 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+
+#include <sstream>
+
 #include "../string/string-ref.hh"
 #include "fs-handler.hh"
 #include "error-handler.hh"
@@ -23,7 +30,7 @@ namespace mimosa
         auto pos = path.find('/', 1);
         if (pos == string::StringRef::npos)
         {
-          if (nskip == 1 && path.size() > 1)
+          if (nskip == 1 && path.size() > 1) // our location is root and is not terminated by '/'
           {
             path = string::StringRef("/");
             break;
@@ -34,7 +41,74 @@ namespace mimosa
         }
         path = path.substr(pos);
       }
-      // TODO
+      // TODO: check every component for symlinks going out of root.
+
+      std::string real_path(root_);
+      real_path.append(path.data(), path.size());
+
+      struct stat st;
+      if (::stat(real_path.c_str(), &st))
+        return ErrorHandler::basicResponse(request, response, kStatusNotFound);
+
+      if (S_ISREG(st.st_mode))
+        return streamFile(request, response, real_path, st);
+      else if (S_ISDIR(st.st_mode))
+        return readDir(request, response, real_path);
+      return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+    }
+
+    bool
+    FsHandler::streamFile(RequestReader &     request,
+                          ResponseWriter &    response,
+                          const std::string & real_path,
+                          struct stat &       st) const
+    {
+      return false;
+    }
+
+    bool
+    FsHandler::readDir(RequestReader &     request,
+                       ResponseWriter &    response,
+                       const std::string & real_path) const
+    {
+      DIR * dir = ::opendir(real_path.c_str());
+      if (!dir)
+        return ErrorHandler::basicResponse(request, response, kStatusNotFound);
+
+      static const char * dir_tpl = // FUTURE ctemplate template
+        "<html>"
+        " <head></head>"
+        " <body>"
+        "  {{#ITEM}}{{TYPE}} <a href=\"{{URL}}\">{{PATH}}</a>{{/ITEM}}"
+        " </body>"
+        "</html>";
+
+      std::ostringstream os;
+
+      os << "<html><head></head><body>";
+
+      struct dirent * entry;
+      while ((entry = ::readdir(dir)))
+      {
+        switch (entry->d_type)
+        {
+        case DT_BLK:  os << "[BLK] ";     break;
+        case DT_CHR:  os << "[CHR] ";     break;
+        case DT_DIR:  os << "[DIR] ";     break;
+        case DT_FIFO: os << "[FIFO] ";    break;
+        case DT_LNK:  os << "[LNK] ";     break;
+        case DT_REG:  os << "[REG] ";     break;
+        case DT_SOCK: os << "[SOCK] ";    break;
+        case DT_UNKNOWN:
+        default:      os << "[UNKNOWN] "; break;
+        }
+        os << entry->d_name << "<br/>";
+      }
+      os << "</body></html>";
+
+      ::closedir(dir);
+      std::string data(os.str());
+      response.write(data.data(), data.size());
       return true;
     }
   }
