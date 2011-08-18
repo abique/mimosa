@@ -12,6 +12,8 @@ namespace mimosa
     class StringRef
     {
     public:
+      static const size_t npos = -1;
+
       inline StringRef() : data_(0), len_(0) {}
       inline StringRef(const char * string) : data_(string), len_(::strlen(string)) {}
       inline StringRef(const char * string, size_t len) : data_(string), len_(len) {}
@@ -27,6 +29,13 @@ namespace mimosa
         return streq(other);
       }
 
+      inline size_t find(char c, size_t pos) const {
+        if (pos >= len_)
+          return npos;
+        const char * found = static_cast<const char *>(::memchr(data_ + pos, c, len_ - pos));
+        return found ? found - data_ : npos;
+      }
+
       inline bool streq(const StringRef & other) const {
         return other.len_ == len_ && (other.data_ == data_ || !::strncmp(other.data_, data_, len_));
       }
@@ -34,8 +43,11 @@ namespace mimosa
         return other.len_ == len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, len_));
       }
 
-      inline StringRef substring(size_t start = 0, size_t n = -1) const {
-        assert(start + n <= len_);
+      inline StringRef substring(size_t start = 0, size_t n = npos) const {
+        if (start >= len_)
+          return StringRef();
+        if (n == npos || start + n >= len_)
+          n = len_ - start;
         return StringRef(data_ + start, n);
       }
 
