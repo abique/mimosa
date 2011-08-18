@@ -12,7 +12,7 @@ namespace mimosa
     class FsHandler : public Handler
     {
     public:
-      FsHandler(std::string && root, int nskip);
+      FsHandler(const std::string & root, int nskip);
 
       /** This is the handle method. It must be thread-safe. */
       virtual bool handle(Request & request, ResponseWriter & response) const;
