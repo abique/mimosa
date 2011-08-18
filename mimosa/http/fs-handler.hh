@@ -15,7 +15,7 @@ namespace mimosa
       FsHandler(const std::string & root, int nskip);
 
       /** This is the handle method. It must be thread-safe. */
-      virtual bool handle(Request & request, ResponseWriter & response) const;
+      virtual bool handle(RequestReader & request, ResponseWriter & response) const;
 
     private:
       std::string root_;  // the root

@@ -2,7 +2,7 @@
 # define MIMOSA_HTTP_HANDLER_HH
 
 # include "../ref-countable.hh"
-# include "request.hh"
+# include "request-reader.hh"
 # include "response-writer.hh"
 
 namespace mimosa
@@ -16,7 +16,7 @@ namespace mimosa
     {
     public:
       virtual ~Handler() {}
-      virtual bool handle(Request & request, ResponseWriter & response) const = 0;
+      virtual bool handle(RequestReader & request, ResponseWriter & response) const = 0;
     };
   }
 }

@@ -41,6 +41,8 @@ namespace mimosa
        * amount of data to be written and set content_length_ */
       bool sendHeader(runtime::Time timeout);
 
+      void clear();
+
     private:
       friend class ServerChannel;
 

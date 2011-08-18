@@ -46,5 +46,11 @@ namespace mimosa
       os << "\r\n";
       return os.str();
     }
+
+    void
+    Response::clear()
+    {
+      
+    }
   }
 }

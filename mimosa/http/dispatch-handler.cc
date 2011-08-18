@@ -20,7 +20,7 @@ namespace mimosa
     }
 
     bool
-    DispatchHandler::handle(Request & request, ResponseWriter & response) const
+    DispatchHandler::handle(RequestReader & request, ResponseWriter & response) const
     {
       response.content_type_ = "text/html";
       for (auto it = handlers_.cbegin(); it != handlers_.cend(); ++it)

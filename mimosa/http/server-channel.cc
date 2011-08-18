@@ -13,8 +13,8 @@ namespace mimosa
         read_timeout_(read_timeout),
         write_timeout_(write_timeout),
         timeout_(0),
-        request_(),
-        response_(nullptr)
+        request_(new RequestReader),
+        response_(new ResponseWriter(stream_))
     {
     }
 
@@ -46,7 +46,7 @@ namespace mimosa
       }
 
       request_.clear();
-      if (!request_.parse(buffer->data(), buffer->size() + 2))
+      if (!request_->parse(buffer->data(), buffer->size() + 2))
       {
         badRequest();
         return false;
@@ -65,14 +65,14 @@ namespace mimosa
     bool
     ServerChannel::setupResponseWriter()
     {
-      response_ = new ResponseWriter(stream_);
+      response_->clear();
       return true;
     }
 
     bool
     ServerChannel::runHandler()
     {
-      return handler_->handle(request_, *response_);
+      return handler_->handle(*request_, *response_);
     }
 
     bool

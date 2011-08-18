@@ -12,7 +12,7 @@ DEFINE_string(path, "/usr/include", "the data dir to expose");
 
 class HelloHandler : public mimosa::http::Handler
 {
-  virtual bool handle(mimosa::http::Request &        /*request*/,
+  virtual bool handle(mimosa::http::RequestReader &  /*request*/,
                       mimosa::http::ResponseWriter & response) const
   {
     static const std::string hello_world =

@@ -13,7 +13,7 @@ namespace mimosa
     }
 
     bool
-    FsHandler::handle(Request & request, ResponseWriter & response) const
+    FsHandler::handle(RequestReader & request, ResponseWriter & response) const
     {
       response.content_type_ = "text/html";
       response.status_ = kStatusOk;

@@ -40,7 +40,7 @@ namespace mimosa
       runtime::Time         read_timeout_;
       runtime::Time         write_timeout_;
       runtime::Time         timeout_;
-      Request               request_;
+      RequestReader::Ptr    request_;
       ResponseWriter::Ptr   response_;
     };
   }

@@ -21,6 +21,8 @@ namespace mimosa
       /** convert the response to an http response header */
       std::string toHttpHeader() const;
 
+      void clear();
+
       Status         status_;
       bool           keep_alive_;
       Coding         content_encoding_;

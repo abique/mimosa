@@ -43,7 +43,7 @@ namespace mimosa
         return other.len_ == len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, len_));
       }
 
-      inline StringRef substring(size_t start = 0, size_t n = npos) const {
+      inline StringRef substr(size_t start = 0, size_t n = npos) const {
         if (start >= len_)
           return StringRef();
         if (n == npos || start + n >= len_)
