@@ -2,6 +2,8 @@
 
 #include <mimosa/main.hh>
 #include <mimosa/http/server.hh>
+#include <mimosa/http/dispatch-handler.hh>
+#include <mimosa/http/fs-handler.hh>
 
 using namespace mimosa;
 
@@ -10,7 +12,7 @@ DEFINE_string(path, "/usr/include", "the data dir to expose");
 
 class HelloHandler : public mimosa::http::Handler
 {
-  virtual bool handle(mimosa::http::Request &        request,
+  virtual bool handle(mimosa::http::Request &        /*request*/,
                       mimosa::http::ResponseWriter & response) const
   {
     static const std::string hello_world =
@@ -29,8 +31,11 @@ MIMOSA_MAIN(argc, argv)
   (void)argc;
   (void)argv;
 
+  auto dispatch(new http::DispatchHandler);
+  dispatch->registerHandler("/", new HelloHandler);
+  dispatch->registerHandler("/data/*", new http::FsHandler(FLAGS_path, 1));
   http::Server::Ptr server = new http::Server;
-  server->setHandler(new HelloHandler);
+  server->setHandler(dispatch);
   auto ret = server->listenInet4(FLAGS_port);
   if (!ret)
   {
