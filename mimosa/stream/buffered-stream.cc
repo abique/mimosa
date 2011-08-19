@@ -210,7 +210,7 @@ namespace mimosa
         {
           assert(!rbuffer_ || rappend_ == 0);
           rbuffer_ = buffer;
-          rappend_ = buffer->size();
+          rappend_ = buffer ? buffer->size() : 0;
           return nullptr;
         }
 
