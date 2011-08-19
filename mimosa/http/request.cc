@@ -88,6 +88,7 @@ namespace mimosa
       auto start = raw_location_.find_first_of('?');
       if (start == std::string::npos)
         return query_;
+      ++start;
 
       auto end = raw_location_.find_first_of('#');
       if (end == std::string::npos)
