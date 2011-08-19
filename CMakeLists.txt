@@ -10,5 +10,6 @@ include_directories(.)
 include(cmake/Tests.cmake)
 include(cmake/Flex.cmake)
 include(cmake/Bison.cmake)
+include(cmake/TemplateConverter.cmake)
 
 add_subdirectory(mimosa)
