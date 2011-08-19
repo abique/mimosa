@@ -188,23 +188,27 @@ namespace mimosa
     Buffer::Ptr
     BufferedStream::readUntil(const char * const str,
                               uint64_t           max_size, // TODO
-                              runtime::Time      timeout)
+                              runtime::Time      timeout,
+                              bool *             found)
     {
       Buffer::Ptr buffer;
       size_t      str_len = strlen(str);
 
+      if (found)
+        *found = false;
+
       while (true)
       {
-        if (max_size > 0 && buffer->size() > max_size)
+        if (max_size > 0 && buffer && buffer->size() > max_size)
         {
           errno = EFBIG;
           return nullptr;
         }
 
-        Buffer::Ptr tmp_buffer = read(timeout);
+        Buffer::Ptr tmp_buffer = read(buffer_size_, timeout);
         if (!tmp_buffer || tmp_buffer->size() == 0)
         {
-          assert(!rbuffer_);
+          assert(!rbuffer_ || rappend_ == 0);
           rbuffer_ = buffer;
           rappend_ = buffer->size();
           return nullptr;
@@ -219,13 +223,15 @@ namespace mimosa
         else
           buffer = tmp_buffer;
 
-        int64_t offset = buffer->size() - tmp_buffer->size() - str_len + 1;
-        const char * found = ::strstr(buffer->data() + (offset > 0 ? offset : 0), str);
-        if (found)
+        int64_t offset = buffer->size() - tmp_buffer->size() - str_len;
+        const char * found_str = ::strstr(buffer->data() + (offset > 0 ? offset : 0), str);
+        if (found_str)
         {
           assert(!rbuffer_);
+          if (found)
+            *found = true;
           rbuffer_ = new Buffer(buffer_size_);
-          const int64_t buffer_size = found + str_len - buffer->data();
+          const int64_t buffer_size = found_str + str_len - buffer->data();
           rappend_ = buffer->size() - buffer_size;
           memcpy(rbuffer_->data(), buffer->data() + buffer_size, rappend_);
           buffer->resize(buffer_size_);

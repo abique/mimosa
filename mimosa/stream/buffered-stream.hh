@@ -39,7 +39,8 @@ namespace mimosa
        * @return a valid buffer on success, null otherwise. */
       Buffer::Ptr readUntil(const char * const str,
                             uint64_t           max_size = 0,
-                            runtime::Time      timeout = 0);
+                            runtime::Time      timeout = 0,
+                            bool *             found = nullptr);
       /** @} */
 
     private:
