@@ -33,7 +33,7 @@ MIMOSA_MAIN(argc, argv)
 
   auto dispatch(new http::DispatchHandler);
   dispatch->registerHandler("/", new HelloHandler);
-  dispatch->registerHandler("/data/*", new http::FsHandler(FLAGS_path, 1));
+  dispatch->registerHandler("/data/*", new http::FsHandler(FLAGS_path, 1, true));
   http::Server::Ptr server = new http::Server;
   server->setHandler(dispatch);
   auto ret = server->listenInet4(FLAGS_port);
