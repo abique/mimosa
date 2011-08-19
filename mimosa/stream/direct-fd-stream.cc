@@ -6,10 +6,11 @@ namespace mimosa
 {
   namespace stream
   {
-    DirectFdStream::DirectFdStream(int fd, bool is_readable, bool is_writable)
+    DirectFdStream::DirectFdStream(int fd, bool is_readable, bool is_writable, bool is_regular_file)
       : fd_(fd),
         is_readable_(is_readable),
-        is_writable_(is_writable)
+        is_writable_(is_writable),
+        is_regular_file_(is_regular_file)
     {
     }
 
@@ -27,7 +28,8 @@ namespace mimosa
         errno = EINVAL;
         return -1;
       }
-      return ::melon_write(fd_, data, nbytes, timeout);
+      return is_regular_file_ ? ::write(fd_, data, nbytes)
+        : ::melon_write(fd_, data, nbytes, timeout);
     }
 
     int64_t
@@ -38,7 +40,8 @@ namespace mimosa
         errno = EINVAL;
         return -1;
       }
-      return ::melon_writev(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX, timeout);
+      return is_regular_file_ ? ::writev(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX)
+        : ::melon_writev(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX, timeout);
     }
 
     int64_t
@@ -49,7 +52,8 @@ namespace mimosa
         errno = EINVAL;
         return -1;
       }
-      return ::melon_read(fd_, data, nbytes, timeout);
+      return is_regular_file_ ? ::read(fd_, data, nbytes)
+        : ::melon_read(fd_, data, nbytes, timeout);
     }
 
     int64_t
@@ -60,7 +64,20 @@ namespace mimosa
         errno = EINVAL;
         return -1;
       }
-      return ::melon_readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX, timeout);
+      return is_regular_file_ ? ::readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX)
+        : ::melon_readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX, timeout);
+    }
+
+    DirectFdStream::Ptr
+    DirectFdStream::openFile(const char * path, int oflags, mode_t mode)
+    {
+      int fd = ::open(path, oflags, mode);
+      if (fd < 0)
+        return nullptr;
+      return new DirectFdStream(fd,
+                                (oflags & O_RDWR) || !(oflags & O_WRONLY),
+                                (oflags & O_RDWR) || (oflags & O_WRONLY),
+                                true);
     }
   }
 }

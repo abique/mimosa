@@ -9,5 +9,17 @@ namespace mimosa
       : BufferedStream(new DirectFdStream(fd, is_readable, is_writable), buffer_size)
     {
     }
+
+    FdStream::FdStream(DirectFdStream::Ptr stream, uint64_t buffer_size)
+      : BufferedStream(stream, buffer_size)
+    {
+    }
+
+    FdStream::Ptr
+    FdStream::openFile(const char * path, int oflags, mode_t mode)
+    {
+      auto stream = DirectFdStream::openFile(path, oflags, mode);
+      return new FdStream(stream);
+    }
   }
 }
