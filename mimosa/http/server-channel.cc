@@ -1,3 +1,4 @@
+#include "error-handler.hh"
 #include "server-channel.hh"
 
 namespace mimosa
@@ -38,10 +39,17 @@ namespace mimosa
     bool
     ServerChannel::readRequest()
     {
-      stream::Buffer::Ptr buffer = stream_->readUntil("\r\n\r\n", readTimeout());
+      bool found = false;
+      stream::Buffer::Ptr buffer = stream_->readUntil("\r\n\r\n", 5 * 1024, readTimeout(), &found);
       if (!buffer)
       {
         requestTimeout();
+        return false;
+      }
+
+      if (!found)
+      {
+        ErrorHandler::basicResponse(*request_, *response_, kStatusRequestEntityTooLarge);
         return false;
       }
 
@@ -84,13 +92,13 @@ namespace mimosa
     void
     ServerChannel::requestTimeout()
     {
-      assert(false);
+      ErrorHandler::basicResponse(*request_, *response_, kStatusRequestTimeout);
     }
 
     void
     ServerChannel::badRequest()
     {
-      assert(false);
+      ErrorHandler::basicResponse(*request_, *response_, kStatusBadRequest);
     };
   }
 }

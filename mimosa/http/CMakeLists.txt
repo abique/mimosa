@@ -1,7 +1,11 @@
 mimosa_flex(request-lexer)
 mimosa_bison(request-parser)
 
+template_converter(tpl/readdir.html tpl/readdir.hh mimosa_http_FsHandler_readdir)
+
 add_library(mimosa-http
+  tpl/readdir.hh
+
   cookie.cc
   dispatch-handler.cc
   error-handler.cc

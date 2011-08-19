@@ -40,6 +40,7 @@ namespace mimosa
       runtime::Time         read_timeout_;
       runtime::Time         write_timeout_;
       runtime::Time         timeout_;
+      uint32_t              header_max_size_;
       RequestReader::Ptr    request_;
       ResponseWriter::Ptr   response_;
     };
