@@ -23,7 +23,6 @@
                       mimosa::http::Request & rq,
                       const char *            str)
   {
-    fprintf(stderr, "%s\n", str);
   }
 
 %}
