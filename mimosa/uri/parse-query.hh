@@ -4,13 +4,15 @@
 # include <string>
 # include <unordered_map>
 
+# include "../container/kvs.hh"
+
 namespace mimosa
 {
   namespace uri
   {
-    void parseQuery(const char *                                        input,
-                    uint32_t                                            len,
-                    std::unordered_multimap<std::string, std::string> * kvs);
+    void parseQuery(const char *     input,
+                    uint32_t         len,
+                    container::kvs * kvs);
   }
 }
 
