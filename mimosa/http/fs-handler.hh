@@ -12,7 +12,7 @@ namespace mimosa
     class FsHandler : public Handler
     {
     public:
-      FsHandler(const std::string & root, int nskip);
+      FsHandler(const std::string & root, int nskip, bool enable_readdir = false);
 
       /** This is the handle method. It must be thread-safe. */
       virtual bool handle(RequestReader & request, ResponseWriter & response) const;
@@ -30,6 +30,7 @@ namespace mimosa
       std::string root_;  // the root
       int         nskip_; // the number of directory to skip
                           // from the begining of the path
+      bool        can_readdir_;
     };
   }
 }
