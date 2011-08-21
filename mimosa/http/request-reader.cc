@@ -1,3 +1,5 @@
+#include "../uri/parse-query.hh"
+#include "../uri/percent-encoding.hh"
 #include "request-reader.hh"
 
 namespace mimosa
@@ -6,7 +8,9 @@ namespace mimosa
   {
     RequestReader::RequestReader(stream::FdStream::Ptr stream)
       : stream_(stream),
-        bytes_left_(0)
+        bytes_left_(0),
+        parsed_form_(false),
+        form_()
     {
     }
 
@@ -14,6 +18,8 @@ namespace mimosa
     RequestReader::clear()
     {
       bytes_left_ = 0;
+      parsed_form_ = false;
+      form_.clear();
     }
 
     bool
@@ -22,6 +28,7 @@ namespace mimosa
       if (contentLength() < 0)
         return false;
       bytes_left_ = contentLength();
+      return true;
     }
 
     int64_t
@@ -34,7 +41,7 @@ namespace mimosa
     int64_t
     RequestReader::read(char * data, uint64_t nbytes, runtime::Time timeout)
     {
-      int64_t can_read = nbytes <= bytes_left_ ? nbytes : bytes_left_;
+      uint64_t can_read = nbytes <= bytes_left_ ? nbytes : bytes_left_;
       int64_t rbytes = stream_->read(data, can_read, timeout);
       if (rbytes > 0)
         bytes_left_ -= rbytes;
@@ -46,9 +53,37 @@ namespace mimosa
     {
       stream::Buffer buffer;
       while (bytes_left_ > 0)
-        if (read(buffer->data(), buffer->size(), timeout) <= 0)
+        if (read(buffer.data(), buffer.size(), timeout) <= 0)
           return false;
       return true;
+    }
+
+    container::kvs &
+    RequestReader::form()
+    {
+      if (parsed_form_)
+        return form_;
+
+      if (!strcasecmp(contentType().c_str(), "application/x-www-form-urlencoded"))
+      {
+        parsed_form_ = true;
+        stream::Buffer buffer(contentLength());
+        int64_t total_rbytes = 0;
+
+        while (total_rbytes < contentLength())
+        {
+          auto rbytes = stream_->read(buffer.data(), contentLength() - total_rbytes, 0);
+          if (rbytes <= 0)
+            return form_;
+          total_rbytes += rbytes;
+        }
+
+        std::string decoded;
+        uri::percentDecode(buffer.data(), buffer.size(), &decoded);
+        uri::parseQuery(decoded.data(), decoded.size(), &form_);
+      }
+
+      return form_;
     }
   }
 }

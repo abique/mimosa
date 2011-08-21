@@ -28,6 +28,8 @@ namespace mimosa
       virtual bool flush(runtime::Time timeout = 0);
       /** @} */
 
+      container::kvs & form();
+
     private:
 
       friend class ServerChannel;
@@ -36,6 +38,8 @@ namespace mimosa
 
       stream::FdStream::Ptr stream_;
       int64_t               bytes_left_;
+      bool                  parsed_form_;
+      container::kvs        form_;
     };
   }
 }
