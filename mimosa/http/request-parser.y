@@ -23,6 +23,8 @@
                       mimosa::http::Request & rq,
                       const char *            str)
   {
+    if (str)
+      printf("request parse error: %s\n", str);
   }
 
 %}
@@ -35,7 +37,7 @@
 }
 
 // first line
-%token HEAD GET PUT DELETE TRACE OPTIONS CONNECT PATCH
+%token HEAD GET POST PUT DELETE TRACE OPTIONS CONNECT PATCH
 %token <text> LOCATION
 %token <ival> PROTO_MAJOR PROTO_MINOR
 
@@ -68,6 +70,7 @@ request: method LOCATION PROTO_MAJOR PROTO_MINOR kvs {
 method:
   HEAD    { rq.setMethod(mimosa::http::kMethodHead); }
 | GET     { rq.setMethod(mimosa::http::kMethodGet); }
+| POST    { rq.setMethod(mimosa::http::kMethodPost); }
 | PUT     { rq.setMethod(mimosa::http::kMethodPut); }
 | DELETE  { rq.setMethod(mimosa::http::kMethodDelete); }
 | TRACE   { rq.setMethod(mimosa::http::kMethodTrace); }

@@ -47,6 +47,7 @@ spaces   [\t\v ]
 
 <INITIAL>(?i:HEAD)      BEGIN(location); return HEAD;
 <INITIAL>(?i:GET)       BEGIN(location); return GET;
+<INITIAL>(?i:POST)      BEGIN(location); return POST;
 <INITIAL>(?i:PUT)       BEGIN(location); return PUT;
 <INITIAL>(?i:DELETE)    BEGIN(location); return DELETE;
 <INITIAL>(?i:TRACE)     BEGIN(location); return TRACE;

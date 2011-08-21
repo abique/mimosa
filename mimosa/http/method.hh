@@ -9,6 +9,7 @@ namespace mimosa
     {
       kMethodHead,
       kMethodGet,
+      kMethodPost,
       kMethodPut,
       kMethodDelete,
       kMethodTrace,
@@ -16,6 +17,8 @@ namespace mimosa
       kMethodConnect,
       kMethodPatch,
     };
+
+    const char * methodString(Method method);
   }
 }
 
