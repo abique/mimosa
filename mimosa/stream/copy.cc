@@ -24,14 +24,9 @@ namespace mimosa
         if (max_bytes > 0 && max_bytes - copied_bytes < to_do)
           to_do = max_bytes;
 
-        printf("pre bande\n");
-
         int64_t rbytes = input.read(buffer->data(), to_do, timeout);
-        printf("bande: %lld, %s\n", rbytes, strerror(errno));
         if (rbytes <= 0)
           return copied_bytes;
-
-        printf("bande\n");
 
         int64_t wbytes = 0;
         do {
