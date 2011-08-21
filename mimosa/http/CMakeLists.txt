@@ -6,6 +6,7 @@ add_library(mimosa-http
   dispatch-handler.cc
   error-handler.cc
   fs-handler.cc
+  method.cc
   status.cc
   server.cc
   server-channel.cc
