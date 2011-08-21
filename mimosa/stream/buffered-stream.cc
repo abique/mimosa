@@ -164,7 +164,7 @@ namespace mimosa
     {
       if (rappend_ > rpos_)
       {
-        assert(!rbuffer_);
+        assert(rbuffer_);
         ::memmove(rbuffer_->data(), rbuffer_->data() + rpos_, rappend_ - rpos_);
         rbuffer_->resize(rappend_ - rpos_);
         auto tmp = rbuffer_;
@@ -230,11 +230,15 @@ namespace mimosa
           assert(!rbuffer_);
           if (found)
             *found = true;
+
+          /* setup the remaining read buffer */
           rbuffer_ = new Buffer(buffer_size_);
-          const int64_t buffer_size = found_str + str_len - buffer->data();
-          rappend_ = buffer->size() - buffer_size;
-          memcpy(rbuffer_->data(), buffer->data() + buffer_size, rappend_);
-          buffer->resize(buffer_size_);
+          const int64_t remain_size = found_str + str_len - buffer->data();
+          rappend_ = buffer->size() - remain_size;
+          memcpy(rbuffer_->data(), buffer->data() + remain_size, rappend_);
+
+          /* resize the return buffer */
+          buffer->resize(found_str - buffer->data() + str_len);
           return buffer;
         }
       }
