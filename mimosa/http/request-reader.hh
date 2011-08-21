@@ -16,16 +16,26 @@ namespace mimosa
 
       RequestReader(stream::FdStream::Ptr stream);
 
+      void clear();
+
       /** Stream related stuff
        * @{ */
       /** @warning this should never be called, will abort */
       virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
       /** reads the body (PUT and POST) */
       virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      /** reads and discards all remaining body data */
+      virtual bool flush(runtime::Time timeout = 0);
       /** @} */
 
     private:
+
+      friend class ServerChannel;
+
+      bool prepare();
+
       stream::FdStream::Ptr stream_;
+      int64_t               bytes_left_;
     };
   }
 }

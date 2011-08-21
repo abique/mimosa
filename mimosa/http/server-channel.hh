@@ -24,8 +24,6 @@ namespace mimosa
 
     private:
       bool readRequest();
-      bool setupBodyReader();
-      bool setupResponseWriter();
       bool runHandler();
       bool sendResponse();
 

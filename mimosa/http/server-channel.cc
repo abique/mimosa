@@ -27,9 +27,9 @@ namespace mimosa
     ServerChannel::run()
     {
       do {
+        request_->clear();
+        response_->clear();
         if (!readRequest() ||
-            !setupBodyReader() ||
-            !setupResponseWriter() ||
             !runHandler() ||
             !sendResponse())
           break;
@@ -53,28 +53,13 @@ namespace mimosa
         return false;
       }
 
-      request_->clear();
       if (!request_->parse(buffer->data(), buffer->size() + 2))
       {
         badRequest();
         return false;
       }
 
-      return true;
-    }
-
-    bool
-    ServerChannel::setupBodyReader()
-    {
-      //assert(false && "TODO");
-      return true;
-    }
-
-    bool
-    ServerChannel::setupResponseWriter()
-    {
-      response_->clear();
-      return true;
+      return request_->prepare();
     }
 
     bool
@@ -86,7 +71,7 @@ namespace mimosa
     bool
     ServerChannel::sendResponse()
     {
-      return response_->finish(writeTimeout());
+      return response_->finish(writeTimeout()) && request_->flush();
     }
 
     void

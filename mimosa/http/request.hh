@@ -64,8 +64,8 @@ namespace mimosa
         cookies_.insert(std::make_pair(key, value));
       }
 
-      inline uint64_t contentLength() const { return content_length_; }
-      inline void setContentLength(uint64_t v) { content_length_ = v; }
+      inline int64_t contentLength() const { return content_length_; }
+      inline void setContentLength(int64_t v) { content_length_ = v; }
 
       inline const std::string & contentType() const { return content_type_; }
       inline void setContentType(const std::string & s) { content_type_ = s; }
@@ -86,7 +86,7 @@ namespace mimosa
         unparsed_headers_.insert(std::make_pair(key, value));
       }
 
-    private:
+    protected:
 
       // mandatory stuff
       Method      method_;
@@ -109,7 +109,7 @@ namespace mimosa
       container::kvs cookies_;
 
       // post and put details
-      uint64_t            content_length_;
+      int64_t             content_length_;
       std::string         content_type_;
       stream::Stream::Ptr body_;
 
