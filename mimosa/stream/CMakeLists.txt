@@ -7,6 +7,7 @@ add_library(mimosa-stream
   fd-stream.cc
   limited-stream.cc
   stream.cc
+  tls-stream.cc
 )
 
 target_link_libraries(mimosa-stream mimosa)
