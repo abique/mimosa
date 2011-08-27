@@ -1,7 +1,7 @@
 #ifndef MIMOSA_HTTP_RESPONSE_WRITER_HH
 # define MIMOSA_HTTP_RESPONSE_WRITER_HH
 
-# include "../stream/fd-stream.hh"
+# include "../stream/stream.hh"
 # include "../stream/buffer.hh"
 # include "response.hh"
 
@@ -19,7 +19,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(ResponseWriter);
 
-      ResponseWriter(stream::FdStream::Ptr stream);
+      ResponseWriter(stream::Stream::Ptr stream);
       ~ResponseWriter();
 
       /** Stream related stuff
@@ -52,7 +52,7 @@ namespace mimosa
       /** body length (to be written) */
       uint64_t pendingWrite() const;
 
-      stream::FdStream::Ptr stream_;
+      stream::Stream::Ptr   stream_;
       stream::Buffer::Slist buffers_;
       bool                  header_sent_;
     };

@@ -5,10 +5,10 @@ namespace mimosa
 {
   namespace http
   {
-    ServerChannel::ServerChannel(stream::FdStream::Ptr stream,
-                                 Handler::Ptr          handler,
-                                 runtime::Time         read_timeout,
-                                 runtime::Time         write_timeout)
+    ServerChannel::ServerChannel(stream::BufferedStream::Ptr stream,
+                                 Handler::Ptr                handler,
+                                 runtime::Time               read_timeout,
+                                 runtime::Time               write_timeout)
       : stream_(stream),
         handler_(handler),
         read_timeout_(read_timeout),

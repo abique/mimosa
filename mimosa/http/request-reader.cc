@@ -1,12 +1,15 @@
+#include <cstring>
+
 #include "../uri/parse-query.hh"
 #include "../uri/percent-encoding.hh"
+#include "../stream/buffer.hh"
 #include "request-reader.hh"
 
 namespace mimosa
 {
   namespace http
   {
-    RequestReader::RequestReader(stream::FdStream::Ptr stream)
+    RequestReader::RequestReader(stream::Stream::Ptr stream)
       : stream_(stream),
         bytes_left_(0),
         parsed_form_(false),
@@ -32,7 +35,7 @@ namespace mimosa
     }
 
     int64_t
-    RequestReader::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    RequestReader::write(const char * /*data*/, uint64_t /*nbytes*/, runtime::Time /*timeout*/)
     {
       assert(false && "invalid operation");
       return -1;
@@ -64,7 +67,7 @@ namespace mimosa
       if (parsed_form_)
         return form_;
 
-      if (!strcasecmp(contentType().c_str(), "application/x-www-form-urlencoded"))
+      if (!::strcasecmp(contentType().c_str(), "application/x-www-form-urlencoded"))
       {
         parsed_form_ = true;
         stream::Buffer buffer(contentLength());

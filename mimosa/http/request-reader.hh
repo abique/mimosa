@@ -2,7 +2,7 @@
 # define MIMOSA_HTTP_REQUEST_READER_HH
 
 # include "request.hh"
-# include "../stream/fd-stream.hh"
+# include "../stream/stream.hh"
 
 namespace mimosa
 {
@@ -14,7 +14,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(RequestReader);
 
-      RequestReader(stream::FdStream::Ptr stream);
+      RequestReader(stream::Stream::Ptr stream);
 
       void clear();
 
@@ -36,10 +36,10 @@ namespace mimosa
 
       bool prepare();
 
-      stream::FdStream::Ptr stream_;
-      int64_t               bytes_left_;
-      bool                  parsed_form_;
-      container::kvs        form_;
+      stream::Stream::Ptr stream_;
+      int64_t             bytes_left_;
+      bool                parsed_form_;
+      container::kvs      form_;
     };
   }
 }

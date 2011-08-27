@@ -31,5 +31,13 @@ namespace mimosa
                             server->write_timeout_);
       channel.run();
     }
+
+    void
+    Server::setSecure(const std::string & cert_file,
+                      const std::string & key_file)
+    {
+      cert_file_ = cert_file;
+      key_file_  = key_file;
+    }
   }
 }

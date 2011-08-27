@@ -7,7 +7,7 @@ namespace mimosa
 {
   namespace http
   {
-    ResponseWriter::ResponseWriter(stream::FdStream::Ptr stream)
+    ResponseWriter::ResponseWriter(stream::Stream::Ptr stream)
       : stream_(stream),
         buffers_(),
         header_sent_(false)
@@ -57,7 +57,7 @@ namespace mimosa
                                    // and lazy programmer ;-)
       }
       buffers_.clear();
-      stream_->flush();
+      stream_->flush(timeout);
       return true;
     }
 

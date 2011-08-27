@@ -7,7 +7,7 @@ namespace mimosa
   namespace http
   {
     bool
-    ErrorHandler::basicResponse(Request & request, ResponseWriter & response, Status status)
+    ErrorHandler::basicResponse(Request & /*request*/, ResponseWriter & response, Status status)
     {
       std::ostringstream os;
       os << "<html><head><title>Error " << status << " - "
