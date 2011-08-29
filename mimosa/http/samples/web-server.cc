@@ -11,6 +11,8 @@ using namespace mimosa;
 
 DEFINE_int32(port, 4242, "the port to use");
 DEFINE_string(path, "/usr/include", "the data dir to expose");
+DEFINE_string(cert, "", "the certificate (cert.pem)");
+DEFINE_string(key, "", "the key (key.pem)");
 
 class HelloHandler : public mimosa::http::Handler
 {
@@ -105,6 +107,8 @@ MIMOSA_MAIN(argc, argv)
   dispatch->registerHandler("/data/*", new http::FsHandler(FLAGS_path, 1, true));
   http::Server::Ptr server = new http::Server;
   server->setHandler(dispatch);
+  if (!FLAGS_cert.empty() && !FLAGS_key.empty())
+    server->setSecure(FLAGS_cert, FLAGS_key);
   auto ret = server->listenInet4(FLAGS_port);
   if (!ret)
   {
