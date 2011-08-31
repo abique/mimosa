@@ -6,6 +6,7 @@
 # include <melon/melon.h>
 
 # include "../non-copyable.hh"
+# include "../runtime/time.hh"
 
 namespace mimosa
 {
@@ -24,10 +25,7 @@ namespace mimosa
       inline ~Condition() { ::melon_cond_destroy(cond_); }
 
       template <typename Mutex>
-      inline void wait(Mutex & mutex) { ::melon_cond_wait(cond_, mutex.mutex_); }
-
-      template <typename Mutex>
-      inline void timedWait(Mutex & mutex, ::melon_time_t time)
+      inline void wait(Mutex & mutex, runtime::Time time = 0)
       { ::melon_cond_timedwait(cond_, mutex.mutex_, time); }
 
       inline void wakeOne() { ::melon_cond_signal(cond_); }
