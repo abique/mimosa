@@ -1,3 +1,5 @@
+#include <cerrno>
+
 #include "stream.hh"
 
 namespace mimosa
@@ -38,6 +40,42 @@ namespace mimosa
         bytes += ret;
       }
       return bytes;
+    }
+
+    int64_t
+    Stream::loopRead(char * data, const uint64_t nbytes, runtime::Time timeout)
+    {
+      uint64_t bytes_left = nbytes;
+      do {
+        auto bytes = read(data, bytes_left, timeout);
+        if (bytes <= 0)
+        {
+          if (errno == EAGAIN)
+            continue;
+          return nbytes - bytes_left;
+        }
+        data       += bytes;
+        bytes_left -= bytes;
+      } while (nbytes > 0);
+      return nbytes;
+    }
+
+    int64_t
+    Stream::loopWrite(const char * data, const uint64_t nbytes, runtime::Time timeout)
+    {
+      uint64_t bytes_left = nbytes;
+      do {
+        auto bytes = write(data, bytes_left, timeout);
+        if (bytes <= 0)
+        {
+          if (errno == EAGAIN)
+            continue;
+          return nbytes - bytes_left;
+        }
+        data       += bytes;
+        bytes_left -= bytes;
+      } while (nbytes > 0);
+      return nbytes;
     }
   }
 }

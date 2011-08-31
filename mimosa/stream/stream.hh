@@ -27,6 +27,9 @@ namespace mimosa
 
       /** flushes the write buffer */
       inline virtual bool flush(runtime::Time /*timeout*/) { return true; }
+
+      int64_t loopRead(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      int64_t loopWrite(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
     };
   }
 }
