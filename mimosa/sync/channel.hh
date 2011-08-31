@@ -30,7 +30,7 @@ namespace mimosa
         if (closed_)
           return false;
 
-        queue_.push_back(t);
+        queue_.push(t);
         cond_.wakeOne();
         return true;
       }

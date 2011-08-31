@@ -12,6 +12,8 @@ namespace mimosa
 {
   namespace rpc
   {
+    class Channel;
+
     class BasicCall : public RefCountable<BasicCall>,
                       private NonCopyable
     {
@@ -38,6 +40,8 @@ namespace mimosa
       inline uint32_t tag() const { return tag_; }
 
     protected:
+      friend class Channel;
+
       /** we got the response ! */
       void finished();
 

@@ -29,6 +29,7 @@ namespace mimosa
 
       void callMethod(BasicCall::Ptr call);
 
+
     private:
       void readLoop();
       void writeLoop();
@@ -37,12 +38,16 @@ namespace mimosa
       void handleResult();
       void handleError();
 
+      uint32_t nextTag();
+
       stream::BufferedStream::Ptr                               stream_;
       ServiceMap::Ptr                                           service_map_;
+      sync::Mutex                                               sent_calls_mutex_;
       std::map<uint32_t, BasicCall::Ptr>                        sent_calls_;
       std::map<uint32_t, BasicCall::Ptr>                        received_calls_;
       Status                                                    status_;
       sync::Channel<stream::Buffer::Ptr, stream::Buffer::Slist> write_queue_;
+      uint32_t                                                  next_tag_;
     };
   }
 }

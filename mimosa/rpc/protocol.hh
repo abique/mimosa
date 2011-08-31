@@ -36,15 +36,15 @@ namespace mimosa
       uint32_t tag_;
       uint32_t service_id_;
       uint32_t method_id_;
-      uint32_t msg_size_;
-      char     msg_[0];
+      uint32_t rq_size_;
+      char     rq_[0];
     } __attribute__((packed));
 
     struct MsgResult : public Msg
     {
       uint32_t tag_;
-      uint32_t msg_size_;
-      char     msg_[0];
+      uint32_t rp_size_;
+      char     rp_[0];
     } __attribute__((packed));
 
     struct MsgError : public Msg
