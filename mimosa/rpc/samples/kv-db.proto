@@ -1,0 +1,32 @@
+package mimosa.rpc.samples.pb;
+
+enum Status
+{
+  kOk            = 0;
+  kNotFound      = 1;
+  kInternalError = 2;
+}
+
+message Key
+{
+  required bytes key = 1;
+}
+
+message KeyValue
+{
+  required bytes key   = 1;
+  required bytes value = 2;
+}
+
+message Result
+{
+  required Status status = 1;
+  optional bytes  value  = 2;
+}
+
+service Database
+{
+  rpc get(Key) returns (Result);
+  rpc set(KeyValue) returns (Result);
+  rpc del(Key) returns (Result);
+}
