@@ -12,7 +12,7 @@ install(FILES
 file(GLOB HEADERS *.hh *.hxx */*.hh */*.hxx)
 
 add_library(mimosa init.cc ${HEADERS})
-target_link_libraries(mimosa melon gnutls gflags)
+target_link_libraries(mimosa mimosa-runtime melon gnutls gflags)
 
 add_subdirectory(stream)
 add_subdirectory(string)
@@ -21,5 +21,6 @@ add_subdirectory(runtime)
 add_subdirectory(net)
 add_subdirectory(http)
 add_subdirectory(sync)
+add_subdirectory(rpc)
 
 add_subdirectory(tests)
