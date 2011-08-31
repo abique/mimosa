@@ -48,12 +48,12 @@ namespace mimosa
       assert(nbytes < buffer_size_);
       if (wbuffers_.empty())
       {
-        wbuffers_.push(*new Buffer(buffer_size_));
+        wbuffers_.push(new Buffer(buffer_size_));
         wpos_    = 0;
         wappend_ = 0;
       }
 
-      Buffer::Ptr buffer = &wbuffers_.back();
+      Buffer::Ptr buffer = wbuffers_.back();
       uint64_t can_write = nbytes <= buffer_size_ - wappend_ ? nbytes : buffer_size_ - wappend_;
       ::memcpy(buffer->data() + wappend_, data, can_write);
       if (can_write < nbytes)
@@ -61,7 +61,7 @@ namespace mimosa
         wappend_ = nbytes - can_write;
         buffer = new Buffer(buffer_size_ > wappend_ ? buffer_size_ : wappend_);
         ::memcpy(buffer->data(), data + can_write, wappend_);
-        wbuffers_.push(*buffer);
+        wbuffers_.push(buffer);
       }
       else
         wappend_ += can_write;

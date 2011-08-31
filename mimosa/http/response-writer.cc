@@ -32,7 +32,7 @@ namespace mimosa
       if (header_sent_)
         return stream_->write(data, nbytes, timeout);
       stream::Buffer::Ptr buffer = new stream::Buffer(data, nbytes);
-      buffers_.push(*buffer);
+      buffers_.push(buffer);
       return nbytes;
     }
 
