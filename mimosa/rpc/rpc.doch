@@ -1,0 +1,29 @@
+/*!
+
+@page RPC
+
+@section Protocol
+
+@verbatim
+connection: message*;
+message: CLOSE |
+         CALL tag service_id method_id msg_size msg |
+         RESULT tag msg_size msg |
+         ERROR tag error;
+
+CLOSE:   0x01 (8bits le);
+CALL:    0x02 (8bits le);
+RESULT:  0x03 (8bits le);
+ERROR:   0x04 (8bits le);
+
+error: CANCEL      (0x01 8bits le) |
+       INVALID_MSG (0x02 8bits le);
+
+tag:        (32bits le);
+service_id: crc32(service_full_name) (32bits le);
+method_id:  crc32(method_name) (32bits le);
+msg_size:   (32bits le);
+msg:        raw data (protobuf)
+@endverbatim
+
+*/
