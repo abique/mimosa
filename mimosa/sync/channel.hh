@@ -1,15 +1,18 @@
 #ifndef MIMOSA_SYNC_CHANNEL_HH
 # define MIMOSA_SYNC_CHANNEL_HH
 
+# include <queue>
+
 # include "mutex.hh"
 # include "condition.hh"
+# include "../ref-countable.hh"
 
 namespace mimosa
 {
   namespace sync
   {
     template <typename T, typename QueueType = std::queue<T> >
-    class Channel : public RefCountable<Channel>,
+    class Channel : public RefCountable<Channel<T, QueueType> >,
                     private NonCopyable
     {
     public:
@@ -40,7 +43,7 @@ namespace mimosa
           if (!queue_.empty())
           {
             t = queue_.front();
-            queue_.pop_front();
+            queue_.pop();
             return true;
           }
           else if (closed_)
