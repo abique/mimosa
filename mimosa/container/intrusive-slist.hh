@@ -85,29 +85,29 @@ namespace mimosa
         return size_;
       }
 
-      inline void push(T & item)
+      inline void push(Ptr item)
       {
         ++size_;
         if (!tail_)
-          (item.*Member).next_ = &item;
+          (item->*Member).next_ = item;
         else
         {
-          (item.*Member).next_   = (tail_->*Member).next_;
-          (tail_->*Member).next_ = &item;
+          (item->*Member).next_  = (tail_->*Member).next_;
+          (tail_->*Member).next_ = item;
         }
-        tail_ = &item;
+        tail_ = item;
       }
 
-      inline T & front() const
+      inline Ptr front() const
       {
         assert(tail_);
-        return *(tail_->*Member).next_;
+        return (tail_->*Member).next_;
       }
 
-      inline T & back() const
+      inline Ptr back() const
       {
         assert(tail_);
-        return *tail_;
+        return tail_;
       }
 
       inline void pop()
