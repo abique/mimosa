@@ -2,7 +2,7 @@ install(FILES
   barrier-handle.hh
   barrier.hh
   channel.hh
-  conditon.hh
+  condition.hh
   locker.hh
   mutex.hh
   recursive-mutex.hh
