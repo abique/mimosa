@@ -10,6 +10,8 @@ namespace mimosa
 {
   namespace rpc
   {
+    class Channel;
+
     class Service : public RefCountable<Service>
     {
     public:
@@ -29,6 +31,8 @@ namespace mimosa
       virtual const char * name() const = 0;
 
     protected:
+      friend class Channel;
+
       virtual CallMethodStatus callMethod(BasicCall::Ptr call,
                                           const char *   request_data,
                                           uint32_t       request_size);

@@ -1,3 +1,5 @@
+#include <endian.h>
+
 #include "../runtime/fiber.hh"
 #include "channel.hh"
 #include "protocol.hh"
@@ -10,8 +12,8 @@ namespace mimosa
                      ServiceMap::Ptr             service_map)
       : stream_(stream),
         service_map_(service_map),
-        sent_calls_(),
-        received_calls_(),
+        scalls_(),
+        rcalls_(),
         status_(kOk),
         write_queue_(),
         next_tag_(0)
@@ -42,16 +44,16 @@ namespace mimosa
       msg->rq_size_    = htole32(rq_size);
       call->request_->SerializeToArray(msg->rq_, rq_size);
       {
-        sync::Mutex::Locker locker(sent_calls_mutex_);
+        sync::Mutex::Locker locker(scalls_mutex_);
         while (true)
         {
-          auto it = sent_calls_.find(call->tag());
-          if (it == sent_calls_.end())
+          auto it = scalls_.find(call->tag());
+          if (it == scalls_.end())
             break;
           call->setTag(nextTag());
           msg->tag_ = htole32(call->tag());
         }
-        sent_calls_[call->tag()] = call;
+        scalls_[call->tag()] = call;
       }
       write_queue_.push(buffer);
     }
@@ -67,7 +69,7 @@ namespace mimosa
           stream_->flush();
           continue;
         }
-        if (stream_->write(buffer->data(), buffer->size()) != buffer->size())
+        if (stream_->loopWrite(buffer->data(), buffer->size()) != buffer->size())
         {
           status_ = kClosed;
           return;
@@ -95,6 +97,68 @@ namespace mimosa
         case kError:  handleError(); break;
         default: status_ = kClosed; return; // TODO
         }
+      }
+    }
+
+    void
+    Channel::handleCall()
+    {
+      MsgCall msg;
+      char *  data = 1 + (char *)&msg;
+      if (stream_->loopRead(data, sizeof (msg) - 1) != sizeof (msg) - 1)
+      {
+        status_ = kClosed;
+        return;
+      }
+      msg.tag_        = le32toh(msg.tag_);
+      msg.service_id_ = le32toh(msg.service_id_);
+      msg.method_id_  = le32toh(msg.method_id_);
+      msg.rq_size_    = le32toh(msg.rq_size_);
+
+      BasicCall::Ptr call = new BasicCall();
+      call->setTag(msg.tag_);
+      call->setServiceId(msg.service_id_);
+      call->setMethodId(msg.method_id_);
+
+      // find service
+      auto service = service_map_->find(call->serviceId());
+      if (!service)
+      {
+        // TODO service not found
+        return;
+      }
+
+      // check for duplicate tag
+      {
+        sync::Mutex::Locker locker(rcalls_mutex_);
+        auto it = rcalls_.find(msg.tag_);
+        if (it != rcalls_.end())
+        {
+          // TODO duplicate tag
+          return;
+        }
+        rcalls_[call->tag()] = call;
+      }
+
+      // call method
+      data = (char *)::malloc(msg.rq_size_);
+      if (!data)
+      {
+        // TODO out of memory
+        return;
+      }
+      if (stream_->loopRead(data, msg.rq_size_) != msg.rq_size_)
+      {
+        status_ = kClosed;
+        return;
+      }
+      auto ret = service->callMethod(call, data, msg.rq_size_);
+      free(data);
+      data = nullptr;
+      if (ret != Service::kSucceed)
+      {
+        // TODO handle errors
+        return;
       }
     }
   }

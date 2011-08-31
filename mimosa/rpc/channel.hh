@@ -42,9 +42,10 @@ namespace mimosa
 
       stream::BufferedStream::Ptr                               stream_;
       ServiceMap::Ptr                                           service_map_;
-      sync::Mutex                                               sent_calls_mutex_;
-      std::map<uint32_t, BasicCall::Ptr>                        sent_calls_;
-      std::map<uint32_t, BasicCall::Ptr>                        received_calls_;
+      sync::Mutex                                               scalls_mutex_;
+      std::map<uint32_t, BasicCall::Ptr>                        scalls_; // sent calls
+      sync::Mutex                                               rcalls_mutex_;
+      std::map<uint32_t, BasicCall::Ptr>                        rcalls_; // received calls
       Status                                                    status_;
       sync::Channel<stream::Buffer::Ptr, stream::Buffer::Slist> write_queue_;
       uint32_t                                                  next_tag_;
