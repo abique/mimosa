@@ -14,11 +14,11 @@ namespace mimosa
     class Condition : private NonCopyable
     {
     public:
-      inline Condition() throw std::bad_alloc
+      inline Condition()
         : cond_(::melon_cond_new())
       {
         if (!cond_)
-          throw std::bad_alloc;
+          throw std::bad_alloc();
       }
 
       inline ~Condition() { ::melon_cond_destroy(cond_); }

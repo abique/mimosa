@@ -7,6 +7,7 @@
 
 # include "../non-copyable.hh"
 # include "locker.hh"
+# include "unique-locker.hh"
 
 namespace mimosa
 {
@@ -15,13 +16,13 @@ namespace mimosa
     class Mutex : private NonCopyable
     {
     public:
-      typedef Locker<Mutex> Locker;
-      typedef UniqueLocker<Mutex> UniqueLocker;
+      typedef sync::Locker<Mutex> Locker;
+      typedef sync::UniqueLocker<Mutex> UniqueLocker;
 
-      inline Mutex() throw std::bad_alloc : mutex_(::melon_mutex_new(0))
+      inline Mutex() : mutex_(::melon_mutex_new(0))
       {
         if (!mutex_)
-          throw std::bad_alloc;
+          throw std::bad_alloc();
       }
 
       inline ~Mutex() { ::melon_mutex_destroy(mutex_); }

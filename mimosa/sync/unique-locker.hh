@@ -20,7 +20,7 @@ namespace mimosa
           mutex_.lock();
       }
 
-      inline ~UniqueLocker() { if (is_locked_) mutex.unlock(); }
+      inline ~UniqueLocker() { if (is_locked_) mutex_.unlock(); }
       inline void lock()
       {
         if (!is_locked_)
