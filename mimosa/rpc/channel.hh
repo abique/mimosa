@@ -27,6 +27,8 @@ namespace mimosa
         kClosed,
       };
 
+      void callMethod(BasicCall::Ptr call);
+
     private:
       void readLoop();
       void writeLoop();
