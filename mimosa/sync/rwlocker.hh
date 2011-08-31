@@ -23,9 +23,9 @@ namespace mimosa
         : state_(acquire), rwlock_(rwlock)
       {
         if (acquire == kReadLocked)
-          rwlock_.rdlock();
+          rwlock_.readLock();
         else if (acquire == kWriteLocked)
-          rwlock_.wrlock();
+          rwlock_.lock();
       }
 
       inline ~RWLocker()
