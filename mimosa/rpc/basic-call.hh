@@ -4,6 +4,7 @@
 # include <google/protobuf/message.h>
 
 # include "../ref-countable.hh"
+# include "../non-copyable.hh"
 # include "../sync/mutex.hh"
 # include "../sync/condition.hh"
 
@@ -11,7 +12,8 @@ namespace mimosa
 {
   namespace rpc
   {
-    class BasicCall : public RefCountable<BasicCall>
+    class BasicCall : public RefCountable<BasicCall>,
+                      private NonCopyable
     {
     public:
       BasicCall(google::protobuf::Message * request  = nullptr,
