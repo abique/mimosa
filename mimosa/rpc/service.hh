@@ -20,6 +20,7 @@ namespace mimosa
         kMethodNotFound     = 1,
         kNotImplemented     = 2,
         kInvalidRequestData = 3,
+        kServiceNotFound    = 4,
       };
 
       virtual ~Service() {}
