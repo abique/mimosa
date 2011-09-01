@@ -181,12 +181,7 @@ namespace mimosa
       // call method
       data = (char *)::malloc(msg.rq_size_);
       if (!data)
-      {
-        sendError(kInternalError, call->tag());
-        sync::Mutex::Locker locker(rcalls_mutex_);
-        rcalls_.erase(call->tag());
-        return true;
-      }
+        return false;
       if (stream_->loopRead(data, msg.rq_size_) != msg.rq_size_)
       {
         status_ = kClosed;
@@ -209,6 +204,30 @@ namespace mimosa
     bool
     Channel::handleResult()
     {
+      MsgResult msg;
+      char *    data = 1 + (char *)&msg;
+      if (stream_->loopRead(data, sizeof (msg) - 1) != sizeof (msg) - 1)
+        return false;
+      msg.tag_     = le32toh(msg.tag_);
+      msg.rp_size_ = le32toh(msg.rp_size_);
+
+      data = (char *)::malloc(msg.rp_size_);
+      if (!data)
+        return false;
+      if (stream_->loopRead(data, msg.rp_size_) != msg.rp_size_)
+        return false;
+
+      BasicCall::Ptr call;
+      {
+        sync::Mutex::Locker locker(scalls_mutex_);
+        auto it = scalls_.find(msg.tag_);
+        if (it == scalls_.end())
+          return true;
+        call = it->second;
+        scalls_.erase(it);
+      }
+      call->response_->ParseFromArray(data, msg.rp_size_);
+      call->finished();
       return true;
     }
   }
