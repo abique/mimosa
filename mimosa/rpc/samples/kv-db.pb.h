@@ -68,29 +68,29 @@ class Key : public ::google::protobuf::Message {
  public:
   Key();
   virtual ~Key();
-
+  
   Key(const Key& from);
-
+  
   inline Key& operator=(const Key& from) {
     CopyFrom(from);
     return *this;
   }
-
+  
   inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
     return _unknown_fields_;
   }
-
+  
   inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
     return &_unknown_fields_;
   }
-
+  
   static const ::google::protobuf::Descriptor* descriptor();
   static const Key& default_instance();
-
+  
   void Swap(Key* other);
-
+  
   // implements Message ----------------------------------------------
-
+  
   Key* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
@@ -98,7 +98,7 @@ class Key : public ::google::protobuf::Message {
   void MergeFrom(const Key& from);
   void Clear();
   bool IsInitialized() const;
-
+  
   int ByteSize() const;
   bool MergePartialFromCodedStream(
       ::google::protobuf::io::CodedInputStream* input);
@@ -111,13 +111,13 @@ class Key : public ::google::protobuf::Message {
   void SharedDtor();
   void SetCachedSize(int size) const;
   public:
-
+  
   ::google::protobuf::Metadata GetMetadata() const;
-
+  
   // nested types ----------------------------------------------------
-
+  
   // accessors -------------------------------------------------------
-
+  
   // required bytes key = 1;
   inline bool has_key() const;
   inline void clear_key();
@@ -128,23 +128,23 @@ class Key : public ::google::protobuf::Message {
   inline void set_key(const void* value, size_t size);
   inline ::std::string* mutable_key();
   inline ::std::string* release_key();
-
+  
   // @@protoc_insertion_point(class_scope:mimosa.rpc.samples.pb.Key)
  private:
   inline void set_has_key();
   inline void clear_has_key();
-
+  
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
-
+  
   ::std::string* key_;
-
+  
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
-
+  
   friend void  protobuf_AddDesc_kv_2ddb_2eproto();
   friend void protobuf_AssignDesc_kv_2ddb_2eproto();
   friend void protobuf_ShutdownFile_kv_2ddb_2eproto();
-
+  
   void InitAsDefaultInstance();
   static Key* default_instance_;
 };
@@ -154,29 +154,29 @@ class KeyValue : public ::google::protobuf::Message {
  public:
   KeyValue();
   virtual ~KeyValue();
-
+  
   KeyValue(const KeyValue& from);
-
+  
   inline KeyValue& operator=(const KeyValue& from) {
     CopyFrom(from);
     return *this;
   }
-
+  
   inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
     return _unknown_fields_;
   }
-
+  
   inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
     return &_unknown_fields_;
   }
-
+  
   static const ::google::protobuf::Descriptor* descriptor();
   static const KeyValue& default_instance();
-
+  
   void Swap(KeyValue* other);
-
+  
   // implements Message ----------------------------------------------
-
+  
   KeyValue* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
@@ -184,7 +184,7 @@ class KeyValue : public ::google::protobuf::Message {
   void MergeFrom(const KeyValue& from);
   void Clear();
   bool IsInitialized() const;
-
+  
   int ByteSize() const;
   bool MergePartialFromCodedStream(
       ::google::protobuf::io::CodedInputStream* input);
@@ -197,13 +197,13 @@ class KeyValue : public ::google::protobuf::Message {
   void SharedDtor();
   void SetCachedSize(int size) const;
   public:
-
+  
   ::google::protobuf::Metadata GetMetadata() const;
-
+  
   // nested types ----------------------------------------------------
-
+  
   // accessors -------------------------------------------------------
-
+  
   // required bytes key = 1;
   inline bool has_key() const;
   inline void clear_key();
@@ -214,7 +214,7 @@ class KeyValue : public ::google::protobuf::Message {
   inline void set_key(const void* value, size_t size);
   inline ::std::string* mutable_key();
   inline ::std::string* release_key();
-
+  
   // required bytes value = 2;
   inline bool has_value() const;
   inline void clear_value();
@@ -225,26 +225,26 @@ class KeyValue : public ::google::protobuf::Message {
   inline void set_value(const void* value, size_t size);
   inline ::std::string* mutable_value();
   inline ::std::string* release_value();
-
+  
   // @@protoc_insertion_point(class_scope:mimosa.rpc.samples.pb.KeyValue)
  private:
   inline void set_has_key();
   inline void clear_has_key();
   inline void set_has_value();
   inline void clear_has_value();
-
+  
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
-
+  
   ::std::string* key_;
   ::std::string* value_;
-
+  
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
-
+  
   friend void  protobuf_AddDesc_kv_2ddb_2eproto();
   friend void protobuf_AssignDesc_kv_2ddb_2eproto();
   friend void protobuf_ShutdownFile_kv_2ddb_2eproto();
-
+  
   void InitAsDefaultInstance();
   static KeyValue* default_instance_;
 };
@@ -254,29 +254,29 @@ class Result : public ::google::protobuf::Message {
  public:
   Result();
   virtual ~Result();
-
+  
   Result(const Result& from);
-
+  
   inline Result& operator=(const Result& from) {
     CopyFrom(from);
     return *this;
   }
-
+  
   inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
     return _unknown_fields_;
   }
-
+  
   inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
     return &_unknown_fields_;
   }
-
+  
   static const ::google::protobuf::Descriptor* descriptor();
   static const Result& default_instance();
-
+  
   void Swap(Result* other);
-
+  
   // implements Message ----------------------------------------------
-
+  
   Result* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
@@ -284,7 +284,7 @@ class Result : public ::google::protobuf::Message {
   void MergeFrom(const Result& from);
   void Clear();
   bool IsInitialized() const;
-
+  
   int ByteSize() const;
   bool MergePartialFromCodedStream(
       ::google::protobuf::io::CodedInputStream* input);
@@ -297,20 +297,20 @@ class Result : public ::google::protobuf::Message {
   void SharedDtor();
   void SetCachedSize(int size) const;
   public:
-
+  
   ::google::protobuf::Metadata GetMetadata() const;
-
+  
   // nested types ----------------------------------------------------
-
+  
   // accessors -------------------------------------------------------
-
+  
   // required .mimosa.rpc.samples.pb.Status status = 1;
   inline bool has_status() const;
   inline void clear_status();
   static const int kStatusFieldNumber = 1;
   inline mimosa::rpc::samples::pb::Status status() const;
   inline void set_status(mimosa::rpc::samples::pb::Status value);
-
+  
   // optional bytes value = 2;
   inline bool has_value() const;
   inline void clear_value();
@@ -321,26 +321,26 @@ class Result : public ::google::protobuf::Message {
   inline void set_value(const void* value, size_t size);
   inline ::std::string* mutable_value();
   inline ::std::string* release_value();
-
+  
   // @@protoc_insertion_point(class_scope:mimosa.rpc.samples.pb.Result)
  private:
   inline void set_has_status();
   inline void clear_has_status();
   inline void set_has_value();
   inline void clear_has_value();
-
+  
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
-
+  
   ::std::string* value_;
   int status_;
-
+  
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
-
+  
   friend void  protobuf_AddDesc_kv_2ddb_2eproto();
   friend void protobuf_AssignDesc_kv_2ddb_2eproto();
   friend void protobuf_ShutdownFile_kv_2ddb_2eproto();
-
+  
   void InitAsDefaultInstance();
   static Result* default_instance_;
 };
@@ -636,16 +636,16 @@ public:
   virtual void get(::mimosa::rpc::Call<
     ::mimosa::rpc::samples::pb::Key,
     ::mimosa::rpc::samples::pb::Result>::Ptr call) = 0;
-
+  
   virtual void set(::mimosa::rpc::Call<
     ::mimosa::rpc::samples::pb::KeyValue,
     ::mimosa::rpc::samples::pb::Result>::Ptr call) = 0;
-
+  
   virtual void del(::mimosa::rpc::Call<
     ::mimosa::rpc::samples::pb::Key,
     ::mimosa::rpc::samples::pb::Result>::Ptr call) = 0;
   // End of rpc methods
-
+  
 protected:
   inline virtual ::mimosa::rpc::Service::CallMethodStatus callMethod(
     ::mimosa::rpc::BasicCall::Ptr basic_call,
@@ -660,8 +660,9 @@ protected:
                            ::mimosa::rpc::samples::pb::Result>::Ptr call(
         reinterpret_cast< ::mimosa::rpc::Call< ::mimosa::rpc::samples::pb::Key,
                                                ::mimosa::rpc::samples::pb::Result> *> (basic_call.get()));
-      call->allocateMessages();  if (!call->request().ParseFromArray(request_data, request_size))
-        return ::mimosa::rpc::Service::kInvalidRequestData;
+      call->allocateMessages();
+      if (!call->request().ParseFromArray(request_data, request_size))
+        return ::mimosa::rpc::Service::kInvalidMsg;
       get(call);
       return ::mimosa::rpc::Service::kSucceed;
     }
@@ -671,8 +672,9 @@ protected:
                            ::mimosa::rpc::samples::pb::Result>::Ptr call(
         reinterpret_cast< ::mimosa::rpc::Call< ::mimosa::rpc::samples::pb::KeyValue,
                                                ::mimosa::rpc::samples::pb::Result> *> (basic_call.get()));
-      call->allocateMessages();  if (!call->request().ParseFromArray(request_data, request_size))
-        return ::mimosa::rpc::Service::kInvalidRequestData;
+      call->allocateMessages();
+      if (!call->request().ParseFromArray(request_data, request_size))
+        return ::mimosa::rpc::Service::kInvalidMsg;
       set(call);
       return ::mimosa::rpc::Service::kSucceed;
     }
@@ -682,8 +684,9 @@ protected:
                            ::mimosa::rpc::samples::pb::Result>::Ptr call(
         reinterpret_cast< ::mimosa::rpc::Call< ::mimosa::rpc::samples::pb::Key,
                                                ::mimosa::rpc::samples::pb::Result> *> (basic_call.get()));
-      call->allocateMessages();  if (!call->request().ParseFromArray(request_data, request_size))
-        return ::mimosa::rpc::Service::kInvalidRequestData;
+      call->allocateMessages();
+      if (!call->request().ParseFromArray(request_data, request_size))
+        return ::mimosa::rpc::Service::kInvalidMsg;
       del(call);
       return ::mimosa::rpc::Service::kSucceed;
     }
@@ -718,7 +721,7 @@ public:
     channel_->callMethod(call);
     return call;
   }
-
+  
   inline ::mimosa::rpc::Call< ::mimosa::rpc::samples::pb::KeyValue,
                               ::mimosa::rpc::samples::pb::Result>::Ptr
   set(::mimosa::rpc::samples::pb::KeyValue * request)
@@ -732,7 +735,7 @@ public:
     channel_->callMethod(call);
     return call;
   }
-
+  
   inline ::mimosa::rpc::Call< ::mimosa::rpc::samples::pb::Key,
                               ::mimosa::rpc::samples::pb::Result>::Ptr
   del(::mimosa::rpc::samples::pb::Key * request)
@@ -746,7 +749,7 @@ public:
     channel_->callMethod(call);
     return call;
   }
-
+  
   // End of rpc methods
 protected:
   ::mimosa::rpc::Channel::Ptr channel_;
