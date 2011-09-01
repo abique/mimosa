@@ -9,7 +9,7 @@ connection: message*;
 message: CLOSE |
          CALL tag service_id method_id msg_size msg |
          RESULT tag msg_size msg |
-         ERROR tag error;
+         ERROR tag tag_origin error;
 
 CLOSE:   0x01 (8bits le);
 CALL:    0x02 (8bits le);
@@ -22,6 +22,9 @@ error: CANCEL            (0x01 8bits le) |
        METHOD_NOT_FOUND  (0x04 8bits le) |
        INTERNAL_ERROR    (0x05 8bits le) |
        DUPLICATE_TAG     (0x06 8bits le);
+
+tag_origin: ORIGIN_ME    (0x00 8bits le) |
+            ORIGIN_YOU   (0x01 8bits le)
 
 tag:                                 (32bits le);
 service_id: crc32(service_full_name) (32bits le);

@@ -76,13 +76,14 @@ namespace mimosa
     }
 
     void
-    Channel::sendError(ErrorType error, uint32_t tag)
+    Channel::sendError(ErrorType error, uint32_t tag, TagOrigin tag_origin)
     {
       stream::Buffer::Ptr buffer = new stream::Buffer(sizeof (MsgError));
-      MsgError * msg  = reinterpret_cast<MsgError *> (buffer->data());
-      msg->type_      = kError;
-      msg->error_     = error;
-      msg->tag_       = htole32(tag);
+      MsgError * msg   = reinterpret_cast<MsgError *> (buffer->data());
+      msg->type_       = kError;
+      msg->error_      = error;
+      msg->tag_        = htole32(tag);
+      msg->tag_origin_ = tag_origin;
       write_queue_.push(buffer);
       {
         sync::Mutex::Locker locker(rcalls_mutex_);
@@ -162,7 +163,7 @@ namespace mimosa
       auto service = service_map_->find(call->serviceId());
       if (!service)
       {
-        sendError(kServiceNotFound, call->tag());
+        sendError(kServiceNotFound, call->tag(), kOriginYou);
         return true;
       }
 
@@ -172,7 +173,7 @@ namespace mimosa
         auto it = rcalls_.find(msg.tag_);
         if (it != rcalls_.end())
         {
-          sendError(kDuplicateTag, call->tag());
+          sendError(kDuplicateTag, call->tag(), kOriginYou);
           return true;
         }
         rcalls_[call->tag()] = call;
@@ -194,7 +195,7 @@ namespace mimosa
           auto ret = service->callMethod(call, data, data_size);
           free(data);
           if (ret != Service::kSucceed)
-            channel->sendError(static_cast<ErrorType> (ret), call->tag());
+            channel->sendError(static_cast<ErrorType> (ret), call->tag(), kOriginYou);
           else
             channel->sendResponse(call);
         });
@@ -229,6 +230,45 @@ namespace mimosa
       call->response_->ParseFromArray(data, msg.rp_size_);
       call->finished();
       return true;
+    }
+
+    bool
+    Channel::handleError()
+    {
+      MsgError msg;
+      char *   data = 1 + (char *)&msg;
+      if (stream_->loopRead(data, sizeof (msg) - 1) != sizeof (msg) - 1)
+        return false;
+      msg.tag_ = le32toh(msg.tag_);
+
+      switch (msg.tag_origin_)
+      {
+      case kOriginYou:
+      {
+        sync::Mutex::Locker locker(scalls_mutex_);
+        auto it = scalls_.find(msg.tag_);
+        if (it == scalls_.end())
+          return true;
+        it->second->cancel();
+        scalls_.erase(it);
+        return true;
+      }
+
+      case kOriginMe:
+      {
+        sync::Mutex::Locker locker(rcalls_mutex_);
+        auto it = rcalls_.find(msg.tag_);
+        if (it == rcalls_.end())
+          return true;
+        it->second->cancel();
+        rcalls_.erase(it);
+        return true;
+      }
+
+      default:
+        // TODO ????
+        return true;
+      }
     }
   }
 }

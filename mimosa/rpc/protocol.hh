@@ -28,6 +28,12 @@ namespace mimosa
       kNotImplemented  = 0x07,
     };
 
+    enum TagOrigin
+    {
+      kOriginMe  = 0x00,
+      kOriginYou = 0x01,
+    };
+
     struct Msg
     {
       uint8_t type_;
@@ -56,6 +62,7 @@ namespace mimosa
     struct MsgError : public Msg
     {
       uint32_t tag_;
+      uint8_t  tag_origin_;
       uint8_t  error_;
     } __attribute__((packed));
   }

@@ -31,7 +31,7 @@ namespace mimosa
 
       void sendCall(BasicCall::Ptr call);
       void sendResponse(BasicCall::Ptr call);
-      void sendError(ErrorType error, uint32_t tag);
+      void sendError(ErrorType error, uint32_t tag, TagOrigin tag_origin);
 
     private:
       /** internal read loop */
