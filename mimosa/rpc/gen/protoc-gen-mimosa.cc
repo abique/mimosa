@@ -118,7 +118,7 @@ class ServiceGenerator : public gpc::CodeGenerator
         "                             $ResponseType$>(request));\n"
         "  call->setServiceId($ServiceId$);\n"
         "  call->setMethodId($MethodId$);\n"
-        "  channel_->callMethod(call);\n"
+        "  channel_->sendCall(call);\n"
         "  return call;\n"
         "}\n"
         "\n"
