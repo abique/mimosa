@@ -17,30 +17,40 @@ namespace mimosa
                     private NonCopyable
     {
     public:
-      Channel(stream::BufferedStream::Ptr stream,
-              ServiceMap::Ptr             service_map);
-
-      void close();
-
       enum Status
       {
         kOk,
         kClosed,
       };
 
+      Channel(stream::BufferedStream::Ptr stream,
+              ServiceMap::Ptr             service_map);
+
+      inline Status status() const { return status_; }
+      void close();
+
       void sendCall(BasicCall::Ptr call);
       void sendResponse(BasicCall::Ptr call);
       void sendError(ErrorType error, uint32_t tag);
 
     private:
-
+      /** internal read loop */
       void readLoop();
+      /** internal write loop */
       void writeLoop();
 
-      void handleCall();
-      void handleResult();
-      void handleError();
+      /** @return true on success, false on fatal error which implies closing
+       * the channel.
+       * @{
+       */
+      bool handleCall();
+      bool handleResult();
+      bool handleError();
+      /** @} */
 
+      /** generate a tag.
+       * @warning you still have to check that the tag is not in use and if it is
+       * then re-call nextTag() */
       uint32_t nextTag();
 
       stream::BufferedStream::Ptr                               stream_;

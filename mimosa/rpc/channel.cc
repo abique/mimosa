@@ -121,27 +121,33 @@ namespace mimosa
           return;
         }
 
+        bool ok = false;
         switch (msg_type)
         {
-        case kClose: status_ = kClosed; return;
-        case kCall:   handleCall(); break;
-        case kResult: handleResult(); break;
-        case kError:  handleError(); break;
-        default: status_ = kClosed; return; // TODO
+        case kCall:   ok = handleCall(); break;
+        case kResult: ok = handleResult(); break;
+        case kError:  ok = handleError(); break;
+
+        case kClose:  ok = false; break;
+        default:      ok = false; break;
+        }
+
+        if (!ok)
+        {
+          // TODO close properly
+          status_ = kClosed;
+          return;
         }
       }
     }
 
-    void
+    bool
     Channel::handleCall()
     {
       MsgCall msg;
       char *  data = 1 + (char *)&msg;
       if (stream_->loopRead(data, sizeof (msg) - 1) != sizeof (msg) - 1)
-      {
-        status_ = kClosed;
-        return;
-      }
+        return false;
       msg.tag_        = le32toh(msg.tag_);
       msg.service_id_ = le32toh(msg.service_id_);
       msg.method_id_  = le32toh(msg.method_id_);
@@ -157,7 +163,7 @@ namespace mimosa
       if (!service)
       {
         sendError(kServiceNotFound, call->tag());
-        return;
+        return true;
       }
 
       // check for duplicate tag
@@ -167,7 +173,7 @@ namespace mimosa
         if (it != rcalls_.end())
         {
           sendError(kDuplicateTag, call->tag());
-          return;
+          return true;
         }
         rcalls_[call->tag()] = call;
       }
@@ -179,12 +185,12 @@ namespace mimosa
         sendError(kInternalError, call->tag());
         sync::Mutex::Locker locker(rcalls_mutex_);
         rcalls_.erase(call->tag());
-        return;
+        return true;
       }
       if (stream_->loopRead(data, msg.rq_size_) != msg.rq_size_)
       {
         status_ = kClosed;
-        return;
+        return true;
       }
 
       Channel::Ptr channel(this);
@@ -197,6 +203,13 @@ namespace mimosa
           else
             channel->sendResponse(call);
         });
+      return true;
+    }
+
+    bool
+    Channel::handleResult()
+    {
+      return true;
     }
   }
 }
