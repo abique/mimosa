@@ -30,13 +30,13 @@ namespace mimosa
     }
 
     void
-    Channel::callMethod(BasicCall::Ptr call)
+    Channel::sendCall(BasicCall::Ptr call)
     {
       call->setTag(nextTag());
 
       uint32_t rq_size  = call->request_->ByteSize();
       stream::Buffer::Ptr buffer = new stream::Buffer(rq_size + sizeof (MsgCall));
-      MsgCall * msg = reinterpret_cast<MsgCall *> (buffer->data());
+      MsgCall * msg    = reinterpret_cast<MsgCall *> (buffer->data());
       msg->type_       = kCall;
       msg->tag_        = htole32(call->tag());
       msg->service_id_ = htole32(call->serviceId());
@@ -56,6 +56,38 @@ namespace mimosa
         scalls_[call->tag()] = call;
       }
       write_queue_.push(buffer);
+    }
+
+    void
+    Channel::sendResponse(BasicCall::Ptr call)
+    {
+      uint32_t rp_size  = call->response_->ByteSize();
+      stream::Buffer::Ptr buffer = new stream::Buffer(rp_size + sizeof (MsgResult));
+      MsgResult * msg  = reinterpret_cast<MsgResult *> (buffer->data());
+      msg->type_       = kResult;
+      msg->tag_        = htole32(call->tag());
+      msg->rp_size_    = htole32(rp_size);
+      call->request_->SerializeToArray(msg->rp_, rp_size);
+      write_queue_.push(buffer);
+      {
+        sync::Mutex::Locker locker(rcalls_mutex_);
+        rcalls_.erase(call->tag());
+      }
+    }
+
+    void
+    Channel::sendError(ErrorType error, uint32_t tag)
+    {
+      stream::Buffer::Ptr buffer = new stream::Buffer(sizeof (MsgError));
+      MsgError * msg  = reinterpret_cast<MsgError *> (buffer->data());
+      msg->type_      = kError;
+      msg->error_     = error;
+      msg->tag_       = htole32(tag);
+      write_queue_.push(buffer);
+      {
+        sync::Mutex::Locker locker(rcalls_mutex_);
+        rcalls_.erase(tag);
+      }
     }
 
     void
@@ -124,7 +156,7 @@ namespace mimosa
       auto service = service_map_->find(call->serviceId());
       if (!service)
       {
-        error(kServiceNotFound, call->tag());
+        sendError(kServiceNotFound, call->tag());
         return;
       }
 
@@ -134,7 +166,7 @@ namespace mimosa
         auto it = rcalls_.find(msg.tag_);
         if (it != rcalls_.end())
         {
-          error(kDuplicateTag, call->tag());
+          sendError(kDuplicateTag, call->tag());
           return;
         }
         rcalls_[call->tag()] = call;
@@ -144,7 +176,7 @@ namespace mimosa
       data = (char *)::malloc(msg.rq_size_);
       if (!data)
       {
-        error(kInternalError, call->tag());
+        sendError(kInternalError, call->tag());
         sync::Mutex::Locker locker(rcalls_mutex_);
         rcalls_.erase(call->tag());
         return;
@@ -161,11 +193,9 @@ namespace mimosa
           auto ret = service->callMethod(call, data, data_size);
           free(data);
           if (ret != Service::kSucceed)
-            channel->error(static_cast<ErrorType> (ret), call->tag());
+            channel->sendError(static_cast<ErrorType> (ret), call->tag());
           else
             channel->sendResponse(call);
-          sync::Mutex::Locker locker(channel->rcalls_mutex_);
-          channel->rcalls_.erase(call->tag());
         });
     }
   }

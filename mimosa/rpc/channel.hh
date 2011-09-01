@@ -28,9 +28,9 @@ namespace mimosa
         kClosed,
       };
 
-      void callMethod(BasicCall::Ptr call);
+      void sendCall(BasicCall::Ptr call);
       void sendResponse(BasicCall::Ptr call);
-      void error(ErrorType error, uint32_t tag);
+      void sendError(ErrorType error, uint32_t tag);
 
     private:
 
