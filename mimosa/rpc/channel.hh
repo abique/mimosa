@@ -6,6 +6,7 @@
 # include "../stream/buffer.hh"
 # include "../stream/buffered-stream.hh"
 # include "../sync/channel.hh"
+# include "protocol.hh"
 # include "service-map.hh"
 
 namespace mimosa
@@ -28,9 +29,11 @@ namespace mimosa
       };
 
       void callMethod(BasicCall::Ptr call);
-
+      void sendResponse(BasicCall::Ptr call);
+      void error(ErrorType error, uint32_t tag);
 
     private:
+
       void readLoop();
       void writeLoop();
 

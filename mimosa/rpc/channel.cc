@@ -124,7 +124,7 @@ namespace mimosa
       auto service = service_map_->find(call->serviceId());
       if (!service)
       {
-        // TODO service not found
+        error(kServiceNotFound, call->tag());
         return;
       }
 
@@ -134,7 +134,7 @@ namespace mimosa
         auto it = rcalls_.find(msg.tag_);
         if (it != rcalls_.end())
         {
-          // TODO duplicate tag
+          error(kDuplicateTag, call->tag());
           return;
         }
         rcalls_[call->tag()] = call;
@@ -144,7 +144,9 @@ namespace mimosa
       data = (char *)::malloc(msg.rq_size_);
       if (!data)
       {
-        // TODO out of memory
+        error(kInternalError, call->tag());
+        sync::Mutex::Locker locker(rcalls_mutex_);
+        rcalls_.erase(call->tag());
         return;
       }
       if (stream_->loopRead(data, msg.rq_size_) != msg.rq_size_)
@@ -152,14 +154,19 @@ namespace mimosa
         status_ = kClosed;
         return;
       }
-      auto ret = service->callMethod(call, data, msg.rq_size_);
-      free(data);
-      data = nullptr;
-      if (ret != Service::kSucceed)
-      {
-        // TODO handle errors
-        return;
-      }
+
+      Channel::Ptr channel(this);
+      auto data_size = msg.rq_size_;
+      runtime::Fiber::start([channel, call, data, data_size, service] () {
+          auto ret = service->callMethod(call, data, data_size);
+          free(data);
+          if (ret != Service::kSucceed)
+            channel->error(static_cast<ErrorType> (ret), call->tag());
+          else
+            channel->sendResponse(call);
+          sync::Mutex::Locker locker(channel->rcalls_mutex_);
+          channel->rcalls_.erase(call->tag());
+        });
     }
   }
 }
