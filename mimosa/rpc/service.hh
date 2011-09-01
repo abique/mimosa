@@ -5,6 +5,7 @@
 
 # include "../ref-countable.hh"
 # include "basic-call.hh"
+# include "protocol.hh"
 
 namespace mimosa
 {
@@ -18,11 +19,10 @@ namespace mimosa
 
       enum CallMethodStatus
       {
-        kSucceed            = 0,
-        kMethodNotFound     = 1,
-        kNotImplemented     = 2,
-        kInvalidRequestData = 3,
-        kServiceNotFound    = 4,
+        kSucceed        = rpc::kSucceed,
+        kMethodNotFound = rpc::kMethodNotFound,
+        kNotImplemented = rpc::kNotImplemented,
+        kInvalidMsg     = rpc::kInvalidMsg,
       };
 
       virtual ~Service() {}

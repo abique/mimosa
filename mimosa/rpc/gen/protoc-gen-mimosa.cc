@@ -194,7 +194,7 @@ class ServiceGenerator : public gpc::CodeGenerator
         "                                           $ResponseType$> *> (basic_call.get()));\n"
         "  call->allocateMessages();\n"
         "  if (!call->request().ParseFromArray(request_data, request_size))\n"
-        "    return ::mimosa::rpc::Service::kInvalidRequestData;\n"
+        "    return ::mimosa::rpc::Service::kInvalidMsg;\n"
         "  $MethodName$(call);\n"
         "  return ::mimosa::rpc::Service::kSucceed;\n"
         "}\n"

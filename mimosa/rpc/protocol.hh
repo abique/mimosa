@@ -18,8 +18,14 @@ namespace mimosa
 
     enum ErrorType
     {
-      kCancel     = 0x01,
-      kInvalidMsg = 0x02,
+      kSucceed         = 0x00,
+      kCancel          = 0x01,
+      kInvalidMsg      = 0x02,
+      kServiceNotFound = 0x03,
+      kMethodNotFound  = 0x04,
+      kInternalError   = 0x05,
+      kDuplicateTag    = 0x06,
+      kNotImplemented  = 0x07,
     };
 
     struct Msg
