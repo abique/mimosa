@@ -101,6 +101,7 @@ namespace mimosa
       ::sockaddr_un & addr = *(::sockaddr_un*)data.get();
       addr.sun_family = AF_UNIX;
       ::memcpy(addr.sun_path, path.c_str(), path.size() + 1);
+      ::unlink(path.c_str());
 
       LISTEN_COMMON_2();
     }
