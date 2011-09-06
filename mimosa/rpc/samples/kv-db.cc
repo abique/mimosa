@@ -1,9 +1,12 @@
+#include <gflags/gflags.h>
 #include <mimosa/main.hh>
 #include <mimosa/rpc/server.hh>
 
 #include "database.hh"
 
 using namespace mimosa;
+
+DEFINE_int32(port, 4242, "the port to use");
 
 MIMOSA_MAIN(argc, argv)
 {
@@ -15,6 +18,6 @@ MIMOSA_MAIN(argc, argv)
 
   rpc::Server::Ptr server = new rpc::Server;
   server->setServiceMap(service_map);
-  server->listenInet4(4242);
+  server->listenInet4(FLAGS_port);
   return 0;
 }
