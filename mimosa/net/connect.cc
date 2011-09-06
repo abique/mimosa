@@ -27,7 +27,12 @@ namespace mimosa
         addr.sin_family = AF_INET;
         addr.sin_port   = ::htons(port);
         ::memcpy(&addr.sin_addr, host_entry->h_addr_list[0], host_entry->h_length);
-        return ::melon_connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout);
+        if (::melon_connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout))
+        {
+          ::close(fd);
+          return -1;
+        }
+        return fd;
       }
       if (host_entry->h_addrtype == AF_INET6)
       {
@@ -36,7 +41,12 @@ namespace mimosa
         addr.sin6_family = AF_INET6;
         addr.sin6_port   = ::htons(port);
         ::memcpy(&addr.sin6_addr, host_entry->h_addr_list[0], host_entry->h_length);
-        return ::melon_connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout);
+        if (::melon_connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout))
+        {
+          ::close(fd);
+          return -1;
+        }
+        return fd;
       }
       return -1;
     }
