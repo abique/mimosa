@@ -56,7 +56,7 @@ namespace mimosa
         }
         data       += bytes;
         bytes_left -= bytes;
-      } while (nbytes > 0);
+      } while (bytes_left > 0);
       return nbytes;
     }
 
@@ -74,7 +74,7 @@ namespace mimosa
         }
         data       += bytes;
         bytes_left -= bytes;
-      } while (nbytes > 0);
+      } while (bytes_left > 0);
       return nbytes;
     }
   }

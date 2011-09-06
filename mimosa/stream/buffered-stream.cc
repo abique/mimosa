@@ -149,7 +149,7 @@ namespace mimosa
       assert(rappend_ > rpos_);
       assert(rbuffer_);
       nbytes = nbytes <= rappend_ - rpos_ ? nbytes : rappend_ - rpos_;
-      ::memcpy(data, rbuffer_->data(), nbytes);
+      ::memcpy(data, rbuffer_->data() + rpos_, nbytes);
       rpos_ += nbytes;
       if (rpos_ == rappend_)
       {
@@ -293,6 +293,12 @@ namespace mimosa
       }
 
       return true;
+    }
+
+    void
+    BufferedStream::close()
+    {
+      stream_->close();
     }
   }
 }

@@ -43,6 +43,8 @@ namespace mimosa
                             bool *             found = nullptr);
       /** @} */
 
+      virtual void close();
+
     private:
       inline uint64_t readyWrite() const;
       void append(const char * data, uint64_t nbytes);

@@ -16,8 +16,11 @@ namespace mimosa
 
     DirectFdStream::~DirectFdStream()
     {
-      ::melon_close(fd_);
-      fd_ = -1;
+      if (fd_ >= 0)
+      {
+        ::melon_close(fd_);
+        fd_ = -1;
+      }
     }
 
     int64_t
@@ -78,6 +81,14 @@ namespace mimosa
                                 (oflags & O_RDWR) || !(oflags & O_WRONLY),
                                 (oflags & O_RDWR) || (oflags & O_WRONLY),
                                 true);
+    }
+
+    void
+    DirectFdStream::close()
+    {
+      int fd = fd_;
+      fd_    = -1;
+      ::melon_close(fd);
     }
   }
 }

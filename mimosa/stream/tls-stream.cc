@@ -52,5 +52,11 @@ namespace mimosa
       return gnutls_record_recv(session_, data, nbytes > std::numeric_limits<ssize_t>::max() ?
                                 std::numeric_limits<ssize_t>::max() : nbytes);
     }
+
+    void
+    TlsStream::close()
+    {
+      stream_->close();
+    }
   }
 }
