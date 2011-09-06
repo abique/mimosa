@@ -87,9 +87,10 @@ class ServiceGenerator : public gpc::CodeGenerator
       return false;
     printer.Print(
       variables,
-      "class $ServiceName$_Client : public ::mimosa::RefCountable<$ServiceName$_Client>\n"
+      "class $ServiceName$_Client : public $ServiceName$\n"
       "{\n"
       "public:\n"
+      "  MIMOSA_DEF_PTR($ServiceName$_Client);"
       "\n"
       "  inline $ServiceName$_Client(::mimosa::rpc::Channel::Ptr channel)\n"
       "    : channel_(channel)\n"
@@ -143,7 +144,7 @@ class ServiceGenerator : public gpc::CodeGenerator
       return false;
     printer.Print(
       variables,
-      "class $ServiceName$_Server\n"
+      "class $ServiceName$_Server : public $ServiceName$\n"
       "{\n"
       "public:\n"
       "  MIMOSA_DEF_PTR($ServiceName$_Server);\n"
