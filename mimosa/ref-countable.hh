@@ -1,4 +1,4 @@
-#ifndef MIMOSA_REF_COUNTABLE_HH
+﻿#ifndef MIMOSA_REF_COUNTABLE_HH
 # define MIMOSA_REF_COUNTABLE_HH
 
 # include <cassert>
@@ -57,7 +57,7 @@ namespace mimosa
 
 # define MIMOSA_DEF_PTR(T...)                   \
   typedef RefCountedPtr<T > Ptr;                \
-  typedef RefCountedPtr<const T > ConstPtr;
+  typedef RefCountedPtr<const T > ConstPtr
 
   template <typename T >
   class RefCountable : public RefCountableBase
