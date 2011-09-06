@@ -28,14 +28,25 @@ namespace mimosa
     }
 
     void
-    BasicCall::wait(runtime::Time timeout)
+    BasicCall::wait()
     {
       if (is_finished_ || is_canceled_)
         return;
       sync::Mutex::Locker locker(mutex_);
       if (is_finished_ || is_canceled_)
         return;
-      condition_.wait(mutex_, timeout);
+      condition_.wait(mutex_);
+    }
+
+    void
+    BasicCall::timedWait(runtime::Time timeout)
+    {
+      if (is_finished_ || is_canceled_)
+        return;
+      sync::Mutex::Locker locker(mutex_);
+      if (is_finished_ || is_canceled_)
+        return;
+      condition_.timedWait(mutex_, timeout);
     }
 
     void

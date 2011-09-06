@@ -23,7 +23,8 @@ namespace mimosa
       virtual ~BasicCall();
 
       /** waits for the call to finish */
-      void wait(runtime::Time timeout = 0);
+      void wait();
+      void timedWait(runtime::Time timeout);
       /** is the call finished ? */
       inline bool isFinished() const { return is_finished_; }
       /** has the call been canceled ? */
