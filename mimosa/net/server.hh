@@ -28,6 +28,8 @@ namespace mimosa
       inline void onAccept(AcceptHandler::Ptr handler) { handler_ = handler; }
       void stop();
 
+      static void setupFd(int fd);
+
     private:
       static void acceptLoop(Server::Ptr server);
 
