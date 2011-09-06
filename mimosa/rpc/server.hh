@@ -10,7 +10,7 @@ namespace mimosa
   namespace rpc
   {
     class Server : public net::Server,
-        public NonCopyable
+        private NonCopyable
     {
     public:
       MIMOSA_DEF_PTR(Server);
