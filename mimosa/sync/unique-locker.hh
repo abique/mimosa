@@ -1,6 +1,7 @@
 #ifndef MIMOSA_SYNC_UNIQUE_LOCKER_HH
 # define MIMOSA_SYNC_UNIQUE_LOCKER_HH
 
+# include <cassert>
 # include <melon/melon.h>
 # include "../non-copyable.hh"
 
