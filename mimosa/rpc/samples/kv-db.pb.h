@@ -627,7 +627,7 @@ public:
   inline virtual const char * name() const { return "mimosa.rpc.samples.pb.Database"; }
 };
 
-class Database_Server
+class Database_Server : public Database
 {
 public:
   MIMOSA_DEF_PTR(Database_Server);
@@ -696,10 +696,10 @@ protected:
   }
 }; // End of service
 
-class Database_Client : public ::mimosa::RefCountable<Database_Client>
+class Database_Client : public Database
 {
 public:
-
+  MIMOSA_DEF_PTR(Database_Client);
   inline Database_Client(::mimosa::rpc::Channel::Ptr channel)
     : channel_(channel)
   {
