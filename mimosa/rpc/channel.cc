@@ -9,7 +9,7 @@ namespace mimosa
   namespace rpc
   {
     Channel::Channel(stream::BufferedStream::Ptr stream,
-                     ServiceMap::Ptr             service_map)
+                     ServiceMap::ConstPtr        service_map)
       : stream_(stream),
         service_map_(service_map),
         scalls_(),

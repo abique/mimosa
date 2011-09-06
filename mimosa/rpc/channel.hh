@@ -13,6 +13,8 @@ namespace mimosa
 {
   namespace rpc
   {
+    class Server;
+
     class Channel : public RefCountable<Channel>,
                     private NonCopyable
     {
@@ -24,7 +26,7 @@ namespace mimosa
       };
 
       Channel(stream::BufferedStream::Ptr stream,
-              ServiceMap::Ptr             service_map);
+              ServiceMap::ConstPtr        service_map);
 
       inline Status status() const { return status_; }
       void close();
@@ -34,6 +36,8 @@ namespace mimosa
       void sendError(ErrorType error, uint32_t tag, TagOrigin tag_origin);
 
     private:
+      friend class Server;
+
       /** internal read loop */
       void readLoop();
       /** internal write loop */
@@ -54,7 +58,7 @@ namespace mimosa
       uint32_t nextTag();
 
       stream::BufferedStream::Ptr                               stream_;
-      ServiceMap::Ptr                                           service_map_;
+      ServiceMap::ConstPtr                                      service_map_;
       sync::Mutex                                               scalls_mutex_;
       std::map<uint32_t, BasicCall::Ptr>                        scalls_; // sent calls
       sync::Mutex                                               rcalls_mutex_;
