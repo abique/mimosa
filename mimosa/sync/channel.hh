@@ -60,6 +60,11 @@ namespace mimosa
         cond_.wakeAll();
       }
 
+      inline void empty() const
+      {
+        return queue_.emtpy();
+      }
+
       bool      closed_;
       QueueType queue_;
       Mutex     mutex_;
