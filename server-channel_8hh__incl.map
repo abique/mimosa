@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node7" href="$handler_8hh.html" title="handler.hh" alt="" coords="483,80,564,107"/>
+<area shape="rect" id="node13" href="$request_8hh.html" title="request.hh" alt="" coords="549,229,631,256"/>
+<area shape="rect" id="node28" href="$response-writer_8hh.html" title="response&#45;writer.hh" alt="" coords="674,155,800,181"/>
+<area shape="rect" id="node11" href="$request-reader_8hh.html" title="request&#45;reader.hh" alt="" coords="527,155,649,181"/>
+<area shape="rect" id="node23" href="$coding_8hh.html" title="coding.hh" alt="" coords="822,304,900,331"/>
+<area shape="rect" id="node25" href="$method_8hh.html" title="method.hh" alt="" coords="555,304,636,331"/>
+<area shape="rect" id="node33" href="$response_8hh.html" title="response.hh" alt="" coords="1087,229,1180,256"/>
+<area shape="rect" id="node40" href="$status_8hh.html" title="status.hh" alt="" coords="1213,304,1288,331"/>
+<area shape="rect" id="node42" href="$cookie_8hh.html" title="cookie.hh" alt="" coords="1313,304,1391,331"/>
+</map>

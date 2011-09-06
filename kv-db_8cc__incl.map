@@ -1,0 +1,19 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$main_8hh.html" title="mimosa/main.hh" alt="" coords="179,304,297,331"/>
+<area shape="rect" id="node20" href="$rpc_2server_8hh.html" title="mimosa/rpc/server.hh" alt="" coords="831,229,976,256"/>
+<area shape="rect" id="node54" href="$database_8hh.html" title="database.hh" alt="" coords="681,80,775,107"/>
+<area shape="rect" id="node5" href="$init_8hh.html" title="init.hh" alt="" coords="102,379,159,405"/>
+<area shape="rect" id="node7" href="$fiber_8hh.html" title="runtime/fiber.hh" alt="" coords="183,379,293,405"/>
+<area shape="rect" id="node17" href="$time_8hh.html" title="time.hh" alt="" coords="158,453,223,480"/>
+<area shape="rect" id="node25" href="$service-map_8hh.html" title="service&#45;map.hh" alt="" coords="1295,304,1404,331"/>
+<area shape="rect" id="node33" href="$service_8hh.html" title="service.hh" alt="" coords="1103,379,1181,405"/>
+<area shape="rect" id="node38" href="$basic-call_8hh.html" title="basic&#45;call.hh" alt="" coords="1098,453,1192,480"/>
+<area shape="rect" id="node48" href="$protocol_8hh.html" title="protocol.hh" alt="" coords="1591,453,1677,480"/>
+<area shape="rect" id="node56" href="$rwlock_8hh.html" title="mimosa/sync/rwlock.hh" alt="" coords="527,379,685,405"/>
+<area shape="rect" id="node73" href="$kv-db_8pb_8h.html" title="kv&#45;db.pb.h" alt="" coords="1686,155,1767,181"/>
+<area shape="rect" id="node61" href="$locker_8hh.html" title="locker.hh" alt="" coords="644,453,717,480"/>
+<area shape="rect" id="node64" href="$rwlocker_8hh.html" title="rwlocker.hh" alt="" coords="743,453,829,480"/>
+<area shape="rect" id="node67" href="$unique-locker_8hh.html" title="unique&#45;locker.hh" alt="" coords="402,453,517,480"/>
+<area shape="rect" id="node87" href="$call_8hh.html" title="mimosa/rpc/call.hh" alt="" coords="1087,304,1219,331"/>
+<area shape="rect" id="node90" href="$rpc_2channel_8hh.html" title="mimosa/rpc/channel.hh" alt="" coords="1544,229,1701,256"/>
+</map>

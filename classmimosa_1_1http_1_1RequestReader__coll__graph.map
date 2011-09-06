@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$classmimosa_1_1stream_1_1Stream.html" title="mimosa::stream::Stream" alt="" coords="202,336,368,363"/>
+<area shape="rect" id="node4" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Stream \&gt;" alt="" coords="5,173,224,200"/>
+<area shape="rect" id="node6" href="$classmimosa_1_1RefCountableBase.html" title="mimosa::RefCountableBase" alt="" coords="21,5,203,32"/>
+<area shape="rect" id="node8" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; T \&gt;" alt="" coords="109,83,293,109"/>
+<area shape="rect" id="node11" href="$classmimosa_1_1NonCopyable.html" title="mimosa::NonCopyable" alt="" coords="249,173,401,200"/>
+<area shape="rect" id="node13" href="$classmimosa_1_1http_1_1Request.html" title="mimosa::http::Request" alt="" coords="393,336,547,363"/>
+<area shape="rect" id="node15" title="STL class." alt="" coords="431,173,509,200"/>
+<area shape="rect" id="node17" title="STL class." alt="" coords="387,83,553,109"/>
+</map>

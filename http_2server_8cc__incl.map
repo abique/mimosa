@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node9" href="$server-channel_8hh.html" title="server&#45;channel.hh" alt="" coords="320,80,443,107"/>
+<area shape="rect" id="node15" href="$handler_8hh.html" title="handler.hh" alt="" coords="469,155,549,181"/>
+<area shape="rect" id="node21" href="$request_8hh.html" title="request.hh" alt="" coords="549,304,631,331"/>
+<area shape="rect" id="node36" href="$response-writer_8hh.html" title="response&#45;writer.hh" alt="" coords="674,229,800,256"/>
+<area shape="rect" id="node19" href="$request-reader_8hh.html" title="request&#45;reader.hh" alt="" coords="527,229,649,256"/>
+<area shape="rect" id="node31" href="$coding_8hh.html" title="coding.hh" alt="" coords="822,379,900,405"/>
+<area shape="rect" id="node33" href="$method_8hh.html" title="method.hh" alt="" coords="555,379,636,405"/>
+<area shape="rect" id="node41" href="$response_8hh.html" title="response.hh" alt="" coords="1087,304,1180,331"/>
+<area shape="rect" id="node48" href="$status_8hh.html" title="status.hh" alt="" coords="1213,379,1288,405"/>
+<area shape="rect" id="node50" href="$cookie_8hh.html" title="cookie.hh" alt="" coords="1313,379,1391,405"/>
+</map>

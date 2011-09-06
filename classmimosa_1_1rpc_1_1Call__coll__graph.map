@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$classmimosa_1_1rpc_1_1BasicCall.html" title="mimosa::rpc::BasicCall" alt="" coords="901,95,1059,121"/>
+<area shape="rect" id="node4" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; BasicCall \&gt;" alt="" coords="557,23,789,49"/>
+<area shape="rect" id="node6" href="$classmimosa_1_1RefCountableBase.html" title="mimosa::RefCountableBase" alt="" coords="6,5,189,32"/>
+<area shape="rect" id="node8" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; T \&gt;" alt="" coords="240,35,424,61"/>
+<area shape="rect" id="node11" href="$classmimosa_1_1NonCopyable.html" title="mimosa::NonCopyable" alt="" coords="255,124,409,151"/>
+<area shape="rect" id="node13" href="$classmimosa_1_1sync_1_1Mutex.html" title="mimosa::sync::Mutex" alt="" coords="599,124,747,151"/>
+<area shape="rect" id="node16" href="$classmimosa_1_1sync_1_1Condition.html" title="mimosa::sync::Condition" alt="" coords="590,175,757,201"/>
+</map>

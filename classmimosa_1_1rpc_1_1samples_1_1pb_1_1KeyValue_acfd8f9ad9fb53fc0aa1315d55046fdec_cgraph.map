@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1KeyValue.html#ab22a5f47a0bd9622f093b6f9c8935fb8" title="mimosa::rpc::samples::pb::KeyValue::Clear" alt="" coords="376,56,651,83"/>
+<area shape="rect" id="node11" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1KeyValue.html#a54c25170843dbb5b981330d11de4e51c" title="mimosa::rpc::samples::pb::KeyValue::MergeFrom" alt="" coords="358,107,669,133"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1KeyValue.html#a1826bfa53614c3a0e49732f3d3b1dabd" title="mimosa::rpc::samples::pb::KeyValue::has_key" alt="" coords="764,5,1057,32"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1KeyValue.html#a362a93538401cebaee220c80e8bfdf68" title="mimosa::rpc::samples::pb::KeyValue::has_value" alt="" coords="760,56,1061,83"/>
+<area shape="rect" id="node9" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1KeyValue.html#a05fe16741863ec8a780ebd4c59ae7d04" title="mimosa::rpc::samples::pb::KeyValue::mutable_unknown_fields" alt="" coords="718,107,1103,133"/>
+</map>

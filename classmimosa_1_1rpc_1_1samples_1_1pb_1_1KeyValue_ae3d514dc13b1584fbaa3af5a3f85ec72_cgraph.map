@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1KeyValue.html#a2e44fcfc5e0723787703c64cb5188762" title="mimosa::rpc::samples::pb::KeyValue::mutable_key" alt="" coords="514,5,833,32"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1KeyValue.html#a05fe16741863ec8a780ebd4c59ae7d04" title="mimosa::rpc::samples::pb::KeyValue::mutable_unknown_fields" alt="" coords="481,56,866,83"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1KeyValue.html#a0ad1eb402e1e5a45c6d69b8efde94c8b" title="mimosa::rpc::samples::pb::KeyValue::mutable_value" alt="" coords="510,107,837,133"/>
+</map>

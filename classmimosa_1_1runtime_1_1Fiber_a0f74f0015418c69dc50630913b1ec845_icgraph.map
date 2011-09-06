@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmimosa_1_1net_1_1Server.html#a211fd6dd535935a4cbe625a78bcfb5fe" title="mimosa::net::Server::stop" alt="" coords="272,31,443,57"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1net_1_1Server.html#a3353fa6a332825cb0ec623a31cee60df" title="mimosa::net::Server::listenInet4" alt="" coords="491,5,696,32"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1net_1_1Server.html#ab80947dfeb6a2c7fdeccea4f1cbe509c" title="mimosa::net::Server::~Server" alt="" coords="498,56,689,83"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#af13a578ace0fe770ff25becd3e2c7072" title="mimosa::rpc::samples::pb::Result::ByteSize" alt="" coords="382,5,661,32"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#af817ef06e025ae554136b35f2b7115f0" title="mimosa::rpc::samples::pb::Result::MergeFrom" alt="" coords="839,81,1131,108"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#a6df20500b4adc5a3de91b5738b76e230" title="mimosa::rpc::samples::pb::Result::MergePartialFromCodedStream" alt="" coords="781,183,1189,209"/>
+<area shape="rect" id="node9" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#a7668497a096cd61065b18a95ebbb9caa" title="mimosa::rpc::samples::pb::Result::SerializeWithCachedSizes" alt="" coords="331,157,711,184"/>
+<area shape="rect" id="node11" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#aa0d067d7d449e331f3ff49764d02b846" title="mimosa::rpc::samples::pb::Result::SerializeWithCachedSizesToArray" alt="" coords="309,208,733,235"/>
+<area shape="rect" id="node13" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#afb6ea5c63b029f4baaa35ebfc57fbda7" title="mimosa::rpc::samples::pb::Result::set_status" alt="" coords="378,107,665,133"/>
+</map>

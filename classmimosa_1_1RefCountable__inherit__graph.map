@@ -1,0 +1,50 @@
+<map id="G" name="G">
+<area shape="rect" id="node5" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Stream \&gt;" alt="" coords="855,259,1073,285"/>
+<area shape="rect" id="node27" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Channel \&gt;" alt="" coords="852,360,1076,387"/>
+<area shape="rect" id="node31" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Server \&gt;" alt="" coords="857,411,1071,437"/>
+<area shape="rect" id="node39" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Url \&gt;" alt="" coords="867,461,1061,488"/>
+<area shape="rect" id="node43" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Channel\&lt; stream::Buffer::Ptr, stream::Buffer::Slist \&gt; \&gt;" alt="" coords="1153,613,1629,640"/>
+<area shape="rect" id="node47" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; ErrorHandler \&gt;" alt="" coords="839,563,1089,589"/>
+<area shape="rect" id="node51" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; BasicCall \&gt;" alt="" coords="848,715,1080,741"/>
+<area shape="rect" id="node57" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Cookie \&gt;" alt="" coords="855,664,1073,691"/>
+<area shape="rect" id="node61" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Channel\&lt; T, QueueType \&gt; \&gt;" alt="" coords="801,512,1127,539"/>
+<area shape="rect" id="node66" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Handler \&gt;" alt="" coords="853,765,1075,792"/>
+<area shape="rect" id="node80" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Service \&gt;" alt="" coords="855,816,1073,843"/>
+<area shape="rect" id="node88" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Function\&lt; Proto \&gt; \&gt;" alt="" coords="823,867,1105,893"/>
+<area shape="rect" id="node92" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; Buffer \&gt;" alt="" coords="859,917,1069,944"/>
+<area shape="rect" id="node96" href="$classmimosa_1_1RefCountable.html" title="mimosa::RefCountable\&lt; ServiceMap \&gt;" alt="" coords="842,968,1086,995"/>
+<area shape="rect" id="node2" href="$classmimosa_1_1RefCountableBase.html" title="mimosa::RefCountableBase" alt="" coords="6,636,189,663"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1stream_1_1Stream.html" title="mimosa::stream::Stream" alt="" coords="1702,208,1869,235"/>
+<area shape="rect" id="node9" href="$classmimosa_1_1http_1_1RequestReader.html" title="mimosa::http::RequestReader" alt="" coords="2332,157,2527,184"/>
+<area shape="rect" id="node11" href="$classmimosa_1_1http_1_1ResponseWriter.html" title="mimosa::http::ResponseWriter" alt="" coords="2330,208,2529,235"/>
+<area shape="rect" id="node13" href="$classmimosa_1_1stream_1_1BufferedStream.html" title="mimosa::stream::BufferedStream" alt="" coords="2323,259,2536,285"/>
+<area shape="rect" id="node17" href="$classmimosa_1_1stream_1_1CompressStream.html" title="mimosa::stream::CompressStream" alt="" coords="2317,309,2542,336"/>
+<area shape="rect" id="node19" href="$classmimosa_1_1stream_1_1DirectFdStream.html" title="mimosa::stream::DirectFdStream" alt="" coords="2322,360,2537,387"/>
+<area shape="rect" id="node21" href="$classmimosa_1_1stream_1_1GzipStream.html" title="mimosa::stream::GzipStream" alt="" coords="2333,5,2526,32"/>
+<area shape="rect" id="node23" href="$classmimosa_1_1stream_1_1LimitedStream.html" title="mimosa::stream::LimitedStream" alt="" coords="2325,56,2533,83"/>
+<area shape="rect" id="node25" href="$classmimosa_1_1stream_1_1TlsStream.html" title="mimosa::stream::TlsStream" alt="" coords="2338,107,2521,133"/>
+<area shape="rect" id="node15" href="$classmimosa_1_1stream_1_1FdStream.html" title="mimosa::stream::FdStream" alt="" coords="2733,259,2915,285"/>
+<area shape="rect" id="node29" href="$classmimosa_1_1rpc_1_1Channel.html" title="mimosa::rpc::Channel" alt="" coords="1711,360,1860,387"/>
+<area shape="rect" id="node33" href="$classmimosa_1_1net_1_1Server.html" title="mimosa::net::Server" alt="" coords="1716,411,1855,437"/>
+<area shape="rect" id="node35" href="$classmimosa_1_1http_1_1Server.html" title="mimosa::http::Server" alt="" coords="2358,461,2501,488"/>
+<area shape="rect" id="node37" href="$classmimosa_1_1rpc_1_1Server.html" title="mimosa::rpc::Server" alt="" coords="2360,411,2499,437"/>
+<area shape="rect" id="node41" href="$classmimosa_1_1uri_1_1Url.html" title="mimosa::uri::Url" alt="" coords="1728,461,1843,488"/>
+<area shape="rect" id="node45" href="$classmimosa_1_1sync_1_1Channel.html" title="mimosa::sync::Channel\&lt; stream::Buffer::Ptr, stream::Buffer::Slist \&gt;" alt="" coords="2224,549,2635,576"/>
+<area shape="rect" id="node49" href="$classmimosa_1_1http_1_1ErrorHandler.html" title="mimosa::http::ErrorHandler" alt="" coords="1696,563,1875,589"/>
+<area shape="rect" id="node53" href="$classmimosa_1_1rpc_1_1BasicCall.html" title="mimosa::rpc::BasicCall" alt="" coords="1707,715,1864,741"/>
+<area shape="rect" id="node55" href="$classmimosa_1_1rpc_1_1Call.html" title="mimosa::rpc::Call\&lt; Request, Response \&gt;" alt="" coords="2298,637,2561,664"/>
+<area shape="rect" id="node59" href="$classmimosa_1_1http_1_1Cookie.html" title="mimosa::http::Cookie" alt="" coords="1712,664,1859,691"/>
+<area shape="rect" id="node63" href="$classmimosa_1_1sync_1_1Channel.html" title="mimosa::sync::Channel\&lt; T, QueueType \&gt;" alt="" coords="1654,512,1917,539"/>
+<area shape="rect" id="node68" href="$classmimosa_1_1http_1_1Handler.html" title="mimosa::http::Handler" alt="" coords="1710,765,1861,792"/>
+<area shape="rect" id="node70" href="$classHelloHandler.html" title="HelloHandler" alt="" coords="2382,891,2477,917"/>
+<area shape="rect" id="node72" href="$classmimosa_1_1http_1_1DispatchHandler.html" title="mimosa::http::DispatchHandler" alt="" coords="2329,688,2530,715"/>
+<area shape="rect" id="node74" href="$classmimosa_1_1http_1_1FsHandler.html" title="mimosa::http::FsHandler" alt="" coords="2347,739,2512,765"/>
+<area shape="rect" id="node76" href="$classPostEchoHandler.html" title="PostEchoHandler" alt="" coords="2368,789,2491,816"/>
+<area shape="rect" id="node78" href="$classQueryEchoHandler.html" title="QueryEchoHandler" alt="" coords="2364,840,2495,867"/>
+<area shape="rect" id="node82" href="$classmimosa_1_1rpc_1_1Service.html" title="mimosa::rpc::Service" alt="" coords="1713,816,1857,843"/>
+<area shape="rect" id="node84" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Database.html" title="mimosa::rpc::samples::pb::Database" alt="" coords="2311,941,2547,968"/>
+<area shape="rect" id="node86" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Database__Client.html" title="mimosa::rpc::samples::pb::Database_Client" alt="" coords="2686,941,2962,968"/>
+<area shape="rect" id="node90" href="$classmimosa_1_1Function.html" title="mimosa::Function\&lt; Proto \&gt;" alt="" coords="1695,867,1876,893"/>
+<area shape="rect" id="node94" href="$classmimosa_1_1stream_1_1Buffer.html" title="mimosa::stream::Buffer" alt="" coords="1707,917,1864,944"/>
+<area shape="rect" id="node98" href="$classmimosa_1_1rpc_1_1ServiceMap.html" title="mimosa::rpc::ServiceMap" alt="" coords="1701,968,1870,995"/>
+</map>

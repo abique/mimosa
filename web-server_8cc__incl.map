@@ -1,0 +1,19 @@
+<map id="G" name="G">
+<area shape="rect" id="node7" href="$main_8hh.html" title="mimosa/main.hh" alt="" coords="349,80,467,107"/>
+<area shape="rect" id="node24" href="$http_2server_8hh.html" title="mimosa/http/server.hh" alt="" coords="491,80,639,107"/>
+<area shape="rect" id="node74" href="$dispatch-handler_8hh.html" title="mimosa/http/dispatch&#45;handler.hh" alt="" coords="723,80,932,107"/>
+<area shape="rect" id="node83" href="$fs-handler_8hh.html" title="mimosa/http/fs&#45;handler.hh" alt="" coords="1001,155,1172,181"/>
+<area shape="rect" id="node9" href="$init_8hh.html" title="init.hh" alt="" coords="87,155,144,181"/>
+<area shape="rect" id="node11" href="$fiber_8hh.html" title="runtime/fiber.hh" alt="" coords="169,155,279,181"/>
+<area shape="rect" id="node21" href="$time_8hh.html" title="time.hh" alt="" coords="415,229,480,256"/>
+<area shape="rect" id="node28" href="$handler_8hh.html" title="handler.hh" alt="" coords="875,229,956,256"/>
+<area shape="rect" id="node32" href="$request-reader_8hh.html" title="request&#45;reader.hh" alt="" coords="855,304,977,331"/>
+<area shape="rect" id="node49" href="$response-writer_8hh.html" title="response&#45;writer.hh" alt="" coords="1038,304,1164,331"/>
+<area shape="rect" id="node34" href="$request_8hh.html" title="request.hh" alt="" coords="864,379,945,405"/>
+<area shape="rect" id="node44" href="$coding_8hh.html" title="coding.hh" alt="" coords="1274,453,1352,480"/>
+<area shape="rect" id="node46" href="$method_8hh.html" title="method.hh" alt="" coords="855,453,936,480"/>
+<area shape="rect" id="node54" href="$response_8hh.html" title="response.hh" alt="" coords="1369,379,1463,405"/>
+<area shape="rect" id="node61" href="$status_8hh.html" title="status.hh" alt="" coords="1666,453,1741,480"/>
+<area shape="rect" id="node63" href="$cookie_8hh.html" title="cookie.hh" alt="" coords="1377,453,1455,480"/>
+<area shape="rect" id="node79" href="$error-handler_8hh.html" title="error&#45;handler.hh" alt="" coords="866,155,976,181"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmimosa_1_1rpc_1_1BasicCall.html#ab73c65d691f43f393c779cc1b68f464a" title="mimosa::rpc::BasicCall::cancel" alt="" coords="396,5,599,32"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1sync_1_1Channel.html#a6f8716c50e9afdcae6f4456db05d0acb" title="mimosa::sync::Channel\&lt; stream::Buffer::Ptr, stream::Buffer::Slist \&gt;::close" alt="" coords="272,56,723,83"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1rpc_1_1BasicCall.html#aacdf4fca6f28de46d34901fdbfd5b597" title="mimosa::rpc::BasicCall::finished" alt="" coords="393,107,602,133"/>
+</map>

@@ -1,0 +1,17 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$namespacemimosa_1_1uri.html#ac94b6211c2c0d252b6e4d6e1a0d5ceef" title="mimosa::uri::parseQuery" alt="" coords="259,139,424,166"/>
+<area shape="rect" id="node34" href="$namespacemimosa_1_1uri.html#a3cd7b78fd424503f576f6854098e40bb" title="mimosa::uri::percentDecode" alt="" coords="249,88,434,115"/>
+<area shape="rect" id="node5" href="$request-lexer_8cc.html#a5a634cf4429798b1c921a81de8250051" title="input" alt="" coords="555,114,605,140"/>
+<area shape="rect" id="node32" href="$namespacemimosa_1_1uri.html#a1060759d98f22c26b49681559c0ade36" title="mimosa::uri::extractKeyValue" alt="" coords="483,164,677,191"/>
+<area shape="rect" id="node7" href="$request-lexer_8cc.html#ac97a4c280f04d003897c9a795fcff4fb" title="mimosa_http_request_restart" alt="" coords="905,88,1095,115"/>
+<area shape="rect" id="node28" href="$request-lexer_8cc.html#a29d30a2c7f7ce166f1198f5a1c1d7757" title="yy_get_next_buffer" alt="" coords="725,139,856,166"/>
+<area shape="rect" id="node9" href="$request-lexer_8cc.html#acc44fe8c0dc315135aef8c3551c640cd" title="mimosa_http_request__create_buffer" alt="" coords="1163,88,1397,115"/>
+<area shape="rect" id="node11" href="$request-lexer_8cc.html#aaccbd7c04ebbb383aa844580c5e3f3b5" title="mimosa_http_request__init_buffer" alt="" coords="1464,51,1680,78"/>
+<area shape="rect" id="node17" href="$request-lexer_8cc.html#a5f11491f03addb3fefb446a143b7f28a" title="mimosa_http_request__load_buffer_state" alt="" coords="2003,12,2261,39"/>
+<area shape="rect" id="node23" href="$request-lexer_8cc.html#acae2ca6605ab2abb2c8198a32c76a73b" title="mimosa_http_request_ensure_buffer_stack" alt="" coords="1145,139,1415,166"/>
+<area shape="rect" id="node19" href="$request-lexer_8cc.html#ac8cc4a7e49ee2199f29e9f059863453e" title="mimosa_http_request_alloc" alt="" coords="1481,127,1663,154"/>
+<area shape="rect" id="node13" href="$request-lexer_8cc.html#ab4155ffea05dab2dafae68fd88a0517f" title="isatty" alt="" coords="1814,88,1869,115"/>
+<area shape="rect" id="node15" href="$request-lexer_8cc.html#af187688e0e00b122073716f2a91ad311" title="mimosa_http_request__flush_buffer" alt="" coords="1728,38,1955,64"/>
+<area shape="rect" id="node26" href="$request-lexer_8cc.html#ae503cb4d28da0db65d7fb3684e6707d5" title="mimosa_http_request_realloc" alt="" coords="1476,190,1668,216"/>
+<area shape="rect" id="node37" href="$namespacemimosa_1_1uri.html#af7aefae577cfb5864e3f822024c6a262" title="mimosa::uri::xdigitValue" alt="" coords="499,63,661,90"/>
+</map>

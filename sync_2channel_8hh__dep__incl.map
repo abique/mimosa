@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$rpc_2channel_8hh.html" title="mimosa/rpc/channel.hh" alt="" coords="167,80,324,107"/>
+<area shape="rect" id="node17" href="$rpc_2server_8cc.html" title="mimosa/rpc/server.cc" alt="" coords="349,80,493,107"/>
+<area shape="rect" id="node5" href="$channel_8cc.html" title="mimosa/rpc/channel.cc" alt="" coords="64,155,221,181"/>
+<area shape="rect" id="node7" href="$kv-db_8pb_8h.html" title="mimosa/rpc/samples/kv&#45;db.pb.h" alt="" coords="246,155,452,181"/>
+<area shape="rect" id="node9" href="$database_8hh.html" title="mimosa/rpc/samples/database.hh" alt="" coords="120,229,339,256"/>
+<area shape="rect" id="node15" href="$kv-db_8pb_8cc.html" title="mimosa/rpc/samples/kv&#45;db.pb.cc" alt="" coords="363,229,576,256"/>
+<area shape="rect" id="node11" href="$database_8cc.html" title="mimosa/rpc/samples/database.cc" alt="" coords="5,304,224,331"/>
+<area shape="rect" id="node13" href="$kv-db_8cc.html" title="mimosa/rpc/samples/kv&#45;db.cc" alt="" coords="248,304,443,331"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$namespacegoogle_1_1protobuf.html#accd3faad5811b867c656f53dbf7a3214" title="google::protobuf::GetEnumDescriptor\&lt; mimosa::rpc::samples::pb::Status \&gt;" alt="" coords="337,5,794,32"/>
+<area shape="rect" id="node5" href="$namespacemimosa_1_1rpc_1_1samples_1_1pb.html#a0b7862193d12c727ce4395af6f2f41fe" title="mimosa::rpc::samples::pb::Status_Name" alt="" coords="435,56,695,83"/>
+<area shape="rect" id="node7" href="$namespacemimosa_1_1rpc_1_1samples_1_1pb.html#aaef41f9ccfb6894f1d72a9729344888e" title="mimosa::rpc::samples::pb::Status_Parse" alt="" coords="435,107,695,133"/>
+</map>

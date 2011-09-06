@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmimosa_1_1stream_1_1Buffer.html#ad6703dce7eb2d45174f00ba7674bf595" title="mimosa::stream::Buffer::data" alt="" coords="305,5,495,32"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1http_1_1RequestReader.html#af8a92fa7cdf1621cfa54384d38998d32" title="mimosa::http::RequestReader::read" alt="" coords="286,56,514,83"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1stream_1_1Buffer.html#ae44a2c9fac58d685fd9d002a66ea72e4" title="mimosa::stream::Buffer::size" alt="" coords="305,107,495,133"/>
+</map>

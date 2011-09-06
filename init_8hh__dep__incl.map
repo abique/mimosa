@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$main_8hh.html" title="mimosa/main.hh" alt="" coords="178,80,296,107"/>
+<area shape="rect" id="node9" href="$init_8cc.html" title="mimosa/init.cc" alt="" coords="321,80,428,107"/>
+<area shape="rect" id="node5" href="$web-server_8cc.html" title="mimosa/http/samples/web&#45;server.cc" alt="" coords="5,155,235,181"/>
+<area shape="rect" id="node7" href="$kv-db_8cc.html" title="mimosa/rpc/samples/kv&#45;db.cc" alt="" coords="259,155,453,181"/>
+</map>

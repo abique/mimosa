@@ -1,0 +1,19 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$response_8hh.html" title="mimosa/http/response.hh" alt="" coords="435,80,604,107"/>
+<area shape="rect" id="node15" href="$error-handler_8hh.html" title="mimosa/http/error&#45;handler.hh" alt="" coords="545,304,732,331"/>
+<area shape="rect" id="node42" href="$status_8cc.html" title="mimosa/http/status.cc" alt="" coords="680,80,832,107"/>
+<area shape="rect" id="node5" href="$response-writer_8hh.html" title="mimosa/http/response&#45;writer.hh" alt="" coords="208,155,411,181"/>
+<area shape="rect" id="node39" href="$response_8cc.html" title="mimosa/http/response.cc" alt="" coords="435,155,604,181"/>
+<area shape="rect" id="node7" href="$handler_8hh.html" title="mimosa/http/handler.hh" alt="" coords="687,229,844,256"/>
+<area shape="rect" id="node31" href="$server-channel_8hh.html" title="mimosa/http/server&#45;channel.hh" alt="" coords="178,304,376,331"/>
+<area shape="rect" id="node36" href="$response-writer_8cc.html" title="mimosa/http/response&#45;writer.cc" alt="" coords="315,229,517,256"/>
+<area shape="rect" id="node9" href="$dispatch-handler_8hh.html" title="mimosa/http/dispatch&#45;handler.hh" alt="" coords="612,379,821,405"/>
+<area shape="rect" id="node24" href="$fs-handler_8hh.html" title="mimosa/http/fs&#45;handler.hh" alt="" coords="836,304,1007,331"/>
+<area shape="rect" id="node28" href="$http_2server_8hh.html" title="mimosa/http/server.hh" alt="" coords="1031,304,1179,331"/>
+<area shape="rect" id="node11" href="$dispatch-handler_8cc.html" title="mimosa/http/dispatch&#45;handler.cc" alt="" coords="612,453,821,480"/>
+<area shape="rect" id="node13" href="$web-server_8cc.html" title="mimosa/http/samples/web&#45;server.cc" alt="" coords="940,453,1169,480"/>
+<area shape="rect" id="node18" href="$error-handler_8cc.html" title="mimosa/http/error&#45;handler.cc" alt="" coords="401,379,588,405"/>
+<area shape="rect" id="node20" href="$fs-handler_8cc.html" title="mimosa/http/fs&#45;handler.cc" alt="" coords="847,379,1017,405"/>
+<area shape="rect" id="node22" href="$server-channel_8cc.html" title="mimosa/http/server&#45;channel.cc" alt="" coords="178,379,376,405"/>
+<area shape="rect" id="node34" href="$http_2server_8cc.html" title="mimosa/http/server.cc" alt="" coords="5,379,153,405"/>
+</map>

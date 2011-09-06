@@ -1,0 +1,19 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$basic-call_8cc.html" title="mimosa/rpc/basic&#45;call.cc" alt="" coords="5,80,171,107"/>
+<area shape="rect" id="node5" href="$call_8hh.html" title="mimosa/rpc/call.hh" alt="" coords="113,155,244,181"/>
+<area shape="rect" id="node17" href="$service_8hh.html" title="mimosa/rpc/service.hh" alt="" coords="305,80,457,107"/>
+<area shape="rect" id="node7" href="$kv-db_8pb_8h.html" title="mimosa/rpc/samples/kv&#45;db.pb.h" alt="" coords="82,304,288,331"/>
+<area shape="rect" id="node9" href="$database_8hh.html" title="mimosa/rpc/samples/database.hh" alt="" coords="15,379,233,405"/>
+<area shape="rect" id="node15" href="$kv-db_8pb_8cc.html" title="mimosa/rpc/samples/kv&#45;db.pb.cc" alt="" coords="257,379,471,405"/>
+<area shape="rect" id="node11" href="$database_8cc.html" title="mimosa/rpc/samples/database.cc" alt="" coords="15,453,233,480"/>
+<area shape="rect" id="node13" href="$kv-db_8cc.html" title="mimosa/rpc/samples/kv&#45;db.cc" alt="" coords="333,453,528,480"/>
+<area shape="rect" id="node19" href="$service-map_8hh.html" title="mimosa/rpc/service&#45;map.hh" alt="" coords="320,155,501,181"/>
+<area shape="rect" id="node38" href="$service_8cc.html" title="mimosa/rpc/service.cc" alt="" coords="525,155,677,181"/>
+<area shape="rect" id="node21" href="$rpc_2channel_8hh.html" title="mimosa/rpc/channel.hh" alt="" coords="320,229,477,256"/>
+<area shape="rect" id="node26" href="$rpc_2server_8hh.html" title="mimosa/rpc/server.hh" alt="" coords="527,229,672,256"/>
+<area shape="rect" id="node35" href="$service-map_8cc.html" title="mimosa/rpc/service&#45;map.cc" alt="" coords="697,229,879,256"/>
+<area shape="rect" id="node23" href="$channel_8cc.html" title="mimosa/rpc/channel.cc" alt="" coords="313,304,471,331"/>
+<area shape="rect" id="node28" href="$http_2server_8cc.html" title="mimosa/http/server.cc" alt="" coords="545,304,693,331"/>
+<area shape="rect" id="node30" href="$net_2server_8cc.html" title="mimosa/net/server.cc" alt="" coords="719,304,864,331"/>
+<area shape="rect" id="node33" href="$rpc_2server_8cc.html" title="mimosa/rpc/server.cc" alt="" coords="889,304,1033,331"/>
+</map>

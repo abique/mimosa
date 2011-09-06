@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmimosa_1_1rpc_1_1Channel.html#aa099616aa658e17a1d490dfdd05635a3" title="mimosa::rpc::Channel::sendCall" alt="" coords="266,5,473,32"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1rpc_1_1Channel.html#ab85504b1cda2e52daebbf6a3d89e0140" title="mimosa::rpc::Channel::sendError" alt="" coords="263,56,476,83"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1rpc_1_1Channel.html#aae6e77c17651a86d17562b2236a90720" title="mimosa::rpc::Channel::sendResponse" alt="" coords="248,107,491,133"/>
+</map>

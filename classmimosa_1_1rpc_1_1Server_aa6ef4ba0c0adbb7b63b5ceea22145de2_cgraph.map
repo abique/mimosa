@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$namespacemimosa.html#a08fa2e0228903638d7d1245c003700fd" title="mimosa::bind" alt="" coords="289,5,389,32"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1net_1_1Server.html#af6abf99df467c6da6fbd212d5d707cc7" title="mimosa::net::Server::onAccept" alt="" coords="238,56,439,83"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1rpc_1_1Server.html#abf469cf2da5dfe0d5e2577345ec57d8d" title="mimosa::rpc::Server::serve" alt="" coords="251,107,427,133"/>
+<area shape="rect" id="node9" href="$classmimosa_1_1runtime_1_1Fiber.html#a18777e9424d8c3039d50c584706ae1b5" title="mimosa::runtime::Fiber::start" alt="" coords="489,107,679,133"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#a4e210e2bf30e93077fb197eb694878c3" title="mimosa::rpc::samples::pb::Result::has_status" alt="" coords="447,5,737,32"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#a4b205f0fbb94c5f96586e55fdb450812" title="mimosa::rpc::samples::pb::Result::has_value" alt="" coords="451,56,733,83"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#a93c0e8723c3642d854b229047b867444" title="mimosa::rpc::samples::pb::Result::status" alt="" coords="461,107,723,133"/>
+<area shape="rect" id="node9" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#a3d5ec0a34a047f70e3f81c05000c283d" title="mimosa::rpc::samples::pb::Result::unknown_fields" alt="" coords="435,157,749,184"/>
+<area shape="rect" id="node11" href="$classmimosa_1_1rpc_1_1samples_1_1pb_1_1Result.html#a5a4c8232a180728e8c9cfc702e09a575" title="mimosa::rpc::samples::pb::Result::value" alt="" coords="465,208,719,235"/>
+</map>

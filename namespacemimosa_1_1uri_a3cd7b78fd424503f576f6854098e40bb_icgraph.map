@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmimosa_1_1http_1_1RequestReader.html#a72ff6a8a7ed17b97216d06965e9058d5" title="mimosa::http::RequestReader::form" alt="" coords="241,5,469,32"/>
+<area shape="rect" id="node5" href="$classmimosa_1_1http_1_1Request.html#a3317b904f0cfc010112b592ae8370e21" title="mimosa::http::Request::location" alt="" coords="251,56,458,83"/>
+<area shape="rect" id="node11" href="$classmimosa_1_1http_1_1Request.html#a776b9924458285cf74d47af6d579a31a" title="mimosa::http::Request::query" alt="" coords="257,107,452,133"/>
+<area shape="rect" id="node7" href="$classmimosa_1_1http_1_1FsHandler.html#ad8cd23a6d12b496fab2fabc568378b0a" title="mimosa::http::FsHandler::handle" alt="" coords="536,31,747,57"/>
+<area shape="rect" id="node9" href="$classmimosa_1_1http_1_1DispatchHandler.html#af62799f2e4dc277cfa5e0b527f7d8226" title="mimosa::http::DispatchHandler::handle" alt="" coords="518,81,765,108"/>
+</map>

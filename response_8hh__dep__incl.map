@@ -1,0 +1,17 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$response-writer_8hh.html" title="mimosa/http/response&#45;writer.hh" alt="" coords="709,80,912,107"/>
+<area shape="rect" id="node37" href="$response_8cc.html" title="mimosa/http/response.cc" alt="" coords="937,80,1105,107"/>
+<area shape="rect" id="node5" href="$handler_8hh.html" title="mimosa/http/handler.hh" alt="" coords="519,155,676,181"/>
+<area shape="rect" id="node29" href="$server-channel_8hh.html" title="mimosa/http/server&#45;channel.hh" alt="" coords="761,229,959,256"/>
+<area shape="rect" id="node34" href="$response-writer_8cc.html" title="mimosa/http/response&#45;writer.cc" alt="" coords="848,155,1051,181"/>
+<area shape="rect" id="node7" href="$dispatch-handler_8hh.html" title="mimosa/http/dispatch&#45;handler.hh" alt="" coords="573,304,783,331"/>
+<area shape="rect" id="node13" href="$error-handler_8hh.html" title="mimosa/http/error&#45;handler.hh" alt="" coords="455,229,641,256"/>
+<area shape="rect" id="node22" href="$fs-handler_8hh.html" title="mimosa/http/fs&#45;handler.hh" alt="" coords="179,229,349,256"/>
+<area shape="rect" id="node26" href="$http_2server_8hh.html" title="mimosa/http/server.hh" alt="" coords="5,229,153,256"/>
+<area shape="rect" id="node9" href="$dispatch-handler_8cc.html" title="mimosa/http/dispatch&#45;handler.cc" alt="" coords="573,379,783,405"/>
+<area shape="rect" id="node11" href="$web-server_8cc.html" title="mimosa/http/samples/web&#45;server.cc" alt="" coords="16,379,245,405"/>
+<area shape="rect" id="node16" href="$error-handler_8cc.html" title="mimosa/http/error&#45;handler.cc" alt="" coords="363,304,549,331"/>
+<area shape="rect" id="node18" href="$fs-handler_8cc.html" title="mimosa/http/fs&#45;handler.cc" alt="" coords="168,304,339,331"/>
+<area shape="rect" id="node20" href="$server-channel_8cc.html" title="mimosa/http/server&#45;channel.cc" alt="" coords="807,304,1005,331"/>
+<area shape="rect" id="node32" href="$http_2server_8cc.html" title="mimosa/http/server.cc" alt="" coords="1029,304,1177,331"/>
+</map>

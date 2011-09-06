@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$structmimosa_1_1rpc_1_1Msg.html" title="mimosa::rpc::Msg" alt="" coords="6,81,133,108"/>
+<area shape="rect" id="node3" href="$structmimosa_1_1rpc_1_1MsgCall.html" title="mimosa::rpc::MsgCall" alt="" coords="189,5,339,32"/>
+<area shape="rect" id="node5" href="$structmimosa_1_1rpc_1_1MsgClose.html" title="mimosa::rpc::MsgClose" alt="" coords="184,56,344,83"/>
+<area shape="rect" id="node7" href="$structmimosa_1_1rpc_1_1MsgError.html" title="mimosa::rpc::MsgError" alt="" coords="187,107,341,133"/>
+<area shape="rect" id="node9" href="$structmimosa_1_1rpc_1_1MsgResult.html" title="mimosa::rpc::MsgResult" alt="" coords="182,157,346,184"/>
+</map>

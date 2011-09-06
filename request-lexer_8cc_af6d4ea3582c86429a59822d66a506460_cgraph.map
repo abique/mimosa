@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$request-lexer_8cc.html#a9dbb60e85638b8b7ac5cea6269e09566" title="mimosa_http_request__delete_buffer" alt="" coords="585,31,820,57"/>
+<area shape="rect" id="node5" href="$request-lexer_8cc.html#a1452b4978f86338bdc9838008434a07f" title="mimosa_http_request_free" alt="" coords="881,5,1055,32"/>
+<area shape="rect" id="node8" href="$request-lexer_8cc.html#ad5a59800cf247e4b78d7e6527b2d3ba0" title="mimosa_http_request_pop_buffer_state" alt="" coords="275,81,525,108"/>
+<area shape="rect" id="node13" href="$request-lexer_8cc.html#a1fcfb5beef0e26d8b11ac911802e6ca1" title="yy_init_globals" alt="" coords="346,132,454,159"/>
+<area shape="rect" id="node11" href="$request-lexer_8cc.html#a5f11491f03addb3fefb446a143b7f28a" title="mimosa_http_request__load_buffer_state" alt="" coords="573,81,832,108"/>
+</map>
