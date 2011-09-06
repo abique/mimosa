@@ -4,6 +4,7 @@
 # include <gnutls/gnutls.h>
 
 # include "handler.hh"
+# include "../non-copyable.hh"
 # include "../net/server.hh"
 # include "../runtime/time.hh"
 
@@ -11,7 +12,8 @@ namespace mimosa
 {
   namespace http
   {
-    class Server : public net::Server
+    class Server : public net::Server,
+                   private NonCopyable
     {
     public:
       MIMOSA_DEF_PTR(Server);
