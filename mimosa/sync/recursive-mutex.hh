@@ -24,7 +24,7 @@ namespace mimosa
 
       inline ~RecursiveMutex() { ::melon_mutex_destroy(mutex_); }
       inline void lock() { ::melon_mutex_lock(mutex_); }
-      inline void unlock() { ::melon_mutex_lock(mutex_); }
+      inline void unlock() { ::melon_mutex_unlock(mutex_); }
       inline bool tryLock() { return !::melon_mutex_trylock(mutex_); }
       inline bool timedLock(::melon_time_t time) { return !::melon_mutex_timedlock(mutex_, time); }
     private:
