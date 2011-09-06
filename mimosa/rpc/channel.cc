@@ -18,6 +18,11 @@ namespace mimosa
         write_queue_(),
         next_tag_(0)
     {
+    }
+
+    void
+    Channel::start()
+    {
       Channel::Ptr channel(this);
       runtime::Fiber::start([channel]() { channel->readLoop(); });
       runtime::Fiber::start([channel]() { channel->writeLoop(); });

@@ -26,8 +26,9 @@ namespace mimosa
       };
 
       Channel(stream::BufferedStream::Ptr stream,
-              ServiceMap::ConstPtr        service_map);
+              ServiceMap::ConstPtr        service_map = nullptr);
 
+      void start();
       inline Status status() const { return status_; }
       void close();
 
@@ -36,8 +37,6 @@ namespace mimosa
       void sendError(ErrorType error, uint32_t tag, TagOrigin tag_origin);
 
     private:
-      friend class Server;
-
       /** internal read loop */
       void readLoop();
       /** internal write loop */
