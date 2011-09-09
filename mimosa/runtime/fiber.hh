@@ -20,8 +20,8 @@ namespace mimosa
       template <typename T>
       static inline void start(void* (*fct)(T *), T * ctx)
       {
-        if (::melon_fiber_startlight(reinterpret_cast<void*(*)(void*)>(fct),
-                                     static_cast<void*>(ctx)))
+        if (::melon_fiber_createlight(nullptr, reinterpret_cast<void*(*)(void*)>(fct),
+                                      static_cast<void*>(ctx)))
           throw std::runtime_error("failed to start new fiber");
       }
 
@@ -29,10 +29,11 @@ namespace mimosa
 
       template <typename T>
       inline Fiber(void* (*fct)(T *), T * ctx)
-        : fiber_(::melon_fiber_start(reinterpret_cast<void*(*)(void*)>(fct),
-                                     static_cast<void*>(ctx)))
+        : fiber_(nullptr)
       {
-        if (!fiber_)
+        if (::melon_fiber_create(&fiber_, nullptr,
+                                 reinterpret_cast<void*(*)(void*)>(fct),
+                                 static_cast<void*>(ctx)))
           throw std::runtime_error("failed to start new fiber");
       }
 

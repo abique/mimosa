@@ -15,9 +15,9 @@ namespace mimosa
     {
     public:
       inline Semaphore(int nb) throw std::bad_alloc
-        : sem_(::melon_sem_new(nb))
+        : sem_(nullptr)
       {
-        if (!sem_)
+        if (::melon_sem_new(&sem_, nullptr, nb))
           throw std::bad_alloc;
       }
 

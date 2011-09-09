@@ -19,9 +19,9 @@ namespace mimosa
       typedef sync::Locker<Mutex> Locker;
       typedef sync::UniqueLocker<Mutex> UniqueLocker;
 
-      inline Mutex() : mutex_(::melon_mutex_new(0))
+      inline Mutex() : mutex_(nullptr)
       {
-        if (!mutex_)
+        if (::melon_mutex_init(&mutex_, nullptr))
           throw std::bad_alloc();
       }
 

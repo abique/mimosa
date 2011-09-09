@@ -22,9 +22,9 @@ namespace mimosa
       typedef sync::UniqueLocker<RWLock> UniqueLocker;
 
       inline RWLock()
-        : lock_(::melon_rwlock_new())
+        : lock_(nullptr)
       {
-        if (!lock_)
+        if (::melon_rwlock_init(&lock_, nullptr))
           throw std::bad_alloc();
       }
 

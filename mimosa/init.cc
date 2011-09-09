@@ -12,15 +12,12 @@ namespace mimosa
   static int gnutls_mutex_init(void ** mutex)
   {
     ::melon_mutex ** m = reinterpret_cast< ::melon_mutex **>(mutex);
-    assert(m);
-    *m = ::melon_mutex_new(0);
-    return !*m;
+    return ::melon_mutex_init(m, nullptr);
   }
 
   static int gnutls_mutex_lock(void ** mutex)
   {
     ::melon_mutex ** m = reinterpret_cast< ::melon_mutex **>(mutex);
-    assert(*m);
     ::melon_mutex_lock(*m);
     return 0;
   }
@@ -28,7 +25,6 @@ namespace mimosa
   static int gnutls_mutex_unlock(void ** mutex)
   {
     ::melon_mutex ** m = reinterpret_cast< ::melon_mutex **>(mutex);
-    assert(*m);
     ::melon_mutex_unlock(*m);
     return 0;
   }
@@ -36,7 +32,6 @@ namespace mimosa
   static int gnutls_mutex_deinit(void ** mutex)
   {
     ::melon_mutex ** m = reinterpret_cast< ::melon_mutex **>(mutex);
-    assert(*m);
     ::melon_mutex_destroy(*m);
     return 0;
   }

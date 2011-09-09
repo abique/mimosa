@@ -16,9 +16,9 @@ namespace mimosa
     {
     public:
       inline Condition()
-        : cond_(::melon_cond_new())
+        : cond_()
       {
-        if (!cond_)
+        if (::melon_cond_init(&cond_, nullptr))
           throw std::bad_alloc();
       }
 

@@ -15,9 +15,9 @@ namespace mimosa
     {
     public:
       inline Barrier(uint16_t nb) throw std::bad_alloc
-        : barrier_(::melon_barrier_new(nb))
+        : barrier_(nullptr)
       {
-        if (!barrier_)
+        if (::melon_barrier_init(&barrier_, nullptr, nb))
           throw std::bad_alloc;
       }
 

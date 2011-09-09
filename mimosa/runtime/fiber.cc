@@ -18,12 +18,12 @@ namespace mimosa
     }
 
     Fiber::Fiber(std::function<void ()> && fct)
-      : fiber_(0)
+      : fiber_(nullptr)
     {
       auto cb = new std::function<void ()>(fct);
-      fiber_ = ::melon_fiber_start(reinterpret_cast<void*(*)(void*)>(startWrapper),
-                                   static_cast<void*>(cb));
-      if (!fiber_)
+      if (::melon_fiber_create(&fiber_, nullptr,
+                               reinterpret_cast<void*(*)(void*)>(startWrapper),
+                               static_cast<void*>(cb)))
         throw std::runtime_error("failed to start new fiber");
     }
 

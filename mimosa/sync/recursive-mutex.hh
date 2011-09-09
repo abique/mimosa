@@ -16,9 +16,17 @@ namespace mimosa
       typedef Locker<RecursiveMutex> Locker;
       typedef UniqueLocker<RecursiveMutex> UniqueLocker;
 
-      inline RecursiveMutex() throw std::bad_alloc : mutex_(::melon_mutex_new(1))
+      inline RecursiveMutex() throw std::bad_alloc : mutex_(nullptr)
       {
-        if (!mutex_)
+        ::melon_mutexattr * attr = nullptr;
+        if (::melon_mutexattr_init(&attr))
+          throw std::bad_alloc;
+
+        ::melon_mutexattr_settype(attr, MELON_MUTEX_RECCURSIVE);
+        int ret = ::melon_mutex_init(&mutex_, attr);
+        ::melon_mutexattr_destroy(attr);
+
+        if (ret)
           throw std::bad_alloc;
       }
 
