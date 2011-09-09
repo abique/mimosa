@@ -21,6 +21,11 @@ namespace mimosa
     {
     }
 
+    Channel::~Channel()
+    {
+      close();
+    }
+
     void
     Channel::start()
     {
@@ -47,8 +52,6 @@ namespace mimosa
       msg->tag_        = htole32(call->tag());
       msg->service_id_ = htole32(call->serviceId());
       msg->method_id_  = htole32(call->methodId());
-      printf("tag: %d, service_id: %d, method_id: %d, rq_size_: %d\n",
-             call->tag(), call->serviceId(), call->methodId(), rq_size);
       msg->rq_size_    = htole32(rq_size);
       call->request_->SerializeToArray(msg->rq_, rq_size);
       {
@@ -75,7 +78,7 @@ namespace mimosa
       msg->type_       = kResult;
       msg->tag_        = htole32(call->tag());
       msg->rp_size_    = htole32(rp_size);
-      call->request_->SerializeToArray(msg->rp_, rp_size);
+      call->response_->SerializeToArray(msg->rp_, rp_size);
       write_queue_.push(buffer);
 
       sync::Mutex::Locker locker(rcalls_mutex_);
@@ -108,12 +111,10 @@ namespace mimosa
           stream_->flush();
           continue;
         }
-        printf("writting %d\n", buffer->size());
         int64_t ret = 0;
         if ((ret = stream_->loopWrite(buffer->data(), buffer->size())) != buffer->size())
         {
-          printf("error during the write: %d\n", ret);
-          status_ = kClosed;
+          close();
           return;
         }
         stream_->flush();
@@ -129,12 +130,10 @@ namespace mimosa
         int ret = 0;
         if ((ret = stream_->read((char*)&msg_type, 1)) != 1)
         {
-          printf("read error: %d\n", ret);
-          status_ = kClosed;
+          close();
           return;
         }
 
-        printf("got a message, type: %d\n", msg_type);
         bool ok = false;
         switch (msg_type)
         {
@@ -148,8 +147,7 @@ namespace mimosa
 
         if (!ok)
         {
-          // TODO close properly
-          status_ = kClosed;
+          close();
           return;
         }
       }
@@ -160,7 +158,6 @@ namespace mimosa
     {
       MsgCall msg;
       char *  data = 1 + (char *)&msg.type_;
-      printf("got call, readding %d next bytes\n", sizeof (msg) - 1);
       if (stream_->loopRead(data, sizeof (msg) - 1) != sizeof (msg) - 1)
         return false;
       msg.tag_        = le32toh(msg.tag_);
@@ -173,30 +170,24 @@ namespace mimosa
       call->setServiceId(msg.service_id_);
       call->setMethodId(msg.method_id_);
 
-      printf("tag: %d, service_id: %d, method_id: %d, rq_size_: %d\n",
-             call->tag(), call->serviceId(), call->methodId(), msg.rq_size_);
-
       // read the end of the message
       data = (char *)::malloc(msg.rq_size_);
       if (!data)
         return false;
       if (stream_->loopRead(data, msg.rq_size_) != msg.rq_size_)
       {
-        puts("failed to read");
-        status_ = kClosed;
+        free(data);
         return false;
       }
-      puts("read the msg");
 
       // find service
       auto service = service_map_->find(call->serviceId());
       if (!service)
       {
-        puts("didn't found the service");
+        free(data);
         sendError(kServiceNotFound, call->tag(), kOriginYou);
         return true;
       }
-      puts("found the service");
 
       // check for duplicate tag
       {
@@ -204,6 +195,7 @@ namespace mimosa
         auto it = rcalls_.find(msg.tag_);
         if (it != rcalls_.end())
         {
+          free(data);
           sendError(kDuplicateTag, call->tag(), kOriginYou);
           return true;
         }
@@ -238,18 +230,25 @@ namespace mimosa
       if (!data)
         return false;
       if (stream_->loopRead(data, msg.rp_size_) != msg.rp_size_)
+      {
+        free(data);
         return false;
+      }
 
       BasicCall::Ptr call;
       {
         sync::Mutex::Locker locker(scalls_mutex_);
         auto it = scalls_.find(msg.tag_);
         if (it == scalls_.end())
+        {
+          free(data);
           return true;
+        }
         call = it->second;
         scalls_.erase(it);
       }
       call->response_->ParseFromArray(data, msg.rp_size_);
+      free(data);
       call->finished();
       return true;
     }
@@ -298,7 +297,7 @@ namespace mimosa
     {
       status_ = kClosed;
       stream_->close();
-      // TODO
+      write_queue_.close();
     }
   }
 }

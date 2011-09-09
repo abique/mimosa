@@ -27,6 +27,7 @@ namespace mimosa
 
       Channel(stream::BufferedStream::Ptr stream,
               ServiceMap::ConstPtr        service_map = nullptr);
+      ~Channel();
 
       void start();
       inline Status status() const { return status_; }
