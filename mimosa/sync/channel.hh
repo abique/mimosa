@@ -38,7 +38,7 @@ namespace mimosa
       inline bool pop(T & t)
       {
         Mutex::Locker locker(mutex_);
-        while (true)
+        while (!closed_)
         {
           if (!queue_.empty())
           {
@@ -46,11 +46,10 @@ namespace mimosa
             queue_.pop();
             return true;
           }
-          else if (closed_)
-            return false;
           else
             cond_.wait(mutex_);
         }
+        return false;
       }
 
       inline void close()
