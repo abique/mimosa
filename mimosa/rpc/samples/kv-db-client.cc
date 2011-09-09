@@ -31,7 +31,7 @@ MIMOSA_MAIN(argc, argv)
   }
 
   /* establish the rpc channel */
-  rpc::Channel::Ptr channel = new rpc::Channel(new stream::FdStream(fd));
+  rpc::Channel::Ptr channel(new rpc::Channel(new stream::FdStream(fd)));
   channel->start();
 
   /* create our service client */
@@ -77,7 +77,7 @@ MIMOSA_MAIN(argc, argv)
     if (call->isCanceled()) // check if an error occured
       printf(" -- del canceled\n");
     else
-      printf(" -- del(%s)\n", FLAGS_key.c_str(), call->response().value().c_str());
+      printf(" -- del(%s)\n", FLAGS_key.c_str());
   }
   channel->close();
 
