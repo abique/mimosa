@@ -86,9 +86,12 @@ namespace mimosa
     void
     DirectFdStream::close()
     {
-      int fd = fd_;
-      fd_    = -1;
-      ::melon_close(fd);
+      if (fd_ >= 0)
+      {
+        int fd = fd_;
+        fd_    = -1;
+        ::melon_close(fd);
+      }
     }
   }
 }
