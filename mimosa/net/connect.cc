@@ -48,6 +48,7 @@ namespace mimosa
         }
         return fd;
       }
+      ::close(fd);
       return -1;
     }
   }
