@@ -45,5 +45,24 @@ namespace mimosa
                    // our input buffer.
       return nbytes;
     }
+
+    bool
+    CompressStream::flush(runtime::Time timeout)
+    {
+      return stream_->flush(timeout);
+    }
+
+    void
+    CompressStream::close()
+    {
+      flush();
+      stream_->close();
+    }
+
+    void
+    CompressStream::cancel()
+    {
+      stream_->cancel();
+    }
   }
 }

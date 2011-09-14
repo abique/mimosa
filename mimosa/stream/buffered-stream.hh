@@ -43,6 +43,7 @@ namespace mimosa
                             bool *             found = nullptr);
       /** @} */
 
+      virtual void cancel();
       virtual void close();
 
     private:

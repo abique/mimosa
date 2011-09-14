@@ -84,6 +84,13 @@ namespace mimosa
     }
 
     void
+    DirectFdStream::cancel()
+    {
+      if (fd_ >= 0)
+        ::melon_cancelio(fd_);
+    }
+
+    void
     DirectFdStream::close()
     {
       if (fd_ >= 0)

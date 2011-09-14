@@ -19,6 +19,7 @@ namespace mimosa
       virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
 
       virtual void close();
+      virtual void cancel();
 
       inline gnutls_session_t session() { return session_; }
 
