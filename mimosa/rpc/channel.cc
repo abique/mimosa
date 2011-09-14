@@ -23,15 +23,6 @@ namespace mimosa
 
     Channel::~Channel()
     {
-      close();
-    }
-
-    void
-    Channel::start()
-    {
-      Channel::Ptr channel(this);
-      runtime::Fiber::start([channel]() { channel->readLoop(); });
-      runtime::Fiber::start([channel]() { channel->writeLoop(); });
     }
 
     uint32_t
@@ -41,63 +32,11 @@ namespace mimosa
     }
 
     void
-    Channel::sendCall(BasicCall::Ptr call)
+    Channel::start()
     {
-      call->setTag(nextTag());
-
-      uint32_t rq_size  = call->request_->ByteSize();
-      stream::Buffer::Ptr buffer = new stream::Buffer(rq_size + sizeof (MsgCall));
-      MsgCall * msg    = reinterpret_cast<MsgCall *> (buffer->data());
-      msg->type_       = kCall;
-      msg->tag_        = htole32(call->tag());
-      msg->service_id_ = htole32(call->serviceId());
-      msg->method_id_  = htole32(call->methodId());
-      msg->rq_size_    = htole32(rq_size);
-      call->request_->SerializeToArray(msg->rq_, rq_size);
-      {
-        sync::Mutex::Locker locker(scalls_mutex_);
-        while (true)
-        {
-          auto it = scalls_.find(call->tag());
-          if (it == scalls_.end())
-            break;
-          call->setTag(nextTag());
-          msg->tag_ = htole32(call->tag());
-        }
-        scalls_[call->tag()] = call;
-      }
-      write_queue_.push(buffer);
-    }
-
-    void
-    Channel::sendResponse(BasicCall::Ptr call)
-    {
-      uint32_t rp_size  = call->response_->ByteSize();
-      stream::Buffer::Ptr buffer = new stream::Buffer(rp_size + sizeof (MsgResult));
-      MsgResult * msg  = reinterpret_cast<MsgResult *> (buffer->data());
-      msg->type_       = kResult;
-      msg->tag_        = htole32(call->tag());
-      msg->rp_size_    = htole32(rp_size);
-      call->response_->SerializeToArray(msg->rp_, rp_size);
-      write_queue_.push(buffer);
-
-      sync::Mutex::Locker locker(rcalls_mutex_);
-      rcalls_.erase(call->tag());
-    }
-
-    void
-    Channel::sendError(ErrorType error, uint32_t tag, TagOrigin tag_origin)
-    {
-      stream::Buffer::Ptr buffer = new stream::Buffer(sizeof (MsgError));
-      MsgError * msg   = reinterpret_cast<MsgError *> (buffer->data());
-      msg->type_       = kError;
-      msg->error_      = error;
-      msg->tag_        = htole32(tag);
-      msg->tag_origin_ = tag_origin;
-      write_queue_.push(buffer);
-
-      sync::Mutex::Locker locker(rcalls_mutex_);
-      rcalls_.erase(tag);
+      Channel::Ptr channel(this);
+      runtime::Fiber::start([channel]() { channel->readLoop(); });
+      runtime::Fiber::start([channel]() { channel->writeLoop(); });
     }
 
     void
@@ -151,6 +90,71 @@ namespace mimosa
           return;
         }
       }
+    }
+
+    void
+    Channel::sendCall(BasicCall::Ptr call)
+    {
+      call->setTag(nextTag());
+
+      uint32_t rq_size = call->request_->ByteSize();
+      stream::Buffer::Ptr buffer = new stream::Buffer(rq_size + sizeof (MsgCall));
+      MsgCall * msg    = reinterpret_cast<MsgCall *> (buffer->data());
+      msg->type_       = kCall;
+      msg->tag_        = htole32(call->tag());
+      msg->service_id_ = htole32(call->serviceId());
+      msg->method_id_  = htole32(call->methodId());
+      msg->rq_size_    = htole32(rq_size);
+      call->request_->SerializeToArray(msg->rq_, rq_size);
+      {
+        sync::Mutex::Locker locker(scalls_mutex_);
+        while (true)
+        {
+          auto it = scalls_.find(call->tag());
+          if (it == scalls_.end())
+            break;
+          call->setTag(nextTag());
+          msg->tag_ = htole32(call->tag());
+        }
+        scalls_[call->tag()] = call;
+      }
+      if (!write_queue_.push(buffer))
+      {
+        sync::Mutex::Locker locker(scalls_mutex_);
+        scalls_.erase(call->tag());
+        call->cancel();
+      }
+    }
+
+    void
+    Channel::sendResponse(BasicCall::Ptr call)
+    {
+      uint32_t rp_size  = call->response_->ByteSize();
+      stream::Buffer::Ptr buffer = new stream::Buffer(rp_size + sizeof (MsgResult));
+      MsgResult * msg  = reinterpret_cast<MsgResult *> (buffer->data());
+      msg->type_       = kResult;
+      msg->tag_        = htole32(call->tag());
+      msg->rp_size_    = htole32(rp_size);
+      call->response_->SerializeToArray(msg->rp_, rp_size);
+      write_queue_.push(buffer);
+
+      sync::Mutex::Locker locker(rcalls_mutex_);
+      rcalls_.erase(call->tag());
+    }
+
+    void
+    Channel::sendError(ErrorType error, uint32_t tag, TagOrigin tag_origin)
+    {
+      stream::Buffer::Ptr buffer = new stream::Buffer(sizeof (MsgError));
+      MsgError * msg   = reinterpret_cast<MsgError *> (buffer->data());
+      msg->type_       = kError;
+      msg->error_      = error;
+      msg->tag_        = htole32(tag);
+      msg->tag_origin_ = tag_origin;
+      write_queue_.push(buffer);
+
+      sync::Mutex::Locker locker(rcalls_mutex_);
+      rcalls_.erase(tag);
     }
 
     bool
