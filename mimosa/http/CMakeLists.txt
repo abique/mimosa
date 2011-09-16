@@ -1,3 +1,21 @@
+install(FILES
+  coding.hh
+  cookie.hh
+  dispatch-handler.hh
+  error-handler.hh
+  fs-handler.hh
+  handler.hh
+  method.hh
+  redirect.hh
+  request.hh
+  request-reader.hh
+  response.hh
+  response-writer.hh
+  server-channel.hh
+  server.hh
+  status.hh
+  DESTINATION include/mimosa/http/)
+
 mimosa_flex(request-lexer)
 mimosa_bison(request-parser)
 
@@ -22,3 +40,8 @@ target_link_libraries(mimosa-http mimosa-uri mimosa-stream mimosa-net)
 
 add_subdirectory(tests)
 add_subdirectory(samples)
+
+install(TARGETS mimosa-http
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib)
