@@ -13,6 +13,7 @@ DEFINE_int32(port, 4242, "the port to use");
 DEFINE_string(path, "/usr/include", "the data dir to expose");
 DEFINE_string(cert, "", "the certificate (cert.pem)");
 DEFINE_string(key, "", "the key (key.pem)");
+DEFINE_int32(timeout, 600, "the number of seconds to run the server");
 
 class HelloHandler : public mimosa::http::Handler
 {
@@ -117,7 +118,10 @@ MIMOSA_MAIN(argc, argv)
   }
 
   printf("listen on %d succeed\n", FLAGS_port);
-  mimosa::runtime::sleep(mimosa::runtime::minutes(15));
-  server->stop();
+  if (FLAGS_timeout > 0)
+  {
+    mimosa::runtime::sleep(mimosa::runtime::seconds(15));
+    server->stop();
+  }
   return 0;
 }
