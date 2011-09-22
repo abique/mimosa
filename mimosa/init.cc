@@ -1,3 +1,4 @@
+#include <signal.h>
 #include <cassert>
 #include <cerrno>
 #include <gnutls/gnutls.h>
@@ -36,8 +37,14 @@ namespace mimosa
     return 0;
   }
 
+  static void dummy(int)
+  {
+  }
+
   void init(int argc, char ** argv)
   {
+    ::signal(SIGPIPE, dummy);
+
     if (::melon_init(0))
       throw int(0); // FIXME
 
