@@ -4,6 +4,7 @@
 #include <dirent.h>
 
 #include <sstream>
+#include <algorithm>
 
 #include "../string/string-ref.hh"
 #include "../stream/copy.hh"
@@ -89,26 +90,27 @@ namespace mimosa
       os << "<html><head></head><body><h1>Directory listing: " << request.location()
          << "</h1><hr/>";
 
+      std::vector<std::string> directories;
+      std::vector<std::string> files;
+
       struct dirent * entry;
       while ((entry = ::readdir(dir)))
       {
-        switch (entry->d_type)
-        {
-        case DT_BLK:  os << "[BLK] ";     break;
-        case DT_CHR:  os << "[CHR] ";     break;
-        case DT_DIR:  os << "[DIR] ";     break;
-        case DT_FIFO: os << "[FIFO] ";    break;
-        case DT_LNK:  os << "[LNK] ";     break;
-        case DT_REG:  os << "[REG] ";     break;
-        case DT_SOCK: os << "[SOCK] ";    break;
-        case DT_UNKNOWN:
-        default:      os << "[UNKNOWN] "; break;
-        }
-        os << "<a href=\"" << entry->d_name
-           << (entry->d_type == DT_DIR ? "/" : "")
-           << "\">" << entry->d_name
-           << (entry->d_type == DT_DIR ? "/" : "")<< "</a><br/>";
+        if (entry->d_type == DT_DIR)
+          directories.push_back(entry->d_name);
+        else
+          files.push_back(entry->d_name);
       }
+
+      std::sort(directories.begin(), directories.end());
+      std::sort(files.begin(), files.end());
+
+      for (auto it = directories.begin(); it != directories.end(); ++it)
+        os << "<a href=\"" << *it << "/\">" << *it << "/</a><br/>";
+
+      for (auto it = files.begin(); it != files.end(); ++it)
+        os << "<a href=\"" << *it << "\">" << *it << "</a><br/>";
+
       os << "</body></html>";
 
       ::closedir(dir);
