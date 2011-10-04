@@ -96,7 +96,16 @@ namespace mimosa
       struct dirent * entry;
       while ((entry = ::readdir(dir)))
       {
-        if (entry->d_type == DT_DIR)
+        std::ostringstream tmp;
+        tmp << real_path << '/' << entry->d_name;
+
+        std::string file_path(tmp.str());
+
+        struct ::stat st;
+        if (::stat(file_path.c_str(), &st))
+          continue;
+
+        if (S_ISDIR(st.st_mode))
           directories.push_back(entry->d_name);
         else
           files.push_back(entry->d_name);
