@@ -22,7 +22,7 @@ namespace mimosa
 
         // compute the number of bytes to read/write
         if (max_bytes > 0 && max_bytes - copied_bytes < to_do)
-          to_do = max_bytes;
+          to_do = max_bytes - copied_bytes;
 
         int64_t rbytes = input.read(buffer->data(), to_do, timeout);
         if (rbytes <= 0)
