@@ -18,9 +18,6 @@ namespace mimosa
         priority_cache_(nullptr),
         dh_params_(nullptr)
     {
-      ::gnutls_priority_init(&priority_cache_, "NORMAL", NULL);
-      ::gnutls_dh_params_init(&dh_params_);
-      ::gnutls_dh_params_generate2(dh_params_, 1024);
       onAccept(new AcceptHandler(std::bind(&Server::newClient, Server::Ptr(this),
                                            std::placeholders::_1)));
     }
@@ -63,8 +60,18 @@ namespace mimosa
     Server::setSecure(const std::string & cert_file,
                       const std::string & key_file)
     {
+      if (!priority_cache_)
+        ::gnutls_priority_init(&priority_cache_, "NORMAL", NULL);
+
+      if (!dh_params_)
+      {
+        ::gnutls_dh_params_init(&dh_params_);
+        ::gnutls_dh_params_generate2(dh_params_, 1024);
+      }
+
       if (!x509_cred_)
         ::gnutls_certificate_allocate_credentials(&x509_cred_);
+
       ::gnutls_certificate_set_x509_key_file(x509_cred_, cert_file.c_str(), key_file.c_str(),
                                              GNUTLS_X509_FMT_PEM);
       ::gnutls_certificate_set_dh_params(x509_cred_, dh_params_);
