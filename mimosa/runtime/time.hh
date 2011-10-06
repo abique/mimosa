@@ -1,22 +1,38 @@
 #ifndef MIMOSA_RUNTIME_TIME_HH
 # define MIMOSA_RUNTIME_TIME_HH
 
-# include <melon/melon.h>
+# include <cstdint>
+# include <ctime>
 
 namespace mimosa
 {
   namespace runtime
   {
-    typedef ::melon_time_t Time;
-    inline Time time() { return ::melon_time(); }
-    inline Time nanoseconds(int64_t ns) { return ns * MELON_NANOSECOND; }
-    inline Time microseconds(int64_t us) { return us * MELON_MICROSECOND; }
-    inline Time milliseconds(int64_t ms) { return ms * MELON_MILLISECOND; }
-    inline Time seconds(int64_t s) { return s * MELON_SECOND; }
-    inline Time minutes(int64_t m) { return m * MELON_MINUTE; }
-    inline Time hours(int64_t h) { return h * MELON_HOUR; }
-    inline Time days(int64_t d) { return d * MELON_DAY; }
-    inline void sleep(Time duration) { ::melon_usleep(duration / 1000); }
+    typedef ::int64_t Time;
+
+    inline Time time()
+    {
+      ::timespec tp;
+      int ret = ::clock_gettime(CLOCK_MONOTONIC, &tp);
+      if (ret)
+        throw std::runtime_error("clock_gettime");
+      return tp.tv_nsec * nanoseconds() + tp.tv_sec * seconds();
+    }
+
+    inline void TimeToTimeSpec(Time time, ::timespec * tp)
+    {
+      tp->tv_sec = time / seconds();
+      tp->tv_sec = time % seconds();
+    }
+
+    inline Time nanosecond()  { return 1; }
+    inline Time microsecond() { return 1000 * nanosecond(); }
+    inline Time millisecond() { return 1000 * millisecond(); }
+    inline Time second()      { return 1000 * microsecond(); }
+    inline Time minute()      { return 60 * second(); }
+    inline Time hour()        { return 60 * minute(); }
+    inline Time day()         { return 24 * hour(); }
+    inline void sleep(Time duration) { ::usleep(duration / microsecond()); }
   }
 }
 
