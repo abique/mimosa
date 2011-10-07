@@ -18,10 +18,11 @@ namespace mimosa
     }
 
     Fiber::Fiber(std::function<void ()> && fct)
-      : fiber_(nullptr)
+      : thread_(),
+        is_detached_(false)
     {
       auto cb = new std::function<void ()>(fct);
-      if (::melon_fiber_create(&fiber_, nullptr,
+      if (::pthread_create(&thread_, nullptr,
                                reinterpret_cast<void*(*)(void*)>(startWrapper),
                                static_cast<void*>(cb)))
         throw std::runtime_error("failed to start new fiber");
@@ -34,40 +35,41 @@ namespace mimosa
 
     void Fiber::join()
     {
-      if (!fiber_)
+      if (!is_detached_)
         return;
-      ::melon_fiber_join(fiber_, NULL);
-      fiber_ = 0;
+      ::pthread_join(thread_, NULL);
+      is_detached_ = true;
     }
 
     bool Fiber::tryJoin()
     {
-      if (!fiber_)
+      if (is_detached_)
         return false;
 
-      if (::melon_fiber_tryjoin(fiber_, NULL))
+      if (::pthread_tryjoin_np(thread_, NULL))
         return false;
-      fiber_ = 0;
+      is_detached_ = true;
       return true;
     }
 
     bool Fiber::timedJoin(Time timeout)
     {
-      if (!fiber_)
+      if (is_detached_)
         return false;
 
-      if (::melon_fiber_timedjoin(fiber_, NULL, timeout))
+      ::timespec tp;
+      toTimeSpec(timeout, &tp);
+      if (::pthread_timedjoin_np(thread_, NULL, &tp))
         return false;
-      fiber_ = 0;
+      is_detached_ = true;
       return true;
     }
 
     void Fiber::detach()
     {
-      if (!fiber_)
+      if (is_detached_)
         return;
-      ::melon_fiber_detach(fiber_);
-      fiber_ = 0;
+      ::pthread_detach(thread_);
     }
   }
 }

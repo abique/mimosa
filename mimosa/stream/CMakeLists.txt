@@ -19,6 +19,7 @@ add_library(mimosa-stream
   direct-fd-stream.cc
   fd-stream.cc
   limited-stream.cc
+  net-fd-stream.cc
   stream.cc
   tls-stream.cc
 )

@@ -58,11 +58,5 @@ namespace mimosa
       flush();
       stream_->close();
     }
-
-    void
-    CompressStream::cancel()
-    {
-      stream_->cancel();
-    }
   }
 }

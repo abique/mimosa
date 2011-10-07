@@ -8,7 +8,7 @@
 
 #include "../string/string-ref.hh"
 #include "../stream/copy.hh"
-#include "../stream/fd-stream.hh"
+#include "../stream/direct-fd-stream.hh"
 #include "fs-handler.hh"
 #include "error-handler.hh"
 
@@ -69,9 +69,10 @@ namespace mimosa
       response.content_length_ = st.st_size;
       response.sendHeader(0);
 
-      auto file = stream::DirectFdStream::openFile(real_path.c_str(), O_RDONLY, 0644);
-      if (!file)
+      int fd = ::open(real_path.c_str(), O_RDONLY, 0644);
+      if (fd < 0)
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      auto file = new stream::DirectFdStream(fd);
       int64_t ret = stream::copy(*file, response, st.st_size);
       return ret == st.st_size;
     }

@@ -2,7 +2,7 @@
 #include <cstdio>
 
 #include <gflags/gflags.h>
-#include <mimosa/main.hh>
+#include <mimosa/init.hh>
 #include <mimosa/rpc/channel.hh>
 #include <mimosa/net/connect.hh>
 #include <mimosa/stream/fd-stream.hh>
@@ -17,10 +17,9 @@ DEFINE_string(op, "set", "the operation (get, set, del)");
 DEFINE_string(key, "", "the key");
 DEFINE_string(value, "", "the value");
 
-MIMOSA_MAIN(argc, argv)
+int main(int argc, char ** argv)
 {
-  (void)argc;
-  (void)argv;
+  mimosa::init(argc, argv);
 
   /* connect to the server */
   int fd = net::connectToHost(FLAGS_host, FLAGS_port);
@@ -80,6 +79,8 @@ MIMOSA_MAIN(argc, argv)
       printf(" -- del(%s)\n", FLAGS_key.c_str());
   }
   channel->close();
+
+  mimosa::deinit();
 
   return 0;
 }

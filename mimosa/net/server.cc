@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "server.hh"
+#include "accept.hh"
 #include "../runtime/fiber.hh"
 
 namespace mimosa
@@ -111,7 +112,7 @@ namespace mimosa
     {
       while (!server->stop_)
       {
-        int fd = ::melon_accept(server->fd_, 0, 0, 0);
+        int fd = net::accept(server->fd_, 0, 0, 0);
         if (fd < 0)
           continue;
         try {
@@ -130,12 +131,14 @@ namespace mimosa
         assert(accept_loop_);
 
         stop_ = true;
+        bool joined = false;
         do {
           puts("canceling io...");
-          ::melon_cancelio(fd_);
-        } while (!accept_loop_->timedJoin(runtime::time() + runtime::milliseconds(1)));
+          ::pthread_cancel(accept_loop_->threadId());
+          joined = accept_loop_->timedJoin(runtime::time() + runtime::millisecond());
+        } while (!joined);
         delete accept_loop_;
-        ::melon_close(fd_);
+        ::close(fd_);
         accept_loop_ = 0;
         fd_ = -1;
       }

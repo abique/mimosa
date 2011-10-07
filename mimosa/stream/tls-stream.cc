@@ -58,11 +58,5 @@ namespace mimosa
     {
       stream_->close();
     }
-
-    void
-    TlsStream::cancel()
-    {
-      stream_->cancel();
-    }
   }
 }

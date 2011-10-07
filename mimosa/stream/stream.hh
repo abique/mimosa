@@ -26,11 +26,10 @@ namespace mimosa
       virtual int64_t readv(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
 
       /** cancels running io opperations */
-      inline virtual void cancel() {}
       inline virtual void close() {}
 
       /** flushes the write buffer */
-      inline virtual bool flush(runtime::Time timeout = 0) { return true; }
+      inline virtual bool flush(runtime::Time timeout = 0) { (void)timeout; return true; }
 
       int64_t loopRead(char * data, uint64_t nbytes, runtime::Time timeout = 0);
       int64_t loopWrite(const char * data, uint64_t nbytes, runtime::Time timeout = 0);

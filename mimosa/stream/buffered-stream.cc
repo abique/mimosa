@@ -296,12 +296,6 @@ namespace mimosa
     }
 
     void
-    BufferedStream::cancel()
-    {
-      stream_->cancel();
-    }
-
-    void
     BufferedStream::close()
     {
       stream_->close();

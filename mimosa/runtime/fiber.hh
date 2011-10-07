@@ -4,7 +4,7 @@
 # include <functional>
 # include <stdexcept>
 
-# include <melon/melon.h>
+# include <pthread.h>
 
 # include "../non-copyable.hh"
 # include "time.hh"
@@ -20,18 +20,21 @@ namespace mimosa
       template <typename T>
       static inline void start(void* (*fct)(T *), T * ctx)
       {
-        if (::melon_fiber_createlight(nullptr, reinterpret_cast<void*(*)(void*)>(fct),
+        pthread_t thread;
+        if (::pthread_create(&thread, nullptr, reinterpret_cast<void*(*)(void*)>(fct),
                                       static_cast<void*>(ctx)))
           throw std::runtime_error("failed to start new fiber");
+        ::pthread_detach(thread);
       }
 
       static void start(std::function<void ()> && fct);
 
       template <typename T>
       inline Fiber(void* (*fct)(T *), T * ctx)
-        : fiber_(nullptr)
+        : thread_(),
+          is_detached_(false)
       {
-        if (::melon_fiber_create(&fiber_, nullptr,
+        if (::pthread_create(&thread_, nullptr,
                                  reinterpret_cast<void*(*)(void*)>(fct),
                                  static_cast<void*>(ctx)))
           throw std::runtime_error("failed to start new fiber");
@@ -45,8 +48,11 @@ namespace mimosa
       bool timedJoin(Time timeout);
       void detach();
 
+      inline pthread_t threadId() const { return thread_; }
+
     private:
-      melon_fiber * fiber_;
+      pthread_t thread_;
+      bool      is_detached_;
     };
   }
 }
