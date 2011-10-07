@@ -49,7 +49,7 @@ namespace mimosa
       if (::listen(fd_, 10))                                            \
         goto failure;                                                   \
       try {                                                             \
-        this->accept_loop_ = new runtime::Fiber(                        \
+        this->accept_loop_ = new runtime::Thread(                        \
           std::bind(&Server::acceptLoop, Server::Ptr(this)));           \
       } catch (...) {                                                   \
         goto failure;                                                   \
@@ -116,7 +116,7 @@ namespace mimosa
         if (fd < 0)
           continue;
         try {
-          runtime::Fiber::start([server, fd]() { (*server->handler_)(fd); });
+          runtime::Thread::start([server, fd]() { (*server->handler_)(fd); });
         } catch (...) {
           ::close(fd);
         }

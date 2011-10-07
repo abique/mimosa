@@ -11,13 +11,13 @@ namespace mimosa
       return 0;
     }
 
-    void Fiber::start(std::function<void ()> && fct)
+    void Thread::start(std::function<void ()> && fct)
     {
       auto cb = new std::function<void ()>(fct);
-      Fiber::start(startWrapper, cb);
+      Thread::start(startWrapper, cb);
     }
 
-    Fiber::Fiber(std::function<void ()> && fct)
+    Thread::Thread(std::function<void ()> && fct)
       : thread_(),
         is_detached_(false)
     {
@@ -31,12 +31,12 @@ namespace mimosa
       }
     }
 
-    Fiber::~Fiber()
+    Thread::~Thread()
     {
       detach();
     }
 
-    void Fiber::join()
+    void Thread::join()
     {
       if (!is_detached_)
         return;
@@ -44,7 +44,7 @@ namespace mimosa
       is_detached_ = true;
     }
 
-    bool Fiber::tryJoin()
+    bool Thread::tryJoin()
     {
       if (is_detached_)
         return false;
@@ -55,7 +55,7 @@ namespace mimosa
       return true;
     }
 
-    bool Fiber::timedJoin(Time timeout)
+    bool Thread::timedJoin(Time timeout)
     {
       if (is_detached_)
         return false;
@@ -68,7 +68,7 @@ namespace mimosa
       return true;
     }
 
-    void Fiber::detach()
+    void Thread::detach()
     {
       if (is_detached_)
         return;

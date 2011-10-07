@@ -36,7 +36,7 @@ namespace mimosa
       AcceptHandler::Ptr handler_;
       int                fd_;
       bool               stop_;
-      runtime::Fiber *   accept_loop_;
+      runtime::Thread *   accept_loop_;
     };
   }
 }

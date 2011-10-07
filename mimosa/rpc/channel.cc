@@ -35,8 +35,8 @@ namespace mimosa
     Channel::start()
     {
       Channel::Ptr channel(this);
-      runtime::Fiber::start([channel]() { channel->readLoop(); });
-      runtime::Fiber::start([channel]() { channel->writeLoop(); });
+      runtime::Thread::start([channel]() { channel->readLoop(); });
+      runtime::Thread::start([channel]() { channel->writeLoop(); });
     }
 
     void
@@ -209,7 +209,7 @@ namespace mimosa
       // call method
       Channel::Ptr channel(this);
       auto data_size = msg.rq_size_;
-      runtime::Fiber::start([channel, call, data, data_size, service] () {
+      runtime::Thread::start([channel, call, data, data_size, service] () {
           auto ret = service->callMethod(call, data, data_size);
           free(data);
           if (ret != Service::kSucceed)

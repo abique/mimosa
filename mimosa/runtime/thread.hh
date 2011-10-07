@@ -13,7 +13,7 @@ namespace mimosa
 {
   namespace runtime
   {
-    class Fiber : private NonCopyable
+    class Thread : private NonCopyable
     {
     public:
 
@@ -30,7 +30,7 @@ namespace mimosa
       static void start(std::function<void ()> && fct);
 
       template <typename T>
-      inline Fiber(void* (*fct)(T *), T * ctx)
+      inline Thread(void* (*fct)(T *), T * ctx)
         : thread_(),
           is_detached_(false)
       {
@@ -40,8 +40,8 @@ namespace mimosa
           throw std::runtime_error("failed to start new fiber");
       }
 
-      Fiber(std::function<void ()> && fct);
-      ~Fiber();
+      Thread(std::function<void ()> && fct);
+      ~Thread();
 
       void join();
       bool tryJoin();
