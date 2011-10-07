@@ -135,7 +135,7 @@ namespace mimosa
         do {
           puts("canceling io...");
           ::pthread_cancel(accept_loop_->threadId());
-          joined = accept_loop_->timedJoin(runtime::time() + runtime::millisecond());
+          joined = accept_loop_->timedJoin(runtime::time() + runtime::millisecond);
         } while (!joined);
         delete accept_loop_;
         ::close(fd_);

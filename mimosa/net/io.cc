@@ -18,7 +18,7 @@ namespace mimosa
       pfd.fd     = fd;
       pfd.events = events;
 
-      auto time = (timeout - runtime::Time()) / runtime::millisecond();
+      auto time = (timeout - runtime::Time()) / runtime::millisecond;
       if (time <= 0)
         goto err_timeout;
 
