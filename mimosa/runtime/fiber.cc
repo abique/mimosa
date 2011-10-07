@@ -25,7 +25,10 @@ namespace mimosa
       if (::pthread_create(&thread_, nullptr,
                                reinterpret_cast<void*(*)(void*)>(startWrapper),
                                static_cast<void*>(cb)))
+      {
+        delete cb;
         throw std::runtime_error("failed to start new fiber");
+      }
     }
 
     Fiber::~Fiber()

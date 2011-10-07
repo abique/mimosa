@@ -14,8 +14,8 @@ namespace mimosa
 
     inline Time nanosecond()  { return 1; }
     inline Time microsecond() { return 1000 * nanosecond(); }
-    inline Time millisecond() { return 1000 * millisecond(); }
-    inline Time second()      { return 1000 * microsecond(); }
+    inline Time millisecond() { return 1000 * microsecond(); }
+    inline Time second()      { return 1000 * millisecond(); }
     inline Time minute()      { return 60 * second(); }
     inline Time hour()        { return 60 * minute(); }
     inline Time day()         { return 24 * hour(); }

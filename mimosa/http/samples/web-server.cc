@@ -2,7 +2,7 @@
 
 #include <gflags/gflags.h>
 
-#include <mimosa/main.hh>
+#include <mimosa/init.hh>
 #include <mimosa/http/server.hh>
 #include <mimosa/http/dispatch-handler.hh>
 #include <mimosa/http/fs-handler.hh>
@@ -96,10 +96,9 @@ class PostEchoHandler : public mimosa::http::Handler
   }
 };
 
-MIMOSA_MAIN(argc, argv)
+int main(int argc, char ** argv)
 {
-  (void)argc;
-  (void)argv;
+  mimosa::init(argc, argv);
 
   auto dispatch(new http::DispatchHandler);
   dispatch->registerHandler("/", new HelloHandler);
@@ -120,8 +119,10 @@ MIMOSA_MAIN(argc, argv)
   printf("listen on %d succeed\n", FLAGS_port);
   if (FLAGS_timeout > 0)
   {
-    mimosa::runtime::sleep(mimosa::runtime::seconds(15));
+    mimosa::runtime::sleep(15 * mimosa::runtime::second());
     server->stop();
   }
+
+  mimosa::deinit();
   return 0;
 }
