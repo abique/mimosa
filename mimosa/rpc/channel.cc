@@ -1,7 +1,7 @@
 #include <endian.h>
 #include <cassert>
 
-#include "../runtime/fiber.hh"
+#include "../runtime/thread.hh"
 #include "channel.hh"
 #include "protocol.hh"
 

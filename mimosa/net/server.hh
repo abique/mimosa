@@ -8,7 +8,7 @@
 # include <string>
 
 # include "../function.hh"
-# include "../runtime/fiber.hh"
+# include "../runtime/thread.hh"
 
 namespace mimosa
 {

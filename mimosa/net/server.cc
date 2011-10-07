@@ -6,7 +6,7 @@
 
 #include "server.hh"
 #include "accept.hh"
-#include "../runtime/fiber.hh"
+#include "../runtime/thread.hh"
 
 namespace mimosa
 {
