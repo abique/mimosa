@@ -1,3 +1,6 @@
+#include <pthread.h>
+#include <climits>
+
 #include "thread.hh"
 
 namespace mimosa
@@ -11,34 +14,50 @@ namespace mimosa
       return 0;
     }
 
-    void Thread::start(std::function<void ()> && fct)
-    {
-      auto cb = new std::function<void ()>(fct);
-      Thread::start(startWrapper, cb);
-    }
-
     Thread::Thread(std::function<void ()> && fct)
       : thread_(),
-        is_detached_(false)
+        fct_(new std::function<void ()>(fct)),
+        is_detached_(false),
+        stack_size_(PTHREAD_STACK_MIN)
     {
-      auto cb = new std::function<void ()>(fct);
-      if (::pthread_create(&thread_, nullptr,
-                               reinterpret_cast<void*(*)(void*)>(startWrapper),
-                               static_cast<void*>(cb)))
+    }
+
+    bool
+    Thread::start()
+    {
+      pthread_attr_t attrs;
+      if (pthread_attr_init(&attrs))
+        return false;
+
+      if (pthread_attr_setstacksize(&attrs, stack_size_))
       {
-        delete cb;
-        throw std::runtime_error("failed to start new fiber");
+        pthread_attr_destroy(&attrs);
+        return false;
       }
+
+      if (::pthread_create(&thread_, &attrs,
+                           reinterpret_cast<void*(*)(void*)>(startWrapper),
+                           static_cast<void*>(fct_)))
+      {
+        pthread_attr_destroy(&attrs);
+        delete fct_;
+        return false;
+      }
+
+      pthread_attr_destroy(&attrs);
+      fct_ = nullptr;
+      return true;
     }
 
     Thread::~Thread()
     {
+      delete fct_;
       detach();
     }
 
     void Thread::join()
     {
-      if (!is_detached_)
+      if (is_detached_)
         return;
       ::pthread_join(thread_, NULL);
       is_detached_ = true;

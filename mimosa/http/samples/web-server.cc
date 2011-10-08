@@ -1,19 +1,22 @@
 #include <sstream>
+#include <iostream>
+#include <thread>
 
 #include <gflags/gflags.h>
 
 #include <mimosa/init.hh>
+#include <mimosa/runtime/thread-pool.hh>
 #include <mimosa/http/server.hh>
 #include <mimosa/http/dispatch-handler.hh>
 #include <mimosa/http/fs-handler.hh>
 
 using namespace mimosa;
 
+DEFINE_int32(nthreads, 64, "the number of threads to use");
 DEFINE_int32(port, 4242, "the port to use");
 DEFINE_string(path, "/usr/include", "the data dir to expose");
 DEFINE_string(cert, "", "the certificate (cert.pem)");
 DEFINE_string(key, "", "the key (key.pem)");
-DEFINE_int32(timeout, 600, "the number of seconds to run the server");
 
 class HelloHandler : public mimosa::http::Handler
 {
@@ -100,27 +103,35 @@ int main(int argc, char ** argv)
 {
   mimosa::init(argc, argv);
 
-  auto dispatch(new http::DispatchHandler);
-  dispatch->registerHandler("/", new HelloHandler);
-  dispatch->registerHandler("/query-echo", new QueryEchoHandler);
-  dispatch->registerHandler("/post-echo", new PostEchoHandler);
-  dispatch->registerHandler("/data/*", new http::FsHandler(FLAGS_path, 1, true));
-  http::Server::Ptr server = new http::Server;
-  server->setHandler(dispatch);
-  if (!FLAGS_cert.empty() && !FLAGS_key.empty())
-    server->setSecure(FLAGS_cert, FLAGS_key);
-  auto ret = server->listenInet4(FLAGS_port);
-  if (!ret)
   {
-    puts("failed to listen");
-    return 1;
-  }
+    auto dispatch(new http::DispatchHandler);
+    dispatch->registerHandler("/", new HelloHandler);
+    dispatch->registerHandler("/query-echo", new QueryEchoHandler);
+    dispatch->registerHandler("/post-echo", new PostEchoHandler);
+    dispatch->registerHandler("/data/*", new http::FsHandler(FLAGS_path, 1, true));
 
-  printf("listen on %d succeed\n", FLAGS_port);
-  if (FLAGS_timeout > 0)
-  {
-    mimosa::runtime::sleep(15 * mimosa::runtime::second());
-    server->stop();
+    http::Server::Ptr server(new http::Server);
+    server->setHandler(dispatch);
+
+    if (!FLAGS_cert.empty() && !FLAGS_key.empty())
+      server->setSecure(FLAGS_cert, FLAGS_key);
+
+    auto ret = server->listenInet4(FLAGS_port);
+    if (!ret)
+    {
+      puts("failed to listen");
+      return 1;
+    }
+    printf("listen on %d succeed\n", FLAGS_port);
+
+    runtime::ThreadPool pool([server] {
+        while (true)
+          server->serveOne();
+      });
+
+    for (int i = 0; i < FLAGS_nthreads; ++i)
+      pool.startThread();
+    pool.join();
   }
 
   mimosa::deinit();

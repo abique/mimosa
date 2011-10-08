@@ -20,7 +20,7 @@ namespace mimosa
     }
 
     inline RefCountedPtr(const RefCountedPtr<T> & ptr)
-      : ptr_(ptr.get())
+      : ptr_(ptr.ptr_)
     {
       if (ptr_)
         addRef(ptr_);
@@ -32,6 +32,19 @@ namespace mimosa
     {
       if (ptr_)
         addRef(ptr_);
+    }
+
+    inline RefCountedPtr(RefCountedPtr<T> && ptr)
+      : ptr_(ptr.ptr_)
+    {
+      ptr.ptr_ = nullptr;
+    }
+
+    template <typename U>
+    inline RefCountedPtr(RefCountedPtr<U> && ptr)
+      : ptr_(ptr.ptr_)
+    {
+      ptr.ptr_ = nullptr;
     }
 
     inline ~RefCountedPtr()
@@ -47,7 +60,14 @@ namespace mimosa
 
     inline RefCountedPtr<T> & operator=(const RefCountedPtr<T> & ptr)
     {
-      assign(ptr.get());
+      assign(ptr.ptr_);
+      return *this;
+    }
+
+    template <typename U>
+    inline RefCountedPtr<T> & operator=(const RefCountedPtr<U> & ptr)
+    {
+      assign(ptr.ptr_);
       return *this;
     }
 

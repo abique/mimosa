@@ -18,8 +18,6 @@ namespace mimosa
         priority_cache_(nullptr),
         dh_params_(nullptr)
     {
-      onAccept(new AcceptHandler(std::bind(&Server::newClient, Server::Ptr(this),
-                                           std::placeholders::_1)));
     }
 
     Server::~Server()
@@ -31,15 +29,15 @@ namespace mimosa
     }
 
     void
-    Server::newClient(Server::Ptr server, int fd)
+    Server::serve(int fd) const
     {
       stream::Stream::Ptr stream(new stream::DirectFdStream(fd));
-      if (server->x509_cred_)
+      if (x509_cred_)
       {
         auto tls_stream = new stream::TlsStream(stream, true);
         stream          = tls_stream;
-        ::gnutls_priority_set(tls_stream->session(), server->priority_cache_);
-        ::gnutls_credentials_set(tls_stream->session(), GNUTLS_CRD_CERTIFICATE, server->x509_cred_);
+        ::gnutls_priority_set(tls_stream->session(), priority_cache_);
+        ::gnutls_credentials_set(tls_stream->session(), GNUTLS_CRD_CERTIFICATE, x509_cred_);
         int ret = ::gnutls_handshake(tls_stream->session());
         if (ret < 0)
         {
@@ -50,9 +48,9 @@ namespace mimosa
       }
 
       ServerChannel channel(new stream::BufferedStream(stream),
-                            server->handler_,
-                            server->read_timeout_,
-                            server->write_timeout_);
+                            handler_,
+                            read_timeout_,
+                            write_timeout_);
       channel.run();
     }
 

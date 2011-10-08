@@ -26,7 +26,7 @@ namespace mimosa
                      const std::string & key_file);
 
     private:
-      static void newClient(Server::Ptr server, int fd);
+      virtual void serve(int fd) const;
 
       runtime::Time                      read_timeout_;
       runtime::Time                      write_timeout_;

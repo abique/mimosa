@@ -17,32 +17,12 @@ namespace mimosa
     {
     public:
 
-      template <typename T>
-      static inline void start(void* (*fct)(T *), T * ctx)
-      {
-        pthread_t thread;
-        if (::pthread_create(&thread, nullptr, reinterpret_cast<void*(*)(void*)>(fct),
-                                      static_cast<void*>(ctx)))
-          throw std::runtime_error("failed to start new fiber");
-        ::pthread_detach(thread);
-      }
-
-      static void start(std::function<void ()> && fct);
-
-      template <typename T>
-      inline Thread(void* (*fct)(T *), T * ctx)
-        : thread_(),
-          is_detached_(false)
-      {
-        if (::pthread_create(&thread_, nullptr,
-                                 reinterpret_cast<void*(*)(void*)>(fct),
-                                 static_cast<void*>(ctx)))
-          throw std::runtime_error("failed to start new fiber");
-      }
-
       Thread(std::function<void ()> && fct);
       ~Thread();
 
+      inline Thread & setStackSize(uint32_t size) { stack_size_ = size; return *this; }
+
+      bool start();
       void join();
       bool tryJoin();
       bool timedJoin(Time timeout);
@@ -51,8 +31,10 @@ namespace mimosa
       inline pthread_t threadId() const { return thread_; }
 
     private:
-      pthread_t thread_;
-      bool      is_detached_;
+      pthread_t                thread_;
+      std::function<void ()> * fct_;
+      bool                     is_detached_;
+      uint32_t                 stack_size_;
     };
   }
 }
