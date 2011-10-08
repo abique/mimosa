@@ -8,16 +8,13 @@ namespace mimosa
   {
     Server::Server()
     {
-      this->onAccept(new AcceptHandler(
-                       std::bind(&Server::serve, Server::Ptr(this),
-                                 std::placeholders::_1)));
     }
 
     void
-    Server::serve(Server::Ptr server, int fd)
+    Server::serve(int fd) const
     {
       stream::FdStream::Ptr stream = new stream::FdStream(fd);
-      Channel::Ptr channel = new Channel(stream, server->service_map_);
+      Channel::Ptr channel = new Channel(stream, service_map_);
       channel->start();
     }
   }

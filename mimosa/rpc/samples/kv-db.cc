@@ -19,6 +19,9 @@ int main(int argc, char ** argv)
   server->setServiceMap(service_map);
   server->listenInet4(FLAGS_port);
 
+  while (true)
+    server->serveOne();
+
   mimosa::deinit();
   return 0;
 }

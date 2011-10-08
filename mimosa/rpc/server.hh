@@ -21,7 +21,7 @@ namespace mimosa
       inline void setServiceMap(ServiceMap::ConstPtr service_map)
       { service_map_ = service_map; }
 
-      static void serve(Server::Ptr server, int fd);
+      virtual void serve(int fd) const;
 
     protected:
       ServiceMap::ConstPtr service_map_;

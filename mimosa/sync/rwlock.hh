@@ -6,6 +6,7 @@
 # include <melon/melon.h>
 
 # include "../non-copyable.hh"
+# include "../runtime/time.hh"
 # include "locker.hh"
 # include "rwlocker.hh"
 # include "unique-locker.hh"
@@ -22,22 +23,58 @@ namespace mimosa
       typedef sync::UniqueLocker<RWLock> UniqueLocker;
 
       inline RWLock()
-        : lock_(nullptr)
+        : lock_()
       {
-        if (::melon_rwlock_init(&lock_, nullptr))
+        if (::pthread_rwlock_init(&lock_, nullptr))
           throw std::bad_alloc();
       }
 
-      inline ~RWLock() { ::melon_rwlock_destroy(lock_); }
-      inline void readLock() { ::melon_rwlock_rdlock(lock_); }
-      inline void tryReadLock() { ::melon_rwlock_tryrdlock(lock_); }
-      inline bool timedReadLock(::melon_time_t time) { return ::melon_rwlock_timedrdlock(lock_, time); }
-      inline void lock() { ::melon_rwlock_wrlock(lock_); }
-      inline void tryLock() { ::melon_rwlock_trywrlock(lock_); }
-      inline bool timedLock(::melon_time_t time) { return ::melon_rwlock_timedwrlock(lock_, time); }
-      inline void unlock() { ::melon_rwlock_unlock(lock_); }
+      inline ~RWLock()
+      {
+        ::pthread_rwlock_destroy(&lock_);
+      }
+
+      inline void readLock()
+      {
+        ::pthread_rwlock_rdlock(&lock_);
+      }
+
+      inline void tryReadLock()
+      {
+        ::pthread_rwlock_tryrdlock(&lock_);
+      }
+
+      inline bool timedReadLock(runtime::Time time)
+      {
+        ::timespec tp;
+        runtime::toTimeSpec(time, &tp);
+        return ::pthread_rwlock_timedrdlock(&lock_, &tp);
+      }
+
+      inline void lock()
+      {
+        ::pthread_rwlock_wrlock(&lock_);
+      }
+
+      inline void tryLock()
+      {
+        ::pthread_rwlock_trywrlock(&lock_);
+      }
+
+      inline bool timedLock(runtime::Time time)
+      {
+        ::timespec tp;
+        runtime::toTimeSpec(time, &tp);
+        return ::pthread_rwlock_timedwrlock(&lock_, &tp);
+      }
+
+      inline void unlock()
+      {
+        ::pthread_rwlock_unlock(&lock_);
+      }
+
     private:
-      ::melon_rwlock * lock_;
+      ::pthread_rwlock_t lock_;
     };
   }
 }

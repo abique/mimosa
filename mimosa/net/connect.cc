@@ -3,12 +3,21 @@
 #include <cstring>
 #include <melon/melon.h>
 
+#include "io.hh"
 #include "connect.hh"
 
 namespace mimosa
 {
   namespace net
   {
+    int connect(int socket, const struct sockaddr *address,
+                socklen_t address_len, runtime::Time timeout)
+    {
+      if (!waitForFdReady(socket, POLLIN | POLLRDNORM | POLLRDBAND | POLLPRI, timeout))
+        return -1;
+      return ::connect(socket, address, address_len);
+    }
+
     int connectToHost(const std::string &host, uint16_t port,
                       runtime::Time timeout)
     {
@@ -27,7 +36,7 @@ namespace mimosa
         addr.sin_family = AF_INET;
         addr.sin_port   = ::htons(port);
         ::memcpy(&addr.sin_addr, host_entry->h_addr_list[0], host_entry->h_length);
-        if (::melon_connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout))
+        if (connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout))
         {
           ::close(fd);
           return -1;
@@ -41,7 +50,7 @@ namespace mimosa
         addr.sin6_family = AF_INET6;
         addr.sin6_port   = ::htons(port);
         ::memcpy(&addr.sin6_addr, host_entry->h_addr_list[0], host_entry->h_length);
-        if (::melon_connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout))
+        if (connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout))
         {
           ::close(fd);
           return -1;
