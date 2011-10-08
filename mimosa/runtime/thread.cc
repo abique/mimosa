@@ -1,5 +1,6 @@
 #include <pthread.h>
 #include <climits>
+#include <cassert>
 
 #include "thread.hh"
 
@@ -17,7 +18,7 @@ namespace mimosa
     Thread::Thread(std::function<void ()> && fct)
       : thread_(),
         fct_(new std::function<void ()>(fct)),
-        is_detached_(false),
+        state_(kNotRunning),
         stack_size_(PTHREAD_STACK_MIN)
     {
     }
@@ -25,6 +26,8 @@ namespace mimosa
     bool
     Thread::start()
     {
+      assert(state_ == kNotRunning);
+
       pthread_attr_t attrs;
       if (pthread_attr_init(&attrs))
         return false;
@@ -40,12 +43,12 @@ namespace mimosa
                            static_cast<void*>(fct_)))
       {
         pthread_attr_destroy(&attrs);
-        delete fct_;
         return false;
       }
 
       pthread_attr_destroy(&attrs);
       fct_ = nullptr;
+      state_ = kRunning;
       return true;
     }
 
@@ -57,41 +60,43 @@ namespace mimosa
 
     void Thread::join()
     {
-      if (is_detached_)
+      if (state_ != kRunning)
         return;
+
       ::pthread_join(thread_, NULL);
-      is_detached_ = true;
+      state_ = kJoined;
     }
 
     bool Thread::tryJoin()
     {
-      if (is_detached_)
+      if (state_ != kRunning)
         return false;
 
       if (::pthread_tryjoin_np(thread_, NULL))
         return false;
-      is_detached_ = true;
+      state_ = kJoined;
       return true;
     }
 
     bool Thread::timedJoin(Time timeout)
     {
-      if (is_detached_)
+      if (state_ != kRunning)
         return false;
 
       ::timespec tp;
       toTimeSpec(timeout, &tp);
       if (::pthread_timedjoin_np(thread_, NULL, &tp))
         return false;
-      is_detached_ = true;
+      state_ = kJoined;
       return true;
     }
 
     void Thread::detach()
     {
-      if (is_detached_)
+      if (state_ != kRunning)
         return;
       ::pthread_detach(thread_);
+      state_ = kDetached;
     }
   }
 }

@@ -12,7 +12,6 @@
 
 using namespace mimosa;
 
-DEFINE_int32(nthreads, 64, "the number of threads to use");
 DEFINE_int32(port, 4242, "the port to use");
 DEFINE_string(path, "/usr/include", "the data dir to expose");
 DEFINE_string(cert, "", "the certificate (cert.pem)");
@@ -124,14 +123,8 @@ int main(int argc, char ** argv)
     }
     printf("listen on %d succeed\n", FLAGS_port);
 
-    runtime::ThreadPool pool([server] {
-        while (true)
-          server->serveOne();
-      });
-
-    for (int i = 0; i < FLAGS_nthreads; ++i)
-      pool.startThread();
-    pool.join();
+    while (true)
+      server->serveOne();
   }
 
   mimosa::deinit();

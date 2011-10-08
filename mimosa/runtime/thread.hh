@@ -31,9 +31,18 @@ namespace mimosa
       inline pthread_t threadId() const { return thread_; }
 
     private:
+
+      enum State
+      {
+        kNotRunning,
+        kRunning,
+        kDetached,
+        kJoined,
+      };
+
       pthread_t                thread_;
       std::function<void ()> * fct_;
-      bool                     is_detached_;
+      State                    state_;
       uint32_t                 stack_size_;
     };
   }

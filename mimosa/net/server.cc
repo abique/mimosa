@@ -106,7 +106,12 @@ namespace mimosa
     {
       int fd = accept(accept_timeout);
       if (fd >= 0)
-        serve(fd);
+      {
+        Server::ConstPtr server(this);
+        runtime::Thread([server, fd] {
+            server->serve(fd);
+          }).start();
+      }
     }
   }
 }
