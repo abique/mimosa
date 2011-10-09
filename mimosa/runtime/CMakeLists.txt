@@ -9,8 +9,7 @@ add_library(mimosa-runtime
   thread.cc
   thread-pool.cc)
 
-target_link_libraries(mimosa-runtime mimosa)
-
+target_link_libraries(mimosa-runtime)
 
 install(TARGETS mimosa-runtime
   RUNTIME DESTINATION bin
