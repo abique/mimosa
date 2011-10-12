@@ -11,6 +11,7 @@
 #include "../stream/direct-fd-stream.hh"
 #include "fs-handler.hh"
 #include "error-handler.hh"
+#include "mime-db.hh"
 
 namespace mimosa
 {
@@ -67,6 +68,7 @@ namespace mimosa
     {
       response.status_ = kStatusOk;
       response.content_length_ = st.st_size;
+      response.content_type_ = MimeDb::instance().mimeType(real_path);
       response.sendHeader(0);
 
       int fd = ::open(real_path.c_str(), O_RDONLY, 0644);
