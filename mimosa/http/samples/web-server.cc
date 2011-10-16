@@ -1,11 +1,8 @@
 #include <sstream>
-#include <iostream>
-#include <thread>
 
 #include <gflags/gflags.h>
 
 #include <mimosa/init.hh>
-#include <mimosa/runtime/thread-pool.hh>
 #include <mimosa/http/server.hh>
 #include <mimosa/http/dispatch-handler.hh>
 #include <mimosa/http/fs-handler.hh>
