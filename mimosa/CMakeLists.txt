@@ -2,7 +2,6 @@ install(FILES
   bind.hh
   function.hh
   init.hh
-  main.hh
   non-copyable.hh
   ref-countable.hh
   ref-counted-ptr.hh
