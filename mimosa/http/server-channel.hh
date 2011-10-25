@@ -30,8 +30,15 @@ namespace mimosa
       void requestTimeout();
       void badRequest();
 
-      inline runtime::Time readTimeout() const { return read_timeout_ > 0 ? runtime::time() + read_timeout_ : 0; }
-      inline runtime::Time writeTimeout() const { return write_timeout_ > 0 ? runtime::time() + write_timeout_ : 0; }
+      inline runtime::Time readTimeout() const
+      {
+        return read_timeout_ > 0 ? runtime::time() + read_timeout_ : 0;
+      }
+
+      inline runtime::Time writeTimeout() const
+      {
+        return write_timeout_ > 0 ? runtime::time() + write_timeout_ : 0;
+      }
 
       stream::BufferedStream::Ptr stream_;
       Handler::Ptr                handler_;
