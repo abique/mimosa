@@ -8,7 +8,8 @@
 
 소소
 
-Mimosa is a high level framework on top of melon (https://github.com/babali/melon)
+Mimosa is a high level framework on top of melon or pthreads.
+https://github.com/babali/melon
 
 Mimosa provides:
  - logging framework
@@ -22,5 +23,5 @@ Depends
  - flex
  - bison
  - gnutls
- - melon
+ - melon or pthreads
  - zlib
