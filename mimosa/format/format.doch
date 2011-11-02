@@ -1,0 +1,25 @@
+/**
+
+@page Format
+
+The format namespace contains an alternative to std::ostream.
+For exemple you can do:
+@code
+mimosa::format::format("Hello %v!\n", some_object);
+mimosa::format::format("Hello %v, this is your age %d or 0x%x!\n", some_object, 24, 24);
+@endcode
+
+@section Formatting Supported formatting
+
+<table>
+<tr><td>%v</td><td>the default operator<<(std::ostream&, const T &)</td></tr>
+<tr><td>%d</td><td>print integer with decimal format</td></tr>
+<tr><td>%o</td><td>print integer with octal format</td></tr>
+<tr><td>%x</td><td>print integer with hexadecimal format (lowercase)</td></tr>
+<tr><td>%X</td><td>print integer with hexadecimal format (uppercase)</td></tr>
+<tr><td>%p</td><td>print pointers with hexadecimal format (lowercase)</td></tr>
+<tr><td>%P</td><td>print pointers with hexadecimal format (uppercase)</td></tr>
+<tr><td>%%</td><td>print the `%' character</td></tr>
+</table>
+
+*/
