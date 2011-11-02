@@ -4,6 +4,7 @@ install(FILES
   channel.hh
   protocol.hh
   server.hh
+  service.hh
   service-map.hh
   DESTINATION include/mimosa/rpc/)
 
