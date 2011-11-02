@@ -55,12 +55,12 @@ namespace mimosa
       delete obj;
   }
 
-# define MIMOSA_DEF_PTR(T...)                   \
-  typedef RefCountedPtr<T > Ptr;                \
-  typedef RefCountedPtr<const T > ConstPtr
+# define MIMOSA_DEF_PTR(T...)                           \
+  typedef ::mimosa::RefCountedPtr<T > Ptr;              \
+  typedef ::mimosa::RefCountedPtr<const T > ConstPtr
 
   template <typename T >
-  class RefCountable : public RefCountableBase
+  class RefCountable : public ::mimosa::RefCountableBase
   {
   public:
     MIMOSA_DEF_PTR(T);
