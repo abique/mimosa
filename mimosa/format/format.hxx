@@ -2,10 +2,20 @@ namespace mimosa
 {
   namespace format
   {
-    template <typename ... T>
+    inline
+    std::ostream &
+    format(std::ostream & os,
+           const char *   fmt)
+    {
+      os.write(fmt, ::strlen(fmt));
+      return os;
+    }
+
+    template <typename T, typename ... Args>
+    inline
     std::ostream & format(std::ostream & os,
                           const char *   fmt,
-                          T &            value,
+                          const T &      value,
                           Args ...       args)
     {
       const char * p = strchrnul(fmt, '%');
@@ -33,7 +43,7 @@ namespace mimosa
         break;
 
       case 'o':
-        os << std::noshowbase << std::octal << value;
+        os << std::noshowbase << std::oct << value;
         ++p;
         break;
 
@@ -66,9 +76,13 @@ namespace mimosa
         os << "%";
         ++p;
         break;
+
+      default:
+        os << value;
+        break;
       }
 
-      return format(os, p, args);
+      return format(os, p, args...);
     }
   }
 }
