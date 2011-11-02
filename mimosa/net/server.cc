@@ -1,3 +1,4 @@
+#include <arpa/inet.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <cassert>
@@ -61,7 +62,7 @@ namespace mimosa
       ::memset(&addr, 0, sizeof (addr));
       addr.sin_addr.s_addr = interface ? interface->s_addr : INADDR_ANY;
       addr.sin_family = AF_INET;
-      addr.sin_port = ::htons(port);
+      addr.sin_port = htons(port);
 
       LISTEN_COMMON_2();
     }
@@ -75,7 +76,7 @@ namespace mimosa
       ::memset(&addr, 0, sizeof (addr));
       addr.sin6_addr = interface ? *interface : ::in6addr_any;
       addr.sin6_family = AF_INET6;
-      addr.sin6_port = ::htons(port);
+      addr.sin6_port = htons(port);
 
       LISTEN_COMMON_2();
     }

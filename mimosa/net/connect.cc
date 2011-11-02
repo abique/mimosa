@@ -1,7 +1,7 @@
 #include <netdb.h>
 #include <sys/socket.h>
+#include <arpa/inet.h>
 #include <cstring>
-#include <melon/melon.h>
 
 #include "io.hh"
 #include "connect.hh"
@@ -34,7 +34,7 @@ namespace mimosa
         sockaddr_in addr;
         ::memset(&addr, 0, sizeof (addr));
         addr.sin_family = AF_INET;
-        addr.sin_port   = ::htons(port);
+        addr.sin_port   = htons(port);
         ::memcpy(&addr.sin_addr, host_entry->h_addr_list[0], host_entry->h_length);
         if (connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout))
         {
@@ -48,7 +48,7 @@ namespace mimosa
         sockaddr_in6 addr;
         ::memset(&addr, 0, sizeof (addr));
         addr.sin6_family = AF_INET6;
-        addr.sin6_port   = ::htons(port);
+        addr.sin6_port   = htons(port);
         ::memcpy(&addr.sin6_addr, host_entry->h_addr_list[0], host_entry->h_length);
         if (connect(fd, (const sockaddr*)&addr, sizeof (addr), timeout))
         {
