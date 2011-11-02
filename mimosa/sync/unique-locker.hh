@@ -2,8 +2,9 @@
 # define MIMOSA_SYNC_UNIQUE_LOCKER_HH
 
 # include <cassert>
-# include <melon/melon.h>
+
 # include "../non-copyable.hh"
+# include "../runtime/time.hh"
 
 namespace mimosa
 {
@@ -35,7 +36,7 @@ namespace mimosa
         return is_locked_;
       }
 
-      inline bool timedLock(::melon_time_t time)
+      inline bool timedLock(runtime::Time timeout)
       {
         if (!is_locked_)
           is_locked_ = mutex_.timedlock(time);

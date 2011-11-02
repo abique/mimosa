@@ -1,10 +1,9 @@
 #ifndef MIMOSA_SYNC_SPINLOCK_HH
 # define MIMOSA_SYNC_SPINLOCK_HH
 
-# include <melon/melon.h>
+# include <pthread.h>
 
 # include "../non-copyable.hh"
-# include "locker.hh"
 # include "locker.hh"
 
 namespace mimosa
@@ -16,12 +15,12 @@ namespace mimosa
     public:
       typedef Locker<SpinLock> Locker;
       typedef UniqueLocker<SpinLock> UniqueLocker;
-      inline SpinLock() { ::melon_spin_init(&spinlock_); }
-      inline ~SpinLock() { ::melon_spin_destroy(spinlock_); }
-      inline void lock() { ::melon_spin_lock(&spinlock_); }
-      inline void unlock() { ::melon_spin_unlock(&spinlock_); }
+      inline SpinLock() { ::pthread_spin_init(&spinlock_, PTHREAD_PROCESS_PRIVATE); }
+      inline ~SpinLock() { ::pthread_spin_destroy(spinlock_); }
+      inline void lock() { ::pthread_spin_lock(&spinlock_); }
+      inline void unlock() { ::pthread_spin_unlock(&spinlock_); }
     private:
-      ::melon_mutex * spinlock_;
+      ::pthread_spinlock_t spinlock_;
     };
   }
 }

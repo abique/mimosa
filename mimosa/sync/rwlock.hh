@@ -3,8 +3,6 @@
 
 # include <stdexcept>
 
-# include <melon/melon.h>
-
 # include "../non-copyable.hh"
 # include "../runtime/time.hh"
 # include "locker.hh"
