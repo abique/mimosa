@@ -14,6 +14,7 @@ add_library(mimosa init.cc ${HEADERS})
 target_link_libraries(mimosa mimosa-runtime gnutls gflags)
 
 add_subdirectory(container)
+add_subdirectory(format)
 add_subdirectory(http)
 add_subdirectory(net)
 add_subdirectory(rpc)
