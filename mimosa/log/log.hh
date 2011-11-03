@@ -13,9 +13,9 @@ namespace mimosa
 
 # define MIMOSA_LOG(Level, Origin, Fmt...)                              \
   do {                                                                  \
-    if (Level < Origin.level_)                                          \
-      break;                                                            \
-    ::mimosa::log::log(Level, Origin, ::mimosa::format::str(Fmt));      \
+    if (Level >= Origin.level_ &&                                       \
+        Level >= ::mimosa::log::current_level)                          \
+      ::mimosa::log::log(Level, Origin, ::mimosa::format::str(Fmt));    \
   } while (0)
 
 #endif /* !MIMOSA_LOG_LOG_HH */

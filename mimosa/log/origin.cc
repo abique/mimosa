@@ -6,15 +6,15 @@ namespace mimosa
 {
   namespace log
   {
-    Origin * Origin::root_ = nullptr;
+    Origin::root_type   Origin::root_;
+    sync::Mutex         Origin::root_lock_;
 
     Origin::Origin(const char * name, Level level)
     {
       /* setup the linked list */
       {
-        sync::SpinLock::Locker locker(root_lock_);
-        next_ = root_;
-        root_ = this;
+        sync::Mutex::Locker locker(root_lock_);
+        root_.pushBack(this);
       }
 
       /* copy the name */
@@ -23,6 +23,13 @@ namespace mimosa
 
       /* copy the default log level */
       level_ = level;
+    }
+
+    Origin::~Origin()
+    {
+      /* setup the linked list */
+      sync::Mutex::Locker locker(root_lock_);
+      root_.erase(this);
     }
   }
 }
