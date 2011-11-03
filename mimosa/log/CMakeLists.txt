@@ -1,1 +1,1 @@
-add_library(mimosa-log origin.cc)
+add_library(mimosa-log log.cc origin.cc)
