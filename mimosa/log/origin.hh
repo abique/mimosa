@@ -11,21 +11,23 @@ namespace mimosa
   {
     struct Origin
     {
+    public:
       Origin(const char * name, Level level);
       ~Origin();
 
-      typedef container::IntrusiveDlistHook<Origin *>        root_hook_type;
+      Level level_;
+      char  name_[64];
 
-      root_hook_type root_hook_;
-      Level          level_;
-      char           name_[64];
+    private:
+
+      typedef container::IntrusiveDlistHook<Origin *> origins_hook_type;
+      origins_hook_type origins_hook_;
 
       typedef container::IntrusiveDlist<Origin,
                                         Origin *,
-                                        &Origin::root_hook_> root_type;
-
-      static root_type   root_;
-      static sync::Mutex root_lock_;
+                                        &Origin::origins_hook_> origins_type;
+      static origins_type origins_;
+      static sync::Mutex  origins_lock_;
     };
   }
 }
