@@ -161,20 +161,20 @@ namespace mimosa
       {
         // poping everything to unlink (and potentially release while unref)
         while (!empty())
-          pop();
+          popBack();
       }
 
-      inline void erase(T & item)
+      inline void erase(Ptr item)
       {
-        if ((item.*Member).prev_)
-          ((item.*Member).prev_->*Member).next_ = (item.*Member).next_;
+        if ((item->*Member).prev_)
+          ((item->*Member).prev_->*Member).next_ = (item->*Member).next_;
         else
-          head_ = (item.*Member).prev_;
+          head_ = (item->*Member).prev_;
 
-        if ((item.*Member).next_)
-          ((item.*Member).next_->*Member).prev_ = (item.*Member).prev_;
+        if ((item->*Member).next_)
+          ((item->*Member).next_->*Member).prev_ = (item->*Member).prev_;
         else
-          tail_ = (item.*Member).next_;
+          tail_ = (item->*Member).next_;
       }
 
       iterator begin() const { return empty() ? end() : iterator(*this, head_); }
