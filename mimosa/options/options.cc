@@ -11,8 +11,6 @@ namespace mimosa
   {
     struct Parser
     {
-      ~Parser();
-
       void parse(int argc, char ** argv);
       void addOption(BasicOption * option);
 
@@ -98,21 +96,21 @@ namespace mimosa
     void
     Parser::invalidOption(const char * option)
     {
-      printf("Invalid option: %s.\n", option);
+      printf("Invalid option: %s. Try -help.\n", option);
       exit(2);
     }
 
     void
     Parser::optionNotFound(const char * option)
     {
-      printf("Option not found: %s.\n", option);
+      printf("Option not found: %s. Try -help.\n", option);
       exit(2);
     }
 
     void
     Parser::invalidArgument(const char * option, const char * arg)
     {
-      printf("Invalid argument ``%s'' for option ``%s''.\n",
+      printf("Invalid argument ``%s'' for option ``%s''. Try -help.\n",
              arg, option);
       exit(2);
     }
@@ -120,9 +118,20 @@ namespace mimosa
     void
     Parser::showHelp()
     {
+      std::cout << "Usage: " << program_name_ << " [option]..." << std::endl << std::endl;
       for (auto it = options_.begin(); it != options_.end(); ++it)
         it->second->showDesc(std::cout);
       exit(0);
+    }
+
+    void parse(int argc, char ** argv)
+    {
+      parser.parse(argc, argv);
+    }
+
+    void addOption(BasicOption * option)
+    {
+      parser.addOption(option);
     }
   }
 }

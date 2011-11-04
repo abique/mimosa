@@ -8,3 +8,5 @@ install(TARGETS mimosa-options
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib)
+
+add_subdirectory(tests)

@@ -35,7 +35,7 @@ namespace mimosa
       SwitchOption(const char * group,
                    const char * name,
                    const char * desc)
-        : BasicOption(name, group, desc), value_(false)
+        : BasicOption(group, name, desc), value_(false)
       {
       }
 
@@ -56,7 +56,7 @@ namespace mimosa
              const char * name,
              const char * desc,
              T            default_value)
-        : BasicOption(name, group, desc), value_(default_value)
+        : BasicOption(group, name, desc), value_(default_value)
       {
       }
 
@@ -90,7 +90,7 @@ namespace mimosa
     T * addOption(const char * group,
                   const char * name,
                   const char * desc,
-                  T            default_value)
+                  T            default_value = T())
     {
       auto opt = new Option<T>(group, name, desc, default_value);
       addOption(opt);
