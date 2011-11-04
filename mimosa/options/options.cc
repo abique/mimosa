@@ -11,6 +11,7 @@ namespace mimosa
 {
   namespace options
   {
+    /// This class is an internal class, to parse and manages options.
     struct Parser
     {
       void parse(int argc, char ** argv);
