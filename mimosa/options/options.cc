@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cstring>
 #include <memory>
 #include <map>
@@ -18,7 +19,7 @@ namespace mimosa
       void duplicateOption(const char * option);
       void invalidOption(const char * option);
       void optionNotFound(const char * option);
-      void invalidValue(const char * option, const char * value);
+      void invalidArgument(const char * option, const char * arg);
 
       void showHelp();
 
@@ -41,22 +42,22 @@ namespace mimosa
 
       while (argc > 0)
       {
-        if (argv[0][0] != '-' || argv[0][1] != '-')
+        if (argv[0][0] != '-')
         {
           invalidOption(*argv);
           return;
         }
 
-        if (!::strcmp(2 + *argv, "help"))
+        if (!::strcmp(1 + *argv, "help"))
         {
           showHelp();
           return;
         }
 
-        auto it = options_.find(2 + *argv);
+        auto it = options_.find(1 + *argv);
         if (it == options_.end())
         {
-          invalidOption(*argv);
+          optionNotFound(*argv);
           return;
         }
 
@@ -67,7 +68,7 @@ namespace mimosa
 
         if (!it->second->parse(argc, argv))
         {
-          invalidValue(option, value);
+          invalidArgument(option, value);
           return;
         }
       }
@@ -85,6 +86,43 @@ namespace mimosa
       options_.insert(
         std::make_pair(option->name_,
                        std::unique_ptr<BasicOption>(option)));
+    }
+
+    void
+    Parser::duplicateOption(const char * option)
+    {
+      printf("Duplicate option definition: %s. Terminating.\n", option);
+      exit(2);
+    }
+
+    void
+    Parser::invalidOption(const char * option)
+    {
+      printf("Invalid option: %s.\n", option);
+      exit(2);
+    }
+
+    void
+    Parser::optionNotFound(const char * option)
+    {
+      printf("Option not found: %s.\n", option);
+      exit(2);
+    }
+
+    void
+    Parser::invalidArgument(const char * option, const char * arg)
+    {
+      printf("Invalid argument ``%s'' for option ``%s''.\n",
+             arg, option);
+      exit(2);
+    }
+
+    void
+    Parser::showHelp()
+    {
+      for (auto it = options_.begin(); it != options_.end(); ++it)
+        it->second->showDesc(std::cout);
+      exit(0);
     }
   }
 }

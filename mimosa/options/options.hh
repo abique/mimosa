@@ -19,6 +19,10 @@ namespace mimosa
       }
 
       virtual bool parse(int & argc, char **& argv) = 0;
+      virtual void showDesc(std::ostream & os)
+      {
+        os << "  -" << name_ << " (" << desc_ << ")" << std::endl;
+      }
 
       std::string group_;
       std::string name_;
@@ -68,6 +72,11 @@ namespace mimosa
         ++argv;
 
         return !is.fail();
+      }
+
+      virtual void showDesc(std::ostream & os)
+      {
+        os << "  -" << name_ << " [=" << value_ << "] (" << desc_ << ")" << std::endl;
       }
 
       T           value_;
