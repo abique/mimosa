@@ -1,7 +1,9 @@
 #include <iostream>
 #include <cstring>
+#include <string>
 #include <memory>
 #include <map>
+#include <vector>
 
 #include "options.hh"
 
@@ -46,7 +48,8 @@ namespace mimosa
           return;
         }
 
-        if (!::strcmp(1 + *argv, "help"))
+        if (!::strcmp(1 + *argv, "h") ||
+            !::strcmp(1 + *argv, "help"))
         {
           showHelp();
           return;
@@ -118,9 +121,19 @@ namespace mimosa
     void
     Parser::showHelp()
     {
-      std::cout << "Usage: " << program_name_ << " [option]..." << std::endl << std::endl;
+      std::cout << "Usage: " << program_name_ << " [option]..." << std::endl;
+
+      std::map<std::string, std::vector<BasicOption *> > groups;
+
       for (auto it = options_.begin(); it != options_.end(); ++it)
-        it->second->showDesc(std::cout);
+        groups[it->second->group_].push_back(it->second.get());
+
+      for (auto group = groups.begin(); group != groups.end(); ++group)
+      {
+        std::cout << std::endl << "[" << group->first << "]" << std::endl;
+        for (auto it = group->second.begin(); it != group->second.end(); ++it)
+          (*it)->showDesc(std::cout);
+      }
       exit(0);
     }
 
