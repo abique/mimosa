@@ -58,6 +58,7 @@ namespace mimosa
         break;
 
       case 'v':
+      case 's':
         os << value;
         ++p;
         break;

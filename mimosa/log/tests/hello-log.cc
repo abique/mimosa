@@ -1,7 +1,7 @@
 #include "../log.hh"
 #include "../../init.hh"
 
-mimosa::log::Origin network("network", mimosa::log::Info);
+auto * network = new mimosa::log::Origin("network", mimosa::log::Info);
 
 int main(int argc, char ** argv)
 {

@@ -18,6 +18,9 @@ namespace mimosa
       Level level_;
       char  name_[64];
 
+      static void filter(const std::string & filter);
+      static void setLevel(const std::string & origin, Level level);
+
     private:
 
       typedef container::IntrusiveDlistHook<Origin *> origins_hook_type;

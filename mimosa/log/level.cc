@@ -29,12 +29,17 @@ namespace mimosa
           ++argv;
           return true;
         }
+
+        virtual void showDesc(std::ostream & os)
+        {
+          os << "  -" << name_ << " [=" << levelName(current_level) << "] (" << desc_ << ")" << std::endl;
+        }
       };
 
       bool dummy = options::addBasicOption(new Option);
     }
 
-    Level current_level = Info;
+    Level current_level = Warning;
 
     const char * const level_name[] = {
       "debug",
