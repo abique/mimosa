@@ -1,3 +1,35 @@
+/// @page OptionsParser Options parser
+///
+/// Mimosa introduces a very simple Options parser, yet extensible.
+/// Options can be declared per modules.
+///
+/// As a user you only have to know 3 functions:
+/// - mimosa::options::parse to parses argc and argv
+/// - mimosa::options::addSwitch to add a switch, like -enable-feature-x
+/// - mimosa::options::addOption to add a valued option like -port 19042
+///
+/// Then if you need to do custom option parsing or what ever,
+/// just dig in mimosa::options::BasicOption and
+/// mimosa::options::addBasicOptions.
+///
+/// Here comes a sample code:
+/// @code
+/// #include <mimosa/options/options.hh>
+///
+/// bool * enable_x = mimosa::options::addSwitch("group", "enable-x", "enables feature x");
+/// std::string * prefix = mimosa::options::addOption<std::string>("group", "prefix", "the prefix path", "/usr/local");
+/// uint16_t * port = mimosa::options::addOption<uint16_t>("group", "port", "the port to listen on", 19042);
+///
+/// int main(int argc, char ** argv)
+/// {
+///   mimosa::options::parse(argc, argv);
+///
+///   /* here do what you want */
+///
+///   return 0;
+/// }
+/// @endcode
+
 #ifndef MIMOSA_OPTIONS_OPTIONS_HH
 # define MIMOSA_OPTIONS_OPTIONS_HH
 
@@ -83,7 +115,7 @@ namespace mimosa
     };
 
     void parse(int argc, char ** argv);
-    void addOption(BasicOption * option);
+    void addBasicOption(BasicOption * option);
 
     template <typename T>
     inline
@@ -93,7 +125,7 @@ namespace mimosa
                   T            default_value = T())
     {
       auto opt = new Option<T>(group, name, desc, default_value);
-      addOption(opt);
+      addBasicOption(opt);
       return &opt->value_;
     }
 
@@ -103,7 +135,7 @@ namespace mimosa
                      const char * desc)
     {
       auto opt = new SwitchOption(group, name, desc);
-      addOption(opt);
+      addBasicOption(opt);
       return &opt->value_;
     }
   }
