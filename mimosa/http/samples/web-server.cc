@@ -1,18 +1,17 @@
 #include <sstream>
 
-#include <gflags/gflags.h>
-
 #include <mimosa/init.hh>
+#include <mimosa/options/options.hh>
 #include <mimosa/http/server.hh>
 #include <mimosa/http/dispatch-handler.hh>
 #include <mimosa/http/fs-handler.hh>
 
 using namespace mimosa;
 
-DEFINE_int32(port, 4242, "the port to use");
-DEFINE_string(path, "/usr/include", "the data dir to expose");
-DEFINE_string(cert, "", "the certificate (cert.pem)");
-DEFINE_string(key, "", "the key (key.pem)");
+uint16_t & PORT = *options::addOption<uint16_t>("", "port", "the port to use", 4242);
+std::string & PATH = *options::addOption<std::string>("", "path", "the data dir to expose", "/usr");
+std::string & CERT = *options::addOption<std::string>("", "cert", "the certificate (cert.pem)", "");
+std::string & KEY = *options::addOption<std::string>("", "key", "the key (key.pem)", "");
 
 class HelloHandler : public mimosa::http::Handler
 {
@@ -24,7 +23,7 @@ class HelloHandler : public mimosa::http::Handler
       "<html><head><title>Hello World!</title></head>"
       "<body>Hello World!<hr/>"
       "<ul>"
-      "<li>browse <a href='data/'>" << FLAGS_path << "</a></li>"
+      "<li>browse <a href='data/'>" << PATH << "</a></li>"
       "<li>test <a href='query-echo?a=b&c=d'>query string</a></li>"
       "<li>test <a href='post-echo'>post data</a></li>"
       "</ul>"
@@ -104,21 +103,21 @@ int main(int argc, char ** argv)
     dispatch->registerHandler("/", new HelloHandler);
     dispatch->registerHandler("/query-echo", new QueryEchoHandler);
     dispatch->registerHandler("/post-echo", new PostEchoHandler);
-    dispatch->registerHandler("/data/*", new http::FsHandler(FLAGS_path, 1, true));
+    dispatch->registerHandler("/data/*", new http::FsHandler(PATH, 1, true));
 
     http::Server::Ptr server(new http::Server);
     server->setHandler(dispatch);
 
-    if (!FLAGS_cert.empty() && !FLAGS_key.empty())
-      server->setSecure(FLAGS_cert, FLAGS_key);
+    if (!CERT.empty() && !KEY.empty())
+      server->setSecure(CERT, KEY);
 
-    auto ret = server->listenInet4(FLAGS_port);
+    auto ret = server->listenInet4(PORT);
     if (!ret)
     {
       puts("failed to listen");
       return 1;
     }
-    printf("listen on %d succeed\n", FLAGS_port);
+    printf("listen on %d succeed\n", PORT);
 
     while (true)
       server->serveOne();
