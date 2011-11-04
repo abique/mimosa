@@ -40,6 +40,8 @@ namespace mimosa
 {
   namespace options
   {
+    /// This is mother class of options. It provides virtual methods to
+    /// help you implement custom behaviour.
     class BasicOption
     {
     public:
@@ -50,7 +52,15 @@ namespace mimosa
       {
       }
 
+      /// this method is called with arguments following -${name}
+      /// You are expected to update argc and argv for each argument
+      /// you consume.
+      ///
+      /// @param argc the number of strings in argv
+      /// @param argv a vector of strings
       virtual bool parse(int & argc, char **& argv) = 0;
+
+      /// you are expected to show the description of your option here.
       virtual void showDesc(std::ostream & os)
       {
         os << "  -" << name_ << " (" << desc_ << ")" << std::endl;
@@ -61,6 +71,10 @@ namespace mimosa
       std::string desc_;
     };
 
+    /// A switch option represent a bool option with no arguments
+    /// following -${name}.
+    ///
+    /// It's meant to be used for -enable-feature-x for exemple.
     class SwitchOption : public BasicOption
     {
     public:
@@ -80,6 +94,10 @@ namespace mimosa
       bool value_;
     };
 
+    /// Option is a simple option with one following argument
+    /// typed by T.
+    ///
+    /// The parsing is done through std::istream >> T&.
     template <typename T>
     class Option : public BasicOption
     {
@@ -114,9 +132,17 @@ namespace mimosa
       T           value_;
     };
 
+    /// Parses the arguments.
+    /// Through it may not modify argv.
+    ///
+    /// If there is an error, parse will terminate the program with
+    /// a call to ::exit.
     void parse(int argc, char ** argv);
+
+    /// This adds a basic option to the options parser.
     void addBasicOption(BasicOption * option);
 
+    /// This adds an option to the options parser
     template <typename T>
     inline
     T * addOption(const char * group,
@@ -129,6 +155,7 @@ namespace mimosa
       return &opt->value_;
     }
 
+    /// This adds a switch to the options parser
     inline
     bool * addSwitch(const char * group,
                      const char * name,
