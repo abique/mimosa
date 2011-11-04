@@ -2,6 +2,7 @@
 # define MIMOSA_LOG_LOG_HH
 
 # include "origin.hh"
+# include "../format/format.hh"
 
 namespace mimosa
 {
@@ -13,9 +14,10 @@ namespace mimosa
 
 # define MIMOSA_LOG(Level, Origin, Fmt...)                              \
   do {                                                                  \
-    if (Level >= Origin.level_ &&                                       \
-        Level >= ::mimosa::log::current_level)                          \
-      ::mimosa::log::log(Level, Origin, ::mimosa::format::str(Fmt));    \
+    if (::mimosa::log::Level >= Origin.level_ &&                        \
+        ::mimosa::log::Level >= ::mimosa::log::current_level)           \
+      ::mimosa::log::log(::mimosa::log::Level, Origin,                  \
+                         ::mimosa::format::str(Fmt));                   \
   } while (0)
 
 #endif /* !MIMOSA_LOG_LOG_HH */
