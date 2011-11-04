@@ -92,29 +92,30 @@ namespace mimosa
     void
     Parser::duplicateOption(const char * option)
     {
-      printf("Duplicate option definition: %s. Terminating.\n", option);
+      std::cout << "Duplicate option definition: " << option
+                << ". Terminating." << std::endl;
       exit(2);
     }
 
     void
     Parser::invalidOption(const char * option)
     {
-      printf("Invalid option: %s. Try -help.\n", option);
+      std::cout << "Invalid option: " << option << ". Try -help." << std::endl;
       exit(2);
     }
 
     void
     Parser::optionNotFound(const char * option)
     {
-      printf("Option not found: %s. Try -help.\n", option);
+      std::cout << "Option not found: " << option << ". Try -help." << std::endl;
       exit(2);
     }
 
     void
     Parser::invalidArgument(const char * option, const char * arg)
     {
-      printf("Invalid argument ``%s'' for option ``%s''. Try -help.\n",
-             arg, option);
+      std::cout << "Invalid argument ``" << arg << "'' for option ``"
+                << option << "''. Try -help." << std::endl;
       exit(2);
     }
 
