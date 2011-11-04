@@ -144,9 +144,10 @@ namespace mimosa
       parser.parse(argc, argv);
     }
 
-    void addBasicOption(BasicOption * option)
+    bool addBasicOption(BasicOption * option)
     {
       parser.addOption(option);
+      return true;
     }
   }
 }

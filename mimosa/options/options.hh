@@ -140,7 +140,8 @@ namespace mimosa
     void parse(int argc, char ** argv);
 
     /// This adds a basic option to the options parser.
-    void addBasicOption(BasicOption * option);
+    /// @return dummy value (helper for static initialisation).
+    bool addBasicOption(BasicOption * option);
 
     /// This adds an option to the options parser
     template <typename T>

@@ -1,9 +1,61 @@
+#include <cstring>
+
+#include "../options/options.hh"
 #include "level.hh"
 
 namespace mimosa
 {
   namespace log
   {
+    namespace
+    {
+      class Option : public options::BasicOption
+      {
+      public:
+        Option()
+          : options::BasicOption("log", "log-level", "set the minimum log level,"
+                                 " possible values are debug, info, warning,"
+                                 " error, critical and fatal")
+        {
+        }
+
+        virtual bool parse(int & argc, char **& argv)
+        {
+          if (argc < 1)
+            return false;
+
+          current_level = parseLevel(*argv);
+          --argc;
+          ++argv;
+          return true;
+        }
+      };
+
+      bool dummy = options::addBasicOption(new Option);
+    }
+
     Level current_level = Info;
+
+    const char * const level_name[] = {
+      "debug",
+      "info",
+      "warning",
+      "error",
+      "critical",
+      "fatal"
+    };
+
+    const char * levelName(Level level)
+    {
+      return level_name[level];
+    }
+
+    Level parseLevel(const char * str)
+    {
+      for (int i = 0; i <= 5; ++i)
+        if (!::strcasecmp(level_name[i], str))
+          return static_cast<Level> (i);
+      return Info;
+    }
   }
 }

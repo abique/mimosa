@@ -9,13 +9,13 @@ namespace mimosa
   {
     enum Level
     {
-      Debug,    ///< here goes debug information
-      Info,     ///< here goes information messages
-      Warning,  ///< here goes warning
-      Error,    ///< here goes unexpected errors
-      Critical, ///< here goes events which should never happend (like an assert)
-                ///  but are recoverable
-      Fatal,    ///< here goes fatal errors, after that the program should exit
+      Debug    = 0, ///< here goes debug information
+      Info     = 1, ///< here goes information messages
+      Warning  = 2, ///< here goes warning
+      Error    = 3, ///< here goes unexpected errors
+      Critical = 4, ///< here goes events which should never happend (like an assert)
+                    ///  but are recoverable
+      Fatal    = 5, ///< here goes fatal errors, after that the program should exit
     };
 
     extern Level current_level;
@@ -24,7 +24,7 @@ namespace mimosa
     const char * levelName(Level level);
 
     /// converts a string into a level, fallback to Info when parse failed
-    Level parseLevel(const std::string & level);
+    Level parseLevel(const char * str);
   }
 }
 
