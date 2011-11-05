@@ -103,15 +103,18 @@ namespace mimosa
     }
 
     void
-    Server::serveOne(runtime::Time accept_timeout) const
+    Server::serveOne(runtime::Time accept_timeout, bool new_thread) const
     {
       int fd = accept(accept_timeout);
       if (fd >= 0)
       {
         Server::ConstPtr server(this);
-        runtime::Thread([server, fd] {
-            server->serve(fd);
-          }).start();
+        if (new_thread)
+          runtime::Thread([server, fd] {
+              server->serve(fd);
+            }).start();
+        else
+          serve(fd);
       }
     }
   }
