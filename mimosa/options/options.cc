@@ -132,7 +132,8 @@ namespace mimosa
 
       for (auto group = groups.begin(); group != groups.end(); ++group)
       {
-        std::cout << std::endl << "[" << group->first << "]" << std::endl;
+        if (!group->first.empty())
+          std::cout << std::endl << "[" << group->first << "]" << std::endl;
         for (auto it = group->second.begin(); it != group->second.end(); ++it)
           (*it)->showDesc(std::cout);
       }
