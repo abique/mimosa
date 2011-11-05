@@ -1,5 +1,6 @@
 #include <ctime>
 #include <sstream>
+#include <iomanip>
 
 #include "../options/options.hh"
 #include "../runtime/time.hh"
@@ -32,11 +33,14 @@ namespace mimosa
       std::ostringstream os;
       if (*enable_color)
         os << log_colors[level];
-      os << (tm.tm_year + 1900) << "-" << (tm.tm_mon + 1) << "-"
-         << tm.tm_mday << " " << tm.tm_hour << ":" << tm.tm_min
-         << ":" << tm.tm_sec << "."
-         << ((real_time % runtime::second) / runtime::millisecond)
-         << " ";
+      os << (tm.tm_year + 1900) << "-"
+         << std::setfill('0') << std::setw(2) << (tm.tm_mon + 1) << "-"
+         << std::setfill('0') << std::setw(2) << tm.tm_mday << " "
+         << std::setfill('0') << std::setw(2) << tm.tm_hour << ":"
+         << std::setfill('0') << std::setw(2) << tm.tm_min << ":"
+         << std::setfill('0') << std::setw(2) << tm.tm_sec << "."
+         << std::setfill('0') << std::setw(4)
+         << ((real_time % runtime::second) / runtime::millisecond) << " ";
       if (origin)
         os << origin->name_ << ": ";
       os << levelName(level) << ": "
