@@ -29,7 +29,7 @@ namespace mimosa
       if (fd_ >= 0)                                     \
         ::close(fd_);                                   \
                                                         \
-      fd_ = ::socket(AF_INET, SOCK_STREAM, 0);          \
+      fd_ = ::socket(Domain, SOCK_STREAM, 0);           \
       if (fd_ < 0)                                      \
         return false;                                   \
                                                         \
