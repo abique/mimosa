@@ -10,7 +10,7 @@ namespace mimosa
 {
   namespace http
   {
-    class MimeDb : public NonCopyable
+    class MimeDb : private NonCopyable
     {
     public:
       static MimeDb & instance();
