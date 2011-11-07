@@ -28,7 +28,7 @@ namespace mimosa
       virtual int64_t readv(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
 
       inline int64_t write(const std::string & str, runtime::Time timeout = 0) {
-        return write(str.data(), str.size(), time);
+        return write(str.data(), str.size(), timeout);
       }
 
       /** cancels running io opperations */
