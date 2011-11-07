@@ -30,15 +30,16 @@ add_library(mimosa-http
   mime-db.cc
   log.cc
   log-handler.cc
-  status.cc
-  server.cc
-  server-channel.cc
+  redirect.cc
   request.cc
   request-reader.cc
   request-lexer.cc
   request-parser.cc
   response.cc
   response-writer.cc
+  status.cc
+  server.cc
+  server-channel.cc
   )
 
 target_link_libraries(mimosa-http mimosa-uri mimosa-stream mimosa-net)

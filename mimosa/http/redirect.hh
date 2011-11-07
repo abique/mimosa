@@ -1,11 +1,15 @@
 #ifndef MIMOSA_HTTP_REDIRECT_HH
 # define MIMOSA_HTTP_REDIRECT_HH
 
+# include <string>
+
 namespace mimosa
 {
   namespace http
   {
-    void redirect(Response & response, const std::string & location);
+    class ResponseWriter;
+
+    bool redirect(ResponseWriter & response, const std::string & location);
   }
 }
 
