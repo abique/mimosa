@@ -6,6 +6,8 @@
 # include <unistd.h>
 # include <limits.h>
 
+# include <string>
+
 # include "../ref-countable.hh"
 # include "../non-copyable.hh"
 # include "../runtime/time.hh"
