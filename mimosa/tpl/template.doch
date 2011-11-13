@@ -1,0 +1,19 @@
+/*!
+
+@page template
+
+@section template_syntax The template syntax
+
+@verbatim
+{{var}} will expend var, a variable must match [a-zA-Z0-9_-]+
+{{var|filter}} will apply filter on the output of var, usefull for html, javascript, ...
+
+{{*list}} T {{/list}} will expand the enclosed data for each values.
+                        {{.}} represents the current value of the iterated list
+
+{{*list}} T1 {{*!list}} T2 {{/list}} will expend the enclosed data if list is not defined or empty
+
+{{!list}} ... {{/list}} will expend the enclosed data if list is not defined or empty
+@endverbatim
+
+*/
