@@ -5,6 +5,7 @@
 # include <vector>
 
 # include "template.hh"
+# include "../string/string-ref.hh"
 
 namespace mimosa
 {
@@ -19,18 +20,23 @@ namespace mimosa
 
       bool parseText();
       bool parseAction();
+      bool parseRepeat();
+      bool parseRepeatEmpty();
+      bool parseEmpty();
+      bool parseEnd();
+      bool parseExpand();
 
     private:
-      std::string                 action_start_;
-      std::string                 action_end_;
+      std::string action_start_;
+      std::string action_end_;
 
-      string::StringRef           input_;
+      string::StringRef                    input_;
 
-      std::vector<ast::Node::Ptr> stack_;
-      int                         line_;
-      int                         column_;
+      std::vector<ast::Node::nodes_type *> stack_;
+      int                                  line_;
+      int                                  column_;
 
-      ast::Root::Ptr              root_;
+      ast::Root::Ptr root_;
     };
   }
 }

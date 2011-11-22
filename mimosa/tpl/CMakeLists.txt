@@ -1,2 +1,3 @@
 add_library(mimosa-tpl
-  template.cc)
+  template.cc
+  parser.cc)

@@ -3,6 +3,7 @@
 #include "../string/string-ref.hh"
 #include "../stream/fd-stream.hh"
 #include "template.hh"
+#include "parser.hh"
 #include "ast/text.hh"
 
 namespace mimosa
@@ -15,6 +16,12 @@ namespace mimosa
       Template::Ptr tpl(new Template);
 
       tpl->data_ = str;
+
+      Parser parser(*tpl);
+      tpl->root_ = parser.parse();
+      if (tpl->root_)
+        return tpl;
+      return nullptr;
     }
 
     Template::Ptr
@@ -38,32 +45,6 @@ namespace mimosa
       if (tpl)
         tpl->filename_ = path;
       return tpl;
-    }
-
-    bool
-    Template::parse()
-    {
-      string::StringRef               input(data_);
-      ast::Root::Ptr                  root(new ast::Root(*this));
-      std::vector<Node::nodes_type &> stack;
-
-      stack.push_back(root->childs_);
-      while (!input.empty())
-      {
-        auto pos = input.find("{{");
-        if (pos > 0)
-        {
-          // extracts the text
-          auto text = new ast::Text;
-          text->text_(input.substr(0, pos));
-          stack.back().push(text);
-          input = input.substr(pos);
-        }
-
-        // parse the
-      }
-
-      ast::Root::Ptr root(new ast::Root(*this));
     }
   }
 }

@@ -1,5 +1,5 @@
-#ifndef MIMOSA_TPL_AST_REPEATED_HH
-# define MIMOSA_TPL_AST_REPEATED_HH
+#ifndef MIMOSA_TPL_AST_EMPTY_HH
+# define MIMOSA_TPL_AST_EMPTY_HH
 
 # include "../../string/string-ref.hh"
 # include "node.hh"
@@ -10,10 +10,10 @@ namespace mimosa
   {
     namespace ast
     {
-      class Repeated : public Node
+      class Empty : public Node
       {
       public:
-        MIMOSA_DEF_PTR(Repeated);
+        MIMOSA_DEF_PTR(Empty);
 
       protected:
         string::StringRef var_;
@@ -24,4 +24,4 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_AST_REPEATED_HH */
+#endif /* !MIMOSA_TPL_AST_EMPTY_HH */

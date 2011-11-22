@@ -2,6 +2,7 @@
 # define MIMOSA_TPL_AST_VAR_HH
 
 # include "../../string/string-ref.hh"
+# include "../../stream/stream.hh"
 # include "node.hh"
 
 namespace mimosa
@@ -15,8 +16,8 @@ namespace mimosa
       public:
         MIMOSA_DEF_PTR(Var);
 
-      protected:
-        string::StringRef var_;
+        string::StringRef                var_;
+        // XXX filters
       };
     }
   }

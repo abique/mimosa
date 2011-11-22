@@ -16,8 +16,10 @@ namespace mimosa
       class Node : public RefCountable<Node>
       {
       public:
+#if 0 // TODO
         virtual void execute(stream::Stream::Ptr   stream,
-                             const AbstractValue & value) = 0;
+                             const AbstractValue & value) const = 0;
+#endif
 
         typedef container::IntrusiveSlistHook<Node::Ptr>   hook_type;
 

@@ -17,10 +17,10 @@ namespace mimosa
       public:
         MIMOSA_DEF_PTR(Root);
 
-        Root(Template & tpl);
+        Root(const Template & tpl);
 
-        Template & tpl_;
-        nodes_type childs_;
+        const Template & tpl_;
+        nodes_type       childs_;
       };
     }
   }

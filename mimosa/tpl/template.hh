@@ -10,6 +10,7 @@ namespace mimosa
 {
   namespace tpl
   {
+    class Parser;
     class Template : public RefCountable<Template>
     {
     public:
@@ -19,7 +20,7 @@ namespace mimosa
     private:
       Template();
 
-      bool parse();
+      friend class Parser;
 
       std::string         data_;
       std::string         filename_;
