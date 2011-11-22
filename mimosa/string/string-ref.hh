@@ -40,13 +40,13 @@ namespace mimosa
       }
 
       inline size_type find(const char * str, size_type pos, size_type n) const {
-        if (n > len_ || n == 0)
+        if (n + pos > len_ || n == 0)
           return npos;
 
-        const char * const start_limit = data_ + len_ - n;
+        const char * const start_limit = data_ + len_ - n + pos;
         for (const char * start = data_; start <= start_limit; start++)
         {
-          start = memchr(start, *str, len_ - (start - data_));
+          start = (const char *)::memchr(start, *str, len_ - (start - data_));
           if (!start)
             return npos;
           if (!::memcmp(start + 1, str + 1, n - 1))
