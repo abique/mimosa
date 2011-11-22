@@ -98,6 +98,8 @@ namespace mimosa
     inline void clear() { assign(nullptr); }
 
   private:
+    friend class RefCountedPtr<const T>;
+
     T * ptr_;
   };
 }
