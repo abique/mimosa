@@ -25,6 +25,7 @@ namespace mimosa
 
       inline size_type size() const { return len_; }
       inline const char * data() const { return data_; }
+      inline bool empty() const { return !data_ || !len_; }
 
       inline char operator[](size_type pos) const { assert(len_ > pos); return data_[pos]; }
 
