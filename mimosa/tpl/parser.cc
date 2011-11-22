@@ -23,7 +23,7 @@ namespace mimosa
       if (action_start_.empty() || action_end_.empty())
         return nullptr;
 
-      stack_.push_back(&root_->childs_);
+      stack_.push_back(root_);
       if (!parseText())
         return nullptr;
       return root_;
@@ -40,7 +40,7 @@ namespace mimosa
           // extracts the text
           auto text = new ast::Text;
           text->text_ = input_.substr(0, pos);
-          stack_.back()->push(text);
+          stack_.back()->addChild(text);
           input_ = input_.substr(pos);
         }
 
@@ -88,7 +88,7 @@ namespace mimosa
 
       ast::Var::Ptr var = new ast::Var;
       var->var_ = input_.substr(0, end);
-      stack_.back()->push(var);
+      stack_.back()->addChild(var);
 
       input_ = input_.substr(end + action_end_.size());
       return true;
