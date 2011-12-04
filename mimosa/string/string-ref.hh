@@ -4,6 +4,7 @@
 # include <cstring>
 # include <cassert>
 # include <string>
+# include <ostream>
 
 namespace mimosa
 {
@@ -31,6 +32,10 @@ namespace mimosa
 
       inline bool operator==(const StringRef & other) const {
         return streq(other);
+      }
+
+      inline bool operator!=(const StringRef & other) const {
+        return !(*this == other);
       }
 
       inline size_type find(char c, size_type pos) const {
@@ -84,6 +89,16 @@ namespace mimosa
       const char * data_;
       size_type    len_;
     };
+  }
+}
+
+namespace std
+{
+  inline
+  std::ostream & operator<<(std::ostream & os, const mimosa::string::StringRef & str)
+  {
+    os.write(str.data(), str.size());
+    return os;
   }
 }
 
