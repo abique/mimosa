@@ -1,11 +1,16 @@
+#include "../log/log.hh"
 #include "parser.hh"
 #include "ast/text.hh"
 #include "ast/var.hh"
+#include "ast/repeated.hh"
+#include "ast/empty.hh"
 
 namespace mimosa
 {
   namespace tpl
   {
+    static auto * tpl_parser = new mimosa::log::Origin("template-parser", mimosa::log::Warning);
+
     Parser::Parser(const Template & tpl)
       : action_start_("{{"),
         action_end_("}}"),
@@ -89,6 +94,79 @@ namespace mimosa
       ast::Var::Ptr var = new ast::Var;
       var->var_ = input_.substr(0, end);
       stack_.back()->addChild(var);
+
+      input_ = input_.substr(end + action_end_.size());
+      return true;
+    }
+
+    bool
+    Parser::parseRepeat()
+    {
+      // skip the '*'
+      input_ = input_.substr(1);
+
+      // find the end of the action
+      auto end = input_.find(action_end_);
+      if (end == string::StringRef::npos)
+        return false;
+
+      ast::Repeated::Ptr node = new ast::Repeated;
+      node->var_ = input_.substr(0, end);
+      stack_.back()->addChild(node);
+      stack_.push_back(node);
+
+      input_ = input_.substr(end + action_end_.size());
+      return true;
+    }
+
+    bool
+    Parser::parseRepeatEmpty()
+    {
+      // skip the '*!'
+      input_ = input_.substr(2);
+
+      // find the end of the action
+      auto end = input_.find(action_end_);
+      if (end == string::StringRef::npos)
+        return false;
+
+      ast::Empty::Ptr node = new ast::Empty;
+      node->var_ = input_.substr(0, end);
+
+      string::StringRef ref_var = stack_.back()->var();
+
+      if (node->var_.empty())
+        node->var_ = ref_var;
+      else if ((node->var_) != ref_var)
+      {
+        MIMOSA_LOG(Error, tpl_parser, "different variables: *%s *!%s",
+                   ref_var, node->var_);
+        return false;
+      }
+
+      stack_.pop_back();
+      stack_.back()->addChild(node);
+      stack_.push_back(node);
+
+      input_ = input_.substr(end + action_end_.size());
+      return true;
+    }
+
+    bool
+    Parser::parseEmpty()
+    {
+      // skip the '!'
+      input_ = input_.substr(1);
+
+      // find the end of the action
+      auto end = input_.find(action_end_);
+      if (end == string::StringRef::npos)
+        return false;
+
+      ast::Empty::Ptr node = new ast::Empty;
+      node->var_ = input_.substr(0, end);
+      stack_.back()->addChild(node);
+      stack_.push_back(node);
 
       input_ = input_.substr(end + action_end_.size());
       return true;
