@@ -15,7 +15,6 @@ namespace mimosa
       public:
         MIMOSA_DEF_PTR(Repeated);
 
-      protected:
         string::StringRef var_;
 
         nodes_type childs_;
