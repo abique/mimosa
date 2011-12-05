@@ -16,6 +16,8 @@ namespace mimosa
       public:
         MIMOSA_DEF_PTR(Var);
 
+        virtual string::StringRef var() { return var_; }
+
         string::StringRef                var_;
         // XXX filters
       };
