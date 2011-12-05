@@ -2,7 +2,6 @@
 # define MIMOSA_TPL_AST_ROOT_HH
 
 # include "node.hh"
-# include "../template.hh"
 
 namespace mimosa
 {
@@ -18,6 +17,9 @@ namespace mimosa
         MIMOSA_DEF_PTR(Root);
 
         Root(const Template & tpl);
+
+        virtual void execute(stream::Stream::Ptr   stream,
+                             const AbstractValue & value) const;
 
         const Template & tpl_;
         nodes_type       childs_;

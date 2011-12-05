@@ -10,17 +10,16 @@ namespace mimosa
 {
   namespace tpl
   {
+    class AbstractValue;
+
     namespace ast
     {
-      class AbstractValue;
-
       class Node : public RefCountable<Node>
       {
       public:
-#if 0 // TODO
+
         virtual void execute(stream::Stream::Ptr   stream,
                              const AbstractValue & value) const = 0;
-#endif
 
         virtual void addChild(Node::Ptr /*node*/) {}
         virtual string::StringRef var() { return "(none)"; }

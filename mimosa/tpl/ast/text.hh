@@ -15,6 +15,10 @@ namespace mimosa
       public:
         MIMOSA_DEF_PTR(Text);
 
+        virtual void execute(stream::Stream::Ptr   stream,
+                             const AbstractValue & value) const;
+
+
         string::StringRef text_;
       };
     }

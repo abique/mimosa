@@ -11,10 +11,10 @@ namespace mimosa
     class Value : public AbstractValue
     {
     public:
-      virtual Value * lookup(const string::StringRef & var);
-      virtual void write(stream::Stream::Ptr       stream);
+      virtual const AbstractValue * lookup(const string::StringRef & var) const;
+      virtual void write(stream::Stream::Ptr stream) const;
 
-      T       value_;
+      T value_;
     };
   }
 }

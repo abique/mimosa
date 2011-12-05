@@ -16,9 +16,12 @@ namespace mimosa
       public:
         MIMOSA_DEF_PTR(Var);
 
+        virtual void execute(stream::Stream::Ptr   stream,
+                             const AbstractValue & value) const;
+
         virtual string::StringRef var() { return var_; }
 
-        string::StringRef                var_;
+        string::StringRef var_;
         // XXX filters
       };
     }
