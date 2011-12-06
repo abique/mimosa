@@ -8,6 +8,7 @@ install(FILES
   gzip-stream.hh
   limited-stream.hh
   stream.hh
+  string-stream.hh
   tls-stream.hh
   DESTINATION include/mimosa/stream/)
 
@@ -21,6 +22,7 @@ add_library(mimosa-stream
   limited-stream.cc
   net-fd-stream.cc
   stream.cc
+  string-stream.cc
   tls-stream.cc
 )
 
