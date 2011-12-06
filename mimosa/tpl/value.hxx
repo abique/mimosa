@@ -25,9 +25,9 @@ namespace mimosa
 
     template <typename T>
     void
-    Value::write(stream::Stream::Ptr stream) const
+    Value::write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const
     {
-      format::format(stream, "%v", value_);
+      format::format(stream, timeout, "%v", value_);
     }
 
     template <typename T>
