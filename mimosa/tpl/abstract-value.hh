@@ -12,14 +12,30 @@ namespace mimosa
     class AbstractValue
     {
     public:
+      AbstractValue(AbstractValue * parent = nullptr);
+
       virtual const AbstractValue * lookup(const string::StringRef & var) const = 0;
       virtual void write(stream::Stream::Ptr stream) const = 0;
 
       class Iterator : public RefCountable<Iterator>
       {
-        virtual const AbstractValue & value() const = 0;
+      public:
+        virtual const AbstractValue * value() const = 0;
         virtual void next() = 0;
         virtual bool end() const = 0;
+      };
+
+      class SingleValueIterator : public Iterator
+      {
+      public:
+        SingleValueIterator(AbstractValue * value = nullptr);
+
+        virtual const AbstractValue * value() const;
+        virtual void next();
+        virtual bool end() const;
+
+      private:
+        AbstractValue * value_;
       };
 
       virtual Iterator::Ptr begin() const = 0;
