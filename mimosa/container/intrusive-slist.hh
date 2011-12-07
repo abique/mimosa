@@ -38,8 +38,7 @@ namespace mimosa
       inline IntrusiveSlistIterator<T, Ptr, Member> & operator++()
       {
         assert(item_);
-        if ((item_->*Member).next_ == item_ ||
-            item_ == slist_.tail_)
+        if (item_ == slist_.tail_)
           item_ = nullptr;
         else
           item_ = (item_->*Member).next_;
@@ -135,7 +134,7 @@ namespace mimosa
           pop();
       }
 
-      iterator begin() const { return empty() ? end() : iterator(*this, (tail_->*Member).next_); }
+      iterator begin() const { return empty() ? end() : iterator(*this, front()); }
       iterator end() const { return iterator(*this, nullptr); }
 
     private:

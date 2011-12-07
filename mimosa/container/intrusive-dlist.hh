@@ -117,8 +117,8 @@ namespace mimosa
 
       inline Ptr front() const
       {
-        assert(tail_);
-        return (tail_->*Member).next_;
+        assert(head_);
+        return head_;
       }
 
       inline Ptr back() const
@@ -132,6 +132,8 @@ namespace mimosa
         if (!head_)
           return;
 
+        --size_;
+
         if (head_ == tail_)
         {
           head_ = nullptr;
@@ -140,12 +142,15 @@ namespace mimosa
         }
 
         head_ = (head_->*Member).next_;
+        (head_->*Member).prev_ = nullptr;
       }
 
       inline void popBack()
       {
         if (!tail_)
           return;
+
+        --size_;
 
         if (head_ == tail_)
         {
@@ -155,6 +160,7 @@ namespace mimosa
         }
 
         tail_ = (tail_->*Member).prev_;
+        (tail_->*Member).next_ = nullptr;
       }
 
       inline void clear()
