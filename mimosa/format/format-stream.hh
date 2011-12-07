@@ -17,7 +17,7 @@ namespace mimosa
     {
       std::string str(format::str(fmt, args...));
       int64_t bytes = stream->loopWrite(str.data(), str.size(), timeout);
-      return bytes == str.size();
+      return static_cast<std::string::size_type> (bytes) == str.size();
     }
 
     template <typename ... Args>
