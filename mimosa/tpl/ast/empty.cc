@@ -13,7 +13,7 @@ namespace mimosa
                      runtime::Time         timeout) const
       {
         auto v = value.lookup(var_);
-        if (v || !v->empty())
+        if (v && !v->empty())
           return;
 
         if (!v)

@@ -87,6 +87,19 @@ namespace mimosa
 
         ASSERT_EQ("hello 42 toto 3.14", stream->str());
       }
+
+      TEST(Tpl, List2)
+      {
+        Template::Ptr tpl = Template::parseString("{{*.}}xx{{*!}}yy{{/}}");
+        ASSERT_TRUE(tpl);
+
+        List list;
+
+        stream::StringStream::Ptr stream = new stream::StringStream();
+        tpl->execute(stream, list);
+
+        ASSERT_EQ("yy", stream->str());
+      }
     }
   }
 }
