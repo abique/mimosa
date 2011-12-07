@@ -38,6 +38,10 @@ namespace mimosa
         return !(*this == other);
       }
 
+      inline operator std::string() const {
+        return std::string(data_, len_);
+      }
+
       inline size_type find(char c, size_type pos) const {
         if (pos >= len_)
           return npos;
