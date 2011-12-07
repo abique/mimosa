@@ -81,6 +81,18 @@ namespace mimosa
       return ptr_;
     }
 
+    template <typename U>
+    inline bool operator==(const U * ptr) const
+    {
+      return ptr_ == ptr;
+    }
+
+    template <typename U>
+    inline bool operator==(const RefCountedPtr<U> & ptr) const
+    {
+      return ptr_ == ptr.ptr_;
+    }
+
     inline T & operator*() const { return *ptr_; }
     inline T * operator->() const { return ptr_; }
     template <typename Member>
