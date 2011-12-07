@@ -33,6 +33,7 @@ install(FILES
   ast/root.hh
   ast/text.hh
   ast/var.hh
+  ast/node.hh
 
   DESTINATION include/mimosa/tpl/ast/)
 
