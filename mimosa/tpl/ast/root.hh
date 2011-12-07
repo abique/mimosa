@@ -19,7 +19,9 @@ namespace mimosa
         Root(const Template & tpl);
 
         virtual void execute(stream::Stream::Ptr   stream,
-                             const AbstractValue & value) const;
+                             const AbstractValue & value,
+                             runtime::Time         timeout = 0) const;
+        virtual void addChild(Node::Ptr node) { childs_.push(node); }
 
         const Template & tpl_;
         nodes_type       childs_;

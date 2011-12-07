@@ -16,8 +16,8 @@ namespace mimosa
       virtual const AbstractValue * lookup(const string::StringRef & var) const;
       virtual void write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const;
 
-      virtual Iterator::Ptr begin() const = 0;
-      virtual bool empty() const = 0;
+      virtual Iterator::Ptr begin() const;
+      virtual bool empty() const;
 
       T value_;
     };

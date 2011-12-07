@@ -6,7 +6,7 @@ namespace mimosa
   namespace tpl
   {
     template <typename T>
-    Value::Value(const T & value, AbstractValue * parent)
+    Value<T>::Value(const T & value, AbstractValue * parent)
       : AbstractValue(parent),
         value_(value)
     {
@@ -14,7 +14,7 @@ namespace mimosa
 
     template <typename T>
     const AbstractValue *
-    Value::lookup(const string::StringRef & var) const
+    Value<T>::lookup(const string::StringRef & var) const
     {
       if (var == ".")
         return this;
@@ -25,21 +25,21 @@ namespace mimosa
 
     template <typename T>
     void
-    Value::write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const
+    Value<T>::write(stream::Stream::Ptr stream, runtime::Time timeout) const
     {
       format::format(stream, timeout, "%v", value_);
     }
 
     template <typename T>
-    Iterator::Ptr
-    Value::begin() const
+    AbstractValue::Iterator::Ptr
+    Value<T>::begin() const
     {
-      return new SingleValueIterator(this);
+      return new AbstractValue::SingleValueIterator(this);
     }
 
     template <typename T>
     bool
-    Value::empty() const
+    Value<T>::empty() const
     {
       return false;
     }

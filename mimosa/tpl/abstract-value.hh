@@ -12,7 +12,7 @@ namespace mimosa
     class AbstractValue
     {
     public:
-      AbstractValue(AbstractValue * parent = nullptr);
+      AbstractValue(const AbstractValue * parent = nullptr);
 
       virtual const AbstractValue * lookup(const string::StringRef & var) const = 0;
       virtual void write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const = 0;
@@ -28,20 +28,22 @@ namespace mimosa
       class SingleValueIterator : public Iterator
       {
       public:
-        SingleValueIterator(AbstractValue * value = nullptr);
+        MIMOSA_DEF_PTR(SingleValueIterator);
+
+        SingleValueIterator(const AbstractValue * value = nullptr);
 
         virtual const AbstractValue * value() const;
         virtual void next();
         virtual bool end() const;
 
       private:
-        AbstractValue * value_;
+        const AbstractValue * value_;
       };
 
       virtual Iterator::Ptr begin() const = 0;
       virtual bool empty() const = 0;
 
-      AbstractValue * parent_;
+      const AbstractValue * parent_;
     };
   }
 }

@@ -10,13 +10,14 @@ namespace mimosa
     {
       void
       Var::execute(stream::Stream::Ptr   stream,
-                   const AbstractValue & value) const
+                   const AbstractValue & value,
+                   runtime::Time         timeout) const
       {
         auto v = value.lookup(var_);
         if (v)
-          v->write(stream);
+          v->write(stream, timeout);
         else
-          format::format(stream, "(%s not found)", var_);
+          format::format(stream, timeout, "(%s not found)", var_);
       }
     }
   }

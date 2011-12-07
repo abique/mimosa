@@ -8,3 +8,7 @@ add_library(mimosa-tpl
   ast/root.cc
   ast/text.cc
   ast/var.cc)
+
+target_link_libraries(mimosa-tpl mimosa-log mimosa-stream)
+
+add_subdirectory(tests)

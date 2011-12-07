@@ -4,12 +4,12 @@ namespace mimosa
 {
   namespace tpl
   {
-    AbstractValue::AbstractValue(AbstractValue * parent)
+    AbstractValue::AbstractValue(const AbstractValue * parent)
       : parent_(parent)
     {
     }
 
-    AbstractValue::SingleValueIterator::SingleValueIterator(AbstractValue * value)
+    AbstractValue::SingleValueIterator::SingleValueIterator(const AbstractValue * value)
       : value_(value)
     {
     }

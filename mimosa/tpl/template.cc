@@ -46,5 +46,13 @@ namespace mimosa
         tpl->filename_ = path;
       return tpl;
     }
+
+    void
+    Template::execute(stream::Stream::Ptr   stream,
+                      const AbstractValue & value,
+                      runtime::Time         timeout)
+    {
+      root_->execute(stream, value, timeout);
+    }
   }
 }

@@ -8,9 +8,10 @@ namespace mimosa
     {
       void
       Text::execute(stream::Stream::Ptr   stream,
-                    const AbstractValue & value) const
+                    const AbstractValue & /*value*/,
+                    runtime::Time         timeout) const
       {
-        stream->write(text_.data(), text_.size());
+        stream->write(text_.data(), text_.size(), timeout);
       }
     }
   }
