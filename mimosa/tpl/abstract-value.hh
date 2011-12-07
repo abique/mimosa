@@ -9,10 +9,11 @@ namespace mimosa
 {
   namespace tpl
   {
-    class AbstractValue
+    class AbstractValue : public RefCountable<AbstractValue>
     {
     public:
-      AbstractValue(const AbstractValue * parent = nullptr);
+      AbstractValue(const std::string &   name = "",
+                    const AbstractValue * parent = nullptr);
 
       virtual const AbstractValue * lookup(const string::StringRef & var) const = 0;
       virtual void write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const = 0;
@@ -44,6 +45,7 @@ namespace mimosa
       virtual bool empty() const = 0;
 
       const AbstractValue * parent_;
+      std::string           name_;
     };
   }
 }

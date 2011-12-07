@@ -6,8 +6,10 @@ namespace mimosa
   namespace tpl
   {
     template <typename T>
-    Value<T>::Value(const T & value, AbstractValue * parent)
-      : AbstractValue(parent),
+    Value<T>::Value(const T &             value,
+                    const std::string &   name,
+                    const AbstractValue * parent)
+      : AbstractValue(name, parent),
         value_(value)
     {
     }
@@ -16,7 +18,7 @@ namespace mimosa
     const AbstractValue *
     Value<T>::lookup(const string::StringRef & var) const
     {
-      if (var == ".")
+      if (var == "." || var == name_)
         return this;
       if (parent_)
         return parent_->lookup(var);
