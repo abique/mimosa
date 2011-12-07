@@ -45,7 +45,7 @@ namespace mimosa
         ASSERT_EQ("hello world!", stream->str());
       }
 
-      TEST(Tpl, ValueDot)
+      TEST(Tpl, Value1)
       {
         Template::Ptr tpl = Template::parseString("hello {{.}}");
         ASSERT_TRUE(tpl);
@@ -58,7 +58,7 @@ namespace mimosa
         ASSERT_EQ("hello world!", stream->str());
       }
 
-      TEST(Tpl, 2ValueDot)
+      TEST(Tpl, Value2)
       {
         Template::Ptr tpl = Template::parseString("hello {{.}} {{.}}");
         ASSERT_TRUE(tpl);
@@ -69,6 +69,19 @@ namespace mimosa
         tpl->execute(stream, value);
 
         ASSERT_EQ("hello 2 2", stream->str());
+      }
+
+      TEST(Tpl, Value3)
+      {
+        Template::Ptr tpl = Template::parseString("{{*.}}{{.}}{{/}}");
+        ASSERT_TRUE(tpl);
+
+        Value<int> value(2);
+
+        stream::StringStream::Ptr stream = new stream::StringStream();
+        tpl->execute(stream, value);
+
+        ASSERT_EQ("2", stream->str());
       }
 
       TEST(Tpl, List1)
@@ -99,6 +112,38 @@ namespace mimosa
         tpl->execute(stream, list);
 
         ASSERT_EQ("yy", stream->str());
+      }
+
+      TEST(Tpl, List3)
+      {
+        Template::Ptr tpl = Template::parseString("{{!.}}yy{{/}}");
+        ASSERT_TRUE(tpl);
+
+        List list;
+
+        stream::StringStream::Ptr stream = new stream::StringStream();
+        tpl->execute(stream, list);
+
+        ASSERT_EQ("yy", stream->str());
+      }
+
+      TEST(Tpl, List4)
+      {
+        Template::Ptr tpl = Template::parseString("{{*.}}[{{*.}}{{.}}, {{*!}}empty, {{/}}], {{/}}");
+        ASSERT_TRUE(tpl);
+
+        List list;
+        list.append(new Value<int>(42));
+        auto list2 = new List;
+        list2->append(new Value<std::string>("tutu"));
+        list2->append(new Value<std::string>("toto"));
+        list2->append(new Value<std::string>("tata"));
+        list.append(list2);
+
+        stream::StringStream::Ptr stream = new stream::StringStream();
+        tpl->execute(stream, list);
+
+        ASSERT_EQ("[42, ], [tutu, toto, tata], ", stream->str());
       }
     }
   }

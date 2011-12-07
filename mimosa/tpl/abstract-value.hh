@@ -12,7 +12,7 @@ namespace mimosa
     class AbstractValue : public RefCountable<AbstractValue>
     {
     public:
-      AbstractValue(const std::string &   name = "");
+      AbstractValue(const std::string & name = "");
 
       virtual const AbstractValue * lookup(const string::StringRef & var) const = 0;
       virtual void write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const = 0;
@@ -42,6 +42,8 @@ namespace mimosa
 
       virtual Iterator::Ptr begin() const = 0;
       virtual bool empty() const = 0;
+
+      inline const std::string & name() const { return name_; }
 
       const AbstractValue * parent_;
       std::string           name_;

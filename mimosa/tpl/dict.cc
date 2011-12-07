@@ -1,43 +1,48 @@
-#include "list.hh"
+#include "dict.hh"
 
 namespace mimosa
 {
   namespace tpl
   {
-    List::List(const std::string & name)
+    Dict::Dict(const std::string & name)
       : AbstractValue(name)
     {
     }
 
     const AbstractValue *
-    List::lookup(const string::StringRef & var) const
+    Dict::lookup(const string::StringRef & var) const
     {
-      if (var == "." || var == name_)
+      if (var == ".")
         return this;
+
+      auto it = values_.find(var);
+      if (it != values_.end())
+        return it->second.get();
+
       if (parent_)
         return parent_->lookup(var);
       return nullptr;
     }
 
     void
-    List::write(stream::Stream::Ptr /*stream*/,
+    Dict::write(stream::Stream::Ptr /*stream*/,
                 runtime::Time       /*timeout*/) const
     {
     }
 
     AbstractValue::Iterator::Ptr
-    List::begin() const
+    Dict::begin() const
     {
-      return new ListIterator(this, values_.begin());
+      return new DictIterator(this, values_.begin());
     }
 
     bool
-    List::empty() const
+    Dict::empty() const
     {
       return values_.empty();
     }
 
-    List::ListIterator::ListIterator(const List *                        value,
+    Dict::DictIterator::DictIterator(const Dict *                        value,
                                      const values_type::const_iterator & it)
       : value_(value),
         it_(it)
@@ -45,19 +50,19 @@ namespace mimosa
     }
 
     const AbstractValue *
-    List::ListIterator::value() const
+    Dict::DictIterator::value() const
     {
-      return it_->get();
+      return it_->second.get();
     }
 
     void
-    List::ListIterator::next()
+    Dict::DictIterator::next()
     {
       ++it_;
     }
 
     bool
-    List::ListIterator::end() const
+    Dict::DictIterator::end() const
     {
       return it_ == value_->values_.end();
     }

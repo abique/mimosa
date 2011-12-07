@@ -1,8 +1,9 @@
 add_library(mimosa-tpl
   abstract-value.cc
-  template.cc
-  parser.cc
+  dict.cc
   list.cc
+  parser.cc
+  template.cc
 
   ast/empty.cc
   ast/repeated.cc
