@@ -3,6 +3,7 @@
 #include "../template.hh"
 #include "../value.hh"
 #include "../list.hh"
+#include "../dict.hh"
 #include "../../stream/string-stream.hh"
 
 namespace mimosa
@@ -144,6 +145,36 @@ namespace mimosa
         tpl->execute(stream, list);
 
         ASSERT_EQ("[42, ], [tutu, toto, tata, ], ", stream->str());
+      }
+
+      TEST(Tpl, Dict1)
+      {
+        Template::Ptr tpl = Template::parseString("{{a}} {{b}} {{c}}");
+        ASSERT_TRUE(tpl);
+
+        Dict dict;
+        dict.append(new Value<int>(42, "a"));
+        dict.append(new Value<std::string>("tutu", "b"));
+        dict.append(new Value<std::string>("hehe", "c"));
+
+        stream::StringStream::Ptr stream = new stream::StringStream();
+        tpl->execute(stream, dict);
+
+        ASSERT_EQ("42 tutu hehe", stream->str());
+      }
+
+      TEST(Tpl, Dict2)
+      {
+        Template::Ptr tpl = Template::parseString("{{*.}}{{.}}{{/}}");
+        ASSERT_TRUE(tpl);
+
+        Dict dict;
+        dict.append(new Value<int>(42, "a"));
+
+        stream::StringStream::Ptr stream = new stream::StringStream();
+        tpl->execute(stream, dict);
+
+        ASSERT_EQ("42", stream->str());
       }
     }
   }
