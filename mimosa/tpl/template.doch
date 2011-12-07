@@ -7,6 +7,8 @@
 @verbatim
 {{var}} will expend var, a variable must match [^|]+ and not contain }}
 {{var|filter}} will apply filter on the output of var, usefull for html, javascript, ...
+{{var.attr}} is equivalent to {{*var}}{{attr}}{{/attr}}, this is particulary usefull if
+var is a dict.
 
 {{*list}} T {{/}}
 {{*list}} T {{/list}} will expand the enclosed data for each values.
