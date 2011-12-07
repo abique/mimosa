@@ -1,6 +1,7 @@
 add_library(mimosa-tpl
   abstract-value.cc
   dict.cc
+  include.cc
   list.cc
   parser.cc
   template.cc
@@ -18,6 +19,7 @@ add_subdirectory(tests)
 install(FILES
   abstract-value.hh
   dict.hh
+  include.hh
   list.hh
   map.hh
   parser.hh

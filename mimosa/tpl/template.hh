@@ -19,7 +19,7 @@ namespace mimosa
 
       void execute(stream::Stream::Ptr   stream,
                    const AbstractValue & value,
-                   runtime::Time         timeout = 0);
+                   runtime::Time         timeout = 0) const;
 
     private:
       friend class Parser;

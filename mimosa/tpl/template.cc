@@ -50,7 +50,7 @@ namespace mimosa
     void
     Template::execute(stream::Stream::Ptr   stream,
                       const AbstractValue & value,
-                      runtime::Time         timeout)
+                      runtime::Time         timeout) const
     {
       root_->execute(stream, value, timeout);
     }
