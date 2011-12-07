@@ -14,8 +14,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(List);
 
-      List(const std::string &   name = "",
-           const AbstractValue * parent = nullptr);
+      List(const std::string &   name = "");
 
       virtual const AbstractValue * lookup(const string::StringRef & var) const;
       virtual void write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const;
@@ -23,7 +22,13 @@ namespace mimosa
       virtual Iterator::Ptr begin() const;
       virtual bool empty() const;
 
-      typedef std::vector<AbstractValue::Ptr> values_type;
+      typedef std::vector<AbstractValue::ConstPtr> values_type;
+
+      inline void append(AbstractValue::Ptr value)
+      {
+        value->parent_ = this;
+        values_.push_back(value);
+      }
 
       class ListIterator : public Iterator
       {
@@ -38,7 +43,7 @@ namespace mimosa
         virtual bool end() const;
 
       private:
-        const List *           value_;
+        const List *                value_;
         values_type::const_iterator it_;
       };
 

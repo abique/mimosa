@@ -4,9 +4,8 @@ namespace mimosa
 {
   namespace tpl
   {
-    AbstractValue::AbstractValue(const std::string &   name,
-                                 const AbstractValue * parent)
-      : parent_(parent),
+    AbstractValue::AbstractValue(const std::string &   name)
+      : parent_(nullptr),
         name_(name)
     {
     }

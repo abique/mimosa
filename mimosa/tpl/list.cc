@@ -4,9 +4,8 @@ namespace mimosa
 {
   namespace tpl
   {
-    List::List(const std::string &   name,
-               const AbstractValue * parent)
-      : AbstractValue(name, parent)
+    List::List(const std::string &   name)
+      : AbstractValue(name)
     {
     }
 
@@ -43,6 +42,12 @@ namespace mimosa
       : value_(value),
         it_(it)
     {
+    }
+
+    const AbstractValue *
+    List::ListIterator::value() const
+    {
+      return it_->get();
     }
 
     void

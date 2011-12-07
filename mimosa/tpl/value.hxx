@@ -7,9 +7,8 @@ namespace mimosa
   {
     template <typename T>
     Value<T>::Value(const T &             value,
-                    const std::string &   name,
-                    const AbstractValue * parent)
-      : AbstractValue(name, parent),
+                    const std::string &   name)
+      : AbstractValue(name),
         value_(value)
     {
     }

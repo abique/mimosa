@@ -49,7 +49,8 @@ namespace mimosa
           input_ = input_.substr(pos);
         }
 
-        if (!parseAction())
+        if (pos != string::StringRef::npos &&
+            !parseAction())
           return false;
       }
 
@@ -175,6 +176,15 @@ namespace mimosa
     bool
     Parser::parseEnd()
     {
+      // skip the '/'
+      input_ = input_.substr(1);
+
+      // find the end of the action
+      auto end = input_.find(action_end_);
+      if (end == string::StringRef::npos)
+        return false;
+      input_ = input_.substr(end + action_end_.size());
+
       stack_.pop_back();
       return true;
     }
