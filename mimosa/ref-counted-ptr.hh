@@ -81,6 +81,11 @@ namespace mimosa
       return ptr_;
     }
 
+    inline operator T* () const
+    {
+      return ptr_;
+    }
+
     template <typename U>
     inline bool operator==(const U * ptr) const
     {
