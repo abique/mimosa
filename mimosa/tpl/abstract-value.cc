@@ -30,7 +30,7 @@ namespace mimosa
     bool
     AbstractValue::SingleValueIterator::end() const
     {
-      return value_;
+      return !value_;
     }
   }
 }

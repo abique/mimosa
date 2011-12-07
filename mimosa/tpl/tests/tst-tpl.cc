@@ -143,7 +143,7 @@ namespace mimosa
         stream::StringStream::Ptr stream = new stream::StringStream();
         tpl->execute(stream, list);
 
-        ASSERT_EQ("[42, ], [tutu, toto, tata], ", stream->str());
+        ASSERT_EQ("[42, ], [tutu, toto, tata, ], ", stream->str());
       }
     }
   }
