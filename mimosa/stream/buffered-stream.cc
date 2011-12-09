@@ -86,7 +86,7 @@ namespace mimosa
           p->iov_len  = it->size();
           if (p == iov)
           {
-            p->iov_base += wpos_;
+            p->iov_base = static_cast<uint8_t*>(p->iov_base) + wpos_;
             p->iov_len  -= wpos_;
           }
           if (p == iov + wbuffers_.size() - 1)
@@ -108,7 +108,7 @@ namespace mimosa
         p = iov;
         for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++p)
         {
-          if (wbytes >= p->iov_len)
+          if (wbytes >= static_cast<int64_t> (p->iov_len))
           {
             wbytes -= p->iov_len;
             wbuffers_.pop();
@@ -261,7 +261,7 @@ namespace mimosa
           p->iov_len  = it->size();
           if (p == iov)
           {
-            p->iov_base += wpos_;
+            p->iov_base = static_cast<uint8_t*> (p->iov_base) + wpos_;
             p->iov_len  -= wpos_;
           }
           if (p == iov_last)
@@ -277,7 +277,7 @@ namespace mimosa
         p = iov;
         for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++p)
         {
-          if (wbytes >= p->iov_len)
+          if (wbytes >= static_cast<int64_t> (p->iov_len))
           {
             wbytes -= p->iov_len;
             wbuffers_.pop();
