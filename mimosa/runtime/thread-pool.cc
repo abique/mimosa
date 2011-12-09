@@ -11,6 +11,13 @@ namespace mimosa
     {
     }
 
+    ThreadPool::~ThreadPool()
+    {
+      join();
+      delete fct_;
+      fct_ = nullptr;
+    }
+
     bool
     ThreadPool::startThread()
     {
@@ -23,6 +30,7 @@ namespace mimosa
       }
 
       threads_.push_back(thread);
+      return true;
     }
 
     void

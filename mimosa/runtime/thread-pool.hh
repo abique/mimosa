@@ -13,6 +13,7 @@ namespace mimosa
     {
     public:
       ThreadPool(std::function<void ()> && fct);
+      ~ThreadPool();
 
       inline ThreadPool & setStackSize(uint32_t size) { stack_size_ = size; return *this; }
 
