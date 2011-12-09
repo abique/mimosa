@@ -3,6 +3,8 @@ install(FILES
   barrier.hh
   channel.hh
   condition.hh
+  future.hh
+  future.hxx
   locker.hh
   mutex.hh
   recursive-mutex.hh
