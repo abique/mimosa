@@ -1,6 +1,7 @@
 #ifndef MIMOSA_SYNC_FUTURE_HH
 # define MIMOSA_SYNC_FUTURE_HH
 
+# include "../ref-countable.hh"
 # include "condition.hh"
 # include "mutex.hh"
 
