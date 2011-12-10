@@ -17,7 +17,7 @@ namespace mimosa
               typename Value,
               typename Hash = std::hash<Key>,
               typename KeyEqual = std::equal_to<Key> >
-    class Cache
+    class Cache : private NonCopyable
     {
     public:
       Cache();
