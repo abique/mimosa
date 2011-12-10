@@ -93,7 +93,7 @@ namespace mimosa
         return false;
 
       ast::Var::Ptr var = new ast::Var;
-      var->var_ = input_.substr(0, end);
+      var->vars_.push_back(input_.substr(0, end));
       stack_.back()->addChild(var);
 
       input_ = input_.substr(end + action_end_.size());

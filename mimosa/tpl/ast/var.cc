@@ -13,11 +13,28 @@ namespace mimosa
                    const AbstractValue & value,
                    runtime::Time         timeout) const
       {
-        auto v = value.lookup(var_);
+        const AbstractValue * v = nullptr;
+
+        for (auto it = vars_.begin(); it != vars_.end(); ++it)
+        {
+          v = value.lookup(*it);
+          if (!v)
+            goto not_found;
+        }
+
         if (v)
           v->write(stream, timeout);
         else
-          format::format(stream, timeout, "(%s not found)", var_);
+          not_found:
+          format::format(stream, timeout, "(%s not found)", var());
+      }
+
+      string::StringRef
+      Var::var() const
+      {
+        if (vars_.empty())
+          return "(empty)";
+        return vars_.front();
       }
     }
   }

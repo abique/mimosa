@@ -20,7 +20,7 @@ namespace mimosa
                              runtime::Time         timeout = 0) const;
 
         virtual void addChild(Node::Ptr node) { childs_.push(node); }
-        virtual string::StringRef var() { return var_; }
+        virtual string::StringRef var() const { return var_; }
 
         string::StringRef var_;
 

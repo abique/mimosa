@@ -1,6 +1,8 @@
 #ifndef MIMOSA_TPL_AST_VAR_HH
 # define MIMOSA_TPL_AST_VAR_HH
 
+# include <vector>
+
 # include "../../string/string-ref.hh"
 # include "../../stream/stream.hh"
 # include "node.hh"
@@ -20,10 +22,10 @@ namespace mimosa
                              const AbstractValue & value,
                              runtime::Time         timeout = 0) const;
 
-        virtual string::StringRef var() { return var_; }
+        virtual string::StringRef var() const;
 
-        string::StringRef var_;
-        // XXX filters
+        std::vector<string::StringRef> vars_;
+        std::vector<string::StringRef> filters_;
       };
     }
   }

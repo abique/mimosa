@@ -23,7 +23,7 @@ namespace mimosa
                              runtime::Time         timeout = 0) const = 0;
 
         virtual void addChild(Node::Ptr /*node*/) {}
-        virtual string::StringRef var() { return "(none)"; }
+        virtual string::StringRef var() const { return "(none)"; }
 
         typedef container::IntrusiveSlistHook<Node::Ptr>   hook_type;
 
