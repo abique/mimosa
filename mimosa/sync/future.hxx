@@ -5,7 +5,7 @@ namespace mimosa
     template <typename T>
     inline
     Future<T>::Future(const T & value, bool ready)
-      : value_(t),
+      : value_(value),
         ready_(ready),
         lock_(),
         cond_()

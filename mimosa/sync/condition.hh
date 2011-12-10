@@ -7,6 +7,7 @@
 
 # include "../non-copyable.hh"
 # include "../runtime/time.hh"
+# include "mutex.hh"
 
 namespace mimosa
 {
