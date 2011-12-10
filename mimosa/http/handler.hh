@@ -2,6 +2,7 @@
 # define MIMOSA_HTTP_HANDLER_HH
 
 # include "../ref-countable.hh"
+# include "../non-copyable.hh"
 # include "request-reader.hh"
 # include "response-writer.hh"
 
@@ -12,7 +13,8 @@ namespace mimosa
     class Request;
     class ResponseWriter;
 
-    class Handler : public RefCountable<Handler>
+    class Handler : public RefCountable<Handler>,
+                    private NonCopyable
     {
     public:
       virtual ~Handler() {}

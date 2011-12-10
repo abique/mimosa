@@ -3,6 +3,7 @@
 
 # include <string>
 
+# include "../non-copyable.hh"
 # include "../ref-countable.hh"
 # include "basic-call.hh"
 # include "protocol.hh"
@@ -13,7 +14,8 @@ namespace mimosa
   {
     class Channel;
 
-    class Service : public RefCountable<Service>
+    class Service : public RefCountable<Service>,
+                    private NonCopyable
     {
     public:
 
