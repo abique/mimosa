@@ -12,8 +12,7 @@ namespace mimosa
 {
   namespace http
   {
-    class Server : public net::Server,
-                   private NonCopyable
+    class Server : public net::Server
     {
     public:
       MIMOSA_DEF_PTR(Server);

@@ -1,7 +1,6 @@
 #ifndef MIMOSA_RPC_SERVER_HH
 # define MIMOSA_RPC_SERVER_HH
 
-# include "../non-copyable.hh"
 # include "../net/server.hh"
 # include "service-map.hh"
 
@@ -9,8 +8,7 @@ namespace mimosa
 {
   namespace rpc
   {
-    class Server : public net::Server,
-        private NonCopyable
+    class Server : public net::Server
     {
     public:
       MIMOSA_DEF_PTR(Server);
