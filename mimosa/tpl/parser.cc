@@ -92,10 +92,25 @@ namespace mimosa
       if (end == string::StringRef::npos)
         return false;
 
-      ast::Var::Ptr var = new ast::Var;
-      var->vars_.push_back(input_.substr(0, end));
-      stack_.back()->addChild(var);
+      // don't allow {{|x|y|z}}
+      if (end == 0 || input_[0] == '|')
+        return false;
 
+      // create the var
+      auto var = new ast::Var;
+
+      // split with |
+      var->filters_ = input_.substr(0, end).tokens('|');
+
+      // split the a.b.c.d
+      var->vars_ = var->filters_[0].tokens('.');
+      if (var->vars_.empty())
+        var->vars_.push_back(".");
+
+      // remove a.b.c.d from the filters
+      var->filters_.erase(var->filters_.begin());
+
+      stack_.back()->addChild(var);
       input_ = input_.substr(end + action_end_.size());
       return true;
     }
