@@ -143,6 +143,9 @@ namespace mimosa
     /// @return dummy value (helper for static initialisation).
     bool addBasicOption(BasicOption * option);
 
+    /// cleanup memory
+    void deinit();
+
     /// This adds an option to the options parser
     template <typename T>
     inline

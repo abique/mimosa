@@ -14,6 +14,8 @@ namespace mimosa
     /// This class is an internal class, to parse and manages options.
     struct Parser
     {
+      Parser();
+
       void parse(int argc, char ** argv);
       void addOption(BasicOption * option);
 
@@ -29,7 +31,13 @@ namespace mimosa
                std::unique_ptr<BasicOption> > options_;
     };
 
-    Parser parser;
+    static Parser * parser = nullptr;
+
+    Parser::Parser()
+      : program_name_(),
+        options_()
+    {
+    }
 
     void
     Parser::parse(int argc, char ** argv)
@@ -37,7 +45,7 @@ namespace mimosa
       if (argc == 0)
         return;
 
-      parser.program_name_ = *argv;
+      parser->program_name_ = *argv;
       --argc;
       ++argv;
 
@@ -142,13 +150,25 @@ namespace mimosa
 
     void parse(int argc, char ** argv)
     {
-      parser.parse(argc, argv);
+      if (!parser)
+        parser = new Parser;
+
+      parser->parse(argc, argv);
     }
 
     bool addBasicOption(BasicOption * option)
     {
-      parser.addOption(option);
+      if (!parser)
+        parser = new Parser;
+
+      parser->addOption(option);
       return true;
+    }
+
+    void deinit()
+    {
+      delete parser;
+      parser = nullptr;
     }
   }
 }

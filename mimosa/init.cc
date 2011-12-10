@@ -29,5 +29,6 @@ namespace mimosa
   void deinit()
   {
     ::gnutls_global_deinit ();
+    options::deinit();
   }
 }

@@ -9,6 +9,7 @@ find_package(GnuTLS REQUIRED)
 include_directories(${GNUTLS_INCLUDE_DIR} .)
 
 add_definitions(-D_GNU_SOURCE -D_LARGEFILE64_SOURCE -std=c++0x -Wall -Wextra
+                -fsplit-stack
                 ${GNUTLS_DEFINITIONS})
 
 include(cmake/Tests.cmake)
