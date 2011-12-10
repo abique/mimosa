@@ -90,7 +90,7 @@ namespace mimosa
         return StringRef(data_ + start, n);
       }
 
-      inline std::vector<StringRef> && tokens(char c) const
+      inline std::vector<StringRef> tokens(char c) const
       {
         std::vector<StringRef> toks;
 
@@ -111,7 +111,7 @@ namespace mimosa
             toks.push_back(StringRef(start, p));
         }
 
-        return std::move(toks);
+        return toks;
       }
 
     private:
