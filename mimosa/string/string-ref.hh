@@ -5,6 +5,7 @@
 # include <cassert>
 # include <string>
 # include <ostream>
+# include <vector>
 
 namespace mimosa
 {
@@ -87,6 +88,30 @@ namespace mimosa
         if (n == npos || start + n >= len_)
           n = len_ - start;
         return StringRef(data_ + start, n);
+      }
+
+      inline std::vector<StringRef> && tokens(char c) const
+      {
+        std::vector<StringRef> toks;
+
+        const char * const end = data_ + len_;
+        const char * p = data_;
+
+        while (p < end)
+        {
+          while (*p == c && p < end)
+            ++p;
+
+          const char * const start = p;
+
+          while (*p != c && p < end)
+            ++p;
+
+          if (p > start)
+            toks.push_back(StringRef(start, p));
+        }
+
+        return std::move(toks);
       }
 
     private:
