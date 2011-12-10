@@ -1,19 +1,3 @@
-add_library(mimosa-tpl
-  abstract-value.cc
-  dict.cc
-  include.cc
-  list.cc
-  parser.cc
-  template.cc
-
-  ast/empty.cc
-  ast/repeated.cc
-  ast/root.cc
-  ast/text.cc
-  ast/var.cc)
-
-target_link_libraries(mimosa-tpl mimosa-log mimosa-stream)
-
 add_subdirectory(tests)
 
 install(FILES
@@ -38,8 +22,3 @@ install(FILES
   ast/node.hh
 
   DESTINATION include/mimosa/tpl/ast/)
-
-install(TARGETS mimosa-tpl
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib)

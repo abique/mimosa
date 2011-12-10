@@ -4,7 +4,6 @@
 %defines
 %error-verbose
 %name-prefix "mimosa_http_request_"
-%output "request-parser.cc"
 
 %lex-param {yyscan_t yyscanner}
 %parse-param {yyscan_t yyscanner}

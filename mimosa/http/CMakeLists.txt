@@ -18,36 +18,5 @@ install(FILES
   status.hh
   DESTINATION include/mimosa/http/)
 
-mimosa_flex(request-lexer)
-mimosa_bison(request-parser)
-
-add_library(mimosa-http
-  cookie.cc
-  dispatch-handler.cc
-  error-handler.cc
-  fs-handler.cc
-  method.cc
-  mime-db.cc
-  log.cc
-  log-handler.cc
-  redirect.cc
-  request.cc
-  request-reader.cc
-  request-lexer.cc
-  request-parser.cc
-  response.cc
-  response-writer.cc
-  status.cc
-  server.cc
-  server-channel.cc
-  )
-
-target_link_libraries(mimosa-http mimosa-uri mimosa-stream mimosa-net)
-
 add_subdirectory(tests)
 add_subdirectory(samples)
-
-install(TARGETS mimosa-http
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib)

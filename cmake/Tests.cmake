@@ -1,8 +1,8 @@
-add_custom_target(tests)
+add_custom_target(check)
 
 macro(mimosa_test MODULE)
-  add_executable(tst-${MODULE} EXCLUDE_FROM_ALL ${ARGN})
-  target_link_libraries(tst-${MODULE} gtest_main gtest pthread)
+  add_executable(tst-${MODULE} ${ARGN})
+  target_link_libraries(tst-${MODULE} gtest_main gtest mimosa)
   add_custom_target(run-tst-${MODULE} ./tst-${MODULE} DEPENDS tst-${MODULE})
-  add_dependencies(tests run-tst-${MODULE})
+  add_dependencies(check run-tst-${MODULE})
 endmacro(mimosa_test)

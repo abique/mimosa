@@ -2,7 +2,6 @@
 %option bison-bridge stack
 %option warn ansi-definitions ansi-prototypes
 %option prefix="mimosa_http_request_"
-%option outfile="request-lexer.cc" header-file="request-lexer.hh"
 /* %option nodefault */
 %option align
 %option fast

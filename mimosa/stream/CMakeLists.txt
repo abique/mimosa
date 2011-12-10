@@ -12,25 +12,4 @@ install(FILES
   tls-stream.hh
   DESTINATION include/mimosa/stream/)
 
-add_library(mimosa-stream
-  buffer.cc
-  buffered-stream.cc
-  compress-stream.cc
-  copy.cc
-  direct-fd-stream.cc
-  fd-stream.cc
-  limited-stream.cc
-  net-fd-stream.cc
-  stream.cc
-  string-stream.cc
-  tls-stream.cc
-)
-
-target_link_libraries(mimosa-stream mimosa)
-
-install(TARGETS mimosa-stream
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib)
-
 add_subdirectory(tests)
