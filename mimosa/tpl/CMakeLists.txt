@@ -2,6 +2,7 @@ add_subdirectory(tests)
 
 install(FILES
   abstract-value.hh
+  cache.hh
   dict.hh
   include.hh
   list.hh

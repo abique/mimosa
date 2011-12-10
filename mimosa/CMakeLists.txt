@@ -84,6 +84,7 @@ add_library(mimosa
 
   # tpl
   tpl/abstract-value.cc
+  tpl/cache.cc
   tpl/dict.cc
   tpl/include.cc
   tpl/list.cc
