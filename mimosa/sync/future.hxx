@@ -4,9 +4,9 @@ namespace mimosa
   {
     template <typename T>
     inline
-    Future<T>::Future(const T & value, bool ready)
+    Future<T>::Future(const T & value, State state)
       : value_(value),
-        ready_(ready),
+        state_(state),
         lock_(),
         cond_()
     {
@@ -15,9 +15,25 @@ namespace mimosa
     template <typename T>
     inline
     bool
-    Future<T>::isReady()
+    Future<T>::isReady() const
     {
-      return ready_;
+      return state_ == kSet;
+    }
+
+    template <typename T>
+    inline
+    bool
+    Future<T>::isCanceled() const
+    {
+      return state_ == kCanceled;
+    }
+
+    template <typename T>
+    inline
+    typename Future<T>::State
+    Future<T>::state() const
+    {
+      return state_;
     }
 
     template <typename T>
@@ -25,11 +41,11 @@ namespace mimosa
     void
     Future<T>::wait()
     {
-      if (ready_)
+      if (state_ != kUnset)
         return;
 
       Mutex::Locker locker(lock_);
-      if (ready_)
+      if (state_ != kUnset)
         return;
 
       cond_.wait(lock_);
@@ -50,9 +66,22 @@ namespace mimosa
     Future<T>::set(const T & value)
     {
       Mutex::Locker locker(lock_);
-      assert(!ready_);
       value_ = value;
-      ready_ = true;
+      state_ = kSet;
+      cond_.wakeAll();
+    }
+
+    template <typename T>
+    inline
+    void
+    Future<T>::cancel()
+    {
+      Mutex::Locker locker(lock_);
+
+      if (state_ == kSet)
+        return;
+
+      state_ = kCanceled;
       cond_.wakeAll();
     }
   }

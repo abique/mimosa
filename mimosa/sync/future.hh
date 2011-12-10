@@ -14,16 +14,26 @@ namespace mimosa
     {
     public:
 
-      inline Future(const T & value = T(), bool ready = false);
+      enum State
+      {
+        kUnset,
+        kSet,
+        kCanceled,
+      };
 
-      inline bool isReady();
+      inline Future(const T & value = T(), State state = kUnset);
+
+      inline bool isReady() const;
+      inline bool isCanceled() const;
+      inline State state() const;
       inline void wait();
       inline T &  get();
       inline void set(const T & t);
+      inline void cancel();
 
     private:
       T         value_;
-      bool      ready_;
+      State     state_;
       Mutex     lock_;
       Condition cond_;
     };
