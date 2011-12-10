@@ -1,0 +1,7 @@
+namespace mimosa
+{
+  namespace container
+  {
+
+  }
+}
