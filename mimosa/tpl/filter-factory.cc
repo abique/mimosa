@@ -15,6 +15,7 @@ namespace mimosa
     {
       // register default filters
       registerFilter("h", createHtmlFilter);
+      registerFilter("html", createHtmlFilter);
     }
 
     FilterFactory::~FilterFactory()
