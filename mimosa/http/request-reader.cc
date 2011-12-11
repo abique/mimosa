@@ -9,11 +9,13 @@ namespace mimosa
 {
   namespace http
   {
-    RequestReader::RequestReader(stream::Stream::Ptr stream)
+    RequestReader::RequestReader(stream::Stream::Ptr stream,
+                                 runtime::Time       read_timeout)
       : stream_(stream),
         bytes_left_(0),
         parsed_form_(false),
-        form_()
+        form_(),
+        read_timeout_(read_timeout)
     {
     }
 

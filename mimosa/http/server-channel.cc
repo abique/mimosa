@@ -11,11 +11,9 @@ namespace mimosa
                                  runtime::Time               write_timeout)
       : stream_(stream),
         handler_(handler),
-        read_timeout_(read_timeout),
-        write_timeout_(write_timeout),
         timeout_(0),
-        request_(new RequestReader(stream_)),
-        response_(new ResponseWriter(stream_))
+        request_(new RequestReader(stream_, read_timeout)),
+        response_(new ResponseWriter(stream_, write_timeout))
     {
     }
 
@@ -40,7 +38,8 @@ namespace mimosa
     ServerChannel::readRequest()
     {
       bool found = false;
-      stream::Buffer::Ptr buffer = stream_->readUntil("\r\n\r\n", 5 * 1024, readTimeout(), &found);
+      stream::Buffer::Ptr buffer = stream_->readUntil(
+        "\r\n\r\n", 5 * 1024, request_->readTimeout(), &found);
       if (!buffer)
       {
         requestTimeout();
@@ -71,7 +70,7 @@ namespace mimosa
     bool
     ServerChannel::sendResponse()
     {
-      return response_->finish(writeTimeout()) && request_->flush();
+      return response_->finish(response_->writeTimeout()) && request_->flush();
     }
 
     void

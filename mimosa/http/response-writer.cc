@@ -7,10 +7,12 @@ namespace mimosa
 {
   namespace http
   {
-    ResponseWriter::ResponseWriter(stream::Stream::Ptr stream)
+    ResponseWriter::ResponseWriter(stream::Stream::Ptr stream,
+                                   runtime::Time       write_timeout)
       : stream_(stream),
         buffers_(),
-        header_sent_(false)
+        header_sent_(false),
+        write_timeout_(write_timeout)
     {
     }
 

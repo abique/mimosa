@@ -14,7 +14,8 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(RequestReader);
 
-      RequestReader(stream::Stream::Ptr stream);
+      RequestReader(stream::Stream::Ptr stream,
+                    runtime::Time       read_timeout);
 
       void clear();
 
@@ -30,6 +31,11 @@ namespace mimosa
 
       container::kvs & form();
 
+      inline runtime::Time readTimeout() const
+      {
+        return read_timeout_ > 0 ? runtime::time() + read_timeout_ : 0;
+      }
+
     private:
 
       friend class ServerChannel;
@@ -40,6 +46,7 @@ namespace mimosa
       int64_t             bytes_left_;
       bool                parsed_form_;
       container::kvs      form_;
+      runtime::Time       read_timeout_;
     };
   }
 }

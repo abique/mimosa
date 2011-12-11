@@ -19,7 +19,8 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(ResponseWriter);
 
-      ResponseWriter(stream::Stream::Ptr stream);
+      ResponseWriter(stream::Stream::Ptr stream,
+                     runtime::Time       write_timeout);
       ~ResponseWriter();
 
       /** Stream related stuff
@@ -29,7 +30,7 @@ namespace mimosa
       /** @warning this should never be called, will abort */
       virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
       /** does nothing until sendHeader(), then flushes the write buffer */
-      virtual bool flush(runtime::Time timeout);
+      virtual bool flush(runtime::Time timeout = 0);
       /** @} */
 
       /** Writes the header to the client.
@@ -39,9 +40,14 @@ namespace mimosa
        * Until you call sendResponseHeader, everything you write to
        * body is buffered, so when you finishes Response knows the
        * amount of data to be written and set content_length_ */
-      bool sendHeader(runtime::Time timeout);
+      bool sendHeader(runtime::Time timeout = 0);
 
       void clear();
+
+      inline runtime::Time writeTimeout() const
+      {
+        return write_timeout_ > 0 ? runtime::time() + write_timeout_ : 0;
+      }
 
     private:
       friend class ServerChannel;
@@ -55,6 +61,7 @@ namespace mimosa
       stream::Stream::Ptr   stream_;
       stream::Buffer::Slist buffers_;
       bool                  header_sent_;
+      runtime::Time         write_timeout_;
     };
   }
 }
