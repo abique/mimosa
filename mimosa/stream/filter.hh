@@ -1,6 +1,8 @@
 #ifndef MIMOSA_STREAM_FILTER_HH
 # define MIMOSA_STREAM_FILTER_HH
 
+# include "stream.hh"
+
 namespace mimosa
 {
   namespace stream
