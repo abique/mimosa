@@ -7,6 +7,7 @@ install(FILES
   fd-stream.hh
   filter.hh
   gzip-stream.hh
+  html-escape.hh
   limited-stream.hh
   stream.hh
   string-stream.hh

@@ -34,6 +34,7 @@ add_library(mimosa
   stream/direct-fd-stream.cc
   stream/fd-stream.cc
   stream/filter.cc
+  stream/html-escape.cc
   stream/limited-stream.cc
   stream/net-fd-stream.cc
   stream/stream.cc
