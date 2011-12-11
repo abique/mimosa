@@ -6,6 +6,7 @@ install(FILES
   dict.hh
   include.hh
   list.hh
+  log.hh
   map.hh
   parser.hh
   template.hh

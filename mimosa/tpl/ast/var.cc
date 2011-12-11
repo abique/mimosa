@@ -1,5 +1,6 @@
 #include "../abstract-value.hh"
 #include "var.hh"
+#include "../filter-factory.hh"
 #include "../../format/format-stream.hh"
 
 namespace mimosa
@@ -21,6 +22,9 @@ namespace mimosa
           if (!v)
             goto not_found;
         }
+
+        for (auto it = filters_.begin(); it != filters_.end(); ++it)
+          stream = FilterFactory::instance().create(*it, stream);
 
         if (v)
           v->write(stream, timeout);

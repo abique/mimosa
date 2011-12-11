@@ -86,8 +86,10 @@ add_library(mimosa
   tpl/abstract-value.cc
   tpl/cache.cc
   tpl/dict.cc
+  tpl/filter-factory.cc
   tpl/include.cc
   tpl/list.cc
+  tpl/log.cc
   tpl/parser.cc
   tpl/template.cc
 

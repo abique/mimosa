@@ -1,4 +1,4 @@
-#include "../log/log.hh"
+#include "log.hh"
 #include "parser.hh"
 #include "ast/text.hh"
 #include "ast/var.hh"
@@ -9,8 +9,6 @@ namespace mimosa
 {
   namespace tpl
   {
-    static auto * tpl_parser = new mimosa::log::Origin("template-parser", mimosa::log::Warning);
-
     Parser::Parser(const Template & tpl)
       : action_start_("{{"),
         action_end_("}}"),
@@ -155,7 +153,7 @@ namespace mimosa
         node->var_ = ref_var;
       else if ((node->var_) != ref_var)
       {
-        MIMOSA_LOG(Error, tpl_parser, "different variables: *%s *!%s",
+        MIMOSA_LOG(Error, tpl_log, "different variables: *%s *!%s",
                    ref_var, node->var_);
         return false;
       }
