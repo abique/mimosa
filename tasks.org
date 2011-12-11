@@ -1,1 +1,2 @@
 * bench http performances with http://code.google.com/p/httperf/
+* implement chunked output in request writer
