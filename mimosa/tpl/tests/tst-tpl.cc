@@ -196,6 +196,19 @@ namespace mimosa
 
         ASSERT_EQ("42", stream->str());
       }
+
+      TEST(Tpl, FilterHtml)
+      {
+        Template::Ptr tpl = Template::parseString("{{.|h}}");
+        ASSERT_TRUE(tpl);
+
+        Value<std::string> value("ho'ho");
+
+        stream::StringStream::Ptr stream = new stream::StringStream();
+        tpl->execute(stream, value);
+
+        ASSERT_EQ("ho&apos;ho", stream->str());
+      }
     }
   }
 }
