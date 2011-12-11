@@ -13,11 +13,11 @@ namespace mimosa
                    const AbstractValue & value,
                    runtime::Time         timeout) const
       {
-        const AbstractValue * v = nullptr;
+        const AbstractValue * v = &value;
 
         for (auto it = vars_.begin(); it != vars_.end(); ++it)
         {
-          v = value.lookup(*it);
+          v = v->lookup(*it);
           if (!v)
             goto not_found;
         }

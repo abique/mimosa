@@ -176,6 +176,26 @@ namespace mimosa
 
         ASSERT_EQ("42", stream->str());
       }
+
+      TEST(Tpl, Dict3)
+      {
+        Template::Ptr tpl = Template::parseString("{{a.b}}");
+        ASSERT_TRUE(tpl);
+
+        Dict dict;
+        Dict * dict2 = new Dict("a");
+        dict2->append(new Value<int>(42, "b"));
+        dict.append(dict2);
+
+        ASSERT_NE(dict.lookup("a"), nullptr);
+        ASSERT_NE(dict2->lookup("b"), nullptr);
+        ASSERT_NE(dict.lookup("a")->lookup("b"), nullptr);
+
+        stream::StringStream::Ptr stream = new stream::StringStream();
+        tpl->execute(stream, dict);
+
+        ASSERT_EQ("42", stream->str());
+      }
     }
   }
 }
