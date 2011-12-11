@@ -42,7 +42,7 @@ namespace mimosa
 
     template <typename U>
     inline RefCountedPtr(RefCountedPtr<U> && ptr)
-      : ptr_(ptr.ptr_)
+      : ptr_(ptr.get())
     {
       ptr.ptr_ = nullptr;
     }
@@ -112,10 +112,15 @@ namespace mimosa
       ptr_ = ptr;
     }
 
+    template <typename U>
+    inline operator RefCountedPtr<U>() const {
+      return RefCountedPtr<U>(ptr_);
+    }
+
     inline void clear() { assign(nullptr); }
 
   private:
-    friend class RefCountedPtr<const T>;
+    template <class U> friend class RefCountedPtr;
 
     T * ptr_;
   };

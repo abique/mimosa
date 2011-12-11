@@ -1,7 +1,7 @@
 #ifndef MIMOSA_STREAM_HTML_ESCAPE_HH
 # define MIMOSA_STREAM_HTML_ESCAPE_HH
 
-# include "stream.hh"
+# include "filter.hh"
 
 namespace mimosa
 {

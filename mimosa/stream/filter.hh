@@ -14,8 +14,8 @@ namespace mimosa
 
       Filter(Stream::Ptr stream);
 
-      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0) = 0;
+      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0) = 0;
 
       virtual bool flush(runtime::Time timeout = 0);
 

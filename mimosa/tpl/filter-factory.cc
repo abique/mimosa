@@ -1,13 +1,20 @@
 #include "log.hh"
 #include "filter-factory.hh"
+#include "../stream/html-escape.hh"
 
 namespace mimosa
 {
   namespace tpl
   {
+    static stream::Filter::Ptr createHtmlFilter(stream::Stream::Ptr stream)
+    {
+      return new stream::HtmlEscape(stream);
+    }
+
     FilterFactory::FilterFactory()
     {
       // register default filters
+      registerFilter("h", createHtmlFilter);
     }
 
     FilterFactory::~FilterFactory()

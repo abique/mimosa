@@ -5,7 +5,7 @@
 # include <string>
 
 # include "../sync/rwlock.hh"
-# include "../stream/stream.hh"
+# include "../stream/filter.hh"
 
 namespace mimosa
 {
@@ -14,7 +14,7 @@ namespace mimosa
     class FilterFactory
     {
     public:
-      typedef stream::Stream::Ptr (*creator_type)(stream::Stream::Ptr);
+      typedef stream::Filter::Ptr (*creator_type)(stream::Stream::Ptr);
 
       FilterFactory();
       ~FilterFactory();
