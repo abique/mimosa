@@ -29,6 +29,7 @@ namespace mimosa
       MY_TEST(mixed1, "ab&", "ab&amp;")
       MY_TEST(mixed2, "&ab", "&amp;ab")
       MY_TEST(mixed3, "ab&ab", "ab&amp;ab")
+      MY_TEST(mixed4, "ab&&&cd", "ab&amp;&amp;&amp;cd")
 
     }
   }
