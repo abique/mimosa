@@ -5,6 +5,7 @@ install(FILES
   copy.hh
   direct-fd-stream.hh
   fd-stream.hh
+  filter.hh
   gzip-stream.hh
   limited-stream.hh
   stream.hh
