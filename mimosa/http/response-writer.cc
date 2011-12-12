@@ -34,9 +34,15 @@ namespace mimosa
                                runtime::Time timeout)
     {
       char buffer[32];
-      auto bytes = snprintf(buffer, sizeof (buffer), "%lo\r\n", nbytes);
-      stream_->loopWrite(buffer, bytes, timeout);
-      return stream_->loopWrite(data, nbytes, timeout);
+      auto bytes = snprintf(buffer, sizeof (buffer), "%lX\r\n", nbytes);
+
+      if (stream_->loopWrite(buffer, bytes, timeout) != bytes)
+        return -1;
+      if (stream_->loopWrite(data, nbytes, timeout) != nbytes)
+        return -1;
+      if (stream_->loopWrite("\r\n", 2, timeout) != 2)
+        return -1;
+      return nbytes;
     }
 
     int64_t
@@ -88,6 +94,11 @@ namespace mimosa
         if (!sendHeader(timeout))
           return false;
       }
+
+      // write the final chunk
+      if (transfer_encoding_ == kCodingChunked)
+        if (writeChunk("", 0, timeout) < 0)
+          return false;
       return stream_->flush(timeout);
     }
 
