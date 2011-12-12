@@ -2,11 +2,14 @@
 #include "var.hh"
 #include "../filter-factory.hh"
 #include "../../format/format-stream.hh"
+#include "../../options/options.hh"
 
 namespace mimosa
 {
   namespace tpl
   {
+    auto & TPL_DEBUG = *options::addSwitch("tpl", "tpl-debug", "helps debugging of template");
+
     namespace ast
     {
       void
@@ -30,7 +33,8 @@ namespace mimosa
           v->write(stream, timeout);
         else
           not_found:
-          format::format(stream, timeout, "(%s not found)", var());
+          if (TPL_DEBUG)
+            format::format(stream, timeout, "(%s not found)", var());
       }
 
       string::StringRef
