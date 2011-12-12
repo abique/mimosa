@@ -19,4 +19,7 @@ namespace mimosa
   }
 }
 
+extern template class mimosa::container::Cache<std::string,
+                                               mimosa::tpl::Template::Ptr>;
+
 #endif /* !MIMOSA_TPL_CACHE_HH */

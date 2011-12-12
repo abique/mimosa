@@ -1,4 +1,6 @@
 install(FILES
+  cache.hh
+  cache.hxx
   intrusive-slist.hh
   intrusive-dlist.hh
   kvs.hh

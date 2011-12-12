@@ -73,7 +73,7 @@ namespace mimosa
         if (it != fetch_.end())
         {
           it->second->cancel();
-          fetch_.remove(it);
+          fetch_.erase(it);
         }
       }
     }
@@ -192,7 +192,7 @@ namespace mimosa
       if (cleanup_thread_)
         return;
 
-      cleanup_thread_ = new runtime::Thread([this] { cleanupLoop(); });
+      cleanup_thread_.reset(new runtime::Thread([this] { this->cleanupLoop(); }));
       cleanup_thread_->start();
       cleanup_thread_stop_ = false;
     }
