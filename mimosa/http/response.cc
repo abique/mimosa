@@ -1,5 +1,6 @@
 #include <sstream>
 #include "response.hh"
+#include "log.hh"
 
 namespace mimosa
 {
@@ -10,7 +11,7 @@ namespace mimosa
         keep_alive_(false),
         content_encoding_(kCodingIdentity),
         transfer_encoding_(kCodingIdentity),
-        content_length_(0),
+        content_length_(-1),
         content_type_("text/plain"),
         cookies_(),
         unparsed_headers_()
@@ -25,10 +26,26 @@ namespace mimosa
       os << "HTTP/1.1 " << status_ << " " << statusToString(status_) <<"\r\n"
          << "Server: mimosa\r\n"
          << "Connection: " << (keep_alive_ ? "Keep-Alive" : "Close") << "\r\n";
-      if (content_length_ > 0)
+      if (content_length_ >= 0)
         os << "Content-Length: " << content_length_ << "\r\n";
       if (!content_type_.empty())
         os << "Content-Type: " << content_type_ << "\r\n";
+
+      switch (transfer_encoding_)
+      {
+      case kCodingIdentity:
+        os << "Transfer-Encoding: Identity\r\n";
+        break;
+
+      case kCodingChunked:
+        os << "Transfer-Encoding: Chunked\r\n";
+        break;
+
+      default:
+        MIMOSA_LOG(Warning, http_log, "invalid Transfer-Encoding: %d", transfer_encoding_);
+        break;
+      }
+
       for (auto it = cookies_.begin(); it != cookies_.end(); ++it)
       {
         os << "Set-Cookie: " << it->key() << "=" << it->value();
@@ -55,7 +72,7 @@ namespace mimosa
       keep_alive_        = false;
       content_encoding_  = kCodingIdentity;
       transfer_encoding_ = kCodingIdentity;
-      content_length_    = 0;
+      content_length_    = -1;
       content_type_      = "text/plain";
       cookies_.clear();
       unparsed_headers_.clear();

@@ -58,6 +58,10 @@ namespace mimosa
       /** body length (to be written) */
       uint64_t pendingWrite() const;
 
+      int64_t writeChunk(const char *  data,
+                         uint64_t      nbytes,
+                         runtime::Time timeout);
+
       stream::Stream::Ptr   stream_;
       stream::Buffer::Slist buffers_;
       bool                  header_sent_;

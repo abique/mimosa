@@ -27,7 +27,7 @@ namespace mimosa
       bool           keep_alive_;
       Coding         content_encoding_;
       Coding         transfer_encoding_;
-      uint64_t       content_length_;
+      int64_t        content_length_;     ///< -1: auto
       std::string    content_type_;
       Cookie::Slist  cookies_;
       container::kvs unparsed_headers_;

@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include "error-handler.hh"
+#include "../format/format-stream.hh"
 
 namespace mimosa
 {
@@ -9,13 +10,13 @@ namespace mimosa
     bool
     ErrorHandler::basicResponse(Request & /*request*/, ResponseWriter & response, Status status)
     {
-      std::ostringstream os;
-      os << "<html><head><title>Error " << status << " - "
-         << statusToString(status) << "</title></head><body>Error "
-         << status << " - " << statusToString(status) << "</body></html>";
       response.status_ = status;
-      auto str = os.str();
-      response.write(str.data(), str.size());
+      format::format(
+        &response,
+        "<html><head><title>Error %v - %v</title>"
+        "</head><body>Error %v - %v</body></html>",
+        status, statusToString(status),
+        status, statusToString(status));
       return true;
     }
   }

@@ -29,10 +29,27 @@ namespace mimosa
     }
 
     int64_t
+    ResponseWriter::writeChunk(const char *  data,
+                               uint64_t      nbytes,
+                               runtime::Time timeout)
+    {
+      char buffer[32];
+      auto bytes = snprintf(buffer, sizeof (buffer), "%lo\r\n", nbytes);
+      stream_->loopWrite(buffer, bytes, timeout);
+      return stream_->loopWrite(data, nbytes, timeout);
+    }
+
+    int64_t
     ResponseWriter::write(const char * data, uint64_t nbytes, runtime::Time timeout)
     {
       if (header_sent_)
-        return stream_->write(data, nbytes, timeout);
+      {
+        if (transfer_encoding_ == kCodingChunked)
+          return writeChunk(data, nbytes, timeout);
+        else
+          return stream_->loopWrite(data, nbytes, timeout);
+      }
+
       stream::Buffer::Ptr buffer = new stream::Buffer(data, nbytes);
       buffers_.push(buffer);
       return nbytes;
@@ -50,26 +67,28 @@ namespace mimosa
     bool
     ResponseWriter::flush(runtime::Time timeout)
     {
+      assert(header_sent_);
       for (auto it = buffers_.begin(); it != buffers_.end(); ++it)
       {
-        auto ret = stream_->write(it->data(), it->size(), timeout);
+        auto ret = write(it->data(), it->size(), timeout);
         if (ret < 0)
           return false;
-        assert(ret == it->size()); // because of underlying buffered stream
-                                   // and lazy programmer ;-)
       }
       buffers_.clear();
-      stream_->flush(timeout);
       return true;
     }
 
     bool
     ResponseWriter::finish(runtime::Time timeout)
     {
-      if (!header_sent_ && content_length_ == 0 && !buffers_.empty())
-        for (auto it = buffers_.begin(); it != buffers_.end(); ++it)
-          content_length_ += it->size();
-      return sendHeader(timeout) && flush(timeout);
+      if (!header_sent_)
+      {
+        transfer_encoding_ = kCodingIdentity;
+        content_length_ = pendingWrite();
+        if (!sendHeader(timeout))
+          return false;
+      }
+      return stream_->flush(timeout);
     }
 
     bool
@@ -78,8 +97,11 @@ namespace mimosa
       if (header_sent_)
         return true;
       header_sent_ = true;
+      if (content_length_ < 0)
+        transfer_encoding_ = kCodingChunked;
       auto data = toHttpHeader();
-      return stream_->write(data.data(), data.size(), timeout) == data.size();
+      return stream_->loopWrite(data.data(), data.size(), timeout) == static_cast<int64_t> (data.size()) &&
+        flush();
     }
 
     void

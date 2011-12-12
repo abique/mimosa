@@ -66,10 +66,9 @@ namespace mimosa
                           const std::string & real_path,
                           struct stat &       st) const
     {
-      response.status_ = kStatusOk;
       response.content_length_ = st.st_size;
       response.content_type_ = MimeDb::instance().mimeType(real_path);
-      response.sendHeader(0);
+      response.sendHeader(response.writeTimeout());
 
       int fd = ::open(real_path.c_str(), O_RDONLY, 0644);
       if (fd < 0)
@@ -87,6 +86,10 @@ namespace mimosa
       DIR * dir = ::opendir(real_path.c_str());
       if (!dir)
         return ErrorHandler::basicResponse(request, response, kStatusNotFound);
+
+      response.content_type_ = "text/html";
+      response.sendHeader(response.writeTimeout());
+      assert(response.transfer_encoding_ == kCodingChunked);
 
       std::ostringstream os;
 
@@ -128,8 +131,6 @@ namespace mimosa
       ::closedir(dir);
       std::string data(os.str());
       response.write(data.data(), data.size());
-      response.content_type_ = "text/html";
-      response.status_ = kStatusOk;
       return true;
     }
   }

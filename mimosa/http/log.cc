@@ -4,6 +4,6 @@ namespace mimosa
 {
   namespace http
   {
-    log::Origin * http = new log::Origin("http", log::Warning);
+    log::Origin * http_log = new log::Origin("http", log::Warning);
   }
 }

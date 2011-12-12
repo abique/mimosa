@@ -7,7 +7,7 @@ namespace mimosa
 {
   namespace http
   {
-    extern log::Origin * http;
+    extern log::Origin * http_log;
   }
 }
 
