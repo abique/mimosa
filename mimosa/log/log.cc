@@ -11,7 +11,7 @@ namespace mimosa
 {
   namespace log
   {
-    static bool * enable_color = options::addSwitch("log", "log-color", "enables colors in log");
+    static bool & enable_color = *options::addSwitch("log", "log-color", "enables colors in log");
 
     static const char * const log_colors[] = {
       "\e[0;32m", // debug
@@ -31,7 +31,7 @@ namespace mimosa
       tm tm;
       ::localtime_r(&ts, &tm);
       std::ostringstream os;
-      if (*enable_color)
+      if (enable_color)
         os << log_colors[level];
       os << (tm.tm_year + 1900) << "-"
          << std::setfill('0') << std::setw(2) << (tm.tm_mon + 1) << "-"
@@ -45,6 +45,8 @@ namespace mimosa
         os << origin->name_ << ": ";
       os << levelName(level) << ": "
          << msg << std::endl;
+      if (enable_color)
+        os << "\e[m";
 
       std::string str(os.str());
       sync::Mutex::Locker locker(stdout_lock);
