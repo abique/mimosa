@@ -15,6 +15,9 @@ namespace mimosa
 
     int connectToHost(const std::string & host, uint16_t port,
                       runtime::Time timeout = 0);
+
+    int connectToUnixSocket(const std::string & path,
+                            runtime::Time timeout = 0);
   }
 }
 

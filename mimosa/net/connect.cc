@@ -1,7 +1,10 @@
 #include <netdb.h>
 #include <sys/socket.h>
+#include <sys/un.h>
 #include <arpa/inet.h>
+
 #include <cstring>
+#include <memory>
 
 #include "io.hh"
 #include "connect.hh"
@@ -59,6 +62,27 @@ namespace mimosa
       }
       ::close(fd);
       return -1;
+    }
+
+    int connectToUnixSocket(const std::string & path,
+                            runtime::Time timeout)
+    {
+      size_t addr_len = ((size_t) (((::sockaddr_un *) 0)->sun_path)) + path.size() + 1;
+      std::unique_ptr<char> data(new char[addr_len]);
+      ::sockaddr_un & addr = *(::sockaddr_un*)data.get();
+      addr.sun_family = AF_UNIX;
+      ::memcpy(addr.sun_path, path.c_str(), path.size() + 1);
+
+      int fd = ::socket(AF_UNIX, SOCK_STREAM, 0);
+      if (fd < 0)
+        return -1;
+
+      if (connect(fd, (const sockaddr*)&addr, addr_len, timeout))
+      {
+        ::close(fd);
+        return -1;
+      }
+      return fd;
     }
   }
 }
