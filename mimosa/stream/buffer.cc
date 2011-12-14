@@ -8,7 +8,8 @@ namespace mimosa
   namespace stream
   {
     Buffer::Buffer(uint64_t size)
-      : size_(size),
+      : next_(),
+        size_(size),
         data_(reinterpret_cast<char *>(::malloc(size + 4)))
     {
       data_[size_ + 3] = 0;
@@ -18,7 +19,8 @@ namespace mimosa
     }
 
     Buffer::Buffer(const char * data, uint64_t size)
-      : size_(size),
+      : next_(),
+        size_(size),
         data_(reinterpret_cast<char *>(::malloc(size + 4)))
     {
       ::memcpy(data_, data, size);

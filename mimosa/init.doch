@@ -1,0 +1,21 @@
+/**
+
+@page initialisation Intialisation rules
+
+@section the_problem The problem
+
+The initialisation problem in C++ comes from the "static initialisation Fiasco".
+Which is in short, the random order of static initialisation or de-initialisation
+which leads to random behaviour and segfaults.
+
+@section the_solution The solution
+
+To be safe against this problem, the solution is define safe practices:
+- it is safe to initialise static POD types with const expressions
+- every modules should provide init()/deinit() functions when they need
+to initialize static non-pod data
+- it is safe to use, mimosa::option for static intialisation (it has been wrote
+carefully)
+- 
+
+*/
