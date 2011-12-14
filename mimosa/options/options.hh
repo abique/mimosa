@@ -29,6 +29,9 @@
 ///   return 0;
 /// }
 /// @endcode
+///
+/// To reassure yourself about \see initialisation, it is safe to use the options
+/// framework with C++ static intializers.
 
 #ifndef MIMOSA_OPTIONS_OPTIONS_HH
 # define MIMOSA_OPTIONS_OPTIONS_HH
@@ -51,6 +54,8 @@ namespace mimosa
         : group_(group), name_(name), desc_(desc)
       {
       }
+
+      virtual ~BasicOption() {}
 
       /// this method is called with arguments following -${name}
       /// You are expected to update argc and argv for each argument
