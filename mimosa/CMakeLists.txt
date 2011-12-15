@@ -78,13 +78,6 @@ add_library(mimosa
   http/server.cc
   http/server-channel.cc
 
-  # rpc
-  rpc/basic-call.cc
-  rpc/channel.cc
-  rpc/server.cc
-  rpc/service.cc
-  rpc/service-map.cc
-
   # tpl
   tpl/abstract-value.cc
   tpl/cache.cc
