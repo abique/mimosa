@@ -14,7 +14,7 @@ To be safe against this problem, the solution is define safe practices:
 - it is safe to initialise static POD types with const expressions
 - every modules should provide init()/deinit() functions when they need
 to initialize static non-pod data
-- it is safe to use, mimosa::option for static intialisation (it has been wrote
-carefully)
+- it is safe to use, mimosa::option or mimosa::log for static intialisation
+as shown in the samples (it has been wrote carefully)
 
 */
