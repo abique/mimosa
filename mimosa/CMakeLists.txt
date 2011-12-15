@@ -78,23 +78,6 @@ add_library(mimosa
   http/server.cc
   http/server-channel.cc
 
-  # tpl
-  tpl/abstract-value.cc
-  tpl/cache.cc
-  tpl/dict.cc
-  tpl/filter-factory.cc
-  tpl/include.cc
-  tpl/list.cc
-  tpl/log.cc
-  tpl/parser.cc
-  tpl/template.cc
-
-  tpl/ast/empty.cc
-  tpl/ast/repeated.cc
-  tpl/ast/root.cc
-  tpl/ast/text.cc
-  tpl/ast/var.cc
-
   # core initialisation
   init.cc)
 target_link_libraries(mimosa gnutls pthread rt)

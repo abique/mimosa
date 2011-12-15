@@ -1,5 +1,3 @@
-add_subdirectory(tests)
-
 install(FILES
   abstract-value.hh
   cache.hh
@@ -24,3 +22,29 @@ install(FILES
   ast/node.hh
 
   DESTINATION include/mimosa/tpl/ast/)
+
+add_library(mimosa-tpl
+  abstract-value.cc
+  cache.cc
+  dict.cc
+  filter-factory.cc
+  include.cc
+  list.cc
+  log.cc
+  parser.cc
+  template.cc
+
+  ast/empty.cc
+  ast/repeated.cc
+  ast/root.cc
+  ast/text.cc
+  ast/var.cc
+  )
+target_link_libraries(mimosa-tpl mimosa)
+
+install(TARGETS mimosa-tpl
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib)
+
+add_subdirectory(tests)
