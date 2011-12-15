@@ -58,26 +58,6 @@ add_library(mimosa
   uri/percent-encoding.cc
   uri/normalize-path.cc
 
-  # http
-  http/cookie.cc
-  http/dispatch-handler.cc
-  http/error-handler.cc
-  http/fs-handler.cc
-  http/method.cc
-  http/mime-db.cc
-  http/log.cc
-  http/log-handler.cc
-  http/redirect.cc
-  http/request.cc
-  http/request-reader.cc
-  http/request-lexer.cc
-  http/request-parser.cc
-  http/response.cc
-  http/response-writer.cc
-  http/status.cc
-  http/server.cc
-  http/server-channel.cc
-
   # core initialisation
   init.cc)
 target_link_libraries(mimosa gnutls pthread rt)
