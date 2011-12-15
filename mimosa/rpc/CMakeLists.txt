@@ -14,7 +14,7 @@ add_library(mimosa-rpc
   server.cc
   service.cc
   service-map.cc)
-target_link_libraries(mimosa-rpc mimosa)
+target_link_libraries(mimosa-rpc mimosa protobuf)
 
 install(TARGETS mimosa-rpc
   RUNTIME DESTINATION bin

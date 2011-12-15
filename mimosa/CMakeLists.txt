@@ -97,7 +97,7 @@ add_library(mimosa
 
   # core initialisation
   init.cc)
-target_link_libraries(mimosa protobuf gnutls pthread rt)
+target_link_libraries(mimosa gnutls pthread rt)
 
 add_subdirectory(container)
 add_subdirectory(format)
