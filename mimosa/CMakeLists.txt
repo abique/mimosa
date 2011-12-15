@@ -2,6 +2,7 @@ install(FILES
   bind.hh
   function.hh
   init.hh
+  init.doch
   non-copyable.hh
   ref-countable.hh
   ref-counted-ptr.hh
