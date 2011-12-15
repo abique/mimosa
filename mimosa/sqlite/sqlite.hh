@@ -38,6 +38,8 @@ namespace mimosa
       int reset();
       int bind(int pos, int value);
       int bind(int pos, const char * value, int value_size = -1);
+      inline int bind(int pos, const std::string & str)
+      { return bind(pos, str.c_str(), str.size()); }
 
       inline operator sqlite3_stmt * () const
       {
