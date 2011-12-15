@@ -1,6 +1,7 @@
 #include <cstring>
 
 #include "../options/options.hh"
+#include "../container/singleton.hh"
 #include "origin.hh"
 #include "log.hh"
 
@@ -8,15 +9,19 @@ namespace mimosa
 {
   namespace log
   {
-    Origin::origins_type Origin::origins_;
-    sync::Mutex          Origin::origins_lock_;
+    struct Origins : public container::Singleton<Origins>,
+                     public NonCopyable
+    {
+      Origin::origins_type list_;
+      sync::Mutex          lock_;
+    };
 
     Origin::Origin(const char * name, Level level)
     {
       /* setup the linked list */
       {
-        sync::Mutex::Locker locker(origins_lock_);
-        origins_.pushBack(this);
+        sync::Mutex::Locker locker(Origins::instance().lock_);
+        Origins::instance().list_.pushBack(this);
       }
 
       /* copy the name */
@@ -30,16 +35,16 @@ namespace mimosa
     Origin::~Origin()
     {
       /* setup the linked list */
-      sync::Mutex::Locker locker(origins_lock_);
-      origins_.erase(this);
+      sync::Mutex::Locker locker(Origins::instance().lock_);
+      Origins::instance().list_.erase(this);
     }
 
     void
     Origin::setLevel(const std::string & origin, Level level)
     {
-      sync::Mutex::Locker locker(origins_lock_);
+      sync::Mutex::Locker locker(Origins::instance().lock_);
 
-      for (auto it = origins_.begin(); it != origins_.end(); ++it)
+      for (auto it = Origins::instance().list_.begin(); it != Origins::instance().list_.end(); ++it)
         if (!::strcasecmp(origin.c_str(), it->name_))
         {
           it->level_ = level;

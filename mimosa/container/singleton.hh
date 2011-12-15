@@ -8,9 +8,11 @@ namespace mimosa
   namespace container
   {
     /**
-     * @warning NOT THREAD SAFE
+     * @warning NOT THREAD SAFE, you need to manualy call release to ensure
+     * resources liberation.
+     *
      * Helpers to implement a singleton.
-     * Though, you should follow the @see initialisation rule.
+     * Though, you should follow the @ref initialisation rule.
      */
     template <typename T>
     class Singleton

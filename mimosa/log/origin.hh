@@ -9,7 +9,7 @@ namespace mimosa
 {
   namespace log
   {
-    struct Origin
+    struct Origin : private NonCopyable
     {
     public:
       Origin(const char * name, Level level);
@@ -21,16 +21,15 @@ namespace mimosa
       static void filter(const std::string & filter);
       static void setLevel(const std::string & origin, Level level);
 
-    private:
-
       typedef container::IntrusiveDlistHook<Origin *> origins_hook_type;
+
+    private:
       origins_hook_type origins_hook_;
 
+    public:
       typedef container::IntrusiveDlist<Origin,
                                         Origin *,
                                         &Origin::origins_hook_> origins_type;
-      static origins_type origins_;
-      static sync::Mutex  origins_lock_;
     };
   }
 }

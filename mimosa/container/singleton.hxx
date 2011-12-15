@@ -7,7 +7,7 @@ namespace mimosa
 
     template <typename T>
     T &
-    Singleton::instance()
+    Singleton<T>::instance()
     {
       if (!instance_)
         instance_ = new T;
@@ -16,7 +16,7 @@ namespace mimosa
 
     template <typename T>
     void
-    Singleton::release()
+    Singleton<T>::release()
     {
       delete instance_;
       instance_ = nullptr;

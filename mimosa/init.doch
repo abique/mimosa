@@ -16,6 +16,5 @@ To be safe against this problem, the solution is define safe practices:
 to initialize static non-pod data
 - it is safe to use, mimosa::option for static intialisation (it has been wrote
 carefully)
-- 
 
 */

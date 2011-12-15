@@ -30,7 +30,7 @@
 /// }
 /// @endcode
 ///
-/// To reassure yourself about \see initialisation, it is safe to use the options
+/// To reassure yourself about \ref initialisation, it is safe to use the options
 /// framework with C++ static intializers.
 
 #ifndef MIMOSA_OPTIONS_OPTIONS_HH
