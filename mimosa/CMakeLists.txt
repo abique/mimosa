@@ -28,6 +28,7 @@ add_library(mimosa
   runtime/thread-pool.cc
 
   # streams
+  stream/base16-encoder.cc
   stream/buffer.cc
   stream/buffered-stream.cc
   stream/compress-stream.cc
@@ -35,6 +36,7 @@ add_library(mimosa
   stream/direct-fd-stream.cc
   stream/fd-stream.cc
   stream/filter.cc
+  stream/hash.cc
   stream/html-escape.cc
   stream/limited-stream.cc
   stream/net-fd-stream.cc

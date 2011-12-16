@@ -1,4 +1,5 @@
 install(FILES
+  base16-encoder.hh
   buffered-stream.hh
   buffer.hh
   compress-stream.hh
@@ -7,6 +8,8 @@ install(FILES
   fd-stream.hh
   filter.hh
   gzip-stream.hh
+  hash.hh
+  hash.hxx
   html-escape.hh
   limited-stream.hh
   stream.hh
