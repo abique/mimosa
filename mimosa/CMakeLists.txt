@@ -28,6 +28,7 @@ add_library(mimosa
   runtime/thread-pool.cc
 
   # streams
+  stream/base16-decoder.cc
   stream/base16-encoder.cc
   stream/buffer.cc
   stream/buffered-stream.cc
