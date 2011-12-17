@@ -36,6 +36,8 @@ namespace mimosa
                   const char * sql,
                   int          sql_size = -1);
       int reset();
+      inline int step() { return sqlite3_step(stmt_); }
+
       int bind(int pos, int value);
       int bind(int pos, const char * value, int value_size = -1);
       inline int bind(int pos, const std::string & str)
