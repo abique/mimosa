@@ -13,8 +13,8 @@ namespace mimosa
     {
     }
 
-    int
-    Base16Decoder::decodeByte(char c) const
+    uint8_t
+    Base16Decoder::decodeByte(uint8_t c) const
     {
       if (base_)
         return ::strchr(base_, c) - base_;
@@ -22,9 +22,9 @@ namespace mimosa
       if ('0' <= c && c <= '9')
         return c - '0';
       if ('a' <= c && c <= 'f')
-        return c - 'a';
+        return c - 'a' + 10;
       if ('A' <= c && c <= 'F')
-        return c - 'A';
+        return c - 'A' + 10;
       return 0;
     }
 
@@ -42,12 +42,14 @@ namespace mimosa
 
       while (p < end)
       {
-        b[0] = (decodeByte(p[0]) << 4) | decodeByte(p[1]);
+        b[0] = ((decodeByte(p[0]) & 0x0f) << 4) | (decodeByte(p[1]) & 0xf);
         b += 1;
         p += 2;
       }
 
-      return stream_->loopWrite(buffer.get(), 2 * nbytes, timeout);
+      if (stream_->loopWrite(buffer.get(), nbytes / 2, timeout) == nbytes / 2)
+        return nbytes;
+      return -1;
     }
 
     int64_t
