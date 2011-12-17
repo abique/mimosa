@@ -61,6 +61,11 @@ namespace mimosa
           os << "; Path=" << it->path();
         os << "\r\n";
       }
+
+      for (auto it = unparsed_headers_.begin(); it != unparsed_headers_.end(); ++it)
+        for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2)
+          os << it->first << ": " << *it2 << "\r\n";
+
       os << "\r\n";
       return os.str();
     }
