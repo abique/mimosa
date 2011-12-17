@@ -49,16 +49,16 @@ namespace mimosa
       for (auto it = cookies_.begin(); it != cookies_.end(); ++it)
       {
         os << "Set-Cookie: " << it->key() << "=" << it->value();
+        if (!it->domain().empty())
+          os << "; Domain=" << it->domain();
+        if (!it->path().empty())
+          os << "; Path=" << it->path();
+        if (!it->expires().empty())
+          os << "; Expires=" << it->expires();
         if (it->isSecure())
           os << "; Secure";
         if (it->isHttpOnly())
           os << "; HttpOnly";
-        if (!it->domain().empty())
-          os << "; Domain=" << it->domain();
-        if (!it->expires().empty())
-          os << "; Expires=" << it->expires();
-        if (!it->path().empty())
-          os << "; Path=" << it->path();
         os << "\r\n";
       }
 

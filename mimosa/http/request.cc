@@ -29,6 +29,7 @@ namespace mimosa
       proto_minor_ = 1;
       raw_location_.clear();
       host_.clear();
+      port_ = 80;
       location_normalized_ = false;
       location_.clear();
       query_parsed_ = false;

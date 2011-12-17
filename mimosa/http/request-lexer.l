@@ -37,6 +37,8 @@
 %x value_cookie_value
 %x value_cookie_str
 %x value_cookie_sm
+%x port
+%x host
 
 separtor [\(\)<>@,;:\\"/\[\]\?={} \t]
 token    [^\(\)<>@,;:\\"/\[\]\?={} \t\r\n\v]+
@@ -66,12 +68,17 @@ spaces   [\t\v ]
 <key>(?i:Cookie){spaces}*:              BEGIN(value_cookie_attr); return KEY_COOKIE;
 <key>(?i:Content-Length){spaces}*:      BEGIN(value64); return KEY_CONTENT_LENGTH;
 <key>(?i:Content-Type)                  BEGIN(colon); return KEY_CONTENT_TYPE;
-<key>(?i:Host)                          BEGIN(colon); return KEY_HOST;
+<key>(?i:Host){spaces}*:                BEGIN(host); return KEY_HOST;
 <key>(?i:Referr?er)                     BEGIN(colon); return KEY_REFERRER;
 <key>(?i:User-Agent)                    BEGIN(colon); return KEY_USER_AGENT;
 <key>[-_[:alnum:]]+                     BEGIN(colon); SAVE_TEXT; return KEY;
 
 <colon>:                                BEGIN(value);
+
+<host>{token}                           SAVE_TEXT; return HOST;
+<host>:                                 BEGIN(port);
+
+<port>[0-9]+                            yylval->ival = atoi(yytext); return PORT;
 
 <value>[^[:space:]].*/\r\n      SAVE_TEXT; return VALUE;
 

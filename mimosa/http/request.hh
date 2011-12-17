@@ -48,6 +48,9 @@ namespace mimosa
       inline const std::string & host() const { return host_; }
       inline void setHost(const std::string & s) { host_ = s; }
 
+      inline uint16_t port() const { return port_; }
+      inline void setPort(uint16_t port) { port_ = port; }
+
       const std::string & location() const;
       const container::kvs & query() const;
 
@@ -94,6 +97,7 @@ namespace mimosa
       uint8_t     proto_minor_;
       std::string raw_location_;
       std::string host_;
+      uint16_t    port_;
 
       // cleaned up location and queries
       mutable bool           location_normalized_;

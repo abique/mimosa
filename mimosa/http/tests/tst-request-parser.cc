@@ -41,9 +41,10 @@ namespace mimosa
           "Cookie: attr6 = value6 ; attr7 ; attr8 = \" value 8 \" \r\n"
           "\r\n";
         Request rq;
-        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(true, rq.parse(str, sizeof (str)));
         EXPECT_EQ(rq.host(), "www.toto.com");
         EXPECT_EQ(rq.keepAlive(), true);
+        EXPECT_EQ(rq.port(), 80);
         EXPECT_EQ(rq.contentLength(), 854);
         EXPECT_EQ(rq.contentType(), "text/*");
         EXPECT_EQ(rq.referrer(), "http://tutu.com/hoho%34/?tutu=tata;#anchor");
@@ -81,7 +82,8 @@ namespace mimosa
           "Content-Length: 29\r\n"
           "\r\n";
         Request rq;
-        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(true, rq.parse(str, sizeof (str)));
+        EXPECT_EQ(rq.port(), 4242);
       }
     }
   }

@@ -19,7 +19,7 @@
 #include "request-lexer.hh"
 
   static void yyerror(yyscan_t                /*yyscanner*/,
-                      mimosa::http::Request & rq,
+                      mimosa::http::Request & /*rq*/,
                       const char *            str)
   {
     if (str)
@@ -50,10 +50,12 @@
 %token KEY_HOST
 %token KEY_REFERRER
 %token KEY_USER_AGENT
+%token HOST
+%token PORT
 
 // values
-%token <text> VALUE
-%token <ival> VALUE_CONNECTION
+%token <text> VALUE HOST
+%token <ival> VALUE_CONNECTION PORT
 %token <val64> VAL64
 %token COMPRESS IDENTITY DEFLATE GZIP
 
@@ -86,7 +88,8 @@ kv:
 | KEY_COOKIE cookie cookies
 | KEY_CONTENT_LENGTH VAL64 { rq.setContentLength($2); }
 | KEY_CONTENT_TYPE VALUE { rq.setContentType(*$2); delete $2; }
-| KEY_HOST VALUE { rq.setHost(*$2); delete $2; }
+| KEY_HOST HOST PORT { rq.setHost(*$2); delete $2; rq.setPort($3); }
+| KEY_HOST HOST { rq.setHost(*$2); delete $2; }
 | KEY_REFERRER VALUE { rq.setReferrer(*$2); delete $2; }
 | KEY_USER_AGENT VALUE { rq.setUserAgent(*$2); delete $2; };
 
