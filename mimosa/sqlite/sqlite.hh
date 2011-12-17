@@ -40,6 +40,7 @@ namespace mimosa
       int bind(int pos, const char * value, int value_size = -1);
       inline int bind(int pos, const std::string & str)
       { return bind(pos, str.c_str(), str.size()); }
+      int bindBlob(int pos, const void * value, int nbytes);
 
       inline operator sqlite3_stmt * () const
       {

@@ -107,5 +107,16 @@ namespace mimosa
                    pos, value, err, sqlite3_sql(stmt_));
       return err;
     }
+
+    int
+    Stmt::bindBlob(int pos, const void * value, int nbytes)
+    {
+      assert(stmt_);
+      int err = sqlite3_bind_blob(stmt_, pos, value, nbytes, nullptr);
+      if (err != SQLITE_OK)
+        MIMOSA_LOG(Error, sqlite, "failed to bind blob (pos %d: error: %d) for %s",
+                   pos, err, sqlite3_sql(stmt_));
+      return err;
+    }
   }
 }
