@@ -18,6 +18,9 @@ install(FILES
   status.hh
   DESTINATION include/mimosa/http/)
 
+mimosa_flex(request-lexer)
+mimosa_bison(request-parser)
+
 add_library(mimosa-http
   cookie.cc
   dispatch-handler.cc

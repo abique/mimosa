@@ -11,9 +11,6 @@ install(FILES
 # just to make files appears on qtcreator
 file(GLOB HEADERS *.hh *.hxx */*.hh */*.hxx)
 
-mimosa_flex(http/request-lexer)
-mimosa_bison(http/request-parser)
-
 add_library(mimosa
   # Some kind of tricks to see headers in IDE like qt-creator.
   # I should remove them as Qt-creator is a crap and only emacs
