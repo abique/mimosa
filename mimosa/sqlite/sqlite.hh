@@ -1,6 +1,8 @@
 #ifndef MIMOSA_SQLITE_SQLITE_HH
 # define MIMOSA_SQLITE_SQLITE_HH
 
+# include <string>
+
 # include <sqlite3.h>
 
 # include "../non-copyable.hh"
