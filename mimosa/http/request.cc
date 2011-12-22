@@ -74,7 +74,7 @@ namespace mimosa
       if (pos == std::string::npos)
         pos = raw_location_.size();
       std::string decoded;
-      uri::percentDecode(raw_location_.data(), pos, &decoded);
+      uri::percentDecode(raw_location_.data(), pos, &decoded, uri::kRfc2396);
       uri::normalizePath(decoded.data(), decoded.size(), &location_);
       return location_;
     }
@@ -95,7 +95,7 @@ namespace mimosa
       if (end == std::string::npos)
         end = raw_location_.size();
       std::string decoded;
-      uri::percentDecode(raw_location_.data() + start, end - start, &decoded);
+      uri::percentDecode(raw_location_.data() + start, end - start, &decoded, uri::kRfc2396);
       uri::parseQuery(decoded.data(), decoded.size(), &query_);
       return query_;
     }

@@ -84,7 +84,7 @@ namespace mimosa
         }
 
         std::string decoded;
-        uri::percentDecode(buffer.data(), buffer.size(), &decoded);
+        uri::percentDecode(buffer.data(), buffer.size(), &decoded, uri::kRfc2396);
         uri::parseQuery(decoded.data(), decoded.size(), &form_);
       }
 

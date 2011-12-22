@@ -10,6 +10,7 @@ namespace mimosa
 {
   namespace uri
   {
+    /** @warning parseQuery does not url decode */
     void parseQuery(const char *     input,
                     uint32_t         len,
                     container::kvs * kvs);
