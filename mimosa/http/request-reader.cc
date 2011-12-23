@@ -56,7 +56,10 @@ namespace mimosa
     bool
     RequestReader::flush(runtime::Time timeout)
     {
-      stream::Buffer buffer;
+      if (bytes_left_ < 0)
+        return true;
+
+      stream::Buffer buffer(bytes_left_);
       while (bytes_left_ > 0)
         if (read(buffer.data(), buffer.size(), timeout) <= 0)
           return false;
