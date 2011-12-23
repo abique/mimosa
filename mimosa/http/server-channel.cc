@@ -58,6 +58,7 @@ namespace mimosa
         return false;
       }
 
+      response_->keep_alive_ = request_->keep_alive_;
       return request_->prepare();
     }
 
