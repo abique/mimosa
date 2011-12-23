@@ -85,6 +85,15 @@ namespace mimosa
         ASSERT_EQ(true, rq.parse(str, sizeof (str)));
         EXPECT_EQ(rq.port(), 4242);
       }
+
+      TEST(RequestParser, EmptyCookie)
+      {
+        const char str[] = "GET / HTTP/1.1\r\n"
+          "Cookie: key=\r\n"
+          "\r\n";
+        Request rq;
+        ASSERT_EQ(true, rq.parse(str, sizeof (str)));
+      }
     }
   }
 }

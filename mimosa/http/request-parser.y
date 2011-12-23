@@ -105,6 +105,7 @@ cookies:
 
 cookie:
   ATTR { rq.addCookie(*$1, ""); delete $1; }
+| ATTR '=' { rq.addCookie(*$1, ""); delete $1; };
 | ATTR '=' VALUE { rq.addCookie(*$1, *$3); delete $1; delete $3; };
 
 %%
