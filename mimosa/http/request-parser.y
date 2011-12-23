@@ -85,7 +85,7 @@ kv:
   KEY VALUE { rq.addHeader(*$1, *$2); delete $1; delete $2; }
 | KEY_ACCEPT_ENCODING accept_encodings
 | KEY_CONNECTION VALUE_CONNECTION { rq.setKeepAlive($2); }
-| KEY_COOKIE cookie cookies
+| KEY_COOKIE cookies
 | KEY_CONTENT_LENGTH VAL64 { rq.setContentLength($2); }
 | KEY_CONTENT_TYPE VALUE { rq.setContentType(*$2); delete $2; }
 | KEY_HOST HOST PORT { rq.setHost(*$2); delete $2; rq.setPort($3); }
@@ -100,8 +100,10 @@ accept_encodings: /* epsilon */
 | GZIP     accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingGzip); };
 
 cookies:
-  /* epsilon */
-| ';' cookie cookies {}
+/* epsilon */
+| cookie
+| cookie ';'
+| cookie ';' cookies ;
 
 cookie:
   ATTR { rq.addCookie(*$1, ""); delete $1; }
