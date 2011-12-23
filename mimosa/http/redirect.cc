@@ -8,7 +8,7 @@ namespace mimosa
     bool redirect(ResponseWriter & response, const std::string & location)
     {
       response.status_ = kStatusFound;
-      response.unparsed_headers_.insert(std::make_pair("location", location));
+      response.unparsed_headers_.insert({"location", location});
       return true;
     }
   }

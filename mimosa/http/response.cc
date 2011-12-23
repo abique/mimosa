@@ -63,10 +63,10 @@ namespace mimosa
       }
 
       for (auto it = unparsed_headers_.begin(); it != unparsed_headers_.end(); ++it)
-        for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2)
-          os << it->first << ": " << *it2 << "\r\n";
+        os << it->first << ": " << it->second << "\r\n";
 
-      os << "\r\n";
+      os << "\r\n"; // end of response
+
       return os.str();
     }
 
