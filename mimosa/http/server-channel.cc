@@ -71,7 +71,8 @@ namespace mimosa
     bool
     ServerChannel::sendResponse()
     {
-      return response_->finish(response_->writeTimeout()) && request_->flush();
+      return response_->finish(response_->writeTimeout()) &&
+        request_->flush(request_->readTimeout());
     }
 
     void
