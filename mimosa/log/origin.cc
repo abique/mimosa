@@ -89,6 +89,7 @@ namespace mimosa
           const char * end = str + ::strcspn(str, ",");
           std::string level_name(str, end - str);
           level = parseLevel(level_name.c_str());
+          str = end;
         }
 
         if (*str == ',')
