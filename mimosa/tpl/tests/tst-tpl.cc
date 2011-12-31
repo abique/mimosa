@@ -38,7 +38,7 @@ namespace mimosa
         Template::Ptr tpl = Template::parseString("hello {{value1}}");
         ASSERT_TRUE(tpl);
 
-        Value<std::string> value("world!", "value1");
+        Value<std::string> value("value1", "world!");
 
         stream::StringStream::Ptr stream = new stream::StringStream();
         tpl->execute(stream, value);
@@ -153,9 +153,9 @@ namespace mimosa
         ASSERT_TRUE(tpl);
 
         Dict dict;
-        dict.append(new Value<int>(42, "a"));
-        dict.append(new Value<std::string>("tutu", "b"));
-        dict.append(new Value<std::string>("hehe", "c"));
+        dict.append("a", 42);
+        dict.append("b", "tutu");
+        dict.append("c", "hehe");
 
         stream::StringStream::Ptr stream = new stream::StringStream();
         tpl->execute(stream, dict);
@@ -169,7 +169,7 @@ namespace mimosa
         ASSERT_TRUE(tpl);
 
         Dict dict;
-        dict.append(new Value<int>(42, "a"));
+        dict.append("a", 42);
 
         stream::StringStream::Ptr stream = new stream::StringStream();
         tpl->execute(stream, dict);
@@ -184,7 +184,7 @@ namespace mimosa
 
         Dict dict;
         Dict * dict2 = new Dict("a");
-        dict2->append(new Value<int>(42, "b"));
+        dict2->append("b", 42);
         dict.append(dict2);
 
         ASSERT_NE(dict.lookup("a"), nullptr);

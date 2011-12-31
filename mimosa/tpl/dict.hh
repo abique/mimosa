@@ -4,6 +4,7 @@
 # include <unordered_map>
 
 # include "abstract-value.hh"
+# include "append-helper.hh"
 
 namespace mimosa
 {
@@ -29,6 +30,8 @@ namespace mimosa
         value->parent_ = this;
         values_[value->name()] = value;
       }
+
+      MIMOSA_TPL_APPEND_HELPER
 
       class DictIterator : public Iterator
       {

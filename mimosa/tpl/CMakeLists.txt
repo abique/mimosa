@@ -1,5 +1,6 @@
 install(FILES
   abstract-value.hh
+  append-helper.hh
   cache.hh
   dict.hh
   include.hh

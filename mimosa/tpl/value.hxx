@@ -6,8 +6,15 @@ namespace mimosa
   namespace tpl
   {
     template <typename T>
-    Value<T>::Value(const T &             value,
-                    const std::string &   name)
+    Value<T>::Value(const T &             value)
+      : AbstractValue(""),
+        value_(value)
+    {
+    }
+
+    template <typename T>
+    Value<T>::Value(const std::string &   name,
+                    const T &             value)
       : AbstractValue(name),
         value_(value)
     {

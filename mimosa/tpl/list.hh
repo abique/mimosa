@@ -4,6 +4,7 @@
 # include <vector>
 
 # include "abstract-value.hh"
+# include "append-helper.hh"
 
 namespace mimosa
 {
@@ -29,6 +30,8 @@ namespace mimosa
         value->parent_ = this;
         values_.push_back(value);
       }
+
+      MIMOSA_TPL_APPEND_HELPER
 
       class ListIterator : public Iterator
       {
