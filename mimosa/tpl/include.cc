@@ -4,8 +4,8 @@ namespace mimosa
 {
   namespace tpl
   {
-    Include::Include(Template::ConstPtr  tpl,
-                     const std::string & name)
+    Include::Include(const std::string & name,
+                     Template::ConstPtr  tpl)
       : AbstractValue(name),
         tpl_(tpl)
     {

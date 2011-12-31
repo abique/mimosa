@@ -13,8 +13,8 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(Include);
 
-      Include(Template::ConstPtr  tpl,
-              const std::string & name = "");
+      Include(const std::string & name,
+              Template::ConstPtr  tpl);
 
       virtual const AbstractValue * lookup(const string::StringRef & var) const;
       virtual void write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const;
