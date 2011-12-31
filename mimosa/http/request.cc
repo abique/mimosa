@@ -1,3 +1,4 @@
+#include "log.hh"
 #include "request.hh"
 #include "request-parser.hh"
 #include "request-lexer.hh"
@@ -49,6 +50,11 @@ namespace mimosa
     bool                                                                \
     Request::Name(Const char * data, size_t size)                       \
     {                                                                   \
+      MIMOSA_LOG(Debug, http_log,                                       \
+                 "parsing request =================================\n"  \
+                 "%s"                                                   \
+                 "=================================================",   \
+                 data);                                                 \
       clear();                                                          \
       std::string quoted_buffer;                                        \
       yyscan_t    scanner;                                              \

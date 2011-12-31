@@ -56,8 +56,11 @@ namespace mimosa
     bool
     RequestReader::flush(runtime::Time timeout)
     {
-      if (bytes_left_ < 0)
+      if (bytes_left_ <= 0)
         return true;
+
+      if (parsed_form_ && bytes_left_ > 0)
+        return false;
 
       stream::Buffer buffer(bytes_left_);
       while (bytes_left_ > 0)
@@ -69,27 +72,21 @@ namespace mimosa
     container::kvs &
     RequestReader::form()
     {
-      if (parsed_form_)
+      if (parsed_form_ ||
+          ::strcasecmp(contentType().c_str(), "application/x-www-form-urlencoded"))
         return form_;
 
-      if (!::strcasecmp(contentType().c_str(), "application/x-www-form-urlencoded"))
-      {
-        parsed_form_ = true;
-        stream::Buffer buffer(contentLength());
-        int64_t total_rbytes = 0;
+      parsed_form_ = true;
+      stream::Buffer buffer(contentLength());
+      int64_t rbytes = 0;
 
-        while (total_rbytes < contentLength())
-        {
-          auto rbytes = stream_->read(buffer.data(), contentLength() - total_rbytes, 0);
-          if (rbytes <= 0)
-            return form_;
-          total_rbytes += rbytes;
-        }
+      rbytes = stream_->loopRead(buffer.data(), contentLength(), readTimeout());
+      if (rbytes < contentLength())
+        return form_;
 
-        std::string decoded;
-        uri::percentDecode(buffer.data(), buffer.size(), &decoded, uri::kRfc2396);
-        uri::parseQuery(decoded.data(), decoded.size(), &form_);
-      }
+      std::string decoded;
+      uri::percentDecode(buffer.data(), buffer.size(), &decoded, uri::kRfc2396);
+      uri::parseQuery(decoded.data(), decoded.size(), &form_);
 
       return form_;
     }
