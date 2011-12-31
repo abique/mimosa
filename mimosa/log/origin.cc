@@ -1,4 +1,5 @@
 #include <cstring>
+#include <iostream>
 
 #include "../options/options.hh"
 #include "../container/singleton.hh"
@@ -99,10 +100,10 @@ namespace mimosa
 
     namespace
     {
-      class Option : public options::BasicOption
+      class OptionFilter : public options::BasicOption
       {
       public:
-        Option()
+        OptionFilter()
           : options::BasicOption("log", "log-filter", "set the log filtering string: "
                                  "origin:level,... +origin is equivalent to origin:debug,"
                                  " and -origin is equivalent to origin:critical.")
@@ -122,7 +123,28 @@ namespace mimosa
         }
       };
 
-      bool dummy = options::addBasicOption(new Option);
+      bool dummy = options::addBasicOption(new OptionFilter);
+
+      class OptionOrigins : public options::BasicOption
+      {
+      public:
+        OptionOrigins()
+          : options::BasicOption("log", "log-origins", "lists available origins")
+        {
+        }
+
+        virtual bool parse(int & argc, char **& argv)
+        {
+          auto & list = Origins::instance().list_;
+          for (auto it = list.begin(); it != list.end(); ++it)
+            std::cout << " - " << it->name_ << " (" << levelName(it->level_)
+                      << ")" << std::endl;
+          ::exit(0);
+          return true;
+        }
+      };
+
+      bool dummy2 = options::addBasicOption(new OptionOrigins);
     }
   }
 }
