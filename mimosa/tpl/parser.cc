@@ -153,8 +153,7 @@ namespace mimosa
         node->var_ = ref_var;
       else if ((node->var_) != ref_var)
       {
-        MIMOSA_LOG(Error, tpl_log, "different variables: *%s *!%s",
-                   ref_var, node->var_);
+        tpl_log->error("different variables: *%s *!%s", ref_var, node->var_);
         return false;
       }
 

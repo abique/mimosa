@@ -42,7 +42,7 @@ namespace mimosa
         break;
 
       default:
-        MIMOSA_LOG(Warning, http_log, "invalid Transfer-Encoding: %d", transfer_encoding_);
+        http_log->warning("invalid Transfer-Encoding: %d", transfer_encoding_);
         break;
       }
 

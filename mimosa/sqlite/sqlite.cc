@@ -6,7 +6,7 @@ namespace mimosa
 {
   namespace sqlite
   {
-    log::Origin * sqlite = new log::Origin("sqlite", log::Warning);
+    log::Origin * log_sqlite = new log::Origin("sqlite", log::kWarning);
 
     /////////////
     // Db
@@ -36,8 +36,8 @@ namespace mimosa
 
       if (err != SQLITE_OK)
       {
-        MIMOSA_LOG(Error, sqlite, "failed to open database: %s: %s",
-                   filename, sqlite3_errmsg(db_));
+        log_sqlite->error("failed to open database: %s: %s",
+                          filename, sqlite3_errmsg(db_));
         sqlite3_close(db_);
         db_ = nullptr;
       }
@@ -71,8 +71,8 @@ namespace mimosa
       int err = sqlite3_prepare_v2(db, sql, sql_size, &stmt_, nullptr);
       if (err != SQLITE_OK)
       {
-        MIMOSA_LOG(Error, sqlite, "failed to prepare statement (error: %d): %s",
-                   err, sql);
+        log_sqlite->error("failed to prepare statement (error: %d): %s",
+                          err, sql);
         sqlite3_finalize(stmt_);
         stmt_ = nullptr;
       }
@@ -92,8 +92,8 @@ namespace mimosa
       assert(stmt_);
       int err = sqlite3_bind_int(stmt_, pos, value);
       if (err != SQLITE_OK)
-        MIMOSA_LOG(Error, sqlite, "failed to bind (%d: %d, error: %d) for %s",
-                   pos, value, err, sqlite3_sql(stmt_));
+        log_sqlite->error("failed to bind (%d: %d, error: %d) for %s",
+                          pos, value, err, sqlite3_sql(stmt_));
       return err;
     }
 
@@ -103,8 +103,8 @@ namespace mimosa
       assert(stmt_);
       int err = sqlite3_bind_text(stmt_, pos, value, value_size, nullptr);
       if (err != SQLITE_OK)
-        MIMOSA_LOG(Error, sqlite, "failed to bind (%d: %s, error: %d) for %s",
-                   pos, value, err, sqlite3_sql(stmt_));
+        log_sqlite->error("failed to bind (%d: %s, error: %d) for %s",
+                          pos, value, err, sqlite3_sql(stmt_));
       return err;
     }
 
@@ -114,8 +114,8 @@ namespace mimosa
       assert(stmt_);
       int err = sqlite3_bind_blob(stmt_, pos, value, nbytes, nullptr);
       if (err != SQLITE_OK)
-        MIMOSA_LOG(Error, sqlite, "failed to bind blob (pos %d: error: %d) for %s",
-                   pos, err, sqlite3_sql(stmt_));
+        log_sqlite->error("failed to bind blob (pos %d: error: %d) for %s",
+                          pos, err, sqlite3_sql(stmt_));
       return err;
     }
   }

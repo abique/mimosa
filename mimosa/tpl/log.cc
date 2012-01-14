@@ -4,6 +4,6 @@ namespace mimosa
 {
   namespace tpl
   {
-    mimosa::log::Origin * tpl_log = new mimosa::log::Origin("template", mimosa::log::Warning);
+    log::Origin * tpl_log = new log::Origin("template", log::kWarning);
   }
 }

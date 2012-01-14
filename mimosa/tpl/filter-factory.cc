@@ -34,7 +34,7 @@ namespace mimosa
       if (it != creators_.end())
         return it->second(stream);
 
-      MIMOSA_LOG(Warning, tpl_log, "%v: filter not found", filter);
+      tpl_log->warning("%v: filter not found", filter);
       return stream;
     }
 
@@ -47,7 +47,7 @@ namespace mimosa
       auto it = creators_.find(filter);
       if (it != creators_.end())
       {
-        MIMOSA_LOG(Warning, tpl_log, "%v: duplicate filter definition", filter);
+        tpl_log->warning("%v: duplicate filter definition", filter);
         return false;
       }
 
