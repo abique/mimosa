@@ -6,6 +6,7 @@
 #include "../runtime/time.hh"
 #include "../sync/mutex.hh"
 #include "log.hh"
+#include "origin.hh"
 
 namespace mimosa
 {

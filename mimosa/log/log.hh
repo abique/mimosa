@@ -1,25 +1,40 @@
 #ifndef MIMOSA_LOG_LOG_HH
 # define MIMOSA_LOG_LOG_HH
 
-# include "origin.hh"
+# include <string>
+
 # include "../format/format.hh"
+# include "level.hh"
 
 namespace mimosa
 {
   namespace log
   {
+    class Origin;
+
     void log(Level level, const Origin * origin, const std::string & msg);
+
+# define IMPL_LOG(Level, Name)                          \
+    template <typename ... Args>                        \
+    inline void                                         \
+    Name(const char * fmt, Args ... args)               \
+    {                                                   \
+      if (Level >= global_level)                        \
+        log(Level, nullptr, format::str(fmt, args...)); \
+    }
+
+    IMPL_LOG(kDebug, debug);
+    IMPL_LOG(kInfo, info);
+    IMPL_LOG(kWarning, warning);
+    IMPL_LOG(kError, error);
+    IMPL_LOG(kCritical, critical);
+    IMPL_LOG(kFatal, fatal);
+
+# undef IMPL_LOG
+
   }
 }
 
-# define MIMOSA_LOG(Level, Orig, Fmt...)                                \
-  do {                                                                  \
-    if ((!Orig ||                                                       \
-         ::mimosa::log::Level >= (static_cast< ::mimosa::log::Origin *> \
-                                  (Orig)->level_)) &&                   \
-        ::mimosa::log::Level >= ::mimosa::log::current_level)           \
-      ::mimosa::log::log(::mimosa::log::Level, Orig,                    \
-                         ::mimosa::format::str(Fmt));                   \
-  } while (0)
+# include "origin.hh"
 
 #endif /* !MIMOSA_LOG_LOG_HH */

@@ -52,7 +52,7 @@ namespace mimosa
           return;
         }
 
-      MIMOSA_LOG(Warning, NULL, "origin not found: `%s'", origin);
+      log::warning("origin not found: `%s'", origin);
     }
 
     void
@@ -62,18 +62,18 @@ namespace mimosa
 
       while (*str)
       {
-        Level level = Info;
+        Level level = kInfo;
         std::string origin_name;
 
         // checking for `+' or `-'
         if (*str == '+')
         {
-          level = Debug;
+          level = kDebug;
           ++str;
         }
         else if (*str == '-')
         {
-          level = Critical;
+          level = kCritical;
           ++str;
         }
 

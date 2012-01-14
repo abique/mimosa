@@ -24,7 +24,7 @@ namespace mimosa
           if (argc < 1)
             return false;
 
-          current_level = parseLevel(*argv);
+          global_level = parseLevel(*argv);
           --argc;
           ++argv;
           return true;
@@ -32,14 +32,14 @@ namespace mimosa
 
         virtual void showDesc(std::ostream & os)
         {
-          os << "  -" << name_ << " [=" << levelName(current_level) << "] (" << desc_ << ")" << std::endl;
+          os << "  -" << name_ << " [=" << levelName(global_level) << "] (" << desc_ << ")" << std::endl;
         }
       };
 
       bool dummy = options::addBasicOption(new Option);
     }
 
-    Level current_level = Warning;
+    Level global_level = kWarning;
 
     const char * const level_name[] = {
       "debug",
@@ -60,7 +60,7 @@ namespace mimosa
       for (int i = 0; i <= 5; ++i)
         if (!::strcasecmp(level_name[i], str))
           return static_cast<Level> (i);
-      return Info;
+      return kInfo;
     }
   }
 }
