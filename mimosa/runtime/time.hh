@@ -25,7 +25,7 @@ namespace mimosa
       ::timespec tp;
       int ret = ::clock_gettime(CLOCK_REALTIME, &tp);
       if (ret)
-        throw std::runtime_error("clock_gettime");
+        return 0;
       return tp.tv_nsec * nanosecond + tp.tv_sec * second;
     }
 
@@ -34,7 +34,7 @@ namespace mimosa
       ::timespec tp;
       int ret = ::clock_gettime(CLOCK_MONOTONIC, &tp);
       if (ret)
-        throw std::runtime_error("clock_gettime");
+        return 0;
       return tp.tv_nsec * nanosecond + tp.tv_sec * second;
     }
 

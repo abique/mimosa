@@ -19,8 +19,7 @@ namespace mimosa
       inline Condition()
         : cond_()
       {
-        if (::pthread_cond_init(&cond_, nullptr))
-          throw std::bad_alloc();
+        ::pthread_cond_init(&cond_, nullptr);
       }
 
       inline ~Condition() { ::pthread_cond_destroy(&cond_); }
