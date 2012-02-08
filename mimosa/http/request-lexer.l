@@ -43,6 +43,7 @@
 separtor [\(\)<>@,;:\\"/\[\]\?={} \t]
 token    [^\(\)<>@,;:\\"/\[\]\?={} \t\r\n\v]+
 spaces   [\t\v ]
+cookie_octet [^\r\r\n\v ;",\\]
 
 %%
 
@@ -91,7 +92,7 @@ spaces   [\t\v ]
 <value_cookie_attr>{token}      BEGIN(value_cookie_eq); SAVE_TEXT; return ATTR;
 <value_cookie_eq>=              BEGIN(value_cookie_value); return '=';
 <value_cookie_eq,value_cookie_value,value_cookie_sm>\; BEGIN(value_cookie_attr); return ';';
-<value_cookie_value>{token}     BEGIN(value_cookie_sm); SAVE_TEXT; return VALUE;
+<value_cookie_value>{cookie_octet}* BEGIN(value_cookie_sm); SAVE_TEXT; return VALUE;
 <value_cookie_value>\"          BEGIN(value_cookie_str); yyextra->clear();
 <value_cookie_str>[^\\"]+       yyextra->append(yytext, yyleng);
 <value_cookie_str>\\.           yyextra->push_back(yytext[1]);
