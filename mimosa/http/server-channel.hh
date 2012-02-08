@@ -31,6 +31,9 @@ namespace mimosa
         addr_len_ = addr_len;
       }
 
+      inline const ::sockaddr * remoteAddr() const { return addr_; }
+      inline ::socklen_t remoteAddrLen() const { return addr_len_; }
+
     private:
       friend class RequestReader;
       friend class ResponseWriter;

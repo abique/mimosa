@@ -51,6 +51,7 @@ add_library(mimosa
   net/accept.cc
   net/connect.cc
   net/io.cc
+  net/print.cc
   net/server.cc
 
   # uri
