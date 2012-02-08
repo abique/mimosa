@@ -52,6 +52,17 @@ namespace mimosa
         return false;
       }
 
+      inline bool tryPop(T & t)
+      {
+        Mutex::Locker locker(mutex_);
+        if (closed_ || queue_.empty())
+          return false;
+
+        t = queue_.front();
+        queue_.pop();
+        return true;
+      }
+
       inline void close()
       {
         Mutex::Locker locker(mutex_);
@@ -59,7 +70,7 @@ namespace mimosa
         cond_.wakeAll();
       }
 
-      inline void empty() const
+      inline bool empty() const
       {
         return queue_.emtpy();
       }
