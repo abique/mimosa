@@ -11,9 +11,10 @@ namespace mimosa
                                  runtime::Time               write_timeout)
       : stream_(stream),
         handler_(handler),
-        timeout_(0),
-        request_(new RequestReader(stream_, read_timeout)),
-        response_(new ResponseWriter(stream_, write_timeout))
+        request_(new RequestReader(*this, read_timeout)),
+        response_(new ResponseWriter(*this, write_timeout)),
+        addr_(nullptr),
+        addr_len_(0)
     {
     }
 

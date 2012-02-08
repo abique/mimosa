@@ -19,7 +19,9 @@ namespace mimosa
       inline void setServiceMap(ServiceMap::ConstPtr service_map)
       { service_map_ = service_map; }
 
-      virtual void serve(int fd) const;
+      virtual void serve(int                fd,
+                         const ::sockaddr * address,
+                         socklen_t          address_len) const;
 
     protected:
       ServiceMap::ConstPtr service_map_;

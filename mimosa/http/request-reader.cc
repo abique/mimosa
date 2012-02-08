@@ -4,14 +4,15 @@
 #include "../uri/percent-encoding.hh"
 #include "../stream/buffer.hh"
 #include "request-reader.hh"
+#include "server-channel.hh"
 
 namespace mimosa
 {
   namespace http
   {
-    RequestReader::RequestReader(stream::Stream::Ptr stream,
-                                 runtime::Time       read_timeout)
-      : stream_(stream),
+    RequestReader::RequestReader(ServerChannel & channel,
+                                 runtime::Time   read_timeout)
+      : channel_(channel),
         bytes_left_(0),
         parsed_form_(false),
         form_(),
@@ -47,7 +48,7 @@ namespace mimosa
     RequestReader::read(char * data, uint64_t nbytes, runtime::Time timeout)
     {
       uint64_t can_read = nbytes <= bytes_left_ ? nbytes : bytes_left_;
-      int64_t rbytes = stream_->read(data, can_read, timeout);
+      int64_t rbytes = channel_.stream_->read(data, can_read, timeout);
       if (rbytes > 0)
         bytes_left_ -= rbytes;
       return rbytes;
@@ -80,7 +81,7 @@ namespace mimosa
       stream::Buffer buffer(contentLength());
       int64_t rbytes = 0;
 
-      rbytes = stream_->loopRead(buffer.data(), contentLength(), readTimeout());
+      rbytes = channel_.stream_->loopRead(buffer.data(), contentLength(), readTimeout());
       if (rbytes < contentLength())
         return form_;
 

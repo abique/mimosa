@@ -25,7 +25,9 @@ namespace mimosa
                      const std::string & key_file);
 
     private:
-      virtual void serve(int fd) const;
+      virtual void serve(int                fd,
+                         const ::sockaddr * address,
+                         socklen_t          address_len) const;
 
       runtime::Time                      read_timeout_;
       runtime::Time                      write_timeout_;

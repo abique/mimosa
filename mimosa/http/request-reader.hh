@@ -8,14 +8,15 @@ namespace mimosa
 {
   namespace http
   {
+    class  ServerChannel;
     class RequestReader : public stream::Stream,
                           public Request
     {
     public:
       MIMOSA_DEF_PTR(RequestReader);
 
-      RequestReader(stream::Stream::Ptr stream,
-                    runtime::Time       read_timeout);
+      RequestReader(ServerChannel & channel,
+                    runtime::Time   read_timeout);
 
       void clear();
 
@@ -36,13 +37,15 @@ namespace mimosa
         return read_timeout_ > 0 ? runtime::time() + read_timeout_ : 0;
       }
 
+      inline ServerChannel & channel() const { return channel_; }
+
     private:
 
       friend class ServerChannel;
 
       bool prepare();
 
-      stream::Stream::Ptr stream_;
+      ServerChannel &     channel_;
       int64_t             bytes_left_;
       bool                parsed_form_;
       container::kvs      form_;

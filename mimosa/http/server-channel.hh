@@ -1,6 +1,9 @@
 #ifndef MIMOSA_HTTP_SERVERCHANNEL_HH
 # define MIMOSA_HTTP_SERVERCHANNEL_HH
 
+# include <sys/types.h>
+# include <sys/socket.h>
+
 # include "../non-copyable.hh"
 # include "../stream/buffered-stream.hh"
 # include "handler.hh"
@@ -22,7 +25,16 @@ namespace mimosa
 
       void run();
 
+      inline void setRemoteAddr(const ::sockaddr * addr, ::socklen_t addr_len)
+      {
+        addr_ = addr;
+        addr_len_ = addr_len;
+      }
+
     private:
+      friend class RequestReader;
+      friend class ResponseWriter;
+
       bool readRequest();
       bool runHandler();
       bool sendResponse();
@@ -32,10 +44,10 @@ namespace mimosa
 
       stream::BufferedStream::Ptr stream_;
       Handler::Ptr                handler_;
-      runtime::Time               timeout_;
-      uint32_t                    header_max_size_;
       RequestReader::Ptr          request_;
       ResponseWriter::Ptr         response_;
+      const ::sockaddr *          addr_;
+      ::socklen_t                 addr_len_;
     };
   }
 }

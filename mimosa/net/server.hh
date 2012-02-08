@@ -27,14 +27,18 @@ namespace mimosa
       bool listenInet6(uint16_t port, const struct ::in6_addr * interface = 0);
 
       inline int fd() const { return fd_; }
-      int accept(runtime::Time timeout = 0) const;
+      int accept(::sockaddr *  address     = nullptr,
+                 ::socklen_t * address_len = nullptr,
+                 runtime::Time timeout     = 0) const;
 
       /// @param new_thread if true, after accept return a valid fd, serveOne
       /// will call serve(fd) in a new thread
       void serveOne(runtime::Time accept_timeout = 0, bool new_thread = true) const;
 
     protected:
-      virtual void serve(int fd) const = 0;
+      virtual void serve(int                fd,
+                         const ::sockaddr * address,
+                         socklen_t          address_len) const = 0;
 
     private:
       int  fd_;

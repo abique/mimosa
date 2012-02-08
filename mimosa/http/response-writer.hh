@@ -19,8 +19,8 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(ResponseWriter);
 
-      ResponseWriter(stream::Stream::Ptr stream,
-                     runtime::Time       write_timeout);
+      ResponseWriter(ServerChannel & channel,
+                     runtime::Time   write_timeout);
       ~ResponseWriter();
 
       /** Stream related stuff
@@ -49,6 +49,8 @@ namespace mimosa
         return write_timeout_ > 0 ? runtime::time() + write_timeout_ : 0;
       }
 
+      inline ServerChannel & channel() const { return channel_; }
+
     private:
       friend class ServerChannel;
 
@@ -62,7 +64,7 @@ namespace mimosa
                          uint64_t      nbytes,
                          runtime::Time timeout);
 
-      stream::Stream::Ptr   stream_;
+      ServerChannel &       channel_;
       stream::Buffer::Slist buffers_;
       bool                  header_sent_;
       runtime::Time         write_timeout_;

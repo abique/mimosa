@@ -29,7 +29,9 @@ namespace mimosa
     }
 
     void
-    Server::serve(int fd) const
+    Server::serve(int                fd,
+                  const ::sockaddr * address,
+                  socklen_t          address_len) const
     {
       stream::Stream::Ptr stream(new stream::DirectFdStream(fd));
       if (x509_cred_)
@@ -51,6 +53,7 @@ namespace mimosa
                             handler_,
                             read_timeout_,
                             write_timeout_);
+      channel.setRemoteAddr(address, address_len);
       channel.run();
     }
 

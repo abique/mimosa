@@ -97,24 +97,34 @@ namespace mimosa
     }
 
     int
-    Server::accept(runtime::Time timeout) const
+    Server::accept(::sockaddr *  address,
+                   ::socklen_t * address_len,
+                   runtime::Time timeout) const
     {
-      return net::accept(fd_, 0, 0, timeout);
+      return net::accept(fd_, address, address_len, timeout);
     }
 
     void
     Server::serveOne(runtime::Time accept_timeout, bool new_thread) const
     {
-      int fd = accept(accept_timeout);
+      union {
+        ::sockaddr addr;
+        ::sockaddr_in in_addr;
+        ::sockaddr_in6 in6_addr;
+        ::sockaddr_un un_addr;
+      } addr;
+      ::socklen_t addr_len = sizeof (addr);
+
+      int fd = accept(&addr.addr, &addr_len, accept_timeout);
       if (fd >= 0)
       {
         Server::ConstPtr server(this);
         if (new_thread)
-          runtime::Thread([server, fd] {
-              server->serve(fd);
+          runtime::Thread([server, fd, addr, addr_len] {
+              server->serve(fd, &addr.addr, addr_len);
             }).start();
         else
-          serve(fd);
+          serve(fd, &addr.addr, addr_len);
       }
     }
   }
