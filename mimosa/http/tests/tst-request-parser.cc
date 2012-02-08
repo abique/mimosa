@@ -154,6 +154,16 @@ namespace mimosa
         ASSERT_EQ(true, rq.parse(str, sizeof (str)));
         ASSERT_EQ(38, rq.contentLength());
       }
+
+      TEST(RequestParser, HardCookie1)
+      {
+        const char str[] =
+          "POST /login HTTP/1.1\r\n"
+          "Cookie: __utma=172764660.1465859375.1319666592.1320071393.1323170743.5; __utmz=172764660.1320071393.4.4.utmcsr=portail.free.fr|utmccn=(referral)|utmcmd=referral|utmcct=/\r\n";
+        Request rq;
+        ASSERT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(38, rq.contentLength());
+      }
     }
   }
 }
