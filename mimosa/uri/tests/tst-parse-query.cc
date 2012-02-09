@@ -35,6 +35,65 @@ namespace mimosa
         EXPECT_NE(kvs.find("tutu"), kvs.end());
         EXPECT_EQ(kvs.find("tutu")->second, "hoho&huhu");
       }
+
+      TEST(ParseQuery, SingleValue)
+      {
+        std::string    query("tutu=hoho");
+        container::kvs kvs;
+        parseQuery(query.data(), query.size(), &kvs);
+
+        EXPECT_NE(kvs.find("tutu"), kvs.end());
+        EXPECT_EQ(kvs.find("tutu")->second, "hoho");
+      }
+
+      TEST(ParseQuery, NoValue)
+      {
+        std::string    query("tutu");
+        container::kvs kvs;
+        parseQuery(query.data(), query.size(), &kvs);
+
+        EXPECT_NE(kvs.find("tutu"), kvs.end());
+        EXPECT_EQ(kvs.find("tutu")->second, "");
+      }
+
+      TEST(ParseQuery, Bad1)
+      {
+        std::string    query("&tutu");
+        container::kvs kvs;
+        parseQuery(query.data(), query.size(), &kvs);
+
+        EXPECT_NE(kvs.find("tutu"), kvs.end());
+        EXPECT_EQ(kvs.find("tutu")->second, "");
+      }
+
+      TEST(ParseQuery, Bad2)
+      {
+        std::string    query("&tutu&");
+        container::kvs kvs;
+        parseQuery(query.data(), query.size(), &kvs);
+
+        EXPECT_NE(kvs.find("tutu"), kvs.end());
+        EXPECT_EQ(kvs.find("tutu")->second, "");
+      }
+
+      TEST(ParseQuery, Bad3)
+      {
+        std::string    query("=tutu");
+        container::kvs kvs;
+        parseQuery(query.data(), query.size(), &kvs);
+
+        EXPECT_TRUE(kvs.empty());
+      }
+
+      TEST(ParseQuery, Bad4)
+      {
+        std::string    query("=tutu&a=b");
+        container::kvs kvs;
+        parseQuery(query.data(), query.size(), &kvs);
+
+        EXPECT_NE(kvs.find("a"), kvs.end());
+        EXPECT_EQ(kvs.find("a")->second, "b");
+      }
     }
   }
 }
