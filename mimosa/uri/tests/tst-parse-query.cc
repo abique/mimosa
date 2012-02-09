@@ -25,6 +25,16 @@ namespace mimosa
         EXPECT_NE(kvs.find("g"), kvs.end());
         EXPECT_EQ(kvs.find("g")->second, "h");
       }
+
+      TEST(ParseQuery, Encoding)
+      {
+        std::string    query("tutu=hoho%26huhu");
+        container::kvs kvs;
+        parseQuery(query.data(), query.size(), &kvs);
+
+        EXPECT_NE(kvs.find("tutu"), kvs.end());
+        EXPECT_EQ(kvs.find("tutu")->second, "hoho&huhu");
+      }
     }
   }
 }
