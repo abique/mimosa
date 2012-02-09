@@ -2,3 +2,4 @@
 * DONE implement chunked output in request writer
   CLOSED: [2011-12-12 Mon 15:01]
 * template cache: add a file template cache which invalidate entries with inotify
+* http: fix a bug with post containing &
