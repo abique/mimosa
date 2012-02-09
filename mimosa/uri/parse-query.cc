@@ -1,3 +1,4 @@
+#include "percent-encoding.hh"
 #include "parse-query.hh"
 
 namespace mimosa
@@ -16,8 +17,11 @@ namespace mimosa
         if (in == end || *in == '&')
         {
           if (key < in)
-            kvs->insert(std::make_pair(std::string(key, in - key),
-                                       std::string()));
+          {
+            std::string key2;
+            percentDecode(key, in - key, &key2, uri::kRfc2396);
+            kvs->insert(std::make_pair(key2, std::string()));
+          }
           return;
         }
 
@@ -37,8 +41,13 @@ namespace mimosa
         if (in == end || *in == '&')
         {
           if (key < key_end)
-            kvs->insert(std::make_pair(std::string(key, key_end - key),
-                                       std::string(value, in - value)));
+          {
+            std::string key2;
+            std::string value2;
+            percentDecode(key, key_end - key, &key2, uri::kRfc2396);
+            percentDecode(value, in - value, &value2, uri::kRfc2396);
+            kvs->insert(std::make_pair(key2, value2));
+          }
           return;
         }
 
