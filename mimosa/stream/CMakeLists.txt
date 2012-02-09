@@ -3,7 +3,7 @@ install(FILES
   base16-encoder.hh
   buffered-stream.hh
   buffer.hh
-  compress-stream.hh
+  compress.hh
   copy.hh
   direct-fd-stream.hh
   fd-stream.hh

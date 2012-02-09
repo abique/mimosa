@@ -1,16 +1,18 @@
-#ifndef MIMOSA_STREAM_COMPRESS_STREAM_HH
-# define MIMOSA_STREAM_COMPRESS_STREAM_HH
+#ifndef MIMOSA_STREAM_COMPRESS_HH
+# define MIMOSA_STREAM_COMPRESS_HH
 
-# include "stream.hh"
+# include "filter.hh"
 
 namespace mimosa
 {
   namespace stream
   {
-    class CompressStream : public Stream
+    class Compress : public Filter
     {
     public:
-      CompressStream(Stream::Ptr stream, int level = 4);
+      MIMOSA_DEF_PTR(Compress);
+
+      Compress(Stream::Ptr stream, int level = 4);
 
       virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
       virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
@@ -19,10 +21,9 @@ namespace mimosa
       virtual bool flush(runtime::Time timeout = 0);
 
     private:
-      Stream::Ptr stream_;
       int         level_;
     };
   }
 }
 
-#endif /* !MIMOSA_STREAM_COMPRESS_STREAM_HH */
+#endif /* !MIMOSA_STREAM_COMPRESS_HH */

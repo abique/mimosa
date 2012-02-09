@@ -1,20 +1,20 @@
 #include <zlib.h>
 
-#include "compress-stream.hh"
+#include "compress.hh"
 #include "buffer.hh"
 
 namespace mimosa
 {
   namespace stream
   {
-    CompressStream::CompressStream(Stream::Ptr stream, int level)
-      : stream_(stream),
+    Compress::Compress(Stream::Ptr stream, int level)
+      : Filter(stream),
         level_(level)
     {
     }
 
     int64_t
-    CompressStream::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    Compress::write(const char * data, uint64_t nbytes, runtime::Time timeout)
     {
       Buffer buffer(::compressBound(nbytes));
       uLong dest_len = buffer.size();
@@ -25,7 +25,7 @@ namespace mimosa
     }
 
     int64_t
-    CompressStream::read(char * data, uint64_t nbytes, runtime::Time timeout)
+    Compress::read(char * data, uint64_t nbytes, runtime::Time timeout)
     {
       uLong rsize = nbytes;
       while (::compressBound(rsize) > nbytes)
@@ -47,13 +47,13 @@ namespace mimosa
     }
 
     bool
-    CompressStream::flush(runtime::Time timeout)
+    Compress::flush(runtime::Time timeout)
     {
       return stream_->flush(timeout);
     }
 
     void
-    CompressStream::close()
+    Compress::close()
     {
       flush();
       stream_->close();

@@ -29,7 +29,7 @@ add_library(mimosa
   stream/base16-encoder.cc
   stream/buffer.cc
   stream/buffered-stream.cc
-  stream/compress-stream.cc
+  stream/compress.cc
   stream/copy.cc
   stream/direct-fd-stream.cc
   stream/fd-stream.cc
