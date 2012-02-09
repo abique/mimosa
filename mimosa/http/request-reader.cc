@@ -85,9 +85,7 @@ namespace mimosa
       if (rbytes < contentLength())
         return form_;
 
-      std::string decoded;
-      uri::parseQuery(decoded.data(), decoded.size(), &form_);
-
+      uri::parseQuery(buffer.data(), buffer.size(), &form_);
       return form_;
     }
   }
