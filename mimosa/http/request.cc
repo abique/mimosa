@@ -100,9 +100,7 @@ namespace mimosa
       auto end = raw_location_.find_first_of('#');
       if (end == std::string::npos)
         end = raw_location_.size();
-      std::string decoded;
-      uri::percentDecode(raw_location_.data() + start, end - start, &decoded, uri::kRfc2396);
-      uri::parseQuery(decoded.data(), decoded.size(), &query_);
+      uri::parseQuery(raw_location_.data() + start, end - start, &query_);
       return query_;
     }
   }
