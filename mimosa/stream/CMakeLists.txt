@@ -13,6 +13,7 @@ install(FILES
   hash.hxx
   html-escape.hh
   limited-stream.hh
+  lzma-encoder.hh
   stream.hh
   string-stream.hh
   tls-stream.hh

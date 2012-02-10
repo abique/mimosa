@@ -37,6 +37,7 @@ add_library(mimosa
   stream/hash.cc
   stream/html-escape.cc
   stream/limited-stream.cc
+  stream/lzma-encoder.cc
   stream/net-fd-stream.cc
   stream/stream.cc
   stream/string-stream.cc

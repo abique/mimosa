@@ -32,7 +32,7 @@ namespace mimosa
       {
         if (rsize == 0)
           return 0;
-        --rsize;
+        rsize = rsize >> 1;
       }
 
       Buffer buffer(rsize);
