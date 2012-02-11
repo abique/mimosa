@@ -13,8 +13,6 @@ namespace mimosa
 
     Lzma::~Lzma()
     {
-      fprintf(stderr, "total_in: %d, total_out: %d\n", lzma_.total_in, lzma_.total_out);
-
       lzma_end(&lzma_);
     }
 
@@ -64,8 +62,6 @@ namespace mimosa
         lzma_.next_out = (uint8_t*)buffer_.data();
         lzma_.avail_out = buffer_.size();
         lzma_ret ret = lzma_code(&lzma_, LZMA_FINISH);
-
-        fprintf(stderr, "flush retval: %d\n", ret);
 
         if (buffer_.size() > lzma_.avail_out &&
             stream_->loopWrite(buffer_.data(), buffer_.size() - lzma_.avail_out, timeout) < 0)
