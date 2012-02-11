@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../compress-stream.hh"
+#include "../compress.hh"
 
 namespace mimosa
 {
