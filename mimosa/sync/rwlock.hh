@@ -23,7 +23,8 @@ namespace mimosa
       inline RWLock()
         : lock_()
       {
-        ::pthread_rwlock_init(&lock_, nullptr);
+        if (::pthread_rwlock_init(&lock_, nullptr))
+          throw std::bad_alloc();
       }
 
       inline ~RWLock()

@@ -22,7 +22,8 @@ namespace mimosa
 
       inline Mutex() : mutex_()
       {
-        ::pthread_mutex_init(&mutex_, nullptr);
+        if (::pthread_mutex_init(&mutex_, nullptr))
+          throw std::bad_alloc();
       }
 
       inline ~Mutex() { ::pthread_mutex_destroy(&mutex_); }
