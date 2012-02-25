@@ -11,69 +11,69 @@ namespace mimosa
   namespace container
   {
     template <typename Ptr>
-    class IntrusiveDlistHook
+    class IntrusiveDListHook
     {
     public:
-      inline IntrusiveDlistHook() : next_(nullptr), prev_(nullptr) {}
-      inline IntrusiveDlistHook(const IntrusiveDlistHook<Ptr> &) : next_(nullptr), prev_(nullptr) {}
-      inline IntrusiveDlistHook<Ptr> & operator=(const IntrusiveDlistHook<Ptr> &) { return *this; }
+      inline IntrusiveDListHook() : next_(nullptr), prev_(nullptr) {}
+      inline IntrusiveDListHook(const IntrusiveDListHook<Ptr> &) : next_(nullptr), prev_(nullptr) {}
+      inline IntrusiveDListHook<Ptr> & operator=(const IntrusiveDListHook<Ptr> &) { return *this; }
 
       Ptr next_;
       Ptr prev_;
     };
 
-    template <typename T, typename Ptr, IntrusiveDlistHook<Ptr> T::*Member>
-    class IntrusiveDlist;
+    template <typename T, typename Ptr, IntrusiveDListHook<Ptr> T::*Member>
+    class IntrusiveDList;
 
-    template <typename T, typename Ptr, IntrusiveDlistHook<Ptr> T::*Member>
-    class IntrusiveDlistIterator
+    template <typename T, typename Ptr, IntrusiveDListHook<Ptr> T::*Member>
+    class IntrusiveDListIterator
     {
     public:
-      inline IntrusiveDlistIterator(const IntrusiveDlist<T, Ptr, Member> & dlist, Ptr item)
+      inline IntrusiveDListIterator(const IntrusiveDList<T, Ptr, Member> & dlist, Ptr item)
         : dlist_(dlist), item_(item)
       {
       }
 
       inline T & operator*() const { return *item_; }
       inline Ptr operator->() const { return item_; }
-      inline IntrusiveDlistIterator<T, Ptr, Member> & operator++()
+      inline IntrusiveDListIterator<T, Ptr, Member> & operator++()
       {
         assert(item_);
         item_ = (item_->*Member).next_;
         return *this;
       }
 
-      inline IntrusiveDlistIterator<T, Ptr, Member> & operator--()
+      inline IntrusiveDListIterator<T, Ptr, Member> & operator--()
       {
         assert(item_);
         item_ = (item_->*Member).prev_;
         return *this;
       }
 
-      inline bool operator==(const IntrusiveDlistIterator<T, Ptr, Member> & other) const
+      inline bool operator==(const IntrusiveDListIterator<T, Ptr, Member> & other) const
       {
         return &dlist_ == &other.dlist_ && item_ == other.item_;
       }
 
-      inline bool operator!=(const IntrusiveDlistIterator<T, Ptr, Member> & other) const
+      inline bool operator!=(const IntrusiveDListIterator<T, Ptr, Member> & other) const
       {
         return !(*this == other);
       }
 
     private:
-      const IntrusiveDlist<T, Ptr, Member> & dlist_;
+      const IntrusiveDList<T, Ptr, Member> & dlist_;
       Ptr                                    item_;
     };
 
-    template <typename T, typename Ptr, IntrusiveDlistHook<Ptr> T::*Member>
-    class IntrusiveDlist : private NonCopyable
+    template <typename T, typename Ptr, IntrusiveDListHook<Ptr> T::*Member>
+    class IntrusiveDList : private NonCopyable
     {
     public:
-      typedef IntrusiveDlistIterator<T, Ptr, Member> iterator;
-      friend class IntrusiveDlistIterator<T, Ptr, Member>;
+      typedef IntrusiveDListIterator<T, Ptr, Member> iterator;
+      friend class IntrusiveDListIterator<T, Ptr, Member>;
 
-      inline IntrusiveDlist() : head_(nullptr), tail_(nullptr), size_(0) {}
-      inline ~IntrusiveDlist()
+      inline IntrusiveDList() : head_(nullptr), tail_(nullptr), size_(0) {}
+      inline ~IntrusiveDList()
       {
         while (!empty())
           popBack();

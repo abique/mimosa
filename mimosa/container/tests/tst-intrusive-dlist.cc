@@ -14,14 +14,14 @@ namespace mimosa
         inline A(int i) : i_(i) {}
 
         int i_;
-        IntrusiveDlistHook<A::Ptr> hook_;
+        IntrusiveDListHook<A::Ptr> hook_;
       };
 
-      typedef IntrusiveDlist<A, A::Ptr, &A::hook_> dlist_type;
+      typedef IntrusiveDList<A, A::Ptr, &A::hook_> dlist_type;
 
       namespace
       {
-        TEST(IntrusiveDlist, Simple)
+        TEST(IntrusiveDList, Simple)
         {
           dlist_type list;
 
