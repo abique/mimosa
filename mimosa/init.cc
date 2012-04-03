@@ -4,6 +4,8 @@
 #include <cstring>
 #include <cerrno>
 
+#include <unistd.h>
+
 #include <gnutls/gnutls.h>
 
 #include "init.hh"

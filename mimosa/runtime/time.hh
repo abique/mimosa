@@ -5,6 +5,8 @@
 # include <ctime>
 # include <stdexcept>
 
+# include <unistd.h>
+
 namespace mimosa
 {
   namespace runtime
