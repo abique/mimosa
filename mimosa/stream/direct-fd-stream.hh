@@ -3,6 +3,7 @@
 
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <unistd.h>
 # include <fcntl.h>
 
 # include "stream.hh"
@@ -27,11 +28,19 @@ namespace mimosa
       virtual void close();
 
       int fd() const { return fd_; }
+      ::mode_t fdMode() const { if (!mode_) stat(); return mode_; }
+      bool stat() const;
 
     private:
-      int  fd_;
-      bool own_fd_;
+      int      fd_;
+      bool     own_fd_;
+      mutable ::mode_t mode_; // st_mode from struct ::stat
     };
+
+    int64_t copy(DirectFdStream & input,
+                 DirectFdStream & output,
+                 int64_t          max_bytes = 0,
+                 runtime::Time    timeout   = 0);
   }
 }
 

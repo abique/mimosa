@@ -8,7 +8,8 @@ namespace mimosa
   {
     DirectFdStream::DirectFdStream(int fd, bool own_fd)
       : fd_(fd),
-        own_fd_(own_fd)
+        own_fd_(own_fd),
+        mode_(0)
     {
     }
 
@@ -55,6 +56,16 @@ namespace mimosa
         fd_    = -1;
         ::close(fd);
       }
+    }
+
+    bool
+    DirectFdStream::stat() const
+    {
+      struct ::stat st;
+      if (::fstat(fd_, &st))
+        return false;
+      mode_ = st.st_mode;
+      return true;
     }
   }
 }
