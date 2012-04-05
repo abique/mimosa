@@ -77,7 +77,30 @@ namespace mimosa
                          int64_t          max_bytes,
                          runtime::Time    /*timeout*/)
     {
-      uint64_t total = 0;
+      int64_t total = 0;
+
+      while (total < max_bytes || max_bytes == 0) {
+        int64_t limit;
+
+        if (max_bytes == 0)
+          limit = 128 * 1024;
+        else
+          limit = std::min((int64_t)128 * 1024, (int64_t)max_bytes - total);
+
+        ssize_t bytes = ::sendfile(input.fd(), output.fd(), nullptr, limit);
+        if (bytes < 0)
+          return total;
+        total += bytes;
+      }
+      return total;
+    }
+
+    int64_t copySplice(DirectFdStream & input,
+                       DirectFdStream & output,
+                       int64_t          max_bytes,
+                       runtime::Time    /*timeout*/)
+    {
+      int64_t total = 0;
 
       while (total < max_bytes || max_bytes == 0) {
         int64_t limit;
@@ -87,7 +110,7 @@ namespace mimosa
         else
           limit = std::min((uint64_t)128 * 1024, (uint64_t)max_bytes - total);
 
-        int64_t bytes = ::sendfile(input.fd(), output.fd(), nullptr, limit);
+        ssize_t bytes = ::splice(input.fd(), nullptr, output.fd(), nullptr, limit, 0);
         if (bytes < 0)
           return total;
         total += bytes;
@@ -102,8 +125,8 @@ namespace mimosa
     {
       if (S_ISREG(input.fdMode()))
         return copySendfile(input, output, max_bytes, timeout);
-      // else if (S_ISFIFO(input.fdMode()) || S_ISSOCKET(input.fdMode()))
-      //   return copySplice(input, output, max_bytes, timeout);
+      else if (S_ISFIFO(input.fdMode()) || S_ISSOCK(input.fdMode()))
+        return copySplice(input, output, max_bytes, timeout);
       return copy(static_cast<Stream &> (input), static_cast<Stream &> (output),
                   max_bytes, timeout);
     }
