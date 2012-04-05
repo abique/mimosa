@@ -124,5 +124,20 @@ namespace mimosa
       buffers_.clear();
       header_sent_ = false;
     }
+
+    stream::DirectFdStream *
+    ResponseWriter::directFdStream()
+    {
+      if (!header_sent_ || !buffers_.empty())
+        return NULL;
+
+      stream::Stream * stream = channel_.stream_->underlyingStream();
+      stream::DirectFdStream * fd_stream = dynamic_cast<stream::DirectFdStream *> (stream);
+      if (!fd_stream)
+        return NULL;
+      if (!channel_.stream_->flush(write_timeout_))
+        return NULL;
+      return fd_stream;
+    }
   }
 }

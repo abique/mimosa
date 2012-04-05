@@ -2,6 +2,7 @@
 # define MIMOSA_HTTP_RESPONSE_WRITER_HH
 
 # include "../stream/stream.hh"
+# include "../stream/direct-fd-stream.hh"
 # include "../stream/buffer.hh"
 # include "response.hh"
 
@@ -50,6 +51,9 @@ namespace mimosa
       }
 
       inline ServerChannel & channel() const { return channel_; }
+
+      /** @return nullptr if we can't convert the output stream to a direct fd */
+      stream::DirectFdStream * directFdStream();
 
     private:
       friend class ServerChannel;
