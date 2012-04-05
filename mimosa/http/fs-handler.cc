@@ -73,8 +73,15 @@ namespace mimosa
       int fd = ::open(real_path.c_str(), O_RDONLY, 0644);
       if (fd < 0)
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
-      stream::DirectFdStream::Ptr file(new stream::DirectFdStream(fd));
-      int64_t ret = stream::copy(*file, response, st.st_size);
+
+      stream::DirectFdStream file(fd);
+      stream::DirectFdStream *sock = response.directFdStream();
+
+      int64_t ret;
+      if (sock)
+        ret = stream::copy(file, *sock, st.st_size);
+      else
+        ret = stream::copy(file, response, st.st_size);
       return ret == st.st_size;
     }
 
