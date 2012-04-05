@@ -87,7 +87,7 @@ namespace mimosa
         else
           limit = std::min((int64_t)128 * 1024, (int64_t)max_bytes - total);
 
-        ssize_t bytes = ::sendfile(input.fd(), output.fd(), nullptr, limit);
+        ssize_t bytes = ::sendfile(output.fd(), input.fd(), nullptr, limit);
         if (bytes < 0)
           return total;
         total += bytes;
