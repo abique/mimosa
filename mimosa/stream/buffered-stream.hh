@@ -45,6 +45,8 @@ namespace mimosa
 
       virtual void close();
 
+      inline Stream* underlyingStream() const { return stream_; }
+
     private:
       inline uint64_t readyWrite() const;
       void append(const char * data, uint64_t nbytes);
