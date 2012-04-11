@@ -65,6 +65,7 @@ namespace mimosa
     HtmlEscape::read(char * data, uint64_t nbytes, runtime::Time timeout)
     {
       assert(false && "TODO");
+      return -1;
     }
   }
 }
