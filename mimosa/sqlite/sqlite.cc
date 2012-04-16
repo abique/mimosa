@@ -44,6 +44,14 @@ namespace mimosa
       return err;
     }
 
+    Stmt&&
+    Db::prepare(const char *str, size_t len)
+    {
+      Stmt stmt;
+      stmt.prepare(db_, str, len);
+      return std::move(stmt);
+    }
+
     /////////////
     // Stmt
     /////////////
@@ -62,7 +70,7 @@ namespace mimosa
       }
     }
 
-    int
+    Stmt &
     Stmt::prepare(sqlite3 *    db,
                   const char * sql,
                   int          sql_size)
@@ -74,49 +82,87 @@ namespace mimosa
         log_sqlite->error("failed to prepare statement (error: %d): %s",
                           err, sql);
         sqlite3_finalize(stmt_);
-        stmt_ = nullptr;
+        throw nullptr;
       }
-      return err;
+      return *this;
     }
 
-    int
+    void
     Stmt::reset()
     {
       assert(stmt_);
-      return sqlite3_reset(stmt_);
+      sqlite3_reset(stmt_);
     }
 
-    int
+    Stmt&
     Stmt::bind(int pos, int value)
     {
       assert(stmt_);
       int err = sqlite3_bind_int(stmt_, pos, value);
-      if (err != SQLITE_OK)
-        log_sqlite->error("failed to bind (%d: %d, error: %d) for %s",
+      if (err != SQLITE_OK) {
+        log_sqlite->error("failed to bind (%v: %v, error: %v) for %v",
                           pos, value, err, sqlite3_sql(stmt_));
-      return err;
+        throw nullptr;
+      }
+      return *this;
     }
 
-    int
+    Stmt&
+    Stmt::bind(int pos, int64_t value)
+    {
+      assert(stmt_);
+      int err = sqlite3_bind_int64(stmt_, pos, value);
+      if (err != SQLITE_OK) {
+        log_sqlite->error("failed to bind (%v: %v, error: %v) for %v",
+                          pos, value, err, sqlite3_sql(stmt_));
+        throw nullptr;
+      }
+      return *this;
+    }
+
+    Stmt&
+    Stmt::bind(int pos, double value)
+    {
+      assert(stmt_);
+      int err = sqlite3_bind_double(stmt_, pos, value);
+      if (err != SQLITE_OK) {
+        log_sqlite->error("failed to bind (%v: %v, error: %v) for %v",
+                          pos, value, err, sqlite3_sql(stmt_));
+        throw nullptr;
+      }
+      return *this;
+    }
+
+    Stmt&
     Stmt::bind(int pos, const char * value, int value_size)
     {
       assert(stmt_);
       int err = sqlite3_bind_text(stmt_, pos, value, value_size, nullptr);
-      if (err != SQLITE_OK)
+      if (err != SQLITE_OK) {
         log_sqlite->error("failed to bind (%d: %s, error: %d) for %s",
                           pos, value, err, sqlite3_sql(stmt_));
-      return err;
+        throw nullptr;
+      }
+      return *this;
     }
 
-    int
-    Stmt::bindBlob(int pos, const void * value, int nbytes)
+    Stmt&
+    Stmt::bind(int pos, const void * value, int nbytes)
     {
       assert(stmt_);
-      int err = sqlite3_bind_blob(stmt_, pos, value, nbytes, nullptr);
-      if (err != SQLITE_OK)
+      int err;
+
+      if (!value)
+        err = sqlite3_bind_null(stmt_, pos);
+      else
+        err = sqlite3_bind_blob(stmt_, pos, value, nbytes, nullptr);
+
+      if (err != SQLITE_OK) {
         log_sqlite->error("failed to bind blob (pos %d: error: %d) for %s",
                           pos, err, sqlite3_sql(stmt_));
-      return err;
+        throw nullptr;
+      }
+      return *this;
     }
   }
 }

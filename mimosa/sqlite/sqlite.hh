@@ -2,17 +2,29 @@
 # define MIMOSA_SQLITE_SQLITE_HH
 
 # include <string>
+# include <cstdint>
 
 # include <sqlite3.h>
 
 # include "../non-copyable.hh"
+# include "../string/string-ref.hh"
 
 namespace mimosa
 {
   namespace sqlite
   {
-    struct Db : private NonCopyable
+    /**
+     * @code
+     db->prepare("select ... where a = ? and b = ?")
+     .bindv(32, "tchac").step().fetch(&val1, &val2);
+     @endcode
+    */
+
+    class Stmt;
+
+    class Db : private NonCopyable
     {
+    public:
       Db(sqlite3 * db = nullptr);
       ~Db();
 
@@ -25,6 +37,8 @@ namespace mimosa
         return db_;
       }
 
+      Stmt&& prepare(const char *str, size_t len = 0);
+
       sqlite3 * db_;
     };
 
@@ -34,17 +48,32 @@ namespace mimosa
       Stmt(sqlite3_stmt * stmt = nullptr);
       ~Stmt();
 
-      int prepare(sqlite3 *    db,
-                  const char * sql,
-                  int          sql_size = -1);
-      int reset();
-      inline int step() { return sqlite3_step(stmt_); }
+      void reset();
 
-      int bind(int pos, int value);
-      int bind(int pos, const char * value, int value_size = -1);
-      inline int bind(int pos, const std::string & str)
+      Stmt& prepare(sqlite3 *    db,
+                    const char * sql,
+                    int          sql_size = -1);
+
+
+      Stmt& bind(int pos, int value);
+      Stmt& bind(int pos, int64_t value);
+      Stmt& bind(int pos, double value);
+      // string
+      Stmt& bind(int pos, const char * value, int nbytes = -1);
+      // blob or null if value == nullptr
+      Stmt& bind(int pos, const void * value, int nbytes);
+
+      // helpers
+      inline Stmt& bind(int pos, const std::string & str)
       { return bind(pos, str.c_str(), str.size()); }
-      int bindBlob(int pos, const void * value, int nbytes);
+      inline Stmt& bind(int pos, const string::StringRef & str)
+      { return bind(pos, str.data(), str.size()); }
+
+      // variadic template
+      template <typename ...Args>
+      inline Stmt& bindv(Args ... args);
+
+      inline int step() { return sqlite3_step(stmt_); }
 
       inline operator sqlite3_stmt * () const
       {
@@ -52,9 +81,26 @@ namespace mimosa
       }
 
     private:
+      template <typename ...Args>
+      inline Stmt& bindChain(int pos, int value, Args ... args);
+      template <typename ...Args>
+      inline Stmt& bindChain(int pos, int64_t value, Args ... args);
+      template <typename ...Args>
+      inline Stmt& bindChain(int pos, double value, Args ... args);
+      template <typename ...Args>
+      inline Stmt& bindChain(int pos, const char * value, int nbytes, Args ... args);
+      template <typename ...Args>
+      inline Stmt& bindChain(int pos, const void * value, int nbytes, Args ... args);
+      template <typename ...Args>
+      inline Stmt& bindChain(int pos, const std::string & value, Args ... args);
+      template <typename ...Args>
+      inline Stmt& bindChain(int pos, const string::StringRef & value, Args ... args);
+
       sqlite3_stmt * stmt_;
     };
   }
 }
+
+# include "sqlite.hxx"
 
 #endif /* !MIMOSA_SQLITE_SQLITE_HH */
