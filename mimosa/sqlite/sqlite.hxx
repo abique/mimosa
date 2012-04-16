@@ -2,9 +2,17 @@ namespace mimosa
 {
   namespace sqlite
   {
+    inline Stmt&
+    Stmt::exec()
+    {
+      if (step() != SQLITE_DONE)
+        throw nullptr;
+      return *this;
+    }
+
     template <typename ...Args>
     inline Stmt&
-    Stmt::bindv(Args ... args)
+    Stmt::bind(Args ... args)
     {
       return bindChain(1, args...);
     }
@@ -13,7 +21,7 @@ namespace mimosa
     inline Stmt&
     Stmt::bindChain(int pos, int value, Args ... args)
     {
-      bind(pos, value);
+      sqlite3_bind_int(stmt_, pos, value);
       return bindChain(pos + 1, args...);
     }
 
@@ -21,7 +29,7 @@ namespace mimosa
     inline Stmt&
     Stmt::bindChain(int pos, int64_t value, Args ... args)
     {
-      bind(pos, value);
+      sqlite3_bind_int64(stmt_, pos, value);
       return bindChain(pos + 1, args...);
     }
 
@@ -29,7 +37,7 @@ namespace mimosa
     inline Stmt&
     Stmt::bindChain(int pos, double value, Args ... args)
     {
-      bind(pos, value);
+      sqlite3_bind_double(stmt_, pos, value);
       return bindChain(pos + 1, args...);
     }
 
@@ -37,7 +45,7 @@ namespace mimosa
     inline Stmt&
     Stmt::bindChain(int pos, const char * value, int nbytes, Args ... args)
     {
-      bind(pos, value, nbytes);
+      sqlite3_bind_text(stmt_, pos, value, nbytes, nullptr);
       return bindChain(pos + 1, args...);
     }
 
@@ -45,7 +53,10 @@ namespace mimosa
     inline Stmt&
     Stmt::bindChain(int pos, const void * value, int nbytes, Args ... args)
     {
-      bind(pos, value, nbytes);
+      if (!value)
+        sqlite3_bind_null(stmt_, pos);
+      else
+        sqlite3_bind_blob(stmt_, pos, value, nbytes, nullptr);
       return bindChain(pos + 1, args...);
     }
 
@@ -53,7 +64,7 @@ namespace mimosa
     inline Stmt&
     Stmt::bindChain(int pos, const std::string & value, Args ... args)
     {
-      bind(pos, value);
+      sqlite3_bind_text(stmt_, pos, value.data(), value.size(), nullptr);
       return bindChain(pos + 1, args...);
     }
 
@@ -61,8 +72,88 @@ namespace mimosa
     inline Stmt&
     Stmt::bindChain(int pos, const string::StringRef & value, Args ... args)
     {
-      bind(pos, value);
+      sqlite3_bind_text(stmt_, pos, value.data(), value.size(), nullptr);
       return bindChain(pos + 1, args...);
+    }
+
+    template <typename ... Args>
+    inline bool
+    Stmt::fetch(Args ... args)
+    {
+      int ret = step();
+      if (ret != SQLITE_ROW)
+        return false;
+
+      fetchChain(0, args...);
+      return true;
+    }
+
+    template <typename ...Args>
+    inline void
+    Stmt::fetchChain(int pos, int * value, Args ... args)
+    {
+      *value = sqlite3_column_int(stmt_, pos);
+      fetchChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline void
+    Stmt::fetchChain(int pos, int64_t * value, Args ... args)
+    {
+      *value = sqlite3_column_int64(stmt_, pos);
+      fetchChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline void
+    Stmt::fetchChain(int pos, uint64_t * value, Args ... args)
+    {
+      *value = sqlite3_column_int64(stmt_, pos);
+      fetchChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline void
+    Stmt::fetchChain(int pos, double * value, Args ... args)
+    {
+      *value = sqlite3_column_double(stmt_, pos);
+      fetchChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline void
+    Stmt::fetchChain(int pos, const char ** value, int * nbytes, Args ... args)
+    {
+      *value = sqlite3_column_text(stmt_, pos);
+      *nbytes = sqlite3_column_bytes(stmt_, pos);
+      fetchChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline void
+    Stmt::fetchChain(int pos, const void ** value, int * nbytes, Args ... args)
+    {
+      *value = sqlite3_column_blob(stmt_, pos);
+      *nbytes = sqlite3_column_bytes(stmt_, pos);
+      fetchChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline void
+    Stmt::fetchChain(int pos, std::string * value, Args ... args)
+    {
+      value->assign((const char*)sqlite3_column_text(stmt_, pos),
+                    sqlite3_column_bytes(stmt_, pos));
+      fetchChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline void
+    Stmt::fetchChain(int pos, string::StringRef * value, Args ... args)
+    {
+      *value = string::StringRef(sqlite3_column_text(stmt_, pos),
+                                sqlite3_column_bytes(stmt_, pos));
+      fetchChain(pos + 1, args...);
     }
   }
 }

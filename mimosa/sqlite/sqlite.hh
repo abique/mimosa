@@ -16,7 +16,7 @@ namespace mimosa
     /**
      * @code
      db->prepare("select ... where a = ? and b = ?")
-     .bindv(32, "tchac").step().fetch(&val1, &val2);
+     .bindv(32, "tchac").exec();
      @endcode
     */
 
@@ -54,26 +54,22 @@ namespace mimosa
                     const char * sql,
                     int          sql_size = -1);
 
-
-      Stmt& bind(int pos, int value);
-      Stmt& bind(int pos, int64_t value);
-      Stmt& bind(int pos, double value);
-      // string
-      Stmt& bind(int pos, const char * value, int nbytes = -1);
-      // blob or null if value == nullptr
-      Stmt& bind(int pos, const void * value, int nbytes);
-
-      // helpers
-      inline Stmt& bind(int pos, const std::string & str)
-      { return bind(pos, str.c_str(), str.size()); }
-      inline Stmt& bind(int pos, const string::StringRef & str)
-      { return bind(pos, str.data(), str.size()); }
-
       // variadic template
       template <typename ...Args>
-      inline Stmt& bindv(Args ... args);
+      inline Stmt& bind(Args ... args);
 
       inline int step() { return sqlite3_step(stmt_); }
+
+      // will throw on error
+      inline Stmt& exec();
+
+      /**
+       * call sqlite3_step() and if ret == SQLITE_ROW, then fetch values.
+       *
+       * @return true if we got a row, and false otherwise
+       */
+      template <typename ... Args>
+      inline bool fetch(Args ... args);
 
       inline operator sqlite3_stmt * () const
       {
@@ -81,6 +77,7 @@ namespace mimosa
       }
 
     private:
+      inline Stmt& bindChain(int) { return *this; }
       template <typename ...Args>
       inline Stmt& bindChain(int pos, int value, Args ... args);
       template <typename ...Args>
@@ -95,6 +92,24 @@ namespace mimosa
       inline Stmt& bindChain(int pos, const std::string & value, Args ... args);
       template <typename ...Args>
       inline Stmt& bindChain(int pos, const string::StringRef & value, Args ... args);
+
+      inline void fetchChain(int) {}
+      template <typename ...Args>
+      inline void fetchChain(int pos, int * value, Args ... args);
+      template <typename ...Args>
+      inline void fetchChain(int pos, int64_t * value, Args ... args);
+      template <typename ...Args>
+      inline void fetchChain(int pos, uint64_t * value, Args ... args);
+      template <typename ...Args>
+      inline void fetchChain(int pos, double * value, Args ... args);
+      template <typename ...Args>
+      inline void fetchChain(int pos, const char ** value, int * nbytes, Args ... args);
+      template <typename ...Args>
+      inline void fetchChain(int pos, const void ** value, int * nbytes, Args ... args);
+      template <typename ...Args>
+      inline void fetchChain(int pos, std::string * value, Args ... args);
+      template <typename ...Args>
+      inline void fetchChain(int pos, string::StringRef * value, Args ... args);
 
       sqlite3_stmt * stmt_;
     };
