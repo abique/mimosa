@@ -151,8 +151,8 @@ namespace mimosa
     inline void
     Stmt::fetchChain(int pos, string::StringRef * value, Args ... args)
     {
-      *value = string::StringRef(sqlite3_column_text(stmt_, pos),
-                                sqlite3_column_bytes(stmt_, pos));
+      *value = string::StringRef((const char*)sqlite3_column_text(stmt_, pos),
+                                 sqlite3_column_bytes(stmt_, pos));
       fetchChain(pos + 1, args...);
     }
   }
