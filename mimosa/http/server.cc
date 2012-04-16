@@ -40,7 +40,11 @@ namespace mimosa
         stream          = tls_stream;
         ::gnutls_priority_set(tls_stream->session(), priority_cache_);
         ::gnutls_credentials_set(tls_stream->session(), GNUTLS_CRD_CERTIFICATE, x509_cred_);
-        int ret = ::gnutls_handshake(tls_stream->session());
+        int ret;
+        do {
+          ret = ::gnutls_handshake(tls_stream->session());
+        } while (ret < 0 && !gnutls_error_is_fatal(ret));
+
         if (ret < 0)
         {
           printf("handshake failed: %s\n", gnutls_strerror(ret));
@@ -73,8 +77,9 @@ namespace mimosa
       if (!x509_cred_)
         ::gnutls_certificate_allocate_credentials(&x509_cred_);
 
-      ::gnutls_certificate_set_x509_key_file(x509_cred_, cert_file.c_str(), key_file.c_str(),
-                                             GNUTLS_X509_FMT_PEM);
+      int ret = ::gnutls_certificate_set_x509_key_file(
+        x509_cred_, cert_file.c_str(), key_file.c_str(), GNUTLS_X509_FMT_PEM);
+      assert(ret == GNUTLS_E_SUCCESS);
       ::gnutls_certificate_set_dh_params(x509_cred_, dh_params_);
     }
   }

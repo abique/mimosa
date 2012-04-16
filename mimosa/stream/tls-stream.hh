@@ -3,13 +3,13 @@
 
 # include <gnutls/gnutls.h>
 
-# include "stream.hh"
+# include "filter.hh"
 
 namespace mimosa
 {
   namespace stream
   {
-    class TlsStream : public Stream
+    class TlsStream : public Filter
     {
     public:
       TlsStream(Stream::Ptr stream, bool is_server);
@@ -25,8 +25,8 @@ namespace mimosa
     private:
       static ssize_t readWrapper(TlsStream * stream, char * data, size_t nbytes);
       static ssize_t writeWrapper(TlsStream * stream, const char * data, size_t nbytes);
+      static ssize_t writevWrapper(TlsStream * stream, const giovec_t * iov, int iovcnt);
 
-      Stream::Ptr      stream_;
       gnutls_session_t session_;
       runtime::Time    read_timeout_;
       runtime::Time    write_timeout_;

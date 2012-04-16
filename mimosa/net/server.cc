@@ -121,7 +121,10 @@ namespace mimosa
         Server::ConstPtr server(this);
         if (new_thread)
           runtime::Thread([server, fd, addr, addr_len] {
-              server->serve(fd, &addr.addr, addr_len);
+              try {
+                server->serve(fd, &addr.addr, addr_len);
+              } catch (...) {
+              }
             }).start();
         else
           serve(fd, &addr.addr, addr_len);

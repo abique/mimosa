@@ -17,6 +17,11 @@ namespace mimosa
   {
   }
 
+  static void gnutls_log(int /*level*/, const char *msg)
+  {
+    printf("%s", msg);
+  }
+
   void init(int argc, char ** argv)
   {
     ::signal(SIGPIPE, dummy);
@@ -26,6 +31,8 @@ namespace mimosa
       ::fprintf(stderr, "sched_setscheduler(): %s\n", ::strerror(errno));
     options::parse(argc, argv);
     ::gnutls_global_init();
+    ::gnutls_global_set_log_level(0);
+    ::gnutls_global_set_log_function(gnutls_log);
   }
 
   void deinit()
