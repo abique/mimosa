@@ -14,6 +14,7 @@ namespace mimosa
       kCodingCompress     = 1 << 4,
       kCodingPack200_gzip = 1 << 5,
       kCodingChunked      = 1 << 6,
+      kCodingSdch         = 1 << 7,
     };
   }
 }

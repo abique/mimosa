@@ -57,7 +57,7 @@
 %token <text> VALUE HOST
 %token <ival> VALUE_CONNECTION PORT
 %token <val64> VAL64
-%token COMPRESS IDENTITY DEFLATE GZIP
+%token COMPRESS IDENTITY DEFLATE GZIP SDCH
 
 %destructor { delete $$; } <text>
 
@@ -97,7 +97,8 @@ accept_encodings: /* epsilon */
 | COMPRESS accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingCompress); }
 | IDENTITY accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingIdentity); }
 | DEFLATE  accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingDeflate); }
-| GZIP     accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingGzip); };
+| GZIP     accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingGzip); }
+| SDCH     accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingSdch); };
 
 cookies:
 /* epsilon */
