@@ -50,10 +50,26 @@ namespace mimosa
         EXPECT_EQ(rq.referrer(), "http://tutu.com/hoho%34/?tutu=tata;#anchor");
         EXPECT_EQ(rq.userAgent(), "TomBoy (esapce compatible)");
 
-        auto it = rq.cookies().find("attr1");
+        auto it = rq.cookies().find("attr0");
+        EXPECT_NE(it, rq.cookies().end());
+        if (it != rq.cookies().end())
+          EXPECT_EQ(it->second, "");
+
+        it = rq.cookies().find("attr01");
+        EXPECT_NE(it, rq.cookies().end());
+        if (it != rq.cookies().end())
+          EXPECT_EQ(it->second, "");
+
+        it = rq.cookies().find("attr1");
         EXPECT_NE(it, rq.cookies().end());
         if (it != rq.cookies().end())
           EXPECT_EQ(it->second, "value1");
+
+        it = rq.cookies().find("attr2");
+        EXPECT_NE(it, rq.cookies().end());
+        if (it != rq.cookies().end())
+          EXPECT_EQ(it->second, "value2");
+
         it = rq.cookies().find("attr5");
         EXPECT_NE(it, rq.cookies().end());
         if (it != rq.cookies().end())
@@ -162,6 +178,33 @@ namespace mimosa
           "Cookie: __utma=172764660.1465859375.1319666592.1320071393.1323170743.5; __utmz=172764660.1320071393.4.4.utmcsr=portail.free.fr|utmccn=(referral)|utmcmd=referral|utmcct=/\r\n";
         Request rq;
         ASSERT_EQ(true, rq.parse(str, sizeof (str)));
+      }
+
+      TEST(RequestParser, Cookie1)
+      {
+        const char str[] =
+          "GET /favicon.ico HTTP/1.1\r\n"
+          "Host: localhost:19042\r\n"
+          "Connection: keep-alive\r\n"
+          "Accept: */*\r\n"
+          "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.162 Safari/535.19\r\n"
+          "Accept-Encoding: gzip,deflate,sdch\r\n"
+          "Cookie: login=abique; auth=1fc8f6730ca6349face3c667bb2cb71037cb3e90b85149fbc32963a2d1cd6d72\r\n"
+          "Accept-Language: en-US,en;q=0.8\r\n"
+          "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\r\n"
+          "\r\n";
+        Request rq;
+        ASSERT_EQ(true, rq.parse(str, sizeof (str)));
+
+        auto it = rq.cookies().find("login");
+        EXPECT_NE(it, rq.cookies().end());
+        if (it != rq.cookies().end())
+          EXPECT_EQ(it->second, "abique");
+
+        it = rq.cookies().find("auth");
+        EXPECT_NE(it, rq.cookies().end());
+        if (it != rq.cookies().end())
+          EXPECT_EQ(it->second, "1fc8f6730ca6349face3c667bb2cb71037cb3e90b85149fbc32963a2d1cd6d72");
       }
     }
   }
