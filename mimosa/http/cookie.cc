@@ -7,7 +7,8 @@ namespace mimosa
     Cookie::Cookie()
       : key_(),
         value_(),
-        is_secure_(false)
+        is_secure_(false),
+        is_http_only_(false)
     {
     }
   }
