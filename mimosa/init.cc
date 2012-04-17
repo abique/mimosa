@@ -31,6 +31,7 @@ namespace mimosa
       ::fprintf(stderr, "sched_setscheduler(): %s\n", ::strerror(errno));
     options::parse(argc, argv);
     ::gnutls_global_init();
+    ::gnutls_check_version(GNUTLS_VERSION);
     ::gnutls_global_set_log_level(0);
     ::gnutls_global_set_log_function(gnutls_log);
   }

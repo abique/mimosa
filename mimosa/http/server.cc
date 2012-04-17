@@ -1,6 +1,7 @@
 #include <functional>
 #include <memory>
 
+#include "log.hh"
 #include "server.hh"
 #include "server-channel.hh"
 #include "../stream/direct-fd-stream.hh"
@@ -38,17 +39,23 @@ namespace mimosa
       {
         auto tls_stream = new stream::TlsStream(stream, true);
         stream          = tls_stream;
-        ::gnutls_priority_set(tls_stream->session(), priority_cache_);
-        ::gnutls_credentials_set(tls_stream->session(), GNUTLS_CRD_CERTIFICATE, x509_cred_);
-        int ret;
+        int ret = ::gnutls_priority_set(tls_stream->session(), priority_cache_);
+        if (ret != GNUTLS_E_SUCCESS)
+          throw nullptr;
+        ret = ::gnutls_credentials_set(tls_stream->session(), GNUTLS_CRD_CERTIFICATE, x509_cred_);
+        if (ret != GNUTLS_E_SUCCESS)
+          throw nullptr;
+
+        ::gnutls_certificate_server_set_request(tls_stream->session(), GNUTLS_CERT_IGNORE);
+
         do {
           ret = ::gnutls_handshake(tls_stream->session());
         } while (ret < 0 && !gnutls_error_is_fatal(ret));
 
         if (ret < 0)
         {
-          printf("handshake failed: %s\n", gnutls_strerror(ret));
-          return;
+          http_log->error("handshake failed: %s\n", gnutls_strerror(ret));
+          throw nullptr;
         }
         stream = tls_stream;
       }
@@ -65,21 +72,36 @@ namespace mimosa
     Server::setSecure(const std::string & cert_file,
                       const std::string & key_file)
     {
-      if (!priority_cache_)
-        ::gnutls_priority_init(&priority_cache_, "NORMAL", NULL);
+      int ret;
+
+      if (!priority_cache_) {
+        ret = ::gnutls_priority_init(&priority_cache_, "NORMAL", NULL);
+        if (ret != GNUTLS_E_SUCCESS)
+          throw nullptr;
+      }
 
       if (!dh_params_)
       {
-        ::gnutls_dh_params_init(&dh_params_);
-        ::gnutls_dh_params_generate2(dh_params_, 1024);
+        ret = ::gnutls_dh_params_init(&dh_params_);
+        if (ret != GNUTLS_E_SUCCESS)
+          throw nullptr;
+        int bits = gnutls_sec_param_to_pk_bits(GNUTLS_PK_DH, GNUTLS_SEC_PARAM_LOW);
+        ret = ::gnutls_dh_params_generate2(dh_params_, bits);
+        if (ret != GNUTLS_E_SUCCESS)
+          throw nullptr;
       }
 
-      if (!x509_cred_)
-        ::gnutls_certificate_allocate_credentials(&x509_cred_);
+      if (!x509_cred_) {
+        ret = ::gnutls_certificate_allocate_credentials(&x509_cred_);
+        if (ret != GNUTLS_E_SUCCESS)
+          throw nullptr;
+      }
 
-      int ret = ::gnutls_certificate_set_x509_key_file(
+      ret = ::gnutls_certificate_set_x509_key_file(
         x509_cred_, cert_file.c_str(), key_file.c_str(), GNUTLS_X509_FMT_PEM);
-      assert(ret == GNUTLS_E_SUCCESS);
+      if (ret != GNUTLS_E_SUCCESS)
+        throw nullptr;
+
       ::gnutls_certificate_set_dh_params(x509_cred_, dh_params_);
     }
   }

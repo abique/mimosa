@@ -31,12 +31,14 @@ namespace mimosa
         read_timeout_(0),
         write_timeout_(0)
     {
-      gnutls_init(&session_, is_server ? GNUTLS_SERVER : GNUTLS_CLIENT);
+      int err = gnutls_init(&session_, is_server ? GNUTLS_SERVER : GNUTLS_CLIENT);
+      if (err != GNUTLS_E_SUCCESS)
+        throw nullptr;
+
       gnutls_transport_set_ptr(session_, this);
       gnutls_transport_set_pull_function(session_, (gnutls_pull_func)readWrapper);
       gnutls_transport_set_push_function(session_, (gnutls_push_func)writeWrapper);
       gnutls_transport_set_vec_push_function(session_, (gnutls_vec_push_func)writevWrapper);
-      // TODO: set vec push
     }
 
     TlsStream::~TlsStream()
