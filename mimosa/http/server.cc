@@ -6,6 +6,8 @@
 #include "server-channel.hh"
 #include "../stream/direct-fd-stream.hh"
 #include "../stream/tls-stream.hh"
+#include "../stream/tee-stream.hh"
+#include "../stream/fd-stream.hh"
 
 namespace mimosa
 {
@@ -37,7 +39,7 @@ namespace mimosa
       stream::Stream::Ptr stream(new stream::DirectFdStream(fd));
       if (x509_cred_)
       {
-        auto tls_stream = new stream::TlsStream(stream, true);
+        stream::TlsStream::Ptr tls_stream = new stream::TlsStream(stream, true);
         stream          = tls_stream;
         int ret = ::gnutls_priority_set(tls_stream->session(), priority_cache_);
         if (ret != GNUTLS_E_SUCCESS)
