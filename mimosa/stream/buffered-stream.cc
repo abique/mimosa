@@ -255,6 +255,7 @@ namespace mimosa
         struct iovec * const iov_last = iov + iov_cnt - 1;
         struct iovec *       p        = iov;
 
+        // adjust the first and last buffer
         for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++p)
         {
           p->iov_base = it->data();
@@ -265,7 +266,7 @@ namespace mimosa
             p->iov_len  -= wpos_;
           }
           if (p == iov_last)
-            p->iov_len -= it->size() - wappend_;
+            p->iov_len -= (it->size() - wappend_);
         }
 
         // write and remove completed buffers
@@ -275,20 +276,21 @@ namespace mimosa
 
         // remove completed buffers
         p = iov;
-        for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++p)
+        while (!wbuffers_.empty())
         {
-          if (wbytes >= static_cast<int64_t> (p->iov_len))
+          auto it = wbuffers_.begin();
+
+          if (wbytes < static_cast<int64_t> (p->iov_len))
           {
-            wbytes -= p->iov_len;
-            wbuffers_.pop();
-            wpos_ = 0;
-          }
-          else
-          {
-            wpos_ = wbytes;
+            wpos_ += wbytes;
             wbytes = 0;
             break;
           }
+
+          wbytes -= p->iov_len;
+          wbuffers_.pop();
+          wpos_ = 0;
+          ++p;
         }
       }
 
