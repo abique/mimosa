@@ -12,14 +12,18 @@ namespace mimosa
       int64_t bytes = 0;
       for (int i = 0; i < iovcnt; ++i)
       {
-        int64_t ret = write((const char *)iov[i].iov_base, iov[i].iov_len, timeout);
+        int64_t ret = loopWrite((const char *)iov[i].iov_base, iov[i].iov_len, timeout);
         if (ret <= 0)
         {
           if (bytes > 0)
             return bytes;
           return ret;
         }
+
         bytes += ret;
+
+        if (ret != iov[i].iov_len)
+          return bytes;
       }
       return bytes;
     }
@@ -30,14 +34,18 @@ namespace mimosa
       int64_t bytes = 0;
       for (int i = 0; i < iovcnt; ++i)
       {
-        int64_t ret = read((char *)iov[i].iov_base, iov[i].iov_len, timeout);
+        int64_t ret = loopRead((char *)iov[i].iov_base, iov[i].iov_len, timeout);
         if (ret <= 0)
         {
           if (bytes > 0)
             return bytes;
           return ret;
         }
+
         bytes += ret;
+
+        if (ret != iov[i].iov_len)
+          return bytes;
       }
       return bytes;
     }
@@ -45,8 +53,8 @@ namespace mimosa
     int64_t
     Stream::loopRead(char * data, const uint64_t nbytes, runtime::Time timeout)
     {
-      uint64_t bytes_left = nbytes;
-      do {
+      for (int64_t bytes_left = nbytes; bytes_left > 0; )
+      {
         auto bytes = read(data, bytes_left, timeout);
         if (bytes <= 0)
         {
@@ -56,15 +64,15 @@ namespace mimosa
         }
         data       += bytes;
         bytes_left -= bytes;
-      } while (bytes_left > 0);
+      }
       return nbytes;
     }
 
     int64_t
     Stream::loopWrite(const char * data, const uint64_t nbytes, runtime::Time timeout)
     {
-      uint64_t bytes_left = nbytes;
-      do {
+      for (int64_t bytes_left = nbytes; bytes_left > 0; )
+      {
         auto bytes = write(data, bytes_left, timeout);
         if (bytes <= 0)
         {
@@ -74,7 +82,7 @@ namespace mimosa
         }
         data       += bytes;
         bytes_left -= bytes;
-      } while (bytes_left > 0);
+      }
       return nbytes;
     }
   }
