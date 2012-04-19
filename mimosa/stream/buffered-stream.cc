@@ -283,7 +283,6 @@ namespace mimosa
           if (wbytes < static_cast<int64_t> (p->iov_len))
           {
             wpos_ += wbytes;
-            wbytes = 0;
             break;
           }
 
@@ -294,7 +293,7 @@ namespace mimosa
         }
       }
 
-      return true;
+      return stream_->flush(timeout);
     }
 
     void
