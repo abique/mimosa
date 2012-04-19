@@ -18,6 +18,7 @@ install(FILES
   lzma-encoder.hh
   stream.hh
   string-stream.hh
+  tee-stream.hh
   tls-stream.hh
   DESTINATION include/mimosa/stream/)
 

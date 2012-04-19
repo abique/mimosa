@@ -43,6 +43,7 @@ add_library(mimosa
   stream/net-fd-stream.cc
   stream/stream.cc
   stream/string-stream.cc
+  stream/tee-stream.cc
   stream/tls-stream.cc
 
   # logging

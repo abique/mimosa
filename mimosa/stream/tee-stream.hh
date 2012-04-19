@@ -1,0 +1,40 @@
+#ifndef MIMOSA_STREAM_TEE_STREAM_HH
+# define MIMOSA_STREAM_TEE_STREAM_HH
+
+# include <vector>
+
+# include "stream.hh"
+
+namespace mimosa
+{
+  namespace stream
+  {
+    /**
+     * TeeStream is mainly used for debug purpose.
+     * It copies everything wrote to ostreams_ and
+     * everything read to istreams_.
+     */
+    class TeeStream : public Stream
+    {
+    public:
+      MIMOSA_DEF_PTR(TeeStream);
+
+      TeeStream(Stream::Ptr stream);
+
+      inline void teeOutput(Stream::Ptr stream) { ostreams_.push_back(stream); }
+      inline void teeInput(Stream::Ptr stream) { istreams_.push_back(stream); }
+
+      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+
+      virtual void close();
+      virtual bool flush(runtime::Time timeout = 0);
+
+      Stream::Ptr stream_;
+      std::vector<Stream::Ptr> ostreams_;
+      std::vector<Stream::Ptr> istreams_;
+    };
+  }
+}
+
+#endif /* !MIMOSA_STREAM_TEE_STREAM_HH */
