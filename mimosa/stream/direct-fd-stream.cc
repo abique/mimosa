@@ -88,8 +88,11 @@ namespace mimosa
           limit = std::min((int64_t)128 * 1024, (int64_t)max_bytes - total);
 
         ssize_t bytes = ::sendfile(output.fd(), input.fd(), nullptr, limit);
-        if (bytes < 0)
+        if (bytes <= 0) {
+          if (errno == EAGAIN)
+            continue;
           return total;
+        }
         total += bytes;
       }
       return total;
@@ -111,8 +114,11 @@ namespace mimosa
           limit = std::min((uint64_t)128 * 1024, (uint64_t)max_bytes - total);
 
         ssize_t bytes = ::splice(input.fd(), nullptr, output.fd(), nullptr, limit, 0);
-        if (bytes < 0)
+        if (bytes <= 0) {
+          if (errno == EAGAIN)
+            continue;
           return total;
+        }
         total += bytes;
       }
       return total;
