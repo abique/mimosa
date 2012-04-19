@@ -82,20 +82,16 @@ namespace mimosa
 
       if (!dh_params_)
       {
-        ret = ::gnutls_dh_params_init(&dh_params_);
-        if (ret != GNUTLS_E_SUCCESS)
-          throw nullptr;
+        gnutls_dh_params_init(&dh_params_);
         int bits = gnutls_sec_param_to_pk_bits(GNUTLS_PK_DH, GNUTLS_SEC_PARAM_LOW);
-        ret = ::gnutls_dh_params_generate2(dh_params_, bits);
-        if (ret != GNUTLS_E_SUCCESS)
-          throw nullptr;
+        gnutls_dh_params_generate2(dh_params_, bits);
       }
 
-      if (!x509_cred_) {
-        ret = ::gnutls_certificate_allocate_credentials(&x509_cred_);
-        if (ret != GNUTLS_E_SUCCESS)
-          throw nullptr;
-      }
+      if (!x509_cred_)
+        gnutls_certificate_allocate_credentials(&x509_cred_);
+
+      gnutls_certificate_set_x509_trust_file(
+        x509_cred_, "/etc/ssl/certs/ca-certificates.crt", GNUTLS_X509_FMT_PEM);
 
       ret = ::gnutls_certificate_set_x509_key_file(
         x509_cred_, cert_file.c_str(), key_file.c_str(), GNUTLS_X509_FMT_PEM);
