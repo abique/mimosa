@@ -39,8 +39,8 @@ namespace mimosa
       stream::Stream::Ptr stream(new stream::DirectFdStream(fd));
       if (x509_cred_)
       {
-        stream::TlsStream::Ptr tls_stream = new stream::TlsStream(stream, true);
-        stream          = tls_stream;
+        auto tls_stream = new stream::TlsStream(stream, true);
+        stream = tls_stream;
         int ret = ::gnutls_priority_set(tls_stream->session(), priority_cache_);
         if (ret != GNUTLS_E_SUCCESS)
           throw nullptr;
@@ -59,7 +59,6 @@ namespace mimosa
           http_log->error("handshake failed: %s\n", gnutls_strerror(ret));
           throw nullptr;
         }
-        stream = tls_stream;
       }
 
       ServerChannel channel(new stream::BufferedStream(stream),
