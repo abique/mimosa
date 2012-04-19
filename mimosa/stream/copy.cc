@@ -28,13 +28,10 @@ namespace mimosa
         if (rbytes <= 0)
           return copied_bytes;
 
-        int64_t wbytes = 0;
-        do {
-          int64_t bytes = output.write(buffer->data() + wbytes, rbytes - wbytes, timeout);
-          if (bytes < 0)
-            return copied_bytes + wbytes;
-          wbytes += bytes;
-        } while (wbytes < rbytes);
+        int64_t wbytes = output.loopWrite(buffer->data(), rbytes, timeout);
+        if (wbytes != rbytes)
+          return -1;
+
         copied_bytes += wbytes;
       }
       return copied_bytes;
