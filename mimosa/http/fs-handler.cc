@@ -79,9 +79,9 @@ namespace mimosa
 
       int64_t ret;
       if (sock)
-        ret = stream::copy(file, *sock, st.st_size);
+        ret = stream::copy(file, *sock, st.st_size, response.writeTimeout());
       else
-        ret = stream::copy(file, response, st.st_size);
+        ret = stream::copy(file, response, st.st_size, response.writeTimeout());
       return ret == st.st_size;
     }
 
