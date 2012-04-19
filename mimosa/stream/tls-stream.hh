@@ -12,6 +12,8 @@ namespace mimosa
     class TlsStream : public Filter
     {
     public:
+      MIMOSA_DEF_PTR(TlsStream);
+
       TlsStream(Stream::Ptr stream, bool is_server);
       ~TlsStream();
 
