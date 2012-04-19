@@ -61,6 +61,12 @@ namespace mimosa
     {
     }
 
+    Stmt::Stmt(Stmt && stmt)
+      : stmt_(stmt.stmt_)
+    {
+      stmt.stmt_ = nullptr;
+    }
+
     Stmt::~Stmt()
     {
       if (stmt_)

@@ -46,6 +46,7 @@ namespace mimosa
     {
     public:
       Stmt(sqlite3_stmt * stmt = nullptr);
+      Stmt(Stmt && stmt);
       ~Stmt();
 
       void reset();
