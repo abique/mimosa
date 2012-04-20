@@ -49,6 +49,8 @@ namespace mimosa
       Stmt(Stmt && stmt);
       ~Stmt();
 
+      Stmt & operator=(Stmt && stmt);
+
       void reset();
 
       Stmt& prepare(sqlite3 *    db,

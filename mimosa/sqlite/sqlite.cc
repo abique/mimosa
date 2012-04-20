@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "../log/log.hh"
 #include "../log/origin.hh"
 #include "sqlite.hh"
@@ -65,6 +67,13 @@ namespace mimosa
       : stmt_(stmt.stmt_)
     {
       stmt.stmt_ = nullptr;
+    }
+
+    Stmt &
+    Stmt::operator=(Stmt && stmt)
+    {
+      std::swap(stmt_, stmt.stmt_);
+      return *this;
     }
 
     Stmt::~Stmt()
