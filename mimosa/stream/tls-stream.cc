@@ -51,16 +51,52 @@ namespace mimosa
     TlsStream::write(const char * data, uint64_t nbytes, runtime::Time timeout)
     {
       write_timeout_ = timeout;
-      nbytes = std::min(nbytes, (uint64_t)std::numeric_limits<ssize_t>::max());
-      return gnutls_record_send(session_, data, nbytes);
+
+      do {
+        nbytes = std::min(nbytes, (uint64_t)std::numeric_limits<ssize_t>::max());
+        int ret = gnutls_record_send(session_, data, nbytes);
+        if (ret >= 0)
+          return ret;
+
+        switch (ret) {
+        case GNUTLS_E_AGAIN:
+        case GNUTLS_E_INTERRUPTED:
+          continue;
+
+        case GNUTLS_E_REHANDSHAKE:
+          gnutls_handshake(session_);
+          continue;
+
+        default:
+          return -1;
+        }
+      } while (true);
     }
 
     int64_t
     TlsStream::read(char * data, uint64_t nbytes, runtime::Time timeout)
     {
       read_timeout_ = timeout;
-      nbytes = std::min(nbytes, (uint64_t)std::numeric_limits<ssize_t>::max());
-      return gnutls_record_recv(session_, data, nbytes);
+
+      do {
+        nbytes = std::min(nbytes, (uint64_t)std::numeric_limits<ssize_t>::max());
+        int ret = gnutls_record_recv(session_, data, nbytes);
+        if (ret >= 0)
+          return ret;
+
+        switch (ret) {
+        case GNUTLS_E_AGAIN:
+        case GNUTLS_E_INTERRUPTED:
+          continue;
+
+        case GNUTLS_E_REHANDSHAKE:
+          gnutls_handshake(session_);
+          continue;
+
+        default:
+          return -1;
+        }
+      } while (true);
     }
 
     void
