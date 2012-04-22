@@ -37,7 +37,7 @@ namespace mimosa
         return db_;
       }
 
-      Stmt&& prepare(const char *str, size_t len = 0);
+      Stmt prepare(const char *str, int len = -1);
 
       sqlite3 * db_;
     };
@@ -46,9 +46,9 @@ namespace mimosa
     {
     public:
       Stmt(sqlite3_stmt * stmt = nullptr);
-      Stmt(Stmt && stmt);
       ~Stmt();
 
+      Stmt(Stmt && stmt);
       Stmt & operator=(Stmt && stmt);
 
       void reset();
@@ -61,7 +61,7 @@ namespace mimosa
       template <typename ...Args>
       inline Stmt& bind(Args ... args);
 
-      inline int step() { return sqlite3_step(stmt_); }
+      int step();
 
       // will throw on error
       inline Stmt& exec();

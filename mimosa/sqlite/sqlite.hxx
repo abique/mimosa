@@ -14,6 +14,7 @@ namespace mimosa
     inline Stmt&
     Stmt::bind(Args ... args)
     {
+      assert(stmt_);
       return bindChain(1, args...);
     }
 
@@ -80,6 +81,7 @@ namespace mimosa
     inline bool
     Stmt::fetch(Args ... args)
     {
+      assert(stmt_);
       int ret = step();
       if (ret != SQLITE_ROW)
         return false;

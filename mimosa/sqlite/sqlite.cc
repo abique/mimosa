@@ -46,12 +46,12 @@ namespace mimosa
       return err;
     }
 
-    Stmt&&
-    Db::prepare(const char *str, size_t len)
+    Stmt
+    Db::prepare(const char *str, int len)
     {
       Stmt stmt;
       stmt.prepare(db_, str, len);
-      return std::move(stmt);
+      return stmt;
     }
 
     /////////////
@@ -64,7 +64,8 @@ namespace mimosa
     }
 
     Stmt::Stmt(Stmt && stmt)
-      : stmt_(stmt.stmt_)
+      : NonCopyable(std::move(stmt)),
+        stmt_(stmt.stmt_)
     {
       stmt.stmt_ = nullptr;
     }
@@ -97,9 +98,18 @@ namespace mimosa
         log_sqlite->error("failed to prepare statement (error: %d): %s",
                           err, sql);
         sqlite3_finalize(stmt_);
+        stmt_ = nullptr;
         throw nullptr;
       }
+      assert(stmt_);
       return *this;
+    }
+
+    int
+    Stmt::step()
+    {
+      assert(stmt_);
+      return sqlite3_step(stmt_);
     }
 
     void
