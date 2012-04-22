@@ -7,6 +7,11 @@ namespace mimosa
   {
   public:
     inline NonCopyable() {}
+
+    // allow move stuff
+    inline NonCopyable(NonCopyable &&) {}
+    inline NonCopyable & operator=(NonCopyable&&) { return *this; }
+
   private:
     NonCopyable(const NonCopyable &);
     NonCopyable & operator=(const NonCopyable &);
