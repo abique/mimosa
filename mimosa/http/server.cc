@@ -51,12 +51,12 @@ namespace mimosa
         ::gnutls_certificate_server_set_request(tls_stream->session(), GNUTLS_CERT_IGNORE);
 
         do {
-          ret = ::gnutls_handshake(tls_stream->session());
+          ret = gnutls_handshake(tls_stream->session());
         } while (ret < 0 && !gnutls_error_is_fatal(ret));
 
         if (ret < 0)
         {
-          http_log->error("handshake failed: %s\n", gnutls_strerror(ret));
+          http_log->error("handshake failed: %s", gnutls_strerror(ret));
           throw nullptr;
         }
       }
