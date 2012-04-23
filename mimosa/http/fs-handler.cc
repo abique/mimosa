@@ -74,13 +74,12 @@ namespace mimosa
         return true;
       }
 
-      response.content_length_ = st.st_size;
-      response.content_type_ = MimeDb::instance().mimeType(real_path);
-
       int fd = ::open(real_path.c_str(), O_RDONLY, 0644);
       if (fd < 0)
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
 
+      response.content_length_ = st.st_size;
+      response.content_type_ = MimeDb::instance().mimeType(real_path);
       response.last_modified_ = st.st_mtime;
       response.sendHeader(response.writeTimeout());
 

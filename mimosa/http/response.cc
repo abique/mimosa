@@ -59,7 +59,7 @@ namespace mimosa
         os << it->first << ": " << it->second << "\r\n";
 
       if (last_modified_ > 0)
-        os << "Last-Modified: " << http::time() << " GMT\r\n";
+        os << "Last-Modified: " << http::time(last_modified_) << " GMT\r\n";
 
       os << "\r\n"; // end of response
 

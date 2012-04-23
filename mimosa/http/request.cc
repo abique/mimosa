@@ -1,3 +1,4 @@
+#include "time.hh"
 #include "log.hh"
 #include "request.hh"
 #include "request-parser.hh"
@@ -86,7 +87,7 @@ namespace mimosa
     {
       tm tm;
 
-      getdate_r(value.c_str(), &tm);
+      strptime(value.c_str(), "%a %b %d %H:%M:%S %Y", &tm);
       if_modified_since_ = timegm(&tm);
     }
 
