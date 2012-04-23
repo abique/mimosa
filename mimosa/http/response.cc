@@ -1,20 +1,13 @@
 #include <sstream>
 #include "response.hh"
 #include "log.hh"
+#include "time.hh"
 
 namespace mimosa
 {
   namespace http
   {
     Response::Response()
-      : status_(kStatusOk),
-        keep_alive_(false),
-        content_encoding_(kCodingIdentity),
-        transfer_encoding_(kCodingIdentity),
-        content_length_(-1),
-        content_type_("text/plain"),
-        cookies_(),
-        unparsed_headers_()
     {
       clear(); // to ensure the same state
     }
@@ -65,6 +58,9 @@ namespace mimosa
       for (auto it = unparsed_headers_.begin(); it != unparsed_headers_.end(); ++it)
         os << it->first << ": " << it->second << "\r\n";
 
+      if (last_modified_ > 0)
+        os << "Last-Modified: " << http::time() << " GMT\r\n";
+
       os << "\r\n"; // end of response
 
       return os.str();
@@ -79,6 +75,7 @@ namespace mimosa
       transfer_encoding_ = kCodingIdentity;
       content_length_    = -1;
       content_type_      = "text/plain";
+      last_modified_     = 0;
       cookies_.clear();
       unparsed_headers_.clear();
     }

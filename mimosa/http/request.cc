@@ -13,13 +13,8 @@ namespace mimosa
   namespace http
   {
     Request::Request()
-      : method_(kMethodGet),
-        proto_major_(1),
-        proto_minor_(1),
-        accept_encoding_(kCodingIdentity),
-        keep_alive_(false),
-        content_length_(0)
     {
+      clear();
     }
 
     void
@@ -39,6 +34,7 @@ namespace mimosa
       keep_alive_ = false;
       cookies_.clear();
       content_length_ = 0;
+      if_modified_since_ = 0;
       content_type_.clear();
       body_.clear();
       referrer_.clear();
@@ -83,6 +79,15 @@ namespace mimosa
       uri::percentDecode(raw_location_.data(), pos, &decoded, uri::kRfc2396);
       uri::normalizePath(decoded.data(), decoded.size(), &location_);
       return location_;
+    }
+
+    void
+    Request::parseIfModifiedSince(const std::string & value)
+    {
+      tm tm;
+
+      getdate_r(value.c_str(), &tm);
+      if_modified_since_ = timegm(&tm);
     }
 
     const container::kvs &

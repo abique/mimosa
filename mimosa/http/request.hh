@@ -89,6 +89,10 @@ namespace mimosa
         unparsed_headers_.insert(std::make_pair(key, value));
       }
 
+      inline time_t hasIfModifiedSince() const { return if_modified_since_ > 0; }
+      inline time_t ifModifiedSince() const { return if_modified_since_; }
+      void parseIfModifiedSince(const std::string & value);
+
     protected:
 
       // mandatory stuff
@@ -98,6 +102,7 @@ namespace mimosa
       std::string raw_location_;
       std::string host_;
       uint16_t    port_;
+      time_t      if_modified_since_;
 
       // cleaned up location and queries
       mutable bool           location_normalized_;

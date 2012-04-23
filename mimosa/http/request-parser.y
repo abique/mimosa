@@ -50,6 +50,7 @@
 %token KEY_HOST
 %token KEY_REFERRER
 %token KEY_USER_AGENT
+%token KEY_IF_MODIFIED_SINCE
 %token HOST
 %token PORT
 
@@ -92,6 +93,7 @@ kv:
 | KEY_HOST HOST { rq.setHost(*$2); delete $2; }
 | KEY_REFERRER VALUE { rq.setReferrer(*$2); delete $2; }
 | KEY_USER_AGENT VALUE { rq.setUserAgent(*$2); delete $2; };
+| KEY_IF_MODIFIED_SINCE VALUE { rq.parseIfModifiedSince(*$2); delete $2; }
 
 accept_encodings: /* epsilon */
 | COMPRESS accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingCompress); }

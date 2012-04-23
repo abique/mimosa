@@ -31,6 +31,7 @@ namespace mimosa
       std::string    content_type_;
       Cookie::Slist  cookies_;
       container::kvs unparsed_headers_;
+      time_t         last_modified_;
     };
   }
 }

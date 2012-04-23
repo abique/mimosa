@@ -16,6 +16,7 @@ install(FILES
   server-channel.hh
   server.hh
   status.hh
+  time.hh
   DESTINATION include/mimosa/http/)
 
 mimosa_flex(request-lexer)
@@ -40,6 +41,7 @@ add_library(mimosa-http
   status.cc
   server.cc
   server-channel.cc
+  time.cc
   )
 target_link_libraries(mimosa-http mimosa)
 
