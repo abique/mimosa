@@ -19,6 +19,11 @@ namespace mimosa
       BufferedStream(Stream::Ptr stream, uint64_t buffer_size = 64 * 1024);
       virtual ~BufferedStream();
 
+      /** The number of bytes which are in the read buffer */
+      uint64_t readyRead() const;
+      /** The number of bytes which are in the write buffer */
+      uint64_t readyWrite() const;
+
       virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
       virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
       virtual bool flush(runtime::Time timeout = 0);
@@ -48,7 +53,6 @@ namespace mimosa
       inline Stream* underlyingStream() const { return stream_; }
 
     private:
-      inline uint64_t readyWrite() const;
       void append(const char * data, uint64_t nbytes);
 
       Stream::Ptr    stream_;

@@ -23,7 +23,12 @@ namespace mimosa
     {
     }
 
-    inline
+    uint64_t
+    BufferedStream::readyRead() const
+    {
+      return rappend_ - rpos_;
+    }
+
     uint64_t
     BufferedStream::readyWrite() const
     {
