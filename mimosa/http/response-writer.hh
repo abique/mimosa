@@ -12,8 +12,11 @@ namespace mimosa
   {
     class ServerChannel;
 
-    /** This stream buffers output until sendHeader is called.
-     * Then it writes directly to the underlying stream */
+    /**
+     * This stream buffers output until sendHeader is called.
+     * Then it writes directly to the underlying stream
+     * XXX Remove internal buffer, and only support HTTP/1.1
+     */
     class ResponseWriter : public stream::Stream,
                            public Response
     {
@@ -26,12 +29,15 @@ namespace mimosa
 
       /** Stream related stuff
        * @{ */
-      /** buffers the data until sendHeader() */
+
+      /** If called before sendHeader(), sends the headers and
+       * set transfer_encoding_ to kCodingChunked. */
       virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
       /** @warning this should never be called, will abort */
       virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
       /** does nothing until sendHeader(), then flushes the write buffer */
       virtual bool flush(runtime::Time timeout = 0);
+
       /** @} */
 
       /** Writes the header to the client.
@@ -61,9 +67,8 @@ namespace mimosa
       /** tells that you finished to modify ResponseWriter and you will not
        * call write(). This method should only be called by ServerChannel. */
       bool finish(runtime::Time timeout);
-      /** body length (to be written) */
-      uint64_t pendingWrite() const;
 
+      /** writes a chunk if transfer_encoding_ is kCodingChunked */
       int64_t writeChunk(const char *  data,
                          uint64_t      nbytes,
                          runtime::Time timeout);

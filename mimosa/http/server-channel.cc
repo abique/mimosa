@@ -72,8 +72,14 @@ namespace mimosa
     bool
     ServerChannel::sendResponse()
     {
-      return response_->finish(response_->writeTimeout()) &&
-        request_->flush(request_->readTimeout());
+      if (!response_->finish(response_->writeTimeout()))
+        return false;
+
+      // don't flush yet if we can handle next request and send just one tcp packet
+      if (stream_->readyRead() == 0)
+        return stream_->flush(response_->writeTimeout());
+
+      return true;
     }
 
     void

@@ -49,58 +49,31 @@ namespace mimosa
     int64_t
     ResponseWriter::write(const char * data, uint64_t nbytes, runtime::Time timeout)
     {
-      if (header_sent_)
-      {
-        if (transfer_encoding_ == kCodingChunked)
-          return writeChunk(data, nbytes, timeout);
-        else
-          return channel_.stream_->loopWrite(data, nbytes, timeout);
-      }
+      if (!header_sent_ && !sendHeader(timeout))
+        return -1;
 
-      stream::Buffer::Ptr buffer = new stream::Buffer(data, nbytes);
-      buffers_.push(buffer);
-      return nbytes;
-    }
-
-    uint64_t
-    ResponseWriter::pendingWrite() const
-    {
-      uint64_t bytes = 0;
-      for (auto it = buffers_.begin(); it != buffers_.end(); ++it)
-        bytes += it->size();
-      return bytes;
+      if (transfer_encoding_ == kCodingChunked)
+        return writeChunk(data, nbytes, timeout);
+      else
+        return channel_.stream_->loopWrite(data, nbytes, timeout);
     }
 
     bool
     ResponseWriter::flush(runtime::Time timeout)
     {
-      assert(header_sent_);
-      for (auto it = buffers_.begin(); it != buffers_.end(); ++it)
-      {
-        auto ret = write(it->data(), it->size(), timeout);
-        if (ret < 0)
-          return false;
-      }
-      buffers_.clear();
-      return true;
+      return channel_.stream_->flush(timeout);
     }
 
     bool
     ResponseWriter::finish(runtime::Time timeout)
     {
-      if (!header_sent_)
-      {
-        transfer_encoding_ = kCodingIdentity;
-        content_length_ = pendingWrite();
-        if (!sendHeader(timeout))
+      if (!header_sent_ && !sendHeader(timeout))
           return false;
-      }
 
       // write the final chunk
-      if (transfer_encoding_ == kCodingChunked)
-        if (writeChunk("", 0, timeout) < 0)
+      if (transfer_encoding_ == kCodingChunked && writeChunk("", 0, timeout) < 0)
           return false;
-      return channel_.stream_->flush(timeout);
+      return true;
     }
 
     bool
@@ -121,14 +94,13 @@ namespace mimosa
     ResponseWriter::clear()
     {
       Response::clear();
-      buffers_.clear();
       header_sent_ = false;
     }
 
     stream::DirectFdStream *
     ResponseWriter::directFdStream()
     {
-      if (!header_sent_ || !buffers_.empty())
+      if (!header_sent_)
         return NULL;
 
       stream::Stream * stream = channel_.stream_->underlyingStream();
