@@ -1,6 +1,7 @@
 #include "log.hh"
 #include "filter-factory.hh"
 #include "../stream/html-escape.hh"
+#include "../stream/percent-encoder.hh"
 
 namespace mimosa
 {
@@ -11,11 +12,18 @@ namespace mimosa
       return new stream::HtmlEscape(stream);
     }
 
+    static stream::Filter::Ptr createPercentEncoder(stream::Stream::Ptr stream)
+    {
+      return new stream::PercentEncoder(stream, uri::kRfc3986);
+    }
+
     FilterFactory::FilterFactory()
     {
       // register default filters
       registerFilter("h", createHtmlFilter);
       registerFilter("html", createHtmlFilter);
+      registerFilter("u", createPercentEncoder);
+      registerFilter("url", createPercentEncoder);
     }
 
     FilterFactory::~FilterFactory()
