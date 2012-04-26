@@ -16,6 +16,7 @@ install(FILES
   lzma.hh
   lzma-decoder.hh
   lzma-encoder.hh
+  percent-encoder.hh
   stream.hh
   string-stream.hh
   tee-stream.hh

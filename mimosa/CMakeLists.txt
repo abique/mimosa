@@ -40,6 +40,7 @@ add_library(mimosa
   stream/lzma.cc
   stream/lzma-decoder.cc
   stream/lzma-encoder.cc
+  stream/percent-encoder.cc
   stream/net-fd-stream.cc
   stream/stream.cc
   stream/string-stream.cc
