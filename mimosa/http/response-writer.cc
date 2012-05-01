@@ -86,8 +86,7 @@ namespace mimosa
         transfer_encoding_ = kCodingChunked;
       auto data = toHttpHeader();
       return channel_.stream_->loopWrite(data.data(), data.size(), timeout) ==
-        static_cast<int64_t> (data.size()) &&
-        flush();
+        static_cast<int64_t> (data.size());
     }
 
     void
