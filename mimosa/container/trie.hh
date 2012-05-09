@@ -14,14 +14,14 @@ namespace mimosa
     class Trie
     {
     public:
-      Trie(uint32_t depth = 0);
-      ~Trie();
+      inline Trie(uint32_t depth = 0);
+      inline ~Trie();
 
       inline bool insert(const Value & value) { return insert(GetKey(value), value); }
-      Value find(const string::StringRef & key) const;
-      void erase(const string::StringRef & key);
+      inline Value find(const string::StringRef & key) const;
+      inline void erase(const string::StringRef & key);
 
-      void clear();
+      inline void clear();
       inline bool empty() const { return !size_; }
       inline uint32_t size() const { return size_; }
 
@@ -34,8 +34,8 @@ namespace mimosa
       Trie(Trie && trie);
       Trie& operator=(Trie && trie);
 
-      void allocateChilds();
-      bool insert(const string::StringRef & key, Value value);
+      inline void allocateChilds();
+      inline bool insert(const string::StringRef & key, Value value);
 
       Value                  value_;
       Trie<Value, GetKey> ** childs_;
@@ -44,5 +44,7 @@ namespace mimosa
     };
   }
 }
+
+# include "trie.hxx"
 
 #endif /* !MIMOSA_CONTAINER_TRIE_HH */

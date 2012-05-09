@@ -6,6 +6,8 @@ install(FILES
   kvs.hh
   singleton.hh
   singleton.hxx
+  trie.hh
+  trie.hxx
   DESTINATION include/mimosa/container)
 
 add_subdirectory(tests)

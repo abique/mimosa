@@ -2,7 +2,6 @@
 
 #include "../../ref-countable.hh"
 #include "../trie.hh"
-#include "../trie.hxx"
 
 namespace mimosa
 {

@@ -3,6 +3,7 @@ namespace mimosa
   namespace container
   {
     template <typename Value, string::StringRef (*GetKey)(Value value)>
+    inline
     Trie<Value, GetKey>::Trie(uint32_t depth)
       : value_(),
         childs_(nullptr),
@@ -12,13 +13,14 @@ namespace mimosa
     }
 
     template <typename Value, string::StringRef (*GetKey)(Value value)>
+    inline
     Trie<Value, GetKey>::~Trie()
     {
       clear();
     }
 
     template <typename Value, string::StringRef (*GetKey)(Value value)>
-    void
+    inline void
     Trie<Value, GetKey>::clear()
     {
       if (childs_) {
@@ -30,7 +32,7 @@ namespace mimosa
     }
 
     template <typename Value, string::StringRef (*GetKey)(Value value)>
-    void
+    inline void
     Trie<Value, GetKey>::allocateChilds()
     {
       assert(!childs_);
@@ -50,7 +52,7 @@ namespace mimosa
     }
 
     template <typename Value, string::StringRef (*GetKey)(Value value)>
-    bool
+    inline bool
     Trie<Value, GetKey>::insert(const string::StringRef & key, Value value)
     {
       assert(key.size() >= depth_);
@@ -89,7 +91,7 @@ namespace mimosa
     }
 
     template <typename Value, string::StringRef (*GetKey)(Value value)>
-    Value
+    inline Value
     Trie<Value, GetKey>::find(const string::StringRef & key) const
     {
       assert(key.size() >= depth_);
@@ -107,7 +109,7 @@ namespace mimosa
     }
 
     template <typename Value, string::StringRef (*GetKey)(Value value)>
-    void
+    inline void
     Trie<Value, GetKey>::erase(const string::StringRef & key)
     {
       if (key.size() == depth_) {
