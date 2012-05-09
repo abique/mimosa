@@ -28,7 +28,7 @@ namespace mimosa
     ::sched_param sc_params;
     sc_params.sched_priority = 1;
     if (::sched_setscheduler(::getpid(), SCHED_FIFO, &sc_params))
-      ::fprintf(stderr, "sched_setscheduler(): %s\n", ::strerror(errno));
+      ::fprintf(stderr, "sched_setscheduler(SCHED_FIFO): %s\n", ::strerror(errno));
     options::parse(argc, argv);
     ::gnutls_global_init();
     ::gnutls_check_version(GNUTLS_VERSION);
