@@ -1,9 +1,11 @@
 install(FILES
-  bencode.hh
+  decoder.hh
+  encoder.hh
   DESTINATION include/mimosa/bencode/)
 
 add_library(mimosa-bencode
   decoder.cc
+  encoder.cc
   )
 target_link_libraries(mimosa-bencode mimosa)
 
