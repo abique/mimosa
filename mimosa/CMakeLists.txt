@@ -83,6 +83,7 @@ add_subdirectory(rpc)
 add_subdirectory(tpl)
 add_subdirectory(sqlite)
 add_subdirectory(bencode)
+add_subdirectory(flat)
 
 add_subdirectory(tests)
 
