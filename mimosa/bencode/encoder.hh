@@ -8,6 +8,9 @@ namespace mimosa
 {
   namespace bencode
   {
+    /**
+     * @ingroup bencode
+     */
     class Encoder
     {
     public:

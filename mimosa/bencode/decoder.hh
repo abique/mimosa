@@ -8,6 +8,9 @@ namespace mimosa
 {
   namespace bencode
   {
+    /**
+     * @ingroup bencode
+     */
     enum Token
     {
       /* real token */
@@ -23,6 +26,9 @@ namespace mimosa
       kParseError,
     };
 
+    /**
+     * @ingroup bencode
+     */
     class Decoder
     {
     public:
