@@ -1,0 +1,13 @@
+/**
+
+@defgroup Fs File system
+
+This module regroups file system related helpers.
+
+ */
+
+namespace mimosa
+{
+  /** @ingroup Fs */
+  namespace fs {}
+}

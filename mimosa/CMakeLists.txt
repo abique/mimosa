@@ -1,5 +1,4 @@
 install(FILES
-  barrier-handle.hh
   barrier.hh
   bind.hh
   channel.hh
@@ -15,8 +14,8 @@ install(FILES
   recursive-mutex.hh
   ref-countable.hh
   ref-counted-ptr.hh
-  rwlock.hh
-  rwlocker.hh
+  shared-locker.hh
+  shared-mutex.hh
   spin-lock.hh
   spin-lock.hxx
   string-ref.hh
@@ -103,6 +102,7 @@ add_subdirectory(tpl)
 add_subdirectory(sqlite)
 add_subdirectory(bencode)
 add_subdirectory(flat)
+add_subdirectory(fs)
 
 add_subdirectory(tests)
 
