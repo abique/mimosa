@@ -3,8 +3,8 @@
 #include <iomanip>
 
 #include "../options/options.hh"
-#include "../runtime/time.hh"
-#include "../sync/mutex.hh"
+#include "../time.hh"
+#include "../mutex.hh"
 #include "log.hh"
 #include "origin.hh"
 
@@ -25,10 +25,10 @@ namespace mimosa
 
     void log(Level level, const Origin * origin, const std::string & msg)
     {
-      static sync::Mutex stdout_lock;
+      static Mutex stdout_lock;
 
-      auto real_time = runtime::realTime();
-      time_t ts = real_time / runtime::second;
+      auto real_time = realTime();
+      time_t ts = real_time / second;
       tm tm;
       ::localtime_r(&ts, &tm);
       std::ostringstream os;
@@ -41,7 +41,7 @@ namespace mimosa
          << std::setfill('0') << std::setw(2) << tm.tm_min << ":"
          << std::setfill('0') << std::setw(2) << tm.tm_sec << "."
          << std::setfill('0') << std::setw(4)
-         << ((real_time % runtime::second) / runtime::millisecond) << " ";
+         << ((real_time % second) / millisecond) << " ";
       if (origin)
         os << origin->name_ << ": ";
       os << levelName(level) << ": "
@@ -50,7 +50,7 @@ namespace mimosa
         os << "\e[m";
 
       std::string str(os.str());
-      sync::Mutex::Locker locker(stdout_lock);
+      Mutex::Locker locker(stdout_lock);
       ::write(STDOUT_FILENO, str.c_str(), str.size());
     }
   }

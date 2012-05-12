@@ -5,7 +5,7 @@
 # include <vector>
 
 # include "template.hh"
-# include "../string/string-ref.hh"
+# include "../string-ref.hh"
 
 namespace mimosa
 {
@@ -30,7 +30,7 @@ namespace mimosa
       std::string action_start_;
       std::string action_end_;
 
-      string::StringRef input_;
+      StringRef input_;
 
       std::vector<ast::Node::Ptr> stack_;
       int line_;

@@ -13,6 +13,9 @@ namespace mimosa
     class Request;
     class ResponseWriter;
 
+    /**
+     * @ingroup Http
+     */
     class Handler : public RefCountable<Handler>,
                     private NonCopyable
     {

@@ -4,7 +4,7 @@
 # include <map>
 
 # include "../ref-countable.hh"
-# include "../sync/rwlock.hh"
+# include "../shared-mutex.hh"
 # include "service.hh"
 
 namespace mimosa
@@ -22,7 +22,7 @@ namespace mimosa
       void remove(Service::Ptr service);
 
     private:
-      mutable sync::RWLock             rwlock_;
+      mutable SharedMutex              lock_;
       std::map<uint32_t, Service::Ptr> services_;
     };
   }

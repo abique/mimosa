@@ -14,14 +14,14 @@ namespace mimosa
                      public NonCopyable
     {
       Origin::origins_type list_;
-      sync::Mutex          lock_;
+      Mutex          lock_;
     };
 
     Origin::Origin(const char * name, Level level)
     {
       /* setup the linked list */
       {
-        sync::Mutex::Locker locker(Origins::instance().lock_);
+        Mutex::Locker locker(Origins::instance().lock_);
         Origins::instance().list_.pushBack(this);
       }
 
@@ -36,14 +36,14 @@ namespace mimosa
     Origin::~Origin()
     {
       /* setup the linked list */
-      sync::Mutex::Locker locker(Origins::instance().lock_);
+      Mutex::Locker locker(Origins::instance().lock_);
       Origins::instance().list_.erase(this);
     }
 
     void
     Origin::setLevel(const std::string & origin, Level level)
     {
-      sync::Mutex::Locker locker(Origins::instance().lock_);
+      Mutex::Locker locker(Origins::instance().lock_);
 
       for (auto it = Origins::instance().list_.begin(); it != Origins::instance().list_.end(); ++it)
         if (!::strcasecmp(origin.c_str(), it->name_))

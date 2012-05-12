@@ -7,6 +7,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     extern log::Origin * http_log;
   }
 }

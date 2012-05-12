@@ -10,7 +10,7 @@ namespace mimosa
     }
 
     const AbstractValue *
-    Dict::lookup(const string::StringRef & var) const
+    Dict::lookup(const StringRef & var) const
     {
       if (var == ".")
         return this;
@@ -26,7 +26,7 @@ namespace mimosa
 
     void
     Dict::write(stream::Stream::Ptr /*stream*/,
-                runtime::Time       /*timeout*/) const
+                Time       /*timeout*/) const
     {
     }
 

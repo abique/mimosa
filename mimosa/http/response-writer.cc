@@ -9,7 +9,7 @@ namespace mimosa
   namespace http
   {
     ResponseWriter::ResponseWriter(ServerChannel & channel,
-                                   runtime::Time   write_timeout)
+                                   Time   write_timeout)
       : channel_(channel),
         buffers_(),
         header_sent_(false),
@@ -22,7 +22,7 @@ namespace mimosa
     }
 
     int64_t
-    ResponseWriter::read(char *, uint64_t, runtime::Time)
+    ResponseWriter::read(char *, uint64_t, Time)
     {
       assert(false && "read is an invalid operation on ResponseWriter");
       errno = EINVAL;
@@ -32,7 +32,7 @@ namespace mimosa
     int64_t
     ResponseWriter::writeChunk(const char *  data,
                                uint64_t      nbytes,
-                               runtime::Time timeout)
+                               Time timeout)
     {
       char buffer[32];
       auto bytes = snprintf(buffer, sizeof (buffer), "%lX\r\n", nbytes);
@@ -47,7 +47,7 @@ namespace mimosa
     }
 
     int64_t
-    ResponseWriter::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    ResponseWriter::write(const char * data, uint64_t nbytes, Time timeout)
     {
       if (!header_sent_ && !sendHeader(timeout))
         return -1;
@@ -59,13 +59,13 @@ namespace mimosa
     }
 
     bool
-    ResponseWriter::flush(runtime::Time timeout)
+    ResponseWriter::flush(Time timeout)
     {
       return channel_.stream_->flush(timeout);
     }
 
     bool
-    ResponseWriter::finish(runtime::Time timeout)
+    ResponseWriter::finish(Time timeout)
     {
       if (!header_sent_ && !sendHeader(timeout))
           return false;
@@ -77,7 +77,7 @@ namespace mimosa
     }
 
     bool
-    ResponseWriter::sendHeader(runtime::Time timeout)
+    ResponseWriter::sendHeader(Time timeout)
     {
       if (header_sent_)
         return true;

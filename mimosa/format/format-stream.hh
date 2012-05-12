@@ -11,7 +11,7 @@ namespace mimosa
     template <typename ... Args>
     inline
     bool format(stream::Stream::Ptr stream,
-                runtime::Time       timeout,
+                Time       timeout,
                 const char *        fmt,
                 Args ...            args)
     {
@@ -28,7 +28,7 @@ namespace mimosa
                 const char *        fmt,
                 Args ...            args)
     {
-      return format(stream, static_cast<runtime::Time>(0), fmt, args...);
+      return format(stream, static_cast<Time>(0), fmt, args...);
     }
   }
 }

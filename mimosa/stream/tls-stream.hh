@@ -17,8 +17,8 @@ namespace mimosa
       TlsStream(Stream::Ptr stream, bool is_server);
       ~TlsStream();
 
-      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
 
       virtual void close();
 
@@ -30,8 +30,8 @@ namespace mimosa
       static ssize_t writevWrapper(TlsStream * stream, const giovec_t * iov, int iovcnt);
 
       gnutls_session_t session_;
-      runtime::Time    read_timeout_;
-      runtime::Time    write_timeout_;
+      Time    read_timeout_;
+      Time    write_timeout_;
     };
   }
 }

@@ -10,7 +10,7 @@ namespace mimosa
     }
 
     bool
-    Filter::flush(runtime::Time timeout)
+    Filter::flush(Time timeout)
     {
       return stream_->flush(timeout);
     }

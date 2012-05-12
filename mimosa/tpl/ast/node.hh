@@ -3,7 +3,7 @@
 
 # include "../../ref-countable.hh"
 # include "../../stream/stream.hh"
-# include "../../string/string-ref.hh"
+# include "../../string-ref.hh"
 # include "../../container/intrusive-slist.hh"
 
 namespace mimosa
@@ -20,10 +20,10 @@ namespace mimosa
 
         virtual void execute(stream::Stream::Ptr   stream,
                              const AbstractValue & value,
-                             runtime::Time         timeout = 0) const = 0;
+                             Time         timeout = 0) const = 0;
 
         virtual void addChild(Node::Ptr /*node*/) {}
-        virtual string::StringRef var() const { return "(none)"; }
+        virtual StringRef var() const { return "(none)"; }
 
         typedef container::IntrusiveSlistHook<Node::Ptr>   hook_type;
 

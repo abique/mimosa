@@ -12,14 +12,14 @@ namespace mimosa
     }
 
     int64_t
-    StringStream::write(const char * data, uint64_t nbytes, runtime::Time /*timeout*/)
+    StringStream::write(const char * data, uint64_t nbytes, Time /*timeout*/)
     {
       str_.append(data, nbytes);
       return nbytes;
     }
 
     int64_t
-    StringStream::read(char * data, uint64_t nbytes, runtime::Time /*timeout*/)
+    StringStream::read(char * data, uint64_t nbytes, Time /*timeout*/)
     {
       if (str_.size() <= read_pos_)
         return 0;

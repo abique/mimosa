@@ -7,8 +7,8 @@ namespace mimosa
   {
     ServerChannel::ServerChannel(stream::BufferedStream::Ptr stream,
                                  Handler::Ptr                handler,
-                                 runtime::Time               read_timeout,
-                                 runtime::Time               write_timeout)
+                                 Time               read_timeout,
+                                 Time               write_timeout)
       : stream_(stream),
         handler_(handler),
         request_(new RequestReader(*this, read_timeout)),

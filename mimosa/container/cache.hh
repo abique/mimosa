@@ -4,10 +4,10 @@
 # include <memory>
 # include <unordered_map>
 
-# include "../runtime/time.hh"
-# include "../runtime/thread.hh"
-# include "../sync/rwlock.hh"
-# include "../sync/future.hh"
+# include "../time.hh"
+# include "../thread.hh"
+# include "../shared-mutex.hh"
+# include "../future.hh"
 
 namespace mimosa
 {
@@ -23,16 +23,16 @@ namespace mimosa
       Cache();
       ~Cache();
 
-      typename sync::Future<Value>::Ptr get(const Key & key);
+      typename Future<Value>::Ptr get(const Key & key);
 
       /// sets the duration after which an unsuded entry must be discarded
-      void setEntryTimeout(runtime::Time time);
+      void setEntryTimeout(Time time);
 
       /// sets the duration after which the value must be discarded
-      void setValueTimeout(runtime::Time time);
+      void setValueTimeout(Time time);
 
       /// sets the cleanup period
-      void setCleanupPeriod(runtime::Time time);
+      void setCleanupPeriod(Time time);
 
       /// starts the cleanup thread
       void startCleanupThread();
@@ -52,28 +52,28 @@ namespace mimosa
       class Entry
       {
       public:
-        runtime::Time value_ts_;
-        runtime::Time last_used_ts_;
+        Time value_ts_;
+        Time last_used_ts_;
         Value         value_;
       };
 
       typedef std::unordered_map<Key, Entry, Hash, KeyEqual> cache_type;
-      typedef std::unordered_map<Key, typename sync::Future<Value>::Ptr, Hash, KeyEqual> fetch_type;
+      typedef std::unordered_map<Key, typename Future<Value>::Ptr, Hash, KeyEqual> fetch_type;
 
       void set(const Key & key, const Value & value);
       virtual void cacheMiss(const Key & key) = 0;
       void cleanupLoop();
 
-      runtime::Time entry_timeout_;
-      runtime::Time value_timeout_;
-      runtime::Time cleanup_period_;
+      Time entry_timeout_;
+      Time value_timeout_;
+      Time cleanup_period_;
 
-      sync::RWLock lock_;
+      SharedMutex lock_;
 
-      bool                             cleanup_thread_stop_;
-      std::unique_ptr<runtime::Thread> cleanup_thread_;
-      sync::Mutex                      cleanup_mutex_;
-      sync::Condition                  cleanup_cond_;
+      bool                    cleanup_thread_stop_;
+      std::unique_ptr<Thread> cleanup_thread_;
+      Mutex                   cleanup_mutex_;
+      Condition               cleanup_cond_;
 
       cache_type cache_;
       fetch_type fetch_;

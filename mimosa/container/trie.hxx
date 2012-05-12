@@ -2,7 +2,7 @@ namespace mimosa
 {
   namespace container
   {
-    template <typename Value, string::StringRef (*GetKey)(Value value)>
+    template <typename Value, StringRef (*GetKey)(Value value)>
     inline
     Trie<Value, GetKey>::Trie(uint32_t depth)
       : value_(),
@@ -12,14 +12,14 @@ namespace mimosa
     {
     }
 
-    template <typename Value, string::StringRef (*GetKey)(Value value)>
+    template <typename Value, StringRef (*GetKey)(Value value)>
     inline
     Trie<Value, GetKey>::~Trie()
     {
       clear();
     }
 
-    template <typename Value, string::StringRef (*GetKey)(Value value)>
+    template <typename Value, StringRef (*GetKey)(Value value)>
     inline void
     Trie<Value, GetKey>::clear()
     {
@@ -31,7 +31,7 @@ namespace mimosa
       }
     }
 
-    template <typename Value, string::StringRef (*GetKey)(Value value)>
+    template <typename Value, StringRef (*GetKey)(Value value)>
     inline void
     Trie<Value, GetKey>::allocateChilds()
     {
@@ -42,7 +42,7 @@ namespace mimosa
       if (!value_)
         return;
 
-      string::StringRef key = GetKey(value_);
+      StringRef key = GetKey(value_);
       if (key.size() == depth_)
         return;
 
@@ -51,9 +51,9 @@ namespace mimosa
       --size_;
     }
 
-    template <typename Value, string::StringRef (*GetKey)(Value value)>
+    template <typename Value, StringRef (*GetKey)(Value value)>
     inline bool
-    Trie<Value, GetKey>::insert(const string::StringRef & key, Value value)
+    Trie<Value, GetKey>::insert(const StringRef & key, Value value)
     {
       assert(key.size() >= depth_);
 
@@ -90,9 +90,9 @@ namespace mimosa
       return true;
     }
 
-    template <typename Value, string::StringRef (*GetKey)(Value value)>
+    template <typename Value, StringRef (*GetKey)(Value value)>
     inline Value
-    Trie<Value, GetKey>::find(const string::StringRef & key) const
+    Trie<Value, GetKey>::find(const StringRef & key) const
     {
       assert(key.size() >= depth_);
 
@@ -108,9 +108,9 @@ namespace mimosa
       return childs_[(uint8_t)key[depth_]]->find(key);
     }
 
-    template <typename Value, string::StringRef (*GetKey)(Value value)>
+    template <typename Value, StringRef (*GetKey)(Value value)>
     inline void
-    Trie<Value, GetKey>::erase(const string::StringRef & key)
+    Trie<Value, GetKey>::erase(const StringRef & key)
     {
       if (key.size() == depth_) {
         value_ = nullptr;

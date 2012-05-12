@@ -16,8 +16,8 @@ namespace mimosa
       Include(const std::string & name,
               Template::ConstPtr  tpl);
 
-      virtual const AbstractValue * lookup(const string::StringRef & var) const;
-      virtual void write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const;
+      virtual const AbstractValue * lookup(const StringRef & var) const;
+      virtual void write(stream::Stream::Ptr stream, Time timeout = 0) const;
 
       virtual Iterator::Ptr begin() const;
       virtual bool empty() const;

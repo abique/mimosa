@@ -14,13 +14,16 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     class ServerChannel : private NonCopyable
     {
     public:
       ServerChannel(stream::BufferedStream::Ptr stream,
                     Handler::Ptr                handler,
-                    runtime::Time               read_timeout  = 0,
-                    runtime::Time               write_timeout = 0);
+                    Time               read_timeout  = 0,
+                    Time               write_timeout = 0);
       ~ServerChannel();
 
       void run();

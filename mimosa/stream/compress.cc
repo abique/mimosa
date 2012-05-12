@@ -14,7 +14,7 @@ namespace mimosa
     }
 
     int64_t
-    Compress::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    Compress::write(const char * data, uint64_t nbytes, Time timeout)
     {
       Buffer buffer(::compressBound(nbytes));
       uLong dest_len = buffer.size();
@@ -25,7 +25,7 @@ namespace mimosa
     }
 
     int64_t
-    Compress::read(char * data, uint64_t nbytes, runtime::Time timeout)
+    Compress::read(char * data, uint64_t nbytes, Time timeout)
     {
       uLong rsize = nbytes;
       while (::compressBound(rsize) > nbytes)
@@ -47,7 +47,7 @@ namespace mimosa
     }
 
     bool
-    Compress::flush(runtime::Time timeout)
+    Compress::flush(Time timeout)
     {
       return stream_->flush(timeout);
     }

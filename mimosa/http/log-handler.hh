@@ -7,6 +7,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     class LogHandler : public Handler
     {
     public:

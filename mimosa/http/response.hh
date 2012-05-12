@@ -13,6 +13,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     class Response
     {
     public:

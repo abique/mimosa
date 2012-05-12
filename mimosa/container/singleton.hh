@@ -1,8 +1,6 @@
 #ifndef MIMOSA_CONTAINER_SINGLETON_HH
 # define MIMOSA_CONTAINER_SINGLETON_HH
 
-# include "../sync/spinlock.hh"
-
 namespace mimosa
 {
   namespace container
@@ -22,7 +20,7 @@ namespace mimosa
       static void release();
 
     private:
-      static T *      instance_;
+      static T * instance_;
     };
   }
 }

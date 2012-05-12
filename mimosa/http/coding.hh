@@ -5,6 +5,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     enum Coding
     {
       kCodingIdentity     = 1 << 0,

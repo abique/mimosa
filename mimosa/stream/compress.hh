@@ -14,11 +14,11 @@ namespace mimosa
 
       Compress(Stream::Ptr stream, int level = 4);
 
-      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
 
       virtual void close();
-      virtual bool flush(runtime::Time timeout = 0);
+      virtual bool flush(Time timeout = 0);
 
     private:
       int         level_;

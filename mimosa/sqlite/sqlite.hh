@@ -7,7 +7,7 @@
 # include <sqlite3.h>
 
 # include "../non-copyable.hh"
-# include "../string/string-ref.hh"
+# include "../string-ref.hh"
 
 namespace mimosa
 {
@@ -94,7 +94,7 @@ namespace mimosa
       template <typename ...Args>
       inline Stmt& bindChain(int pos, const std::string & value, Args ... args);
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, const string::StringRef & value, Args ... args);
+      inline Stmt& bindChain(int pos, const StringRef & value, Args ... args);
 
       inline void fetchChain(int) {}
       template <typename ...Args>
@@ -112,7 +112,7 @@ namespace mimosa
       template <typename ...Args>
       inline void fetchChain(int pos, std::string * value, Args ... args);
       template <typename ...Args>
-      inline void fetchChain(int pos, string::StringRef * value, Args ... args);
+      inline void fetchChain(int pos, StringRef * value, Args ... args);
 
       sqlite3_stmt * stmt_;
     };

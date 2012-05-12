@@ -11,7 +11,7 @@ namespace mimosa
   namespace http
   {
     RequestReader::RequestReader(ServerChannel & channel,
-                                 runtime::Time   read_timeout)
+                                 Time   read_timeout)
       : channel_(channel),
         bytes_left_(0),
         parsed_form_(false),
@@ -38,14 +38,14 @@ namespace mimosa
     }
 
     int64_t
-    RequestReader::write(const char * /*data*/, uint64_t /*nbytes*/, runtime::Time /*timeout*/)
+    RequestReader::write(const char * /*data*/, uint64_t /*nbytes*/, Time /*timeout*/)
     {
       assert(false && "invalid operation");
       return -1;
     }
 
     int64_t
-    RequestReader::read(char * data, uint64_t nbytes, runtime::Time timeout)
+    RequestReader::read(char * data, uint64_t nbytes, Time timeout)
     {
       uint64_t can_read = nbytes <= bytes_left_ ? nbytes : bytes_left_;
       int64_t rbytes = channel_.stream_->read(data, can_read, timeout);
@@ -55,7 +55,7 @@ namespace mimosa
     }
 
     bool
-    RequestReader::flush(runtime::Time timeout)
+    RequestReader::flush(Time timeout)
     {
       if (bytes_left_ <= 0)
         return true;

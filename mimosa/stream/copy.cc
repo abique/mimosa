@@ -12,7 +12,7 @@ namespace mimosa
     int64_t copy(Stream &      input,
                  Stream &      output,
                  const int64_t max_bytes,
-                 runtime::Time timeout)
+                 Time timeout)
     {
       stream::Buffer::Ptr buffer       = new stream::Buffer;
       int64_t             copied_bytes = 0;

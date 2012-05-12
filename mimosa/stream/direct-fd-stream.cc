@@ -27,25 +27,25 @@ namespace mimosa
     }
 
     int64_t
-    DirectFdStream::write(const char * data, uint64_t nbytes, runtime::Time /*timeout*/)
+    DirectFdStream::write(const char * data, uint64_t nbytes, Time /*timeout*/)
     {
       return ::write(fd_, data, nbytes);
     }
 
     int64_t
-    DirectFdStream::writev(const struct iovec *iov, int iovcnt, runtime::Time /*timeout*/)
+    DirectFdStream::writev(const struct iovec *iov, int iovcnt, Time /*timeout*/)
     {
       return ::writev(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
     }
 
     int64_t
-    DirectFdStream::read(char * data, uint64_t nbytes, runtime::Time /*timeout*/)
+    DirectFdStream::read(char * data, uint64_t nbytes, Time /*timeout*/)
     {
       return ::read(fd_, data, nbytes);
     }
 
     int64_t
-    DirectFdStream::readv(const struct iovec *iov, int iovcnt, runtime::Time /*timeout*/)
+    DirectFdStream::readv(const struct iovec *iov, int iovcnt, Time /*timeout*/)
     {
       return ::readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
     }
@@ -75,7 +75,7 @@ namespace mimosa
     int64_t copySendfile(DirectFdStream & input,
                          DirectFdStream & output,
                          int64_t          max_bytes,
-                         runtime::Time    /*timeout*/)
+                         Time    /*timeout*/)
     {
       int64_t total = 0;
 
@@ -101,7 +101,7 @@ namespace mimosa
     int64_t copySplice(DirectFdStream & input,
                        DirectFdStream & output,
                        int64_t          max_bytes,
-                       runtime::Time    /*timeout*/)
+                       Time    /*timeout*/)
     {
       int64_t total = 0;
 
@@ -127,7 +127,7 @@ namespace mimosa
     int64_t copy(DirectFdStream & input,
                  DirectFdStream & output,
                  int64_t          max_bytes,
-                 runtime::Time    timeout)
+                 Time    timeout)
     {
       if (S_ISREG(input.fdMode()))
         return copySendfile(input, output, max_bytes, timeout);

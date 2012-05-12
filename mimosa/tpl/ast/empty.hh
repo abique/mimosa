@@ -1,7 +1,7 @@
 #ifndef MIMOSA_TPL_AST_EMPTY_HH
 # define MIMOSA_TPL_AST_EMPTY_HH
 
-# include "../../string/string-ref.hh"
+# include "../../string-ref.hh"
 # include "node.hh"
 
 namespace mimosa
@@ -17,12 +17,12 @@ namespace mimosa
 
         virtual void execute(stream::Stream::Ptr   stream,
                              const AbstractValue & value,
-                             runtime::Time         timeout = 0) const;
+                             Time         timeout = 0) const;
 
         virtual void addChild(Node::Ptr node) { childs_.push(node); }
-        virtual string::StringRef var() const { return var_; }
+        virtual StringRef var() const { return var_; }
 
-        string::StringRef var_;
+        StringRef var_;
 
         nodes_type childs_;
       };

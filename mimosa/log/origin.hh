@@ -2,7 +2,7 @@
 # define MIMOSA_LOG_ORIGIN_HH
 
 # include "../format/format.hh"
-# include "../sync/mutex.hh"
+# include "../mutex.hh"
 # include "../container/intrusive-dlist.hh"
 # include "level.hh"
 # include "log.hh"

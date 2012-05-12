@@ -8,7 +8,7 @@
 # include <string>
 
 # include "../function.hh"
-# include "../runtime/thread.hh"
+# include "../thread.hh"
 # include "../non-copyable.hh"
 
 namespace mimosa
@@ -29,11 +29,11 @@ namespace mimosa
       inline int fd() const { return fd_; }
       int accept(::sockaddr *  address     = nullptr,
                  ::socklen_t * address_len = nullptr,
-                 runtime::Time timeout     = 0) const;
+                 Time timeout     = 0) const;
 
       /// @param new_thread if true, after accept return a valid fd, serveOne
       /// will call serve(fd) in a new thread
-      void serveOne(runtime::Time accept_timeout = 0, bool new_thread = true) const;
+      void serveOne(Time accept_timeout = 0, bool new_thread = true) const;
 
     protected:
       virtual void serve(int                fd,

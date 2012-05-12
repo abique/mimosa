@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "../string/string-ref.hh"
+#include "../string-ref.hh"
 #include "../stream/fd-stream.hh"
 #include "template.hh"
 #include "parser.hh"
@@ -50,7 +50,7 @@ namespace mimosa
     void
     Template::execute(stream::Stream::Ptr   stream,
                       const AbstractValue & value,
-                      runtime::Time         timeout) const
+                      Time         timeout) const
     {
       root_->execute(stream, value, timeout);
     }

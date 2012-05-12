@@ -9,6 +9,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     class FsHandler : public Handler
     {
     public:

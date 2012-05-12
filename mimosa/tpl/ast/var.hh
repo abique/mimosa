@@ -3,7 +3,7 @@
 
 # include <vector>
 
-# include "../../string/string-ref.hh"
+# include "../../string-ref.hh"
 # include "../../stream/stream.hh"
 # include "node.hh"
 
@@ -20,12 +20,12 @@ namespace mimosa
 
         virtual void execute(stream::Stream::Ptr   stream,
                              const AbstractValue & value,
-                             runtime::Time         timeout = 0) const;
+                             Time         timeout = 0) const;
 
-        virtual string::StringRef var() const;
+        virtual StringRef var() const;
 
-        std::vector<string::StringRef> vars_;
-        std::vector<string::StringRef> filters_;
+        std::vector<StringRef> vars_;
+        std::vector<StringRef> filters_;
       };
     }
   }

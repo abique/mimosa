@@ -6,7 +6,7 @@ namespace mimosa
   namespace net
   {
     int accept(int socket, struct sockaddr * address, socklen_t * address_len,
-               runtime::Time timeout)
+               Time timeout)
     {
       if (!waitForFdReady(socket, POLLIN | POLLRDNORM | POLLRDBAND | POLLPRI, timeout))
         return -1;

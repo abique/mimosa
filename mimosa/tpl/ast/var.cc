@@ -15,7 +15,7 @@ namespace mimosa
       void
       Var::execute(stream::Stream::Ptr   stream,
                    const AbstractValue & value,
-                   runtime::Time         timeout) const
+                   Time         timeout) const
       {
         const AbstractValue * v = &value;
 
@@ -37,7 +37,7 @@ namespace mimosa
             format::format(stream, timeout, "(%s not found)", var());
       }
 
-      string::StringRef
+      StringRef
       Var::var() const
       {
         if (vars_.empty())

@@ -6,13 +6,13 @@ namespace mimosa
   {
     ServiceMap::~ServiceMap()
     {
-      sync::RWLock::Locker locker(rwlock_);
+      SharedMutex::Locker locker(lock_);
     }
 
     Service::Ptr
     ServiceMap::find(uint32_t service_id) const
     {
-      sync::RWLock::ReadLocker locker(rwlock_);
+      SharedMutex::ReadLocker locker(lock_);
       auto it = services_.find(service_id);
       if (it == services_.end())
         return nullptr;
@@ -22,14 +22,14 @@ namespace mimosa
     void
     ServiceMap::add(Service::Ptr service)
     {
-      sync::RWLock::Locker locker(rwlock_);
+      SharedMutex::Locker locker(lock_);
       services_[service->id()] = service;
     }
 
     void
     ServiceMap::remove(Service::Ptr service)
     {
-      sync::RWLock::Locker locker(rwlock_);
+      SharedMutex::Locker locker(lock_);
       services_.erase(service->id());
     }
   }

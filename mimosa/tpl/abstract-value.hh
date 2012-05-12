@@ -3,7 +3,7 @@
 
 # include "../ref-countable.hh"
 # include "../stream/stream.hh"
-# include "../string/string-ref.hh"
+# include "../string-ref.hh"
 
 namespace mimosa
 {
@@ -14,8 +14,8 @@ namespace mimosa
     public:
       AbstractValue(const std::string & name = "");
 
-      virtual const AbstractValue * lookup(const string::StringRef & var) const = 0;
-      virtual void write(stream::Stream::Ptr stream, runtime::Time timeout = 0) const = 0;
+      virtual const AbstractValue * lookup(const StringRef & var) const = 0;
+      virtual void write(stream::Stream::Ptr stream, Time timeout = 0) const = 0;
 
       class Iterator : public RefCountable<Iterator>
       {

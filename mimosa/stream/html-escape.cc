@@ -12,7 +12,7 @@ namespace mimosa
     }
 
     int64_t
-    HtmlEscape::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    HtmlEscape::write(const char * data, uint64_t nbytes, Time timeout)
     {
       const char * const start = data;
       const char * const end   = data + nbytes;
@@ -62,7 +62,7 @@ namespace mimosa
     }
 
     int64_t
-    HtmlEscape::read(char * data, uint64_t nbytes, runtime::Time timeout)
+    HtmlEscape::read(char * data, uint64_t nbytes, Time timeout)
     {
       assert(false && "TODO");
       errno = ENOSYS;

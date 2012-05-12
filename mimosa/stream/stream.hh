@@ -10,7 +10,7 @@
 
 # include "../ref-countable.hh"
 # include "../non-copyable.hh"
-# include "../runtime/time.hh"
+# include "../time.hh"
 
 namespace mimosa
 {
@@ -22,12 +22,12 @@ namespace mimosa
     public:
       inline virtual ~Stream() {}
 
-      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0) = 0;
-      virtual int64_t writev(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0) = 0;
-      virtual int64_t readv(const struct iovec *iov, int iovcnt, runtime::Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0) = 0;
+      virtual int64_t writev(const struct iovec *iov, int iovcnt, Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0) = 0;
+      virtual int64_t readv(const struct iovec *iov, int iovcnt, Time timeout = 0);
 
-      inline int64_t write(const std::string & str, runtime::Time timeout = 0) {
+      inline int64_t write(const std::string & str, Time timeout = 0) {
         return write(str.data(), str.size(), timeout);
       }
 
@@ -35,10 +35,10 @@ namespace mimosa
       inline virtual void close() {}
 
       /** flushes the write buffer */
-      inline virtual bool flush(runtime::Time timeout = 0) { (void)timeout; return true; }
+      inline virtual bool flush(Time timeout = 0) { (void)timeout; return true; }
 
-      int64_t loopRead(char * data, uint64_t nbytes, runtime::Time timeout = 0);
-      int64_t loopWrite(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      int64_t loopRead(char * data, uint64_t nbytes, Time timeout = 0);
+      int64_t loopWrite(const char * data, uint64_t nbytes, Time timeout = 0);
     };
   }
 }

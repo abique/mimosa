@@ -9,6 +9,10 @@ namespace mimosa
   namespace http
   {
     class  ServerChannel;
+
+    /**
+     * @ingroup Http
+     */
     class RequestReader : public stream::Stream,
                           public Request
     {
@@ -16,25 +20,25 @@ namespace mimosa
       MIMOSA_DEF_PTR(RequestReader);
 
       RequestReader(ServerChannel & channel,
-                    runtime::Time   read_timeout);
+                    Time   read_timeout);
 
       void clear();
 
       /** Stream related stuff
        * @{ */
       /** @warning this should never be called, will abort */
-      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
       /** reads the body (PUT and POST) */
-      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
       /** reads and discards all remaining body data */
-      virtual bool flush(runtime::Time timeout = 0);
+      virtual bool flush(Time timeout = 0);
       /** @} */
 
       container::kvs & form();
 
-      inline runtime::Time readTimeout() const
+      inline Time readTimeout() const
       {
-        return read_timeout_ > 0 ? runtime::time() + read_timeout_ : 0;
+        return read_timeout_ > 0 ? time() + read_timeout_ : 0;
       }
 
       inline ServerChannel & channel() const { return channel_; }
@@ -49,7 +53,7 @@ namespace mimosa
       int64_t             bytes_left_;
       bool                parsed_form_;
       container::kvs      form_;
-      runtime::Time       read_timeout_;
+      Time       read_timeout_;
     };
   }
 }

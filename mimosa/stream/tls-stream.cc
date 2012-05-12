@@ -48,7 +48,7 @@ namespace mimosa
     }
 
     int64_t
-    TlsStream::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    TlsStream::write(const char * data, uint64_t nbytes, Time timeout)
     {
       write_timeout_ = timeout;
 
@@ -74,7 +74,7 @@ namespace mimosa
     }
 
     int64_t
-    TlsStream::read(char * data, uint64_t nbytes, runtime::Time timeout)
+    TlsStream::read(char * data, uint64_t nbytes, Time timeout)
     {
       read_timeout_ = timeout;
 

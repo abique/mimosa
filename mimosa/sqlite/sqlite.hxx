@@ -71,7 +71,7 @@ namespace mimosa
 
     template <typename ...Args>
     inline Stmt&
-    Stmt::bindChain(int pos, const string::StringRef & value, Args ... args)
+    Stmt::bindChain(int pos, const StringRef & value, Args ... args)
     {
       sqlite3_bind_text(stmt_, pos, value.data(), value.size(), nullptr);
       return bindChain(pos + 1, args...);
@@ -151,9 +151,9 @@ namespace mimosa
 
     template <typename ...Args>
     inline void
-    Stmt::fetchChain(int pos, string::StringRef * value, Args ... args)
+    Stmt::fetchChain(int pos, StringRef * value, Args ... args)
     {
-      *value = string::StringRef((const char*)sqlite3_column_text(stmt_, pos),
+      *value = StringRef((const char*)sqlite3_column_text(stmt_, pos),
                                  sqlite3_column_bytes(stmt_, pos));
       fetchChain(pos + 1, args...);
     }

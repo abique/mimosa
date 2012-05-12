@@ -9,6 +9,9 @@ namespace mimosa
   {
     class ResponseWriter;
 
+    /**
+     * @ingroup Http
+     */
     bool redirect(ResponseWriter & response, const std::string & location);
   }
 }

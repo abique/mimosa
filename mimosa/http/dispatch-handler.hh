@@ -11,6 +11,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     class DispatchHandler : public Handler
     {
     public:

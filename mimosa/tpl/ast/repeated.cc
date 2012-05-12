@@ -10,7 +10,7 @@ namespace mimosa
       void
       Repeated::execute(stream::Stream::Ptr   stream,
                         const AbstractValue & value,
-                        runtime::Time         timeout) const
+                        Time         timeout) const
       {
         auto v = value.lookup(var_);
         if (!v || v->empty())

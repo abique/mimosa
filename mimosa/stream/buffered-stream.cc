@@ -73,7 +73,7 @@ namespace mimosa
     }
 
     int64_t
-    BufferedStream::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    BufferedStream::write(const char * data, uint64_t nbytes, Time timeout)
     {
       const auto nbytes_orig = nbytes;
 
@@ -135,7 +135,7 @@ namespace mimosa
     }
 
     int64_t
-    BufferedStream::read(char * data, uint64_t nbytes, runtime::Time timeout)
+    BufferedStream::read(char * data, uint64_t nbytes, Time timeout)
     {
       if (rappend_ == rpos_)
       {
@@ -165,7 +165,7 @@ namespace mimosa
     }
 
     Buffer::Ptr
-    BufferedStream::read(uint64_t buffer_size, runtime::Time timeout)
+    BufferedStream::read(uint64_t buffer_size, Time timeout)
     {
       if (rappend_ > rpos_)
       {
@@ -193,7 +193,7 @@ namespace mimosa
     Buffer::Ptr
     BufferedStream::readUntil(const char * const str,
                               uint64_t           max_size, // TODO
-                              runtime::Time      timeout,
+                              Time      timeout,
                               bool *             found)
     {
       Buffer::Ptr buffer;
@@ -250,7 +250,7 @@ namespace mimosa
     }
 
     bool
-    BufferedStream::flush(runtime::Time timeout)
+    BufferedStream::flush(Time timeout)
     {
       while (!wbuffers_.empty())
       {

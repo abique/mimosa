@@ -4,7 +4,7 @@
 # include <unordered_map>
 # include <string>
 
-# include "../sync/rwlock.hh"
+# include "../shared-mutex.hh"
 # include "../stream/filter.hh"
 
 namespace mimosa
@@ -28,7 +28,7 @@ namespace mimosa
                           creator_type        creator);
 
     private:
-      mutable sync::RWLock                          rwlock_;
+      mutable SharedMutex                           rwlock_;
       std::unordered_map<std::string, creator_type> creators_;
     };
   }

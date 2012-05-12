@@ -10,7 +10,7 @@ namespace mimosa
     }
 
     bool
-    Encoder::pushInt(int64_t value, runtime::Time timeout)
+    Encoder::pushInt(int64_t value, Time timeout)
     {
       char   buffer[64];
       size_t len;
@@ -20,7 +20,7 @@ namespace mimosa
     }
 
     bool
-    Encoder::pushData(const char *data, size_t data_len, runtime::Time timeout)
+    Encoder::pushData(const char *data, size_t data_len, Time timeout)
     {
       char   buffer[64];
       size_t len;
@@ -31,19 +31,19 @@ namespace mimosa
     }
 
     bool
-    Encoder::startDict(runtime::Time timeout)
+    Encoder::startDict(Time timeout)
     {
       return output_->loopWrite("d", 1, timeout) == 1;
     }
 
     bool
-    Encoder::startList(runtime::Time timeout)
+    Encoder::startList(Time timeout)
     {
       return output_->loopWrite("l", 1, timeout) == 1;
     }
 
     bool
-    Encoder::end(runtime::Time timeout)
+    Encoder::end(Time timeout)
     {
       return output_->loopWrite("e", 1, timeout) == 1;
     }

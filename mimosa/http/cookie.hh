@@ -10,6 +10,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     class Cookie : public RefCountable<Cookie>
     {
     public:

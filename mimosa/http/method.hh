@@ -5,6 +5,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     enum Method
     {
       kMethodHead,
@@ -18,6 +21,9 @@ namespace mimosa
       kMethodPatch,
     };
 
+    /**
+     * @ingroup Http
+     */
     const char * methodString(Method method);
   }
 }

@@ -10,6 +10,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     class MimeDb : private NonCopyable
     {
     public:

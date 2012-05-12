@@ -8,6 +8,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     class ErrorHandler : public RefCountable<ErrorHandler>
     {
     public:

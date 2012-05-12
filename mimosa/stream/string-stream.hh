@@ -16,8 +16,8 @@ namespace mimosa
 
       StringStream(const std::string & str = "");
 
-      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
 
       inline const std::string & str() const { return str_; }
       inline void setStr(const std::string & str)

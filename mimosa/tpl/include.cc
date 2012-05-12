@@ -12,7 +12,7 @@ namespace mimosa
     }
 
     const AbstractValue *
-    Include::lookup(const string::StringRef & var) const
+    Include::lookup(const StringRef & var) const
     {
       if (var == "." || var == name_)
         return this;
@@ -22,7 +22,7 @@ namespace mimosa
     }
 
     void
-    Include::write(stream::Stream::Ptr stream, runtime::Time timeout) const
+    Include::write(stream::Stream::Ptr stream, Time timeout) const
     {
       tpl_->execute(stream, *this, timeout);
     }

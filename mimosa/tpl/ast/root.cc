@@ -14,7 +14,7 @@ namespace mimosa
       void
       Root::execute(stream::Stream::Ptr   stream,
                     const AbstractValue & value,
-                    runtime::Time         timeout) const
+                    Time         timeout) const
       {
         for (auto it = childs_.begin();
              it != childs_.end(); ++it)

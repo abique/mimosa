@@ -5,7 +5,7 @@
 # include "../ref-countable.hh"
 # include "../stream/buffer.hh"
 # include "../stream/buffered-stream.hh"
-# include "../sync/channel.hh"
+# include "../channel.hh"
 # include "protocol.hh"
 # include "service-map.hh"
 
@@ -57,15 +57,15 @@ namespace mimosa
        * then re-call nextTag() */
       uint32_t nextTag();
 
-      stream::BufferedStream::Ptr                               stream_;
-      ServiceMap::ConstPtr                                      service_map_;
-      sync::Mutex                                               scalls_mutex_;
-      std::map<uint32_t, BasicCall::Ptr>                        scalls_; // sent calls
-      sync::Mutex                                               rcalls_mutex_;
-      std::map<uint32_t, BasicCall::Ptr>                        rcalls_; // received calls
-      Status                                                    status_;
-      sync::Channel<stream::Buffer::Ptr, stream::Buffer::Slist> write_queue_;
-      uint32_t                                                  next_tag_;
+      stream::BufferedStream::Ptr                                 stream_;
+      ServiceMap::ConstPtr                                        service_map_;
+      Mutex                                                       scalls_mutex_;
+      std::map<uint32_t, BasicCall::Ptr>                          scalls_; // sent calls
+      Mutex                                                       rcalls_mutex_;
+      std::map<uint32_t, BasicCall::Ptr>                          rcalls_; // received calls
+      Status                                                      status_;
+      mimosa::Channel<stream::Buffer::Ptr, stream::Buffer::Slist> write_queue_;
+      uint32_t                                                    next_tag_;
     };
   }
 }

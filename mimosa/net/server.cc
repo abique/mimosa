@@ -7,7 +7,7 @@
 
 #include "server.hh"
 #include "accept.hh"
-#include "../runtime/thread.hh"
+#include "../thread.hh"
 
 namespace mimosa
 {
@@ -103,13 +103,13 @@ namespace mimosa
     int
     Server::accept(::sockaddr *  address,
                    ::socklen_t * address_len,
-                   runtime::Time timeout) const
+                   Time timeout) const
     {
       return net::accept(fd_, address, address_len, timeout);
     }
 
     void
-    Server::serveOne(runtime::Time accept_timeout, bool new_thread) const
+    Server::serveOne(Time accept_timeout, bool new_thread) const
     {
       union {
         ::sockaddr addr;
@@ -124,7 +124,7 @@ namespace mimosa
       {
         Server::ConstPtr server(this);
         if (new_thread)
-          runtime::Thread([server, fd, addr, addr_len] {
+          Thread([server, fd, addr, addr_len] {
               try {
                 server->serve(fd, &addr.addr, addr_len);
               } catch (...) {

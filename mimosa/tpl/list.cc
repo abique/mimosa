@@ -10,7 +10,7 @@ namespace mimosa
     }
 
     const AbstractValue *
-    List::lookup(const string::StringRef & var) const
+    List::lookup(const StringRef & var) const
     {
       if (var == "." || var == name_)
         return this;
@@ -21,7 +21,7 @@ namespace mimosa
 
     void
     List::write(stream::Stream::Ptr /*stream*/,
-                runtime::Time       /*timeout*/) const
+                Time       /*timeout*/) const
     {
     }
 

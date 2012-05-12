@@ -1,7 +1,7 @@
 #include <endian.h>
 #include <cassert>
 
-#include "../runtime/thread.hh"
+#include "../thread.hh"
 #include "channel.hh"
 #include "protocol.hh"
 
@@ -35,8 +35,8 @@ namespace mimosa
     Channel::start()
     {
       Channel::Ptr channel(this);
-      runtime::Thread([channel]() { channel->readLoop(); }).start();
-      runtime::Thread([channel]() { channel->writeLoop(); }).start();
+      Thread([channel]() { channel->readLoop(); }).start();
+      Thread([channel]() { channel->writeLoop(); }).start();
     }
 
     void
@@ -107,7 +107,7 @@ namespace mimosa
       msg->rq_size_    = htole32(rq_size);
       call->request_->SerializeToArray(msg->rq_, rq_size);
       {
-        sync::Mutex::Locker locker(scalls_mutex_);
+        Mutex::Locker locker(scalls_mutex_);
         while (true)
         {
           auto it = scalls_.find(call->tag());
@@ -120,7 +120,7 @@ namespace mimosa
       }
       if (!write_queue_.push(buffer))
       {
-        sync::Mutex::Locker locker(scalls_mutex_);
+        Mutex::Locker locker(scalls_mutex_);
         scalls_.erase(call->tag());
         call->cancel();
       }
@@ -138,7 +138,7 @@ namespace mimosa
       call->response_->SerializeToArray(msg->rp_, rp_size);
       write_queue_.push(buffer);
 
-      sync::Mutex::Locker locker(rcalls_mutex_);
+      Mutex::Locker locker(rcalls_mutex_);
       rcalls_.erase(call->tag());
     }
 
@@ -153,7 +153,7 @@ namespace mimosa
       msg->tag_origin_ = tag_origin;
       write_queue_.push(buffer);
 
-      sync::Mutex::Locker locker(rcalls_mutex_);
+      Mutex::Locker locker(rcalls_mutex_);
       rcalls_.erase(tag);
     }
 
@@ -195,7 +195,7 @@ namespace mimosa
 
       // check for duplicate tag
       {
-        sync::Mutex::Locker locker(rcalls_mutex_);
+        Mutex::Locker locker(rcalls_mutex_);
         auto it = rcalls_.find(msg.tag_);
         if (it != rcalls_.end())
         {
@@ -209,7 +209,7 @@ namespace mimosa
       // call method
       Channel::Ptr channel(this);
       auto data_size = msg.rq_size_;
-      runtime::Thread([channel, call, data, data_size, service] () {
+      Thread([channel, call, data, data_size, service] () {
           auto ret = service->callMethod(call, data, data_size);
           free(data);
           if (ret != Service::kSucceed)
@@ -241,7 +241,7 @@ namespace mimosa
 
       BasicCall::Ptr call;
       {
-        sync::Mutex::Locker locker(scalls_mutex_);
+        Mutex::Locker locker(scalls_mutex_);
         auto it = scalls_.find(msg.tag_);
         if (it == scalls_.end())
         {
@@ -270,7 +270,7 @@ namespace mimosa
       {
       case kOriginYou:
       {
-        sync::Mutex::Locker locker(scalls_mutex_);
+        Mutex::Locker locker(scalls_mutex_);
         auto it = scalls_.find(msg.tag_);
         if (it == scalls_.end())
           return true;
@@ -281,7 +281,7 @@ namespace mimosa
 
       case kOriginMe:
       {
-        sync::Mutex::Locker locker(rcalls_mutex_);
+        Mutex::Locker locker(rcalls_mutex_);
         auto it = rcalls_.find(msg.tag_);
         if (it == rcalls_.end())
           return true;

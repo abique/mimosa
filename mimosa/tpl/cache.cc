@@ -7,9 +7,9 @@ namespace mimosa
   {
     Cache::Cache()
     {
-      setEntryTimeout(runtime::minute * 15);
-      setValueTimeout(runtime::hour);
-      setCleanupPeriod(runtime::minute);
+      setEntryTimeout(minute * 15);
+      setValueTimeout(hour);
+      setCleanupPeriod(minute);
       startCleanupThread();
     }
 

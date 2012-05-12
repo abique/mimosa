@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "../string/string-ref.hh"
+#include "../string-ref.hh"
 #include "normalize-path.hh"
 
 namespace mimosa
@@ -11,7 +11,7 @@ namespace mimosa
                        uint32_t const      len,
                        std::string * const output)
     {
-      std::vector<string::StringRef> stack;
+      std::vector<StringRef> stack;
       const char * const end = input + len;
       const char * in = input;
       bool is_root = (len > 0 && *input == '/');
@@ -57,7 +57,7 @@ namespace mimosa
           }
           break;
         }
-        stack.push_back(string::StringRef(token, token_end));
+        stack.push_back(StringRef(token, token_end));
         is_dir = false;
       }
 

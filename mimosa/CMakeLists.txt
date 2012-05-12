@@ -1,11 +1,30 @@
 install(FILES
+  barrier-handle.hh
+  barrier.hh
   bind.hh
+  channel.hh
+  condition.hh
   function.hh
-  init.hh
+  future.hh
+  future.hxx
   init.doch
+  init.hh
+  locker.hh
+  mutex.hh
   non-copyable.hh
+  recursive-mutex.hh
   ref-countable.hh
   ref-counted-ptr.hh
+  rwlock.hh
+  rwlocker.hh
+  spin-lock.hh
+  spin-lock.hxx
+  string-ref.hh
+  thread-pool.hh
+  thread.hh
+  time.hh
+  unique-locker.hh
+  yield.hh
   DESTINATION include/mimosa/)
 
 # just to make files appears on qtcreator
@@ -21,8 +40,11 @@ add_library(mimosa
   options/options.cc
 
   # runtime
-  runtime/thread.cc
-  runtime/thread-pool.cc
+  thread.cc
+  thread-pool.cc
+
+  # sync
+  barrier.cc
 
   # streams
   stream/base16-decoder.cc
@@ -70,9 +92,6 @@ target_link_libraries(mimosa gnutls pthread rt)
 
 add_subdirectory(container)
 add_subdirectory(format)
-add_subdirectory(runtime)
-add_subdirectory(sync)
-add_subdirectory(string)
 add_subdirectory(options)
 add_subdirectory(log)
 add_subdirectory(uri)

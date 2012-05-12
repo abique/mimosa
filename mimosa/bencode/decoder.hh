@@ -1,7 +1,7 @@
 #ifndef MIMOSA_BENCODE_DECODER_HH
 # define MIMOSA_BENCODE_DECODER_HH
 
-# include "../string/string-ref.hh"
+# include "../string-ref.hh"
 # include "../stream/stream.hh"
 
 namespace mimosa
@@ -28,15 +28,15 @@ namespace mimosa
     public:
       Decoder(stream::Stream::Ptr input);
 
-      Token pull(runtime::Time timeout = 0);
-      bool  eatValue(runtime::Time timeout = 0);
+      Token pull(Time timeout = 0);
+      bool  eatValue(Time timeout = 0);
 
       int64_t getInt();
       std::string & getData();
 
     private:
-      Token pullInt(runtime::Time timeout);
-      Token pullData(runtime::Time timeout);
+      Token pullInt(Time timeout);
+      Token pullData(Time timeout);
 
       stream::Stream::Ptr input_;
       std::string         data_;

@@ -31,7 +31,7 @@ namespace mimosa
               typename Hash,
               typename KeyEqual>
     void
-    Cache<Key, Value, Hash, KeyEqual>::setEntryTimeout(runtime::Time time)
+    Cache<Key, Value, Hash, KeyEqual>::setEntryTimeout(Time time)
     {
       entry_timeout_ = time;
     }
@@ -41,7 +41,7 @@ namespace mimosa
               typename Hash,
               typename KeyEqual>
     void
-    Cache<Key, Value, Hash, KeyEqual>::setValueTimeout(runtime::Time time)
+    Cache<Key, Value, Hash, KeyEqual>::setValueTimeout(Time time)
     {
       value_timeout_ = time;
     }
@@ -51,9 +51,9 @@ namespace mimosa
               typename Hash,
               typename KeyEqual>
     void
-    Cache<Key, Value, Hash, KeyEqual>::setCleanupPeriod(runtime::Time time)
+    Cache<Key, Value, Hash, KeyEqual>::setCleanupPeriod(Time time)
     {
-      sync::Mutex::Locker locker(cleanup_mutex_);
+      Mutex::Locker locker(cleanup_mutex_);
       cleanup_period_ = time;
       cleanup_cond_.wakeAll();
     }
@@ -65,7 +65,7 @@ namespace mimosa
     void
     Cache<Key, Value, Hash, KeyEqual>::remove(const Key & key)
     {
-      sync::RWLock::Locker locker(lock_);
+      SharedMutex::Locker locker(lock_);
 
       cache_.erase(key);
       {
@@ -85,7 +85,7 @@ namespace mimosa
     void
     Cache<Key, Value, Hash, KeyEqual>::clear()
     {
-      sync::RWLock::Locker locker(lock_);
+      SharedMutex::Locker locker(lock_);
 
       for (auto it = fetch_.begin(); it != fetch_.end(); ++it)
         it->second->cancel();
@@ -101,8 +101,8 @@ namespace mimosa
     void
     Cache<Key, Value, Hash, KeyEqual>::cleanup()
     {
-      sync::RWLock::Locker locker(lock_);
-      runtime::Time now = runtime::monotonicTime();
+      SharedMutex::Locker locker(lock_);
+      Time now = monotonicTime();
       for (auto it = cache_.begin(); it != cache_.end();)
         if ((entry_timeout_ > 0 &&
              it->second.last_used_ts_ + entry_timeout_ > now) ||
@@ -121,9 +121,9 @@ namespace mimosa
     Cache<Key, Value, Hash, KeyEqual>::set(const Key &   key,
                                            const Value & value)
     {
-      sync::RWLock::Locker locker(lock_);
+      SharedMutex::Locker locker(lock_);
       Entry & entry       = cache_[key];
-      entry.value_ts_     = runtime::monotonicTime();
+      entry.value_ts_     = monotonicTime();
       entry.last_used_ts_ = entry.value_ts_;
       entry.value_        = value;
 
@@ -139,17 +139,17 @@ namespace mimosa
               typename Value,
               typename Hash,
               typename KeyEqual>
-    typename sync::Future<Value>::Ptr
+    typename Future<Value>::Ptr
     Cache<Key, Value, Hash, KeyEqual>::get(const Key & key)
     {
       // check read lock
       {
-        sync::RWLock::ReadLocker locker(lock_);
+        SharedMutex::ReadLocker locker(lock_);
         {
           auto it = cache_.find(key);
           if (it != cache_.end())
-            return new sync::Future<Value>(it->second.value_,
-                                           sync::Future<Value>::kSet);
+            return new Future<Value>(it->second.value_,
+                                           Future<Value>::kSet);
         }
         {
           auto it = fetch_.find(key);
@@ -159,21 +159,21 @@ namespace mimosa
       }
 
       // check and fetch write lock
-      typename sync::Future<Value>::Ptr value;
+      typename Future<Value>::Ptr value;
       {
-        sync::RWLock::Locker locker(lock_);
+        SharedMutex::Locker locker(lock_);
         {
           auto it = cache_.find(key);
           if (it != cache_.end())
-            return new sync::Future<Value>(it->second.value_,
-                                           sync::Future<Value>::kSet);
+            return new Future<Value>(it->second.value_,
+                                           Future<Value>::kSet);
         }
         {
           auto it = fetch_.find(key);
           if (it != fetch_.end())
             return it->second;
 
-          value = new sync::Future<Value>;
+          value = new Future<Value>;
           fetch_[key] = value;
         }
       }
@@ -188,11 +188,11 @@ namespace mimosa
     void
     Cache<Key, Value, Hash, KeyEqual>::startCleanupThread()
     {
-      sync::Mutex::Locker locker(cleanup_mutex_);
+      Mutex::Locker locker(cleanup_mutex_);
       if (cleanup_thread_)
         return;
 
-      cleanup_thread_.reset(new runtime::Thread([this] { this->cleanupLoop(); }));
+      cleanup_thread_.reset(new Thread([this] { this->cleanupLoop(); }));
       cleanup_thread_->start();
       cleanup_thread_stop_ = false;
     }
@@ -205,7 +205,7 @@ namespace mimosa
     Cache<Key, Value, Hash, KeyEqual>::stopCleanupThread()
     {
       {
-        sync::Mutex::Locker locker(cleanup_mutex_);
+        Mutex::Locker locker(cleanup_mutex_);
         if (!cleanup_thread_)
           return;
 
@@ -223,13 +223,13 @@ namespace mimosa
     void
     Cache<Key, Value, Hash, KeyEqual>::cleanupLoop()
     {
-      sync::Mutex::Locker locker(cleanup_mutex_);
+      Mutex::Locker locker(cleanup_mutex_);
       while (!cleanup_thread_stop_)
       {
         if (cleanup_period_ == 0)
           cleanup_cond_.wait(cleanup_mutex_);
         else
-          cleanup_cond_.timedWait(cleanup_mutex_, runtime::time() + cleanup_period_);
+          cleanup_cond_.timedWait(cleanup_mutex_, time() + cleanup_period_);
         cleanup();
       }
     }

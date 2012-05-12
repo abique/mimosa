@@ -22,7 +22,7 @@ namespace mimosa
 
     template <typename T>
     const AbstractValue *
-    Value<T>::lookup(const string::StringRef & var) const
+    Value<T>::lookup(const StringRef & var) const
     {
       if (var == "." || var == name_)
         return this;
@@ -33,7 +33,7 @@ namespace mimosa
 
     template <typename T>
     void
-    Value<T>::write(stream::Stream::Ptr stream, runtime::Time timeout) const
+    Value<T>::write(stream::Stream::Ptr stream, Time timeout) const
     {
       format::format(stream, timeout, "%v", value_);
     }

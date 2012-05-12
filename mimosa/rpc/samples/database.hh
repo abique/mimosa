@@ -1,7 +1,7 @@
 #ifndef MIMOSA_RPC_SAMPLE_DATABASE_HH
 # define MIMOSA_RPC_SAMPLE_DATABASE_HH
 
-# include <mimosa/sync/rwlock.hh>
+# include <mimosa/shared-mutex.hh>
 
 # include "kv-db.pb.h"
 
@@ -23,7 +23,7 @@ namespace mimosa
         // End of rpc methods
 
       private:
-        sync::RWLock                       kv_lock_;
+        SharedMutex                        lock_;
         std::map<std::string, std::string> kv_;
       };
     }

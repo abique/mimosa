@@ -1,7 +1,7 @@
 #ifndef MIMOSA_CONTAINER_TRIE_HH
 # define MIMOSA_CONTAINER_TRIE_HH
 
-# include "../string/string-ref.hh"
+# include "../string-ref.hh"
 
 namespace mimosa
 {
@@ -10,7 +10,7 @@ namespace mimosa
     /**
      * @param Value must be a pointer type or a smart pointer
      */
-    template <typename Value, string::StringRef (*GetKey)(Value value)>
+    template <typename Value, StringRef (*GetKey)(Value value)>
     class Trie
     {
     public:
@@ -18,8 +18,8 @@ namespace mimosa
       inline ~Trie();
 
       inline bool insert(const Value & value) { return insert(GetKey(value), value); }
-      inline Value find(const string::StringRef & key) const;
-      inline void erase(const string::StringRef & key);
+      inline Value find(const StringRef & key) const;
+      inline void erase(const StringRef & key);
 
       inline void clear();
       inline bool empty() const { return !size_; }
@@ -35,7 +35,7 @@ namespace mimosa
       Trie& operator=(Trie && trie);
 
       inline void allocateChilds();
-      inline bool insert(const string::StringRef & key, Value value);
+      inline bool insert(const StringRef & key, Value value);
 
       Value                  value_;
       Trie<Value, GetKey> ** childs_;

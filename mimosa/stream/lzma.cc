@@ -17,7 +17,7 @@ namespace mimosa
     }
 
     int64_t
-    Lzma::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    Lzma::write(const char * data, uint64_t nbytes, Time timeout)
     {
       lzma_.next_in = (const uint8_t*)data;
       lzma_.avail_in = nbytes;
@@ -45,14 +45,14 @@ namespace mimosa
     }
 
     int64_t
-    Lzma::read(char * data, uint64_t nbytes, runtime::Time timeout)
+    Lzma::read(char * data, uint64_t nbytes, Time timeout)
     {
       assert(false);
       return -1;
     }
 
     bool
-    Lzma::flush(runtime::Time timeout)
+    Lzma::flush(Time timeout)
     {
       lzma_.next_in = NULL;
       lzma_.avail_in = 0;

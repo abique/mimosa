@@ -9,8 +9,6 @@
 
 namespace mimosa
 {
-  namespace string
-  {
     class StringRef
     {
     public:
@@ -118,13 +116,12 @@ namespace mimosa
       const char * data_;
       size_type    len_;
     };
-  }
 }
 
 namespace std
 {
   inline
-  std::ostream & operator<<(std::ostream & os, const mimosa::string::StringRef & str)
+  std::ostream & operator<<(std::ostream & os, const mimosa::StringRef & str)
   {
     os.write(str.data(), str.size());
     return os;

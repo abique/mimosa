@@ -12,7 +12,7 @@ namespace mimosa
     }
 
     int64_t
-    PercentEncoder::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    PercentEncoder::write(const char * data, uint64_t nbytes, Time timeout)
     {
       std::string out;
 
@@ -23,7 +23,7 @@ namespace mimosa
     }
 
     int64_t
-    PercentEncoder::read(char * data, uint64_t nbytes, runtime::Time timeout)
+    PercentEncoder::read(char * data, uint64_t nbytes, Time timeout)
     {
       assert(false && "NOT IMPLEMENTED");
       errno = ENOSYS;

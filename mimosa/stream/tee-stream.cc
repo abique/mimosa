@@ -10,7 +10,7 @@ namespace mimosa
     }
 
     int64_t
-    TeeStream::write(const char * data, uint64_t nbytes, runtime::Time timeout)
+    TeeStream::write(const char * data, uint64_t nbytes, Time timeout)
     {
       auto bytes = stream_->write(data, nbytes, timeout);
       if (bytes < 0)
@@ -21,7 +21,7 @@ namespace mimosa
     }
 
     int64_t
-    TeeStream::read(char * data, uint64_t nbytes, runtime::Time timeout)
+    TeeStream::read(char * data, uint64_t nbytes, Time timeout)
     {
       auto bytes = stream_->read(data, nbytes, timeout);
       if (bytes < 0)
@@ -42,7 +42,7 @@ namespace mimosa
     }
 
     bool
-    TeeStream::flush(runtime::Time timeout)
+    TeeStream::flush(Time timeout)
     {
       auto ret = stream_->flush(timeout);
       for (auto it = istreams_.begin(); it != istreams_.end(); ++it)

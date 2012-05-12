@@ -12,7 +12,7 @@ namespace mimosa
     }
 
     Token
-    Decoder::pull(runtime::Time timeout)
+    Decoder::pull(Time timeout)
     {
       char c;
 
@@ -52,7 +52,7 @@ namespace mimosa
     }
 
     Token
-    Decoder::pullInt(runtime::Time timeout)
+    Decoder::pullInt(Time timeout)
     {
       bool minus = false;
       char c;
@@ -81,7 +81,7 @@ namespace mimosa
     }
 
     Token
-    Decoder::pullData(runtime::Time timeout)
+    Decoder::pullData(Time timeout)
     {
       char c;
 
@@ -106,7 +106,7 @@ namespace mimosa
     }
 
     bool
-    Decoder::eatValue(runtime::Time timeout)
+    Decoder::eatValue(Time timeout)
     {
       int stack = 0;
 

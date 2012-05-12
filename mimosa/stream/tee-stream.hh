@@ -24,11 +24,11 @@ namespace mimosa
       inline void teeOutput(Stream::Ptr stream) { ostreams_.push_back(stream); }
       inline void teeInput(Stream::Ptr stream) { istreams_.push_back(stream); }
 
-      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
 
       virtual void close();
-      virtual bool flush(runtime::Time timeout = 0);
+      virtual bool flush(Time timeout = 0);
 
       Stream::Ptr stream_;
       std::vector<Stream::Ptr> ostreams_;

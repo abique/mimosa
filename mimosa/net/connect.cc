@@ -14,7 +14,7 @@ namespace mimosa
   namespace net
   {
     int connect(int socket, const struct sockaddr *address,
-                socklen_t address_len, runtime::Time timeout)
+                socklen_t address_len, Time timeout)
     {
       if (!waitForFdReady(socket, POLLIN | POLLRDNORM | POLLRDBAND | POLLPRI, timeout))
         return -1;
@@ -22,7 +22,7 @@ namespace mimosa
     }
 
     int connectToHost(const std::string &host, uint16_t port,
-                      runtime::Time timeout)
+                      Time timeout)
     {
       ::hostent * host_entry = gethostbyname(host.c_str());
       if (!host_entry)
@@ -65,7 +65,7 @@ namespace mimosa
     }
 
     int connectToUnixSocket(const std::string & path,
-                            runtime::Time timeout)
+                            Time timeout)
     {
       size_t addr_len = ((size_t) (((::sockaddr_un *) 0)->sun_path)) + path.size() + 1;
       std::unique_ptr<char> data(new char[addr_len]);

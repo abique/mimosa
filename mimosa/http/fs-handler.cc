@@ -6,7 +6,7 @@
 #include <sstream>
 #include <algorithm>
 
-#include "../string/string-ref.hh"
+#include "../string-ref.hh"
 #include "../stream/copy.hh"
 #include "../stream/direct-fd-stream.hh"
 #include "fs-handler.hh"
@@ -27,15 +27,15 @@ namespace mimosa
     bool
     FsHandler::handle(RequestReader & request, ResponseWriter & response) const
     {
-      string::StringRef path(request.location());
+      StringRef path(request.location());
       for (auto nskip = nskip_; nskip > 0; --nskip)
       {
         auto pos = path.find('/', 1);
-        if (pos == string::StringRef::npos)
+        if (pos == StringRef::npos)
         {
           if (nskip == 1 && path.size() > 1) // our location is root and is not terminated by '/'
           {
-            path = string::StringRef("/");
+            path = StringRef("/");
             break;
           }
           else

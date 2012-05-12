@@ -8,6 +8,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     std::string time(::time_t t = ::time(nullptr));
   }
 }

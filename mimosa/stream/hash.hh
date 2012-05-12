@@ -24,8 +24,8 @@ namespace mimosa
       /// could fail (oom for exemple)
       bool reset();
 
-      virtual int64_t write(const char * data, uint64_t nbytes, runtime::Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, runtime::Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
 
       char * digest();
 

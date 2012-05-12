@@ -20,7 +20,7 @@ namespace mimosa
 
     BasicCall::~BasicCall()
     {
-      sync::Mutex::Locker locker(mutex_);
+      Mutex::Locker locker(mutex_);
       delete request_;
       delete response_;
       request_  = nullptr;
@@ -32,18 +32,18 @@ namespace mimosa
     {
       if (is_finished_ || is_canceled_)
         return;
-      sync::Mutex::Locker locker(mutex_);
+      Mutex::Locker locker(mutex_);
       if (is_finished_ || is_canceled_)
         return;
       condition_.wait(mutex_);
     }
 
     void
-    BasicCall::timedWait(runtime::Time timeout)
+    BasicCall::timedWait(Time timeout)
     {
       if (is_finished_ || is_canceled_)
         return;
-      sync::Mutex::Locker locker(mutex_);
+      Mutex::Locker locker(mutex_);
       if (is_finished_ || is_canceled_)
         return;
       condition_.timedWait(mutex_, timeout);
@@ -52,7 +52,7 @@ namespace mimosa
     void
     BasicCall::cancel()
     {
-      sync::Mutex::Locker locker(mutex_);
+      Mutex::Locker locker(mutex_);
       is_finished_ = true;
       is_canceled_ = true;
       condition_.wakeAll();
@@ -61,7 +61,7 @@ namespace mimosa
     void
     BasicCall::finished()
     {
-      sync::Mutex::Locker locker(mutex_);
+      Mutex::Locker locker(mutex_);
       is_finished_ = true;
       condition_.wakeAll();
     }

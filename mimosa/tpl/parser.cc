@@ -38,7 +38,7 @@ namespace mimosa
       while (!input_.empty())
       {
         auto pos = input_.find(action_start_);
-        if (pos > 0 || pos == string::StringRef::npos)
+        if (pos > 0 || pos == StringRef::npos)
         {
           // extracts the text
           auto text = new ast::Text;
@@ -47,7 +47,7 @@ namespace mimosa
           input_ = input_.substr(pos);
         }
 
-        if (pos != string::StringRef::npos &&
+        if (pos != StringRef::npos &&
             !parseAction())
           return false;
       }
@@ -87,7 +87,7 @@ namespace mimosa
     {
       // find the end of the action
       auto end = input_.find(action_end_);
-      if (end == string::StringRef::npos)
+      if (end == StringRef::npos)
         return false;
 
       // don't allow {{|x|y|z}}
@@ -121,7 +121,7 @@ namespace mimosa
 
       // find the end of the action
       auto end = input_.find(action_end_);
-      if (end == string::StringRef::npos)
+      if (end == StringRef::npos)
         return false;
 
       ast::Repeated::Ptr node = new ast::Repeated;
@@ -141,13 +141,13 @@ namespace mimosa
 
       // find the end of the action
       auto end = input_.find(action_end_);
-      if (end == string::StringRef::npos)
+      if (end == StringRef::npos)
         return false;
 
       ast::Empty::Ptr node = new ast::Empty;
       node->var_ = input_.substr(0, end);
 
-      string::StringRef ref_var = stack_.back()->var();
+      StringRef ref_var = stack_.back()->var();
 
       if (node->var_.empty())
         node->var_ = ref_var;
@@ -173,7 +173,7 @@ namespace mimosa
 
       // find the end of the action
       auto end = input_.find(action_end_);
-      if (end == string::StringRef::npos)
+      if (end == StringRef::npos)
         return false;
 
       ast::Empty::Ptr node = new ast::Empty;
@@ -193,7 +193,7 @@ namespace mimosa
 
       // find the end of the action
       auto end = input_.find(action_end_);
-      if (end == string::StringRef::npos)
+      if (end == StringRef::npos)
         return false;
       input_ = input_.substr(end + action_end_.size());
 

@@ -5,6 +5,9 @@ namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     enum Status
     {
       kStatusContinue                     = 100,

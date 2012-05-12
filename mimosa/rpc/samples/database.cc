@@ -9,7 +9,7 @@ namespace mimosa
       void
       Database::get(Call<pb::Key, pb::Result>::Ptr call)
       {
-        sync::RWLock::ReadLocker locker(kv_lock_);
+        SharedMutex::ReadLocker locker(lock_);
         printf("get(%s)\n", call->request().key().c_str());
         auto it = kv_.find(call->request().key());
         if (it == kv_.end())
@@ -24,7 +24,7 @@ namespace mimosa
       void
       Database::set(Call<pb::KeyValue, pb::Result>::Ptr call)
       {
-        sync::RWLock::ReadLocker locker(kv_lock_);
+        SharedMutex::ReadLocker locker(lock_);
         printf("set(%s, %s)\n", call->request().key().c_str(),
                call->request().value().c_str());
         kv_[call->request().key()] = call->request().value();
@@ -34,7 +34,7 @@ namespace mimosa
       void
       Database::del(Call<pb::Key, pb::Result>::Ptr call)
       {
-        sync::RWLock::Locker locker(kv_lock_);
+        SharedMutex::Locker locker(lock_);
         printf("del(%s)\n", call->request().key().c_str());
         auto it = kv_.find(call->request().key());
         if (it == kv_.end())

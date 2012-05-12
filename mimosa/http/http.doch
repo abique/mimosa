@@ -1,0 +1,11 @@
+/**
+
+@defgroup Http Http
+
+This module provides classes to work with the HTTP protocol, both server
+and client side.
+
+ */
+
+/** @ingroup Http */
+namespace http {}

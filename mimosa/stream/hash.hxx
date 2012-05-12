@@ -36,7 +36,7 @@ namespace mimosa
     int64_t
     Hash<Algo, Len>::write(const char * data,
                            uint64_t     nbytes,
-                           runtime::Time /*timeout*/)
+                           Time /*timeout*/)
     {
       if (!handle_)
         return -1;
@@ -50,7 +50,7 @@ namespace mimosa
     int64_t
     Hash<Algo, Len>::read(char *       /*data*/,
                           uint64_t     /*nbytes*/,
-                          runtime::Time /*timeout*/)
+                          Time /*timeout*/)
     {
       assert(false && "invalid operation");
       return -1;

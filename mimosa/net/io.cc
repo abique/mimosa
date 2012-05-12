@@ -7,7 +7,7 @@ namespace mimosa
   namespace net
   {
     bool
-    waitForFdReady(int fd, int events, runtime::Time timeout)
+    waitForFdReady(int fd, int events, Time timeout)
     {
       ::pollfd pfd;
       int      ret;
@@ -18,7 +18,7 @@ namespace mimosa
       pfd.fd     = fd;
       pfd.events = events;
 
-      auto time = (timeout - runtime::Time()) / runtime::millisecond;
+      auto time = (timeout - Time()) / millisecond;
       if (time <= 0)
         goto err_timeout;
 
@@ -46,33 +46,33 @@ namespace mimosa
     }
 
     int64_t
-    write(int fd, const char * data, uint64_t nbytes, runtime::Time timeout)
+    write(int fd, const char * data, uint64_t nbytes, Time timeout)
     {
-      if (!waitForFdReady(fd, POLLOUT | POLLWRNORM | POLLWRBAND, timeout))
+      if (!waitForFdReady(fd, POLLOUT, timeout))
         return -1;
       return ::write(fd, data, nbytes);
     }
 
     int64_t
-    writev(int fd, const struct iovec *iov, int iovcnt, runtime::Time timeout)
+    writev(int fd, const struct iovec *iov, int iovcnt, Time timeout)
     {
-      if (!waitForFdReady(fd, POLLOUT | POLLWRNORM | POLLWRBAND, timeout))
+      if (!waitForFdReady(fd, POLLOUT, timeout))
         return -1;
       return ::writev(fd, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
     }
 
     int64_t
-    read(int fd, char * data, uint64_t nbytes, runtime::Time timeout)
+    read(int fd, char * data, uint64_t nbytes, Time timeout)
     {
-      if (!waitForFdReady(fd, POLLIN | POLLRDNORM | POLLRDBAND | POLLPRI, timeout))
+      if (!waitForFdReady(fd, POLLIN, timeout))
         return -1;
       return ::read(fd, data, nbytes);
     }
 
     int64_t
-    readv(int fd, const struct iovec *iov, int iovcnt, runtime::Time timeout)
+    readv(int fd, const struct iovec *iov, int iovcnt, Time timeout)
     {
-      if (!waitForFdReady(fd, POLLIN | POLLRDNORM | POLLRDBAND | POLLPRI, timeout))
+      if (!waitForFdReady(fd, POLLIN, timeout))
         return -1;
       return ::readv(fd, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
     }

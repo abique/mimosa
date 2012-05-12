@@ -5,8 +5,8 @@
 
 # include "../ref-countable.hh"
 # include "../non-copyable.hh"
-# include "../sync/mutex.hh"
-# include "../sync/condition.hh"
+# include "../mutex.hh"
+# include "../condition.hh"
 
 namespace mimosa
 {
@@ -24,7 +24,7 @@ namespace mimosa
 
       /** waits for the call to finish */
       void wait();
-      void timedWait(runtime::Time timeout);
+      void timedWait(Time timeout);
       /** is the call finished ? */
       inline bool isFinished() const { return is_finished_; }
       /** has the call been canceled ? */
@@ -48,8 +48,8 @@ namespace mimosa
 
       google::protobuf::Message * request_;
       google::protobuf::Message * response_;
-      sync::Mutex                 mutex_;
-      sync::Condition             condition_;
+      Mutex                 mutex_;
+      Condition             condition_;
       bool                        is_canceled_;
       bool                        is_finished_;
       uint32_t                    service_id_;

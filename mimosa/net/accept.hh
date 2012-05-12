@@ -3,14 +3,14 @@
 
 # include <sys/socket.h>
 
-# include "../runtime/time.hh"
+# include "../time.hh"
 
 namespace mimosa
 {
   namespace net
   {
     int accept(int socket, ::sockaddr * address, socklen_t * address_len,
-               runtime::Time timeout);
+               Time timeout);
   }
 }
 

@@ -6,12 +6,15 @@
 # include "handler.hh"
 # include "../non-copyable.hh"
 # include "../net/server.hh"
-# include "../runtime/time.hh"
+# include "../time.hh"
 
 namespace mimosa
 {
   namespace http
   {
+    /**
+     * @ingroup Http
+     */
     class Server : public net::Server
     {
     public:
@@ -29,8 +32,8 @@ namespace mimosa
                          const ::sockaddr * address,
                          socklen_t          address_len) const;
 
-      runtime::Time                      read_timeout_;
-      runtime::Time                      write_timeout_;
+      Time                      read_timeout_;
+      Time                      write_timeout_;
       Handler::Ptr                       handler_;
       ::gnutls_certificate_credentials_t x509_cred_;
       ::gnutls_priority_t                priority_cache_;

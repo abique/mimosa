@@ -16,9 +16,9 @@ namespace mimosa
         const char *data_;
       };
 
-      string::StringRef getKey(Value::Ptr value)
+      StringRef getKey(Value::Ptr value)
       {
-        return string::StringRef(value->data_);
+        return StringRef(value->data_);
       }
 
       TEST(Trie, Simple)

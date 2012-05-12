@@ -1,7 +1,7 @@
 #ifndef MIMOSA_TPL_AST_TEXT_HH
 # define MIMOSA_TPL_AST_TEXT_HH
 
-# include "../../string/string-ref.hh"
+# include "../../string-ref.hh"
 # include "node.hh"
 
 namespace mimosa
@@ -17,10 +17,10 @@ namespace mimosa
 
         virtual void execute(stream::Stream::Ptr   stream,
                              const AbstractValue & value,
-                             runtime::Time         timeout = 0) const;
+                             Time         timeout = 0) const;
 
 
-        string::StringRef text_;
+        StringRef text_;
       };
     }
   }

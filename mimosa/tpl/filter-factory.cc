@@ -29,14 +29,14 @@ namespace mimosa
     FilterFactory::~FilterFactory()
     {
       // wait for other lock
-      sync::RWLock::Locker locker(rwlock_);
+      SharedMutex::Locker locker(rwlock_);
     }
 
     stream::Stream::Ptr
     FilterFactory::create(const std::string & filter,
                           stream::Stream::Ptr stream) const
     {
-      sync::RWLock::ReadLocker locker(rwlock_);
+      SharedMutex::ReadLocker locker(rwlock_);
 
       auto it = creators_.find(filter);
       if (it != creators_.end())
@@ -50,7 +50,7 @@ namespace mimosa
     FilterFactory::registerFilter(const std::string & filter,
                                   creator_type        creator)
     {
-      sync::RWLock::Locker locker(rwlock_);
+      SharedMutex::Locker locker(rwlock_);
 
       auto it = creators_.find(filter);
       if (it != creators_.end())

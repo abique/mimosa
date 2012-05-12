@@ -7,7 +7,7 @@ namespace mimosa
   namespace stream
   {
     int64_t
-    Stream::writev(const struct iovec * iov, int iovcnt, runtime::Time timeout)
+    Stream::writev(const struct iovec * iov, int iovcnt, Time timeout)
     {
       int64_t bytes = 0;
       for (int i = 0; i < iovcnt; ++i)
@@ -29,7 +29,7 @@ namespace mimosa
     }
 
     int64_t
-    Stream::readv(const struct iovec * iov, int iovcnt, runtime::Time timeout)
+    Stream::readv(const struct iovec * iov, int iovcnt, Time timeout)
     {
       int64_t bytes = 0;
       for (int i = 0; i < iovcnt; ++i)
@@ -51,7 +51,7 @@ namespace mimosa
     }
 
     int64_t
-    Stream::loopRead(char * data, const uint64_t nbytes, runtime::Time timeout)
+    Stream::loopRead(char * data, const uint64_t nbytes, Time timeout)
     {
       for (int64_t bytes_left = nbytes; bytes_left > 0; )
       {
@@ -69,7 +69,7 @@ namespace mimosa
     }
 
     int64_t
-    Stream::loopWrite(const char * data, const uint64_t nbytes, runtime::Time timeout)
+    Stream::loopWrite(const char * data, const uint64_t nbytes, Time timeout)
     {
       for (int64_t bytes_left = nbytes; bytes_left > 0; )
       {
