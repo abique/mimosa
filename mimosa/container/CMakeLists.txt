@@ -4,8 +4,6 @@ install(FILES
   intrusive-slist.hh
   intrusive-dlist.hh
   kvs.hh
-  singleton.hh
-  singleton.hxx
   trie.hh
   trie.hxx
   DESTINATION include/mimosa/container)

@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "../options/options.hh"
-#include "../container/singleton.hh"
+#include "../singleton.hh"
 #include "origin.hh"
 #include "log.hh"
 
@@ -10,7 +10,7 @@ namespace mimosa
 {
   namespace log
   {
-    struct Origins : public container::Singleton<Origins>,
+    struct Origins : public Singleton<Origins>,
                      public NonCopyable
     {
       Origin::origins_type list_;

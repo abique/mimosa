@@ -16,6 +16,8 @@ install(FILES
   ref-counted-ptr.hh
   shared-locker.hh
   shared-mutex.hh
+  singleton.hh
+  singleton.hxx
   spin-lock.hh
   spin-lock.hxx
   string-ref.hh
