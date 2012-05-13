@@ -134,5 +134,16 @@ namespace mimosa
           serve(fd, &addr.addr, addr_len);
       }
     }
+
+    void
+    Server::close()
+    {
+      if (fd_ == -1)
+        return;
+
+      int fd = fd_;
+      fd_ = -1;
+      ::close(fd);
+    }
   }
 }

@@ -35,6 +35,8 @@ namespace mimosa
       /// will call serve(fd) in a new thread
       void serveOne(Time accept_timeout = 0, bool new_thread = true) const;
 
+      void close();
+
     protected:
       virtual void serve(int                fd,
                          const ::sockaddr * address,
