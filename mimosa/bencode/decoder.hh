@@ -37,8 +37,8 @@ namespace mimosa
       Token pull(Time timeout = 0);
       bool  eatValue(Time timeout = 0);
 
-      int64_t getInt();
-      std::string & getData();
+      inline int64_t getInt() const { return int_; }
+      inline const std::string & getData() const { return data_; }
 
     private:
       Token pullInt(Time timeout);

@@ -16,7 +16,7 @@ namespace mimosa
      */
     bool copyValue(Decoder & dec,
                    Encoder & enc,
-                   Time      timeout);
+                   Time      timeout = 0);
   }
 }
 
