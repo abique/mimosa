@@ -109,5 +109,16 @@ namespace mimosa
       uri::parseQuery(raw_location_.data() + start, end - start, &query_);
       return query_;
     }
+
+    const std::string &
+    Request::queryGet(const std::string & key) const
+    {
+      static const std::string empty;
+
+      auto it = query_.find(key);
+      if (it == query_.end())
+        return empty;
+      return it->second;
+    }
   }
 }

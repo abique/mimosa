@@ -56,6 +56,7 @@ namespace mimosa
 
       const std::string & location() const;
       const container::kvs & query() const;
+      const std::string & queryGet(const std::string & key) const;
 
       int acceptEncoding() const { return accept_encoding_; }
       void setAcceptEncoding(int v) { accept_encoding_ = v; }
