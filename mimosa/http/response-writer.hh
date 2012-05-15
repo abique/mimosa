@@ -46,7 +46,7 @@ namespace mimosa
        * If content_length_ is 0 then the content length is unspecified
        * and the connection will close after this response (keep_alive_
        * will be set to false).
-       * Until you call sendResponseHeader, everything you write to
+       * Until you call sendHeader, everything you write to
        * body is buffered, so when you finishes Response knows the
        * amount of data to be written and set content_length_ */
       bool sendHeader(Time timeout = 0);
