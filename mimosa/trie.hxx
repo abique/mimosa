@@ -127,4 +127,17 @@ namespace mimosa
       childs_[(uint8_t)key[depth_]] = nullptr;
     }
   }
+
+  template <typename Value, StringRef (*GetKey)(Value value)>
+  inline void
+  Trie<Value, GetKey>::foreach(const std::function<void (Value)> & callback) const
+  {
+    if (value_)
+      callback(value_);
+
+    if (childs_)
+      for (int i = 0; i < 256; ++i)
+        if (childs_[i])
+          childs_[i]->foreach(callback);
+  }
 }

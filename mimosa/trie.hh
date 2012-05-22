@@ -1,6 +1,8 @@
 #ifndef MIMOSA_TRIE_HH
 # define MIMOSA_TRIE_HH
 
+# include <functional>
+
 # include "string-ref.hh"
 
 namespace mimosa
@@ -22,6 +24,8 @@ namespace mimosa
     inline void clear();
     inline bool empty() const { return !size_; }
     inline uint32_t size() const { return size_; }
+
+    inline void foreach(const std::function<void (Value)> & callback) const;
 
   private:
     // XXX
