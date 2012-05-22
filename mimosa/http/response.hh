@@ -7,7 +7,7 @@
 # include "coding.hh"
 # include "status.hh"
 # include "cookie.hh"
-# include "../container/kvs.hh"
+# include "../kvs.hh"
 
 namespace mimosa
 {
@@ -33,7 +33,7 @@ namespace mimosa
       int64_t        content_length_;     ///< -1: auto
       std::string    content_type_;
       Cookie::Slist  cookies_;
-      container::kvs unparsed_headers_;
+      kvs unparsed_headers_;
       time_t         last_modified_;
     };
   }

@@ -3,7 +3,7 @@
 
 # include "../format/format.hh"
 # include "../mutex.hh"
-# include "../container/intrusive-dlist.hh"
+# include "../intrusive-dlist.hh"
 # include "level.hh"
 # include "log.hh"
 
@@ -23,7 +23,7 @@ namespace mimosa
       static void filter(const std::string & filter);
       static void setLevel(const std::string & origin, Level level);
 
-      typedef container::IntrusiveDListHook<Origin *> origins_hook_type;
+      typedef IntrusiveDListHook<Origin *> origins_hook_type;
 
 # define IMPL_LOG(Level, Name)                          \
       template <typename ... Args>                      \
@@ -47,7 +47,7 @@ namespace mimosa
       origins_hook_type origins_hook_;
 
     public:
-      typedef container::IntrusiveDList<Origin,
+      typedef IntrusiveDList<Origin,
                                         Origin *,
                                         &Origin::origins_hook_> origins_type;
     };

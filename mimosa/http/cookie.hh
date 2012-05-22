@@ -4,7 +4,7 @@
 # include <string>
 
 # include "../ref-countable.hh"
-# include "../container/intrusive-slist.hh"
+# include "../intrusive-slist.hh"
 
 namespace mimosa
 {
@@ -16,8 +16,8 @@ namespace mimosa
     class Cookie : public RefCountable<Cookie>
     {
     public:
-      container::IntrusiveSlistHook<Cookie::Ptr> next_;
-      typedef container::IntrusiveSlist<Cookie, Cookie::Ptr, &Cookie::next_> Slist;
+      IntrusiveSlistHook<Cookie::Ptr> next_;
+      typedef IntrusiveSlist<Cookie, Cookie::Ptr, &Cookie::next_> Slist;
 
       Cookie();
 

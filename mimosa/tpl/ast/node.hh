@@ -4,7 +4,7 @@
 # include "../../ref-countable.hh"
 # include "../../stream/stream.hh"
 # include "../../string-ref.hh"
-# include "../../container/intrusive-slist.hh"
+# include "../../intrusive-slist.hh"
 
 namespace mimosa
 {
@@ -25,13 +25,13 @@ namespace mimosa
         virtual void addChild(Node::Ptr /*node*/) {}
         virtual StringRef var() const { return "(none)"; }
 
-        typedef container::IntrusiveSlistHook<Node::Ptr>   hook_type;
+        typedef IntrusiveSlistHook<Node::Ptr>   hook_type;
 
         hook_type hook_;
         uint16_t  line_;
         uint16_t  col_;
 
-        typedef container::IntrusiveSlist<Node, Node::Ptr, &Node::hook_> nodes_type;
+        typedef IntrusiveSlist<Node, Node::Ptr, &Node::hook_> nodes_type;
       };
     }
   }

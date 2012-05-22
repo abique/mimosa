@@ -34,7 +34,7 @@ namespace mimosa
       virtual bool flush(Time timeout = 0);
       /** @} */
 
-      container::kvs & form();
+      kvs & form();
 
       inline Time readTimeout() const
       {
@@ -52,7 +52,7 @@ namespace mimosa
       ServerChannel &     channel_;
       int64_t             bytes_left_;
       bool                parsed_form_;
-      container::kvs      form_;
+      kvs      form_;
       Time       read_timeout_;
     };
   }

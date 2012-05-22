@@ -91,7 +91,7 @@ namespace mimosa
       if_modified_since_ = timegm(&tm);
     }
 
-    const container::kvs &
+    const kvs &
     Request::query() const
     {
       if (query_parsed_)

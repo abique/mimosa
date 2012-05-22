@@ -4,7 +4,7 @@
 # include <cstdint>
 
 # include "../ref-countable.hh"
-# include "../container/intrusive-slist.hh"
+# include "../intrusive-slist.hh"
 
 namespace mimosa
 {
@@ -29,13 +29,13 @@ namespace mimosa
       void resize(uint64_t size);
 
     private:
-      container::IntrusiveSlistHook<Buffer::Ptr> next_;
-      uint64_t                                   size_;
-      char *                                     data_;
+      IntrusiveSlistHook<Buffer::Ptr> next_;
+      uint64_t                        size_;
+      char *                          data_;
 
     public:
-      typedef container::IntrusiveSlist<Buffer, Buffer::Ptr, &Buffer::next_> Slist;
-      friend class container::IntrusiveSlist<Buffer, Buffer::Ptr, &Buffer::next_>;
+      typedef IntrusiveSlist<Buffer, Buffer::Ptr, &Buffer::next_> Slist;
+      friend class IntrusiveSlist<Buffer, Buffer::Ptr, &Buffer::next_>;
     };
   }
 }

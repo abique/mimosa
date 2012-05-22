@@ -7,7 +7,7 @@ namespace mimosa
   {
     static void extractKeyValue(const char *&      in,
                                 const char * const end,
-                                container::kvs *   kvs)
+                                kvs *   kvs)
     {
       const char * key     = in;
       const char * key_end = in;
@@ -57,7 +57,7 @@ namespace mimosa
 
     void parseQuery(const char * const input,
                     uint32_t const     len,
-                    container::kvs *   kvs)
+                    kvs *   kvs)
     {
       const char *       in  = input;
       const char * const end = input + len;

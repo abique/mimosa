@@ -11,7 +11,7 @@ namespace mimosa
       TEST(ParseQuery, Simple)
       {
         std::string    query("a=b&c=d&e&f&g=h");
-        container::kvs kvs;
+        kvs kvs;
         parseQuery(query.data(), query.size(), &kvs);
 
         EXPECT_NE(kvs.find("a"), kvs.end());
@@ -29,7 +29,7 @@ namespace mimosa
       TEST(ParseQuery, Encoding)
       {
         std::string    query("tutu=hoho%26huhu");
-        container::kvs kvs;
+        kvs kvs;
         parseQuery(query.data(), query.size(), &kvs);
 
         EXPECT_NE(kvs.find("tutu"), kvs.end());
@@ -39,7 +39,7 @@ namespace mimosa
       TEST(ParseQuery, SingleValue)
       {
         std::string    query("tutu=hoho");
-        container::kvs kvs;
+        kvs kvs;
         parseQuery(query.data(), query.size(), &kvs);
 
         EXPECT_NE(kvs.find("tutu"), kvs.end());
@@ -49,7 +49,7 @@ namespace mimosa
       TEST(ParseQuery, NoValue)
       {
         std::string    query("tutu");
-        container::kvs kvs;
+        kvs kvs;
         parseQuery(query.data(), query.size(), &kvs);
 
         EXPECT_NE(kvs.find("tutu"), kvs.end());
@@ -59,7 +59,7 @@ namespace mimosa
       TEST(ParseQuery, Bad1)
       {
         std::string    query("&tutu");
-        container::kvs kvs;
+        kvs kvs;
         parseQuery(query.data(), query.size(), &kvs);
 
         EXPECT_NE(kvs.find("tutu"), kvs.end());
@@ -69,7 +69,7 @@ namespace mimosa
       TEST(ParseQuery, Bad2)
       {
         std::string    query("&tutu&");
-        container::kvs kvs;
+        kvs kvs;
         parseQuery(query.data(), query.size(), &kvs);
 
         EXPECT_NE(kvs.find("tutu"), kvs.end());
@@ -79,7 +79,7 @@ namespace mimosa
       TEST(ParseQuery, Bad3)
       {
         std::string    query("=tutu");
-        container::kvs kvs;
+        kvs kvs;
         parseQuery(query.data(), query.size(), &kvs);
 
         EXPECT_TRUE(kvs.empty());
@@ -88,7 +88,7 @@ namespace mimosa
       TEST(ParseQuery, Bad4)
       {
         std::string    query("=tutu&a=b");
-        container::kvs kvs;
+        kvs kvs;
         parseQuery(query.data(), query.size(), &kvs);
 
         EXPECT_NE(kvs.find("a"), kvs.end());

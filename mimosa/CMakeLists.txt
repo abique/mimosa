@@ -1,6 +1,8 @@
 install(FILES
   barrier.hh
   bind.hh
+  cache.hh
+  cache.hxx
   channel.hh
   condition.hh
   function.hh
@@ -8,6 +10,9 @@ install(FILES
   future.hxx
   init.doch
   init.hh
+  intrusive-dlist.hh
+  intrusive-slist.hh
+  kvs.hh
   locker.hh
   mutex.hh
   non-copyable.hh
@@ -24,6 +29,8 @@ install(FILES
   thread-pool.hh
   thread.hh
   time.hh
+  trie.hh
+  trie.hxx
   unique-locker.hh
   yield.hh
   DESTINATION include/mimosa/)
@@ -91,7 +98,6 @@ add_library(mimosa
   init.cc)
 target_link_libraries(mimosa gnutls pthread rt)
 
-add_subdirectory(container)
 add_subdirectory(format)
 add_subdirectory(options)
 add_subdirectory(log)

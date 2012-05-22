@@ -70,7 +70,7 @@ namespace mimosa
       return true;
     }
 
-    container::kvs &
+    kvs &
     RequestReader::form()
     {
       if (parsed_form_ ||

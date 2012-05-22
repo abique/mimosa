@@ -73,7 +73,7 @@ class PostEchoHandler : public mimosa::http::Handler
       "Method: " << methodString(request.method()) << "<br/>"
       "Content-Type: " << request.contentType() << "<br/>"
       "<ul>";
-    container::kvs form = request.form();
+    kvs form = request.form();
     for (auto it = form.cbegin(); it != form.cend(); ++it)
       os << "<li>" << it->first << " = " << it->second << "</li>";
     os <<

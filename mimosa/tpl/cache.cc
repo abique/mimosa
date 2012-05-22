@@ -1,5 +1,5 @@
 #include "cache.hh"
-#include "../container/cache.hxx" // contains template definition
+#include "../cache.hxx" // contains template definition
 
 namespace mimosa
 {
@@ -21,5 +21,5 @@ namespace mimosa
   }
 }
 
-template class mimosa::container::Cache<std::string,
+template class mimosa::Cache<std::string,
                                         mimosa::tpl::Template::Ptr>;

@@ -4,7 +4,7 @@
 # include <vector>
 # include <map>
 
-# include "../container/kvs.hh"
+# include "../kvs.hh"
 # include "../stream/stream.hh"
 # include "coding.hh"
 # include "method.hh"
@@ -55,7 +55,7 @@ namespace mimosa
       inline void setPort(uint16_t port) { port_ = port; }
 
       const std::string & location() const;
-      const container::kvs & query() const;
+      const kvs & query() const;
       const std::string & queryGet(const std::string & key) const;
 
       int acceptEncoding() const { return accept_encoding_; }
@@ -64,7 +64,7 @@ namespace mimosa
       bool keepAlive() const { return keep_alive_; }
       void setKeepAlive(bool v) { keep_alive_ = v; }
 
-      const container::kvs & cookies() const { return cookies_; }
+      const kvs & cookies() const { return cookies_; }
       inline void addCookie(const std::string & key,
                             const std::string & value)
       {
@@ -86,7 +86,7 @@ namespace mimosa
       inline const std::string & referrer() const { return referrer_; }
       inline void setReferrer(const std::string & s) { referrer_ = s; }
 
-      inline const container::kvs & unparsedHeaders() const { return unparsed_headers_; }
+      inline const kvs & unparsedHeaders() const { return unparsed_headers_; }
       inline void addHeader(const std::string & key,
                             const std::string & value)
       {
@@ -112,14 +112,14 @@ namespace mimosa
       mutable bool           location_normalized_;
       mutable std::string    location_;
       mutable bool           query_parsed_;
-      mutable container::kvs query_;
+      mutable kvs query_;
 
       // basic stuff
       int  accept_encoding_;    // Coding bitfield
       bool keep_alive_;         // keep the connection ?
 
       // mmmiiam cookies :^)
-      container::kvs cookies_;
+      kvs cookies_;
 
       // post and put details
       int64_t             content_length_;
@@ -131,7 +131,7 @@ namespace mimosa
       std::string user_agent_;
 
       // other headers
-      container::kvs unparsed_headers_;
+      kvs unparsed_headers_;
     };
   }
 }

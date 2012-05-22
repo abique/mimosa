@@ -1,14 +1,14 @@
 #ifndef MIMOSA_TPL_CACHE_HH
 # define MIMOSA_TPL_CACHE_HH
 
-# include "../container/cache.hh"
+# include "../cache.hh"
 # include "template.hh"
 
 namespace mimosa
 {
   namespace tpl
   {
-    class Cache : public container::Cache<std::string, Template::Ptr>
+    class Cache : public mimosa::Cache<std::string, Template::Ptr>
     {
     public:
       Cache();
@@ -19,7 +19,6 @@ namespace mimosa
   }
 }
 
-extern template class mimosa::container::Cache<std::string,
-                                               mimosa::tpl::Template::Ptr>;
+extern template class mimosa::Cache<std::string, mimosa::tpl::Template::Ptr>;
 
 #endif /* !MIMOSA_TPL_CACHE_HH */

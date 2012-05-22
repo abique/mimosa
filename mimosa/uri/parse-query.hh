@@ -4,7 +4,7 @@
 # include <string>
 # include <unordered_map>
 
-# include "../container/kvs.hh"
+# include "../kvs.hh"
 
 namespace mimosa
 {
@@ -13,7 +13,7 @@ namespace mimosa
     /** @warning parseQuery does not url decode */
     void parseQuery(const char *     input,
                     uint32_t         len,
-                    container::kvs * kvs);
+                    kvs * kvs);
   }
 }
 
