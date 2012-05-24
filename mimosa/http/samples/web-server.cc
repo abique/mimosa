@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include <mimosa/init.hh>
+#include <mimosa/cpu-foreach.hh>
 #include <mimosa/options/options.hh>
 #include <mimosa/http/server.hh>
 #include <mimosa/http/dispatch-handler.hh>
@@ -119,8 +120,10 @@ int main(int argc, char ** argv)
     }
     printf("listen on %d succeed\n", PORT);
 
-    while (true)
-      server->serveOne();
+    cpuForeach([server] {
+        while (true)
+          server->serveOne();
+      });
   }
 
   mimosa::deinit();
