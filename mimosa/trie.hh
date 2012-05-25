@@ -20,6 +20,7 @@ namespace mimosa
     inline bool insert(const Value & value) { return insert(GetKey(value), value); }
     inline Value find(const StringRef & key) const;
     inline void erase(const StringRef & key);
+    inline void erase(const Value & value) { erase(GetKey(value)); }
 
     inline void clear();
     inline bool empty() const { return !size_; }
