@@ -19,6 +19,12 @@ namespace mimosa
 
     ResponseWriter::~ResponseWriter()
     {
+      while (!buffers_.empty())
+      {
+        auto buf = buffers_.front();
+        buffers_.pop();
+        delete buf;
+      }
     }
 
     int64_t

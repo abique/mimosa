@@ -78,7 +78,7 @@ namespace mimosa
       ServerChannel &       channel_;
       stream::Buffer::Slist buffers_;
       bool                  header_sent_;
-      Time         write_timeout_;
+      Time                  write_timeout_;
     };
   }
 }

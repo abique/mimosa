@@ -21,6 +21,12 @@ namespace mimosa
 
     BufferedStream::~BufferedStream()
     {
+      while (!wbuffers_.empty())
+      {
+        Buffer * buf = wbuffers_.front();
+        wbuffers_.pop();
+        delete buf;
+      }
     }
 
     uint64_t
@@ -58,7 +64,7 @@ namespace mimosa
         wappend_ = 0;
       }
 
-      Buffer::Ptr buffer = wbuffers_.back();
+      auto buffer = wbuffers_.back();
       uint64_t can_write = nbytes <= buffer_size_ - wappend_ ? nbytes : buffer_size_ - wappend_;
       ::memcpy(buffer->data() + wappend_, data, can_write);
       if (can_write < nbytes)
@@ -116,7 +122,9 @@ namespace mimosa
           if (wbytes >= static_cast<int64_t> (p->iov_len))
           {
             wbytes -= p->iov_len;
+            auto del_buf = wbuffers_.front();
             wbuffers_.pop();
+            delete del_buf;
             wpos_ = 0;
           }
           else
@@ -193,7 +201,7 @@ namespace mimosa
     Buffer::Ptr
     BufferedStream::readUntil(const char * const str,
                               uint64_t           max_size, // TODO
-                              Time      timeout,
+                              Time               timeout,
                               bool *             found)
     {
       Buffer::Ptr buffer;
@@ -292,7 +300,9 @@ namespace mimosa
           }
 
           wbytes -= p->iov_len;
+          auto del_buf = wbuffers_.front();
           wbuffers_.pop();
+          delete del_buf;
           wpos_ = 0;
           ++p;
         }

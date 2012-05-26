@@ -44,8 +44,8 @@ namespace mimosa
        * @return a valid buffer on success, null otherwise. */
       Buffer::Ptr readUntil(const char * const str,
                             uint64_t           max_size = 0,
-                            Time      timeout = 0,
-                            bool *             found = nullptr);
+                            Time               timeout  = 0,
+                            bool *             found    = nullptr);
       /** @} */
 
       virtual void close();
@@ -62,9 +62,9 @@ namespace mimosa
       uint64_t      wpos_;     // write position in the first buffer
       uint64_t      wappend_;  // write append position in the last buffer
 
-      Buffer::Ptr   rbuffer_;  // a single read buffers
-      uint64_t      rpos_;     // the read position in the first buffer
-      uint64_t      rappend_;  // the append position in the last buffer
+      Buffer::Ptr rbuffer_;     // a single read buffers
+      uint64_t    rpos_;        // the read position in the first buffer
+      uint64_t    rappend_;     // the append position in the last buffer
     };
   }
 }
