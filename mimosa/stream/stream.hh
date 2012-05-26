@@ -39,6 +39,7 @@ namespace mimosa
 
       int64_t loopRead(char * data, uint64_t nbytes, Time timeout = 0);
       int64_t loopWrite(const char * data, uint64_t nbytes, Time timeout = 0);
+      int64_t loopWritev(struct iovec *iov, int iovcnt, Time timeout = 0);
     };
   }
 }

@@ -10,9 +10,8 @@ namespace mimosa
     BufferedStream::BufferedStream(Stream::Ptr stream, uint64_t buffer_size)
       : stream_(stream),
         buffer_size_(buffer_size),
-        wbuffers_(),
+        wbuffer_(buffer_size_),
         wpos_(0),
-        wappend_(0),
         rbuffer_(),
         rpos_(0),
         rappend_(0)
@@ -21,12 +20,6 @@ namespace mimosa
 
     BufferedStream::~BufferedStream()
     {
-      while (!wbuffers_.empty())
-      {
-        Buffer * buf = wbuffers_.front();
-        wbuffers_.pop();
-        delete buf;
-      }
     }
 
     uint64_t
@@ -38,108 +31,42 @@ namespace mimosa
     uint64_t
     BufferedStream::readyWrite() const
     {
-      int      i     = 0;
-      int      nb    = wbuffers_.size();
-      uint64_t bytes = 0;
-
-      for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++i)
-      {
-        bytes += it->size();
-        if (i == 0)
-          bytes -= wpos_;
-        if (i == nb - 1)
-          bytes -= it->size() - wappend_;
-      }
-      return bytes;
-    }
-
-    void
-    BufferedStream::append(const char * data, uint64_t nbytes)
-    {
-      assert(nbytes < buffer_size_);
-      if (wbuffers_.empty())
-      {
-        wbuffers_.push(new Buffer(buffer_size_));
-        wpos_    = 0;
-        wappend_ = 0;
-      }
-
-      auto buffer = wbuffers_.back();
-      uint64_t can_write = nbytes <= buffer_size_ - wappend_ ? nbytes : buffer_size_ - wappend_;
-      ::memcpy(buffer->data() + wappend_, data, can_write);
-      if (can_write < nbytes)
-      {
-        wappend_ = nbytes - can_write;
-        buffer = new Buffer(buffer_size_ > wappend_ ? buffer_size_ : wappend_);
-        ::memcpy(buffer->data(), data + can_write, wappend_);
-        wbuffers_.push(buffer);
-      }
-      else
-        wappend_ += can_write;
+      return wpos_;
     }
 
     int64_t
     BufferedStream::write(const char * data, uint64_t nbytes, Time timeout)
     {
-      const auto nbytes_orig = nbytes;
+      if (wpos_ + nbytes >= buffer_size_)
+        return flushWith(data, nbytes, timeout);
 
-      // while we have more than buffer_size_ to write
-      while (nbytes + readyWrite() >= buffer_size_)
-      {
-        // setup iov
-        const  int     iov_cnt = wbuffers_.size() + 1;
-        struct iovec   iov[iov_cnt];
-        struct iovec * p = iov;
+      ::memcpy(wbuffer_.data() + wpos_, data, nbytes);
+      wpos_ += nbytes;
+      return nbytes;
+    }
 
-        for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++p)
-        {
-          p->iov_base = it->data();
-          p->iov_len  = it->size();
-          if (p == iov)
-          {
-            p->iov_base = static_cast<uint8_t*>(p->iov_base) + wpos_;
-            p->iov_len  -= wpos_;
-          }
-          if (p == iov + wbuffers_.size() - 1)
-            p->iov_len -= it->size() - wappend_;
-        }
-        iov[iov_cnt - 1].iov_base = const_cast<char *>(data);
-        iov[iov_cnt - 1].iov_len  = nbytes;
+    bool
+    BufferedStream::flush(Time timeout)
+    {
+      if (stream_->loopWrite(wbuffer_.data(), wpos_, timeout) != static_cast<int64_t> (wpos_))
+        return false;
+      wpos_ = 0;
+      return stream_->flush(timeout);
+    }
 
-        // write and remove completed buffers
-        int64_t wbytes = stream_->writev(iov, iov_cnt, timeout);
-        if (wbytes < 0)
-        {
-          if (nbytes_orig == nbytes)
-            return -1;
-          return nbytes_orig - nbytes;
-        }
+    bool
+    BufferedStream::flushWith(const char *data, uint64_t nbytes, Time timeout)
+    {
+      if (wpos_ == 0)
+        return stream_->loopWrite(data, nbytes, timeout) == timeout;
 
-        // remove completed buffers
-        p = iov;
-        for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++p)
-        {
-          if (wbytes >= static_cast<int64_t> (p->iov_len))
-          {
-            wbytes -= p->iov_len;
-            auto del_buf = wbuffers_.front();
-            wbuffers_.pop();
-            delete del_buf;
-            wpos_ = 0;
-          }
-          else
-          {
-            wpos_ = wbytes;
-            wbytes = 0;
-            break;
-          }
-        }
-        nbytes -= wbytes;
-      }
+      struct ::iovec iov[2];
 
-      if (nbytes > 0)
-        append(data, nbytes);
-      return nbytes_orig;
+      iov[0].iov_base = wbuffer_.data();
+      iov[0].iov_len = wpos_;
+      iov[1].iov_base = (void*)data;
+      iov[1].iov_len = nbytes;
+      return stream_->loopWritev(iov, 2, timeout) == nbytes + wpos_;
     }
 
     int64_t
@@ -255,60 +182,6 @@ namespace mimosa
           return buffer;
         }
       }
-    }
-
-    bool
-    BufferedStream::flush(Time timeout)
-    {
-      while (!wbuffers_.empty())
-      {
-        // setup iov
-        const  int           iov_cnt = wbuffers_.size();
-        struct iovec         iov[iov_cnt];
-        struct iovec * const iov_last = iov + iov_cnt - 1;
-        struct iovec *       p        = iov;
-
-        // adjust the first and last buffer
-        for (auto it = wbuffers_.begin(); it != wbuffers_.end(); ++it, ++p)
-        {
-          p->iov_base = it->data();
-          p->iov_len  = it->size();
-          if (p == iov)
-          {
-            p->iov_base = static_cast<uint8_t*> (p->iov_base) + wpos_;
-            p->iov_len  -= wpos_;
-          }
-          if (p == iov_last)
-            p->iov_len -= (it->size() - wappend_);
-        }
-
-        // write and remove completed buffers
-        int64_t wbytes = stream_->writev(iov, iov_cnt, timeout);
-        if (wbytes < 0)
-          return false;
-
-        // remove completed buffers
-        p = iov;
-        while (!wbuffers_.empty())
-        {
-          auto it = wbuffers_.begin();
-
-          if (wbytes < static_cast<int64_t> (p->iov_len))
-          {
-            wpos_ += wbytes;
-            break;
-          }
-
-          wbytes -= p->iov_len;
-          auto del_buf = wbuffers_.front();
-          wbuffers_.pop();
-          delete del_buf;
-          wpos_ = 0;
-          ++p;
-        }
-      }
-
-      return stream_->flush(timeout);
     }
 
     void

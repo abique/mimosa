@@ -53,14 +53,13 @@ namespace mimosa
       inline Stream* underlyingStream() const { return stream_; }
 
     private:
-      void append(const char * data, uint64_t nbytes);
+      bool flushWith(const char *data, uint64_t nbytes, Time timeout);
 
       Stream::Ptr    stream_;
       const uint64_t buffer_size_;
 
-      Buffer::Slist wbuffers_; // a list of write buffers
-      uint64_t      wpos_;     // write position in the first buffer
-      uint64_t      wappend_;  // write append position in the last buffer
+      Buffer        wbuffer_;
+      uint64_t      wpos_;     // write position in the buffer
 
       Buffer::Ptr rbuffer_;     // a single read buffers
       uint64_t    rpos_;        // the read position in the first buffer
