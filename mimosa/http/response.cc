@@ -2,6 +2,8 @@
 #include "response.hh"
 #include "log.hh"
 #include "time.hh"
+#include "../format/print.hh"
+#include "../stream/string-stream.hh"
 
 namespace mimosa
 {
@@ -12,26 +14,40 @@ namespace mimosa
       clear(); // to ensure the same state
     }
 
-    std::string
-    Response::toHttpHeader() const
+    bool
+    Response::print(stream::Stream & stream, Time timeout) const
     {
-      std::ostringstream os;
-      os << "HTTP/1.1 " << status_ << " " << statusToString(status_) <<"\r\n"
-         << "Server: mimosa\r\n"
-         << "Connection: " << (keep_alive_ ? "Keep-Alive" : "Close") << "\r\n";
+      bool ok = true;
+      ok = ok & format::printStatic(stream, "HTTP/1.1 ", timeout);
+      ok = ok & format::printDecimal(stream, static_cast<int> (status_), timeout);
+      ok = ok & format::printStatic(stream, " ", timeout);
+      ok = ok & format::print(stream, statusToString(status_), timeout);
+      ok = ok & format::printStatic(stream, "\r\nServer: mimosa\r\nConnection: ", timeout);
+      if (keep_alive_)
+        ok = ok & format::printStatic(stream, "Keep-Alive\r\n", timeout);
+      else
+        ok = ok & format::printStatic(stream, "Close\r\n", timeout);
       if (content_length_ >= 0)
-        os << "Content-Length: " << content_length_ << "\r\n";
+      {
+        ok = ok & format::printStatic(stream, "Content-Length: ", timeout);
+        ok = ok & format::printDecimal(stream, content_length_, timeout);
+        ok = ok & format::printStatic(stream, "\r\n", timeout);
+      }
       if (!content_type_.empty())
-        os << "Content-Type: " << content_type_ << "\r\n";
+      {
+        ok = ok & format::printStatic(stream, "Content-Type: ", timeout);
+        ok = ok & format::print(stream, content_type_, timeout);
+        ok = ok & format::printStatic(stream, "\r\n", timeout);
+      }
 
       switch (transfer_encoding_)
       {
       case kCodingIdentity:
-        os << "Transfer-Encoding: Identity\r\n";
+        ok = ok & format::printStatic(stream, "Transfer-Encoding: Identity\r\n", timeout);
         break;
 
       case kCodingChunked:
-        os << "Transfer-Encoding: Chunked\r\n";
+        ok = ok & format::printStatic(stream, "Transfer-Encoding: Chunked\r\n", timeout);
         break;
 
       default:
@@ -41,29 +57,60 @@ namespace mimosa
 
       for (auto it = cookies_.begin(); it != cookies_.end(); ++it)
       {
-        os << "Set-Cookie: " << it->key() << "=" << it->value();
+        ok = ok & format::printStatic(stream, "Set-Cookie: ", timeout);
+        ok = ok & format::print(stream, it->key(), timeout);
+        ok = ok & format::printStatic(stream, "=", timeout);
+        ok = ok & format::print(stream, it->value(), timeout);
         if (!it->domain().empty())
-          os << "; Domain=" << it->domain();
+        {
+          ok = ok & format::printStatic(stream, "; Domain=", timeout);
+          ok = ok & format::print(stream, it->domain(), timeout);
+        }
         if (!it->path().empty())
-          os << "; Path=" << it->path();
+        {
+          ok = ok & format::printStatic(stream, "; Path=", timeout);
+          ok = ok & format::print(stream, it->path(), timeout);
+        }
         if (!it->expires().empty())
-          os << "; Expires=" << it->expires();
+        {
+          ok = ok & format::printStatic(stream, "; Expires=", timeout);
+          ok = ok & format::print(stream, it->expires(), timeout);
+        }
         if (it->isSecure())
-          os << "; Secure";
-        if (it->isHttpOnly())
-          os << "; HttpOnly";
-        os << "\r\n";
+          ok = ok & format::printStatic(stream, "; Secure", timeout);
+        if (!it->isHttpOnly())
+          ok = ok & format::printStatic(stream, "; HttpOnly", timeout);
+        ok = ok & format::printStatic(stream, "\r\n", timeout);
       }
 
       for (auto it = unparsed_headers_.begin(); it != unparsed_headers_.end(); ++it)
-        os << it->first << ": " << it->second << "\r\n";
+      {
+        ok = ok & format::print(stream, it->first, timeout);
+        ok = ok & format::printStatic(stream, ": ", timeout);
+        ok = ok & format::print(stream, it->second, timeout);
+        ok = ok & format::printStatic(stream, "\r\n", timeout);
+      }
 
       if (last_modified_ > 0)
-        os << "Last-Modified: " << http::time(last_modified_) << " GMT\r\n";
+      {
+        ok = ok & format::printStatic(stream, "Last-Modified: ", timeout);
+        ok = ok & format::print(stream, http::time(last_modified_), timeout);
+        ok = ok & format::printStatic(stream, " GMT\r\n", timeout);
+      }
 
-      os << "\r\n"; // end of response
+      // end of response
+      ok = ok & format::printStatic(stream, "\r\n", timeout);
+      return ok;
+    }
 
-      return os.str();
+    std::string
+    Response::toHttpHeader() const
+    {
+      stream::StringStream stream;
+
+      if (!print(stream, 0))
+        return "(error)";
+      return stream.str();
     }
 
     void

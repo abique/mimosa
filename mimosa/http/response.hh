@@ -8,6 +8,7 @@
 # include "status.hh"
 # include "cookie.hh"
 # include "../kvs.hh"
+# include "../stream/stream.hh"
 
 namespace mimosa
 {
@@ -22,6 +23,7 @@ namespace mimosa
       Response();
 
       /** convert the response to an http response header */
+      bool print(stream::Stream & stream, Time timeout) const;
       std::string toHttpHeader() const;
 
       void clear();

@@ -3,6 +3,7 @@
 
 #include "response-writer.hh"
 #include "server-channel.hh"
+#include "../format/print.hh"
 
 namespace mimosa
 {
@@ -36,20 +37,17 @@ namespace mimosa
     }
 
     int64_t
-    ResponseWriter::writeChunk(const char *  data,
-                               uint64_t      nbytes,
-                               Time timeout)
+    ResponseWriter::writeChunk(const char * data,
+                               uint64_t     nbytes,
+                               Time         timeout)
     {
-      char buffer[32];
-      auto bytes = snprintf(buffer, sizeof (buffer), "%lX\r\n", nbytes);
+      bool ok = true;
 
-      if (channel_.stream_->loopWrite(buffer, bytes, timeout) != bytes)
-        return -1;
-      if (channel_.stream_->loopWrite(data, nbytes, timeout) != nbytes)
-        return -1;
-      if (channel_.stream_->loopWrite("\r\n", 2, timeout) != 2)
-        return -1;
-      return nbytes;
+      ok = ok & format::printHex(*channel_.stream_, nbytes, timeout);
+      ok = ok & format::printStatic(*channel_.stream_, "\r\n", timeout);
+      ok = ok & format::print(*channel_.stream_, data, nbytes, timeout);
+      ok = ok & format::printStatic(*channel_.stream_, "\r\n", timeout);
+      return ok ? nbytes : -1;
     }
 
     int64_t
@@ -90,9 +88,7 @@ namespace mimosa
       header_sent_ = true;
       if (content_length_ < 0)
         transfer_encoding_ = kCodingChunked;
-      auto data = toHttpHeader();
-      return channel_.stream_->loopWrite(data.data(), data.size(), timeout) ==
-        static_cast<int64_t> (data.size());
+      return print(*channel_.stream_, timeout);
     }
 
     void
