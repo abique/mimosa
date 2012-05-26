@@ -79,6 +79,9 @@ add_library(mimosa
   stream/tee-stream.cc
   stream/tls-stream.cc
 
+  # format
+  format/print.cc
+
   # logging
   log/level.cc
   log/log.cc
