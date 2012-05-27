@@ -74,7 +74,7 @@ namespace mimosa
     }
 
     inline bool streq(const StringRef & other) const {
-      return other.len_ == len_ && (other.data_ == data_ || !::strncmp(other.data_, data_, len_));
+      return other.len_ == len_ && (other.data_ == data_ || !::memcmp(other.data_, data_, len_));
     }
     inline bool strcaseeq(const StringRef & other) const {
       return other.len_ == len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, len_));
