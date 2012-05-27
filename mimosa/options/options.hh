@@ -146,7 +146,7 @@ namespace mimosa
                     const char * name,
                     const char * desc,
                     const char * message)
-        : BasicOption(group, name, message),
+        : BasicOption(group, name, desc),
           message_(message)
       {
       }
