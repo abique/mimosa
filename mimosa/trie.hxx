@@ -94,8 +94,8 @@ namespace mimosa
   {
     assert(key.size() >= depth_);
 
-    if (key.size() == depth_) {
-      if (value_)
+    if (key.size() == depth_ || size_ == 1) {
+      if (value_ && GetKey(value_) == key)
         return value_;
       return nullptr;
     }
@@ -110,7 +110,9 @@ namespace mimosa
   inline void
   Trie<Value, GetKey>::erase(const StringRef & key)
   {
-    if (key.size() == depth_) {
+    if ((key.size() == depth_ || size_ == 1) &&
+        (value_ && GetKey(value_) == key))
+    {
       value_ = nullptr;
       --size_;
       return;
