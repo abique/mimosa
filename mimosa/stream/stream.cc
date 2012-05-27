@@ -97,7 +97,7 @@ namespace mimosa
       while (iovcnt > 0)
       {
         nbytes = writev(iov, iovcnt, timeout);
-        if (nbytes < 0)
+        if (nbytes <= 0)
         {
           if (errno == EAGAIN)
             continue;
@@ -107,7 +107,7 @@ namespace mimosa
 
         while (iovcnt > 0 && nbytes > 0)
         {
-          if (nbytes > static_cast<ssize_t> (iov->iov_len))
+          if (nbytes >= static_cast<ssize_t> (iov->iov_len))
           {
             nbytes -= iov->iov_len;
             --iovcnt;
