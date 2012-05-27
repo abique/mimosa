@@ -2,6 +2,7 @@
 #include "filter-factory.hh"
 #include "../stream/html-escape.hh"
 #include "../stream/percent-encoder.hh"
+#include "../stream/base16-encoder.hh"
 
 namespace mimosa
 {
@@ -17,6 +18,11 @@ namespace mimosa
       return new stream::PercentEncoder(stream, uri::kRfc3986);
     }
 
+    static stream::Filter::Ptr createBase16Encoder(stream::Stream::Ptr stream)
+    {
+      return new stream::Base16Encoder(stream);
+    }
+
     FilterFactory::FilterFactory()
     {
       // register default filters
@@ -24,6 +30,7 @@ namespace mimosa
       registerFilter("html", createHtmlFilter);
       registerFilter("u", createPercentEncoder);
       registerFilter("url", createPercentEncoder);
+      registerFilter("b16", createBase16Encoder);
     }
 
     FilterFactory::~FilterFactory()
