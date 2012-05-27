@@ -78,7 +78,7 @@ namespace mimosa
         }
         if (it->isSecure())
           ok = ok & format::printStatic(stream, "; Secure", timeout);
-        if (!it->isHttpOnly())
+        if (it->isHttpOnly())
           ok = ok & format::printStatic(stream, "; HttpOnly", timeout);
         ok = ok & format::printStatic(stream, "\r\n", timeout);
       }

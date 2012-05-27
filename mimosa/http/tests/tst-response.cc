@@ -36,9 +36,7 @@ namespace mimosa
         resp.cookies_.push(cookie);
 
         auto str = resp.toHttpHeader();
-
-        EXPECT_EQ(
-          str,
+        static const char *ref =
           "HTTP/1.1 200 OK\r\n"
           "Server: mimosa\r\n"
           "Connection: Keep-Alive\r\n"
@@ -47,7 +45,9 @@ namespace mimosa
           "Transfer-Encoding: Identity\r\n"
           "Set-Cookie: key1=value1; Secure; HttpOnly\r\n"
           "Set-Cookie: key2=value2; Domain=toto.com; Path=/titi\r\n"
-          "\r\n");
+          "\r\n";
+
+        EXPECT_EQ(ref, str);
       }
     }
   }
