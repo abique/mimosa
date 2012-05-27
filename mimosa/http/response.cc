@@ -43,7 +43,9 @@ namespace mimosa
       switch (transfer_encoding_)
       {
       case kCodingIdentity:
-        ok = ok & format::printStatic(stream, "Transfer-Encoding: Identity\r\n", timeout);
+        // don't tell that the transfer encoding is identity as some old
+        // http clients could fails...
+        //ok = ok & format::printStatic(stream, "Transfer-Encoding: Identity\r\n", timeout);
         break;
 
       case kCodingChunked:

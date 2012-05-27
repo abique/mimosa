@@ -28,15 +28,15 @@ namespace mimosa
 
       void clear();
 
-      Status         status_;
-      bool           keep_alive_;
-      Coding         content_encoding_;
-      Coding         transfer_encoding_;
-      int64_t        content_length_;     ///< -1: auto
-      std::string    content_type_;
-      Cookie::Slist  cookies_;
-      kvs unparsed_headers_;
-      time_t         last_modified_;
+      Status        status_;
+      bool          keep_alive_;
+      Coding        content_encoding_;
+      Coding        transfer_encoding_;
+      int64_t       content_length_; ///< -1: auto
+      std::string   content_type_;
+      Cookie::Slist cookies_;
+      kvs           unparsed_headers_;
+      time_t        last_modified_;
     };
   }
 }

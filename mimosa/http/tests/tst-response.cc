@@ -42,7 +42,7 @@ namespace mimosa
           "Connection: Keep-Alive\r\n"
           "Content-Length: 42\r\n"
           "Content-Type: text/html\r\n"
-          "Transfer-Encoding: Identity\r\n"
+          //"Transfer-Encoding: Identity\r\n"
           "Set-Cookie: key1=value1; Secure; HttpOnly\r\n"
           "Set-Cookie: key2=value2; Domain=toto.com; Path=/titi\r\n"
           "\r\n";
