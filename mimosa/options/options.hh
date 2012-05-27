@@ -137,6 +137,26 @@ namespace mimosa
       T           value_;
     };
 
+    /// This options just displays a message and exits the program
+    /// when triggered
+    class MessageOption : public BasicOption
+    {
+    public:
+      MessageOption(const char * group,
+                    const char * name,
+                    const char * desc,
+                    const char * message)
+        : BasicOption(group, name, message),
+          message_(message)
+      {
+      }
+
+      virtual bool parse(int & argc, char **& argv) override;
+
+    private:
+      const char * message_;
+    };
+
     /// Parses the arguments.
     /// Through it may not modify argv.
     ///
@@ -173,6 +193,17 @@ namespace mimosa
       auto opt = new SwitchOption(group, name, desc);
       addBasicOption(opt);
       return &opt->value_;
+    }
+
+    inline
+    const char * addMessage(const char * group,
+                            const char * name,
+                            const char * desc,
+                            const char * message)
+    {
+      auto opt = new MessageOption(group, name, desc, message);
+      addBasicOption(opt);
+      return message;
     }
   }
 }

@@ -4,6 +4,7 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include <cstdlib>
 
 #include "options.hh"
 
@@ -11,6 +12,13 @@ namespace mimosa
 {
   namespace options
   {
+    bool
+    MessageOption::parse(int & argc, char **& argv)
+    {
+      std::cout << message_ << std::endl;
+      ::exit(0);
+    }
+
     /// This class is an internal class, to parse and manages options.
     struct Parser
     {
