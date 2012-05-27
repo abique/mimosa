@@ -26,7 +26,7 @@ namespace mimosa
       MIMOSA_DEF_PTR(ResponseWriter);
 
       ResponseWriter(ServerChannel & channel,
-                     Time   write_timeout);
+                     Time            write_timeout);
       ~ResponseWriter();
 
       /** Stream related stuff
