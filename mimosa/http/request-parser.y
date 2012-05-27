@@ -65,7 +65,7 @@
 %%
 
 request: method LOCATION PROTO_MAJOR PROTO_MINOR kvs {
-  rq.setRawLocation(*$2); delete $2;
+  rq.setRawLocation(std::move(*$2)); delete $2;
   rq.setProto($3, $4);
 };
 
@@ -88,12 +88,12 @@ kv:
 | KEY_CONNECTION VALUE_CONNECTION { rq.setKeepAlive($2); }
 | KEY_COOKIE cookies
 | KEY_CONTENT_LENGTH VAL64 { rq.setContentLength($2); }
-| KEY_CONTENT_TYPE VALUE { rq.setContentType(*$2); delete $2; }
-| KEY_HOST HOST PORT { rq.setHost(*$2); delete $2; rq.setPort($3); }
-| KEY_HOST HOST { rq.setHost(*$2); delete $2; }
-| KEY_REFERRER VALUE { rq.setReferrer(*$2); delete $2; }
-| KEY_USER_AGENT VALUE { rq.setUserAgent(*$2); delete $2; };
-| KEY_IF_MODIFIED_SINCE VALUE { rq.parseIfModifiedSince(*$2); delete $2; }
+| KEY_CONTENT_TYPE VALUE { rq.setContentType(std::move(*$2)); delete $2; }
+| KEY_HOST HOST PORT { rq.setHost(std::move(*$2)); delete $2; rq.setPort($3); }
+| KEY_HOST HOST { rq.setHost(std::move(*$2)); delete $2; }
+| KEY_REFERRER VALUE { rq.setReferrer(std::move(*$2)); delete $2; }
+| KEY_USER_AGENT VALUE { rq.setUserAgent(std::move(*$2)); delete $2; };
+| KEY_IF_MODIFIED_SINCE VALUE { rq.parseIfModifiedSince(std::move(*$2)); delete $2; }
 
 accept_encodings: /* epsilon */
 | COMPRESS accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingCompress); }
@@ -109,7 +109,7 @@ cookies:
 | cookie ';' cookies ;
 
 cookie:
-  ATTR { rq.addCookie(*$1, ""); delete $1; }
+ATTR { rq.addCookie(*$1, ""); delete $1; }
 | ATTR '=' { rq.addCookie(*$1, ""); delete $1; };
 | ATTR '=' VALUE { rq.addCookie(*$1, *$3); delete $1; delete $3; };
 

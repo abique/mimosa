@@ -47,9 +47,11 @@ namespace mimosa
 
       inline const std::string & rawLocation() const { return raw_location_; }
       inline void setRawLocation(const std::string & s) { raw_location_ = s; }
+      inline void setRawLocation(std::string && s) { raw_location_ = s; }
 
       inline const std::string & host() const { return host_; }
       inline void setHost(const std::string & s) { host_ = s; }
+      inline void setHost(std::string && s) { host_ = s; }
 
       inline uint16_t port() const { return port_; }
       inline void setPort(uint16_t port) { port_ = port; }
@@ -76,15 +78,18 @@ namespace mimosa
 
       inline const std::string & contentType() const { return content_type_; }
       inline void setContentType(const std::string & s) { content_type_ = s; }
+      inline void setContentType(std::string && s) { content_type_ = s; }
 
       inline stream::Stream::Ptr body() const { return body_; }
       inline void setBody(stream::Stream::Ptr stream) { body_ = stream; }
 
       inline const std::string & userAgent() const { return user_agent_; }
       inline void setUserAgent(const std::string & s) { user_agent_ = s; }
+      inline void setUserAgent(std::string && s) { user_agent_ = s; }
 
       inline const std::string & referrer() const { return referrer_; }
       inline void setReferrer(const std::string & s) { referrer_ = s; }
+      inline void setReferrer(std::string && s) { referrer_ = s; }
 
       inline const kvs & unparsedHeaders() const { return unparsed_headers_; }
       inline void addHeader(const std::string & key,
