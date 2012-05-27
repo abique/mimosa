@@ -27,8 +27,8 @@ namespace mimosa
   class IntrusiveDListIterator
   {
   public:
-    inline IntrusiveDListIterator(const IntrusiveDList<T, Ptr, Member> & dlist, Ptr item)
-      : dlist_(dlist), item_(item)
+    inline IntrusiveDListIterator(Ptr item)
+      : item_(item)
     {
     }
 
@@ -36,21 +36,19 @@ namespace mimosa
     inline Ptr operator->() const { return item_; }
     inline IntrusiveDListIterator<T, Ptr, Member> & operator++()
     {
-      assert(item_);
       item_ = (item_->*Member).next_;
       return *this;
     }
 
     inline IntrusiveDListIterator<T, Ptr, Member> & operator--()
     {
-      assert(item_);
       item_ = (item_->*Member).prev_;
       return *this;
     }
 
     inline bool operator==(const IntrusiveDListIterator<T, Ptr, Member> & other) const
     {
-      return &dlist_ == &other.dlist_ && item_ == other.item_;
+      return item_ == other.item_;
     }
 
     inline bool operator!=(const IntrusiveDListIterator<T, Ptr, Member> & other) const
@@ -59,8 +57,44 @@ namespace mimosa
     }
 
   private:
-    const IntrusiveDList<T, Ptr, Member> & dlist_;
-    Ptr                                    item_;
+    Ptr item_;
+  };
+
+  template <typename T, typename Ptr, IntrusiveDListHook<Ptr> T::*Member>
+  class IntrusiveDListReverseIterator
+  {
+  public:
+    inline IntrusiveDListReverseIterator(Ptr item)
+      : item_(item)
+    {
+    }
+
+    inline T & operator*() const { return *item_; }
+    inline Ptr operator->() const { return item_; }
+    inline IntrusiveDListReverseIterator<T, Ptr, Member> & operator--()
+    {
+      item_ = (item_->*Member).next_;
+      return *this;
+    }
+
+    inline IntrusiveDListReverseIterator<T, Ptr, Member> & operator++()
+    {
+      item_ = (item_->*Member).prev_;
+      return *this;
+    }
+
+    inline bool operator==(const IntrusiveDListReverseIterator<T, Ptr, Member> & other) const
+    {
+      return item_ == other.item_;
+    }
+
+    inline bool operator!=(const IntrusiveDListReverseIterator<T, Ptr, Member> & other) const
+    {
+      return !(*this == other);
+    }
+
+  private:
+    Ptr item_;
   };
 
   template <typename T, typename Ptr, IntrusiveDListHook<Ptr> T::*Member>
@@ -68,7 +102,7 @@ namespace mimosa
   {
   public:
     typedef IntrusiveDListIterator<T, Ptr, Member> iterator;
-    friend class IntrusiveDListIterator<T, Ptr, Member>;
+    typedef IntrusiveDListReverseIterator<T, Ptr, Member> reverse_iterator;
 
     inline IntrusiveDList() : head_(nullptr), tail_(nullptr), size_(0) {}
     inline ~IntrusiveDList()
@@ -181,8 +215,11 @@ namespace mimosa
         tail_ = (item->*Member).next_;
     }
 
-    iterator begin() const { return empty() ? end() : iterator(*this, head_); }
-    iterator end() const { return iterator(*this, nullptr); }
+    iterator begin() const { return empty() ? end() : iterator(head_); }
+    iterator end() const { return iterator(nullptr); }
+
+    reverse_iterator rbegin() const { return empty() ? rend() : reverse_iterator(tail_); }
+    reverse_iterator rend() const { return reverse_iterator(nullptr); }
 
   private:
     Ptr    head_;
