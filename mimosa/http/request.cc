@@ -115,8 +115,9 @@ namespace mimosa
     {
       static const std::string empty;
 
-      auto it = query_.find(key);
-      if (it == query_.end())
+      auto & q = query();
+      auto it = q.find(key);
+      if (it == q.end())
         return empty;
       return it->second;
     }
