@@ -17,8 +17,8 @@ namespace mimosa
     : thread_(),
       fct_(new std::function<void ()>(fct)),
       state_(kNotRunning),
-      //stack_size_(64 * 1024)
-      stack_size_(PTHREAD_STACK_MIN)
+      stack_size_(64 * 1024)
+      //stack_size_(PTHREAD_STACK_MIN)
   {
   }
 
