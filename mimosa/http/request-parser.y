@@ -51,8 +51,6 @@
 %token KEY_REFERRER
 %token KEY_USER_AGENT
 %token KEY_IF_MODIFIED_SINCE
-%token HOST
-%token PORT
 
 // values
 %token <text> VALUE HOST
@@ -105,7 +103,6 @@ accept_encodings: /* epsilon */
 cookies:
 /* epsilon */
 | cookie
-| cookie ';'
 | cookie ';' cookies ;
 
 cookie:
