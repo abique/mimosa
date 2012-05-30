@@ -38,7 +38,11 @@ namespace mimosa
     BufferedStream::write(const char * data, uint64_t nbytes, Time timeout)
     {
       if (wpos_ + nbytes >= buffer_size_)
-        return flushWith(data, nbytes, timeout);
+      {
+        if (flushWith(data, nbytes, timeout))
+          return nbytes;
+        return -1;
+      }
 
       ::memcpy(wbuffer_.data() + wpos_, data, nbytes);
       wpos_ += nbytes;
@@ -66,7 +70,13 @@ namespace mimosa
       iov[0].iov_len = wpos_;
       iov[1].iov_base = (void*)data;
       iov[1].iov_len = nbytes;
-      return stream_->loopWritev(iov, 2, timeout) == nbytes + wpos_;
+
+      bool succeed = stream_->loopWritev(iov, 2, timeout);
+
+      if (succeed)
+        wpos_ = 0;
+
+      return succeed;
     }
 
     int64_t
