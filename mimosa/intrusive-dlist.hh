@@ -207,12 +207,12 @@ namespace mimosa
       if ((item->*Member).prev_)
         ((item->*Member).prev_->*Member).next_ = (item->*Member).next_;
       else
-        head_ = (item->*Member).prev_;
+        head_ = (item->*Member).next_;
 
       if ((item->*Member).next_)
         ((item->*Member).next_->*Member).prev_ = (item->*Member).prev_;
       else
-        tail_ = (item->*Member).next_;
+        tail_ = (item->*Member).prev_;
     }
 
     iterator begin() const { return empty() ? end() : iterator(head_); }
