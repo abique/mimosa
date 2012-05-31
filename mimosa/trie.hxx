@@ -107,27 +107,52 @@ namespace mimosa
   }
 
   template <typename Value, StringRef (*GetKey)(Value value)>
-  inline void
+  inline bool
   Trie<Value, GetKey>::erase(const StringRef & key)
   {
+    // check if value matches the key
     if ((key.size() == depth_ || size_ == 1) &&
         (value_ && GetKey(value_) == key))
     {
       value_ = nullptr;
       --size_;
-      return;
+      repack();
+      return true;
     }
 
+    // check if we can find the key in childs
     if (!childs_ || !childs_[(uint8_t)key[depth_]])
-      return;
+      return false;
 
-    childs_[(uint8_t)key[depth_]]->erase(key);
+    if (!childs_[(uint8_t)key[depth_]]->erase(key))
+      return false; // childs_ did not holds key
+
     --size_;
-
     if (childs_[(uint8_t)key[depth_]]->empty()) {
       delete childs_[(uint8_t)key[depth_]];
       childs_[(uint8_t)key[depth_]] = nullptr;
     }
+    repack();
+    return true;
+  }
+
+  template <typename Value, StringRef (*GetKey)(Value value)>
+  inline void
+  Trie<Value, GetKey>::repack()
+  {
+    // can we free childs and move our last value to value_?
+    if (size_ != 1 || value_ || !childs_)
+      return;
+
+    for (int i = 0; i < 256; ++i)
+      if (childs_[i] && childs_[i]->value_)
+      {
+        value_ = childs_[i]->value_;
+        delete childs_[i];
+        free(childs_);
+        childs_ = nullptr;
+        return;
+      }
   }
 
   template <typename Value, StringRef (*GetKey)(Value value)>

@@ -18,9 +18,21 @@ namespace mimosa
     inline ~Trie();
 
     inline bool insert(const Value & value) { return insert(GetKey(value), value); }
+
+    /**
+     * @return a valid pointer if found, nullptr otherwise
+     */
     inline Value find(const StringRef & key) const;
-    inline void erase(const StringRef & key);
-    inline void erase(const Value & value) { erase(GetKey(value)); }
+
+    /**
+     * @return true if one element has been removed, false otherwise
+     */
+    inline bool erase(const StringRef & key);
+
+    /**
+     * @return true if one element has been removed, false otherwise
+     */
+    inline bool erase(const Value & value) { return erase(GetKey(value)); }
 
     inline void clear();
     inline bool empty() const { return !size_; }
@@ -39,6 +51,7 @@ namespace mimosa
 
     inline void allocateChilds();
     inline bool insert(const StringRef & key, Value value);
+    inline void repack();
 
     Value                  value_;
     Trie<Value, GetKey> ** childs_;
