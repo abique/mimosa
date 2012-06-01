@@ -17,6 +17,17 @@ namespace mimosa
     bool copyValue(Decoder & dec,
                    Encoder & enc,
                    Time      timeout = 0);
+
+    /**
+     * @ingroup bencode
+     *
+     * @brief copy the current token to enc
+     * @return true on success, false otherwise
+     */
+    bool copyToken(Token           token,
+                   const Decoder & dec,
+                   Encoder &       enc,
+                   Time            timeout = 0);
   }
 }
 

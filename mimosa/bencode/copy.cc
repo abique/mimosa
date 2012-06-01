@@ -51,5 +51,45 @@ namespace mimosa
       return true;
 
     }
+
+    bool copyToken(Token           token,
+                   const Decoder & dec,
+                   Encoder &       enc,
+                   Time            timeout)
+    {
+      switch (token) {
+
+      case kInt:
+        if (!enc.pushInt(dec.getInt(), timeout))
+          return false;
+        return true;
+
+      case kData:
+        if (!enc.pushData(dec.getData(), timeout))
+          return false;
+        return true;
+
+      case kList:
+        if (!enc.startList(timeout))
+          return false;
+        return true;
+
+      case kDict:
+        if (!enc.startDict(timeout))
+          return false;
+        return true;
+
+      case kEnd:
+        if (!enc.end(timeout))
+          return false;
+        return true;
+
+      case kEof:
+      case kReadError:
+      case kParseError:
+      default:
+        return false;
+      }
+    }
   }
 }
