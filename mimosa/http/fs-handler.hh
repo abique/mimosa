@@ -20,12 +20,16 @@ namespace mimosa
       /** This is the handle method. It must be thread-safe. */
       virtual bool handle(RequestReader & request, ResponseWriter & response) const;
 
-    private:
-      bool streamFile(RequestReader &     request,
-                      ResponseWriter &    response,
-                      const std::string & real_path,
-                      struct stat &       st) const;
+      static bool streamFile(RequestReader &     request,
+                             ResponseWriter &    response,
+                             const std::string & real_path,
+                             struct stat &       st);
 
+      static bool streamFile(RequestReader &     request,
+                             ResponseWriter &    response,
+                             const std::string & real_path);
+
+    private:
       bool readDir(RequestReader &     request,
                    ResponseWriter &    response,
                    const std::string & real_path) const;

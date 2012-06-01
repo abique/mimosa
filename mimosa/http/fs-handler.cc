@@ -63,8 +63,20 @@ namespace mimosa
     bool
     FsHandler::streamFile(RequestReader &     request,
                           ResponseWriter &    response,
+                          const std::string & real_path)
+    {
+      struct stat st;
+
+      if (stat(real_path.c_str(), &st))
+        return false;
+      return streamFile(request, response, real_path, st);
+    }
+
+    bool
+    FsHandler::streamFile(RequestReader &     request,
+                          ResponseWriter &    response,
                           const std::string & real_path,
-                          struct stat &       st) const
+                          struct stat &       st)
     {
       if (request.hasIfModifiedSince() && request.ifModifiedSince() >= st.st_mtime)
       {
