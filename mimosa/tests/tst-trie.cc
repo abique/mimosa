@@ -122,5 +122,15 @@ namespace mimosa
       FIND("aa", false);
       FIND("aaa", true);
     }
+
+    TEST(Trie, DuplicateKey)
+    {
+      Trie<Value::Ptr, getKey> trie;
+
+      INSERT("aaa", true);
+      INSERT("aaa", false);
+      FIND("aaa", true);
+      ERASE("aaa", true);
+    }
   }
 }
