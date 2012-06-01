@@ -33,6 +33,7 @@ install(FILES
   trie.hh
   trie.hxx
   unique-locker.hh
+  uptime.hh
   yield.hh
   DESTINATION include/mimosa/)
 
@@ -52,6 +53,7 @@ add_library(mimosa
   cpu-foreach.cc
   thread.cc
   thread-pool.cc
+  uptime.cc
 
   # sync
   barrier.cc

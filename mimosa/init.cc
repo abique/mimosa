@@ -10,6 +10,7 @@
 
 #include "init.hh"
 #include "options/options.hh"
+#include "uptime.hh"
 
 namespace mimosa
 {
@@ -24,6 +25,9 @@ namespace mimosa
 
   void init(int argc, char ** argv)
   {
+    // initialize uptime
+    uptime();
+
     ::signal(SIGPIPE, dummy);
     ::sched_param sc_params;
     sc_params.sched_priority = 1;
