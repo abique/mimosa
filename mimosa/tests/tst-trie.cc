@@ -21,7 +21,7 @@
   do {                                                                  \
     auto size = trie.size();                                            \
     EXPECT_EQ(Success, trie.insert(Value::Ptr(new Value(Key))));        \
-    FIND(Key, Success);                                                 \
+    FIND(Key, true);                                                    \
     EXPECT_EQ(size + Success, trie.size());                             \
   } while (0)
 

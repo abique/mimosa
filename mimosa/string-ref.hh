@@ -30,7 +30,7 @@ namespace mimosa
     inline char operator[](size_type pos) const { assert(len_ > pos); return data_[pos]; }
 
     inline bool operator==(const StringRef & other) const {
-      return streq(other);
+      return memeq(other);
     }
 
     inline bool operator!=(const StringRef & other) const {
@@ -73,8 +73,12 @@ namespace mimosa
       return find(str.c_str(), pos, str.size());
     }
 
-    inline bool streq(const StringRef & other) const {
+    inline bool memeq(const StringRef & other) const {
       return other.len_ == len_ && (other.data_ == data_ || !::memcmp(other.data_, data_, len_));
+    }
+
+    inline bool streq(const StringRef & other) const {
+      return other.len_ == len_ && (other.data_ == data_ || !::strncmp(other.data_, data_, len_));
     }
     inline bool strcaseeq(const StringRef & other) const {
       return other.len_ == len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, len_));

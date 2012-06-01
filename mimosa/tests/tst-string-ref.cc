@@ -54,5 +54,21 @@ namespace mimosa
 
       ASSERT_EQ(vec.size(), 0);
     }
+
+    TEST(StringRef, Eq)
+    {
+      StringRef s1("abc");
+      StringRef s2("abc");
+
+      EXPECT_EQ(s1, s2);
+    }
+
+    TEST(StringRef, Neq)
+    {
+      StringRef s1("abc");
+      StringRef s2("abd");
+
+      EXPECT_NE(s1, s2);
+    }
   }
 }

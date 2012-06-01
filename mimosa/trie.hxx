@@ -3,7 +3,7 @@ namespace mimosa
   template <typename Value, StringRef (*GetKey)(Value value)>
   inline
   Trie<Value, GetKey>::Trie(uint32_t depth)
-    : value_(),
+    : value_(nullptr),
       childs_(nullptr),
       depth_(depth),
       size_(0)
@@ -44,9 +44,10 @@ namespace mimosa
     if (key.size() == depth_)
       return;
 
-    insert(key, value_);
+    childs_[(uint8_t)key[depth_]] = new Trie<Value, GetKey>(depth_ + 1);
+    bool ret = childs_[(uint8_t)key[depth_]]->insert(key, value_);
     value_ = nullptr;
-    --size_;
+    assert(ret);
   }
 
   template <typename Value, StringRef (*GetKey)(Value value)>
@@ -55,6 +56,19 @@ namespace mimosa
   {
     assert(key.size() >= depth_);
 
+    if (empty()) {
+      assert(!value_);
+      assert(!childs_);
+      value_ = value;
+      ++size_;
+      return true;
+    }
+
+    // don't add two times the same key
+    if (size_ == 1 && GetKey(value_) == key)
+      return false;
+
+    // this node equals the key
     if (key.size() == depth_) {
       if (!value_) {
         value_ = value;
@@ -64,17 +78,13 @@ namespace mimosa
 
       if (GetKey(value_).size() > depth_) {
         std::swap(value, value_);
-        insert(value);
-        return true;
+        bool ret = insert(value);
+        assert(ret);
+        return ret;
       }
 
+      assert(key == GetKey(value_));
       return false;
-    }
-
-    if (!value_ && !childs_) {
-      value_ = value;
-      ++size_;
-      return true;
     }
 
     if (!childs_)
