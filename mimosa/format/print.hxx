@@ -41,12 +41,12 @@ namespace mimosa
 
     inline bool print(stream::Stream & stream, const std::string & str, Time timeout)
     {
-      return stream.loopWrite(str.data(), str.size(), timeout) == str.size();
+      return stream.loopWrite(str.data(), str.size(), timeout) == (int64_t)str.size();
     }
 
     inline bool print(stream::Stream & stream, const char *str, size_t len, Time timeout)
     {
-      return stream.loopWrite(str, len, timeout) == len;
+      return stream.loopWrite(str, len, timeout) == (int64_t)len;
     }
 
     template <size_t len>

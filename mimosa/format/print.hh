@@ -15,6 +15,8 @@ namespace mimosa
     inline bool printDecimal(stream::Stream & stream, T value, Time timeout);
 
     bool printHex(stream::Stream & stream, uint64_t value, Time timeout);
+    /** will print the size with a precision of 3 digits */
+    bool printByteSize(stream::Stream & stream, uint64_t value, Time timeout);
 
     template <size_t len>
     inline bool printStatic(stream::Stream & stream, const char (&str)[len], Time timeout);
