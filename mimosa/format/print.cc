@@ -1,3 +1,5 @@
+#include "format.hh"
+#include "format-stream.hh"
 #include "print.hh"
 
 namespace mimosa
@@ -61,6 +63,17 @@ namespace mimosa
 
       const int64_t len = sizeof (buffer) - (it - buffer);
       return stream.loopWrite(it, len, timeout) == len;
+    }
+
+    bool printDuration(stream::Stream & stream, Time time, Time timeout)
+    {
+      uint32_t msecs = (time / millisecond) % 1000;
+      uint32_t secs  = (time / second) % 60;
+      uint32_t mins  = (time / minute) % 60;
+      uint32_t hours = (time / hour) % 24;
+      uint32_t days  = time / day;
+
+      return format(&stream, timeout, "%d days, %d:%d:%d", days, hours, mins, secs);
     }
   }
 }

@@ -18,6 +18,8 @@ namespace mimosa
     /** will print the size with a precision of 3 digits */
     bool printByteSize(stream::Stream & stream, uint64_t value, Time timeout);
 
+    bool printDuration(stream::Stream & stream, Time time, Time timeout);
+
     template <size_t len>
     inline bool printStatic(stream::Stream & stream, const char (&str)[len], Time timeout);
     inline bool print(stream::Stream & stream, const char *str, size_t len, Time timeout);

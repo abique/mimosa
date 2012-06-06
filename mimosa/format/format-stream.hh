@@ -8,6 +8,7 @@ namespace mimosa
 {
   namespace format
   {
+    // XXX take a reference to stream, not a refcounted pointer
     template <typename ... Args>
     inline
     bool format(stream::Stream::Ptr stream,
