@@ -22,24 +22,25 @@ namespace mimosa
     public:
       inline virtual ~Stream() {}
 
-      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0) = 0;
-      virtual int64_t writev(const struct iovec *iov, int iovcnt, Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0) = 0;
-      virtual int64_t readv(const struct iovec *iov, int iovcnt, Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes) = 0;
+      virtual int64_t writev(const struct iovec *iov, int iovcnt);
+      virtual int64_t read(char * data, uint64_t nbytes) = 0;
+      virtual int64_t readv(const struct iovec *iov, int iovcnt);
 
-      inline int64_t write(const std::string & str, Time timeout = 0) {
-        return write(str.data(), str.size(), timeout);
+      inline int64_t write(const std::string & str) {
+        return write(str.data(), str.size());
       }
 
       /** cancels running io opperations */
       inline virtual void close() {}
 
       /** flushes the write buffer */
-      inline virtual bool flush(Time timeout = 0) { (void)timeout; return true; }
+      inline virtual bool flush() { return true; }
 
-      int64_t loopRead(char * data, uint64_t nbytes, Time timeout = 0);
-      int64_t loopWrite(const char * data, uint64_t nbytes, Time timeout = 0);
-      int64_t loopWritev(struct iovec *iov, int iovcnt, Time timeout = 0);
+      int64_t loopRead(char * data, uint64_t nbytes);
+      // XXX loopReadv
+      int64_t loopWrite(const char * data, uint64_t nbytes);
+      int64_t loopWritev(struct iovec *iov, int iovcnt);
     };
   }
 }

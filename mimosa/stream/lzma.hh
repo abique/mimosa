@@ -17,10 +17,10 @@ namespace mimosa
 
       virtual ~Lzma();
 
-      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes);
+      virtual int64_t read(char * data, uint64_t nbytes);
 
-      virtual bool flush(Time timeout = 0);
+      virtual bool flush();
 
     protected:
       Lzma(Stream::Ptr stream);

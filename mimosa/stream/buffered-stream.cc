@@ -35,11 +35,11 @@ namespace mimosa
     }
 
     int64_t
-    BufferedStream::write(const char * data, uint64_t nbytes, Time timeout)
+    BufferedStream::write(const char * data, uint64_t nbytes)
     {
       if (wpos_ + nbytes >= buffer_size_)
       {
-        if (flushWith(data, nbytes, timeout))
+        if (flushWith(data, nbytes))
           return nbytes;
         return -1;
       }
@@ -50,19 +50,19 @@ namespace mimosa
     }
 
     bool
-    BufferedStream::flush(Time timeout)
+    BufferedStream::flush()
     {
-      if (stream_->loopWrite(wbuffer_.data(), wpos_, timeout) != static_cast<int64_t> (wpos_))
+      if (stream_->loopWrite(wbuffer_.data(), wpos_) != static_cast<int64_t> (wpos_))
         return false;
       wpos_ = 0;
-      return stream_->flush(timeout);
+      return stream_->flush();
     }
 
     bool
-    BufferedStream::flushWith(const char *data, uint64_t nbytes, Time timeout)
+    BufferedStream::flushWith(const char *data, uint64_t nbytes)
     {
       if (wpos_ == 0)
-        return stream_->loopWrite(data, nbytes, timeout) == timeout;
+        return stream_->loopWrite(data, nbytes) == static_cast<int64_t> (nbytes);
 
       struct ::iovec iov[2];
 
@@ -71,7 +71,7 @@ namespace mimosa
       iov[1].iov_base = (void*)data;
       iov[1].iov_len = nbytes;
 
-      bool succeed = stream_->loopWritev(iov, 2, timeout);
+      bool succeed = stream_->loopWritev(iov, 2);
 
       if (succeed)
         wpos_ = 0;
@@ -80,7 +80,7 @@ namespace mimosa
     }
 
     int64_t
-    BufferedStream::read(char * data, uint64_t nbytes, Time timeout)
+    BufferedStream::read(char * data, uint64_t nbytes)
     {
       if (rappend_ == rpos_)
       {
@@ -90,7 +90,7 @@ namespace mimosa
           rbuffer_->resize(buffer_size_);
         rpos_    = 0;
         rappend_ = 0;
-        int64_t rbytes = stream_->read(rbuffer_->data(), rbuffer_->size(), timeout);
+        int64_t rbytes = stream_->read(rbuffer_->data(), rbuffer_->size());
         if (rbytes <= 0)
           return rbytes;
         rappend_ = rbytes;
@@ -110,7 +110,7 @@ namespace mimosa
     }
 
     Buffer::Ptr
-    BufferedStream::read(uint64_t buffer_size, Time timeout)
+    BufferedStream::read(uint64_t buffer_size)
     {
       if (rappend_ > rpos_)
       {
@@ -126,7 +126,7 @@ namespace mimosa
 
       if (!rbuffer_)
         rbuffer_ = new Buffer(buffer_size);
-      int64_t bytes = stream_->read(rbuffer_->data(), rbuffer_->size(), timeout);
+      int64_t bytes = stream_->read(rbuffer_->data(), rbuffer_->size());
       if (bytes <= 0)
         return nullptr;
       rbuffer_->resize(bytes);
@@ -138,7 +138,6 @@ namespace mimosa
     Buffer::Ptr
     BufferedStream::readUntil(const char * const str,
                               uint64_t           max_size, // TODO
-                              Time               timeout,
                               bool *             found)
     {
       Buffer::Ptr buffer;
@@ -155,7 +154,7 @@ namespace mimosa
           return nullptr;
         }
 
-        Buffer::Ptr tmp_buffer = read(buffer_size_, timeout);
+        Buffer::Ptr tmp_buffer = read(buffer_size_);
         if (!tmp_buffer || tmp_buffer->size() == 0)
         {
           assert(!rbuffer_ || rappend_ == 0);

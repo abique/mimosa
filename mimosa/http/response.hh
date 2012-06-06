@@ -23,7 +23,7 @@ namespace mimosa
       Response();
 
       /** convert the response to an http response header */
-      bool print(stream::Stream & stream, Time timeout) const;
+      bool print(stream::Stream & stream) const;
       std::string toHttpHeader() const;
 
       void clear();

@@ -12,8 +12,8 @@ namespace mimosa
     public:
       LimitedStream(Stream::Ptr stream);
 
-      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes);
+      virtual int64_t read(char * data, uint64_t nbytes);
 
       inline void setReadLimit(uint64_t bytes) { rbytes_left_ = bytes; }
       inline void setWriteLimit(uint64_t bytes) { wbytes_left_ = bytes; }

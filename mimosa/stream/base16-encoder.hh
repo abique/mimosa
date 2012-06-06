@@ -15,8 +15,8 @@ namespace mimosa
       Base16Encoder(Stream::Ptr stream, bool upper = false);
       Base16Encoder(Stream::Ptr stream, const char * base);
 
-      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes);
+      virtual int64_t read(char * data, uint64_t nbytes);
 
     private:
       const char * base_;

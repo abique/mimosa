@@ -21,9 +21,7 @@ namespace mimosa
     {
     public:
       ServerChannel(stream::BufferedStream::Ptr stream,
-                    Handler::Ptr                handler,
-                    Time               read_timeout  = 0,
-                    Time               write_timeout = 0);
+                    Handler::Ptr                handler);
       ~ServerChannel();
 
       void run();

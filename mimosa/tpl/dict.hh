@@ -18,7 +18,7 @@ namespace mimosa
       Dict(const std::string & name = "");
 
       virtual const AbstractValue * lookup(const StringRef & var) const;
-      virtual void write(stream::Stream::Ptr stream, Time timeout = 0) const;
+      virtual void write(stream::Stream::Ptr stream) const;
 
       virtual Iterator::Ptr begin() const;
       virtual bool empty() const;

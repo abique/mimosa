@@ -29,7 +29,7 @@ namespace mimosa
     }
 
     int64_t
-    Base16Decoder::write(const char * data, uint64_t nbytes, Time timeout)
+    Base16Decoder::write(const char * data, uint64_t nbytes)
     {
       if (nbytes < 2)
         return 0;
@@ -47,13 +47,13 @@ namespace mimosa
         p += 2;
       }
 
-      if (stream_->loopWrite(buffer.get(), nbytes / 2, timeout) == nbytes / 2)
+      if (stream_->loopWrite(buffer.get(), nbytes / 2) == nbytes / 2)
         return nbytes;
       return -1;
     }
 
     int64_t
-    Base16Decoder::read(char * data, uint64_t nbytes, Time timeout)
+    Base16Decoder::read(char * data, uint64_t nbytes)
     {
       assert(false && "not implemented");
       return -1;

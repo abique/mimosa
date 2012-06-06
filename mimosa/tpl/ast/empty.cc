@@ -9,8 +9,7 @@ namespace mimosa
     {
       void
       Empty::execute(stream::Stream::Ptr   stream,
-                     const AbstractValue & value,
-                     Time         timeout) const
+                     const AbstractValue & value) const
       {
         auto v = value.lookup(var_);
         if (v && !v->empty())
@@ -20,7 +19,7 @@ namespace mimosa
           v = &value;
 
         for (auto child = childs_.begin(); child != childs_.end(); ++child)
-          child->execute(stream, *v, timeout);
+          child->execute(stream, *v);
       }
     }
   }

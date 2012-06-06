@@ -34,15 +34,15 @@ namespace mimosa
     public:
       Decoder(stream::Stream::Ptr input);
 
-      Token pull(Time timeout = 0);
-      bool  eatValue(Time timeout = 0);
+      Token pull();
+      bool  eatValue();
 
       inline int64_t getInt() const { return int_; }
       inline const std::string & getData() const { return data_; }
 
     private:
-      Token pullInt(Time timeout);
-      Token pullData(Time timeout);
+      Token pullInt();
+      Token pullData();
 
       stream::Stream::Ptr input_;
       std::string         data_;

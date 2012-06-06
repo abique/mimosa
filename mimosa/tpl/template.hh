@@ -18,8 +18,7 @@ namespace mimosa
       static Template::Ptr parseFile(const std::string & path);
 
       void execute(stream::Stream::Ptr   stream,
-                   const AbstractValue & value,
-                   Time                  timeout = 0) const;
+                   const AbstractValue & value) const;
 
     private:
       friend class Parser;

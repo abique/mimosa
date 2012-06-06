@@ -25,8 +25,7 @@ namespace mimosa
     }
 
     void
-    Dict::write(stream::Stream::Ptr /*stream*/,
-                Time       /*timeout*/) const
+    Dict::write(stream::Stream::Ptr /*stream*/) const
     {
     }
 

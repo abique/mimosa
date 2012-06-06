@@ -24,14 +24,14 @@ namespace mimosa
       /** The number of bytes which are in the write buffer */
       uint64_t readyWrite() const;
 
-      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
-      virtual bool flush(Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes);
+      virtual int64_t read(char * data, uint64_t nbytes);
+      virtual bool flush();
 
       /** Zero copy stuff
        * @{ */
-      inline Buffer::Ptr read(Time timeout = 0) { return read(buffer_size_, timeout); }
-      Buffer::Ptr read(uint64_t buffer_size, Time timeout = 0);
+      inline Buffer::Ptr read() { return read(buffer_size_); }
+      Buffer::Ptr read(uint64_t buffer_size);
       /** @} */
 
       /** Helpers
@@ -44,7 +44,6 @@ namespace mimosa
        * @return a valid buffer on success, null otherwise. */
       Buffer::Ptr readUntil(const char * const str,
                             uint64_t           max_size = 0,
-                            Time               timeout  = 0,
                             bool *             found    = nullptr);
       /** @} */
 
@@ -53,7 +52,7 @@ namespace mimosa
       inline Stream* underlyingStream() const { return stream_; }
 
     private:
-      bool flushWith(const char *data, uint64_t nbytes, Time timeout);
+      bool flushWith(const char *data, uint64_t nbytes);
 
       Stream::Ptr    stream_;
       const uint64_t buffer_size_;

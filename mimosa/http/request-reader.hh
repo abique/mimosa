@@ -19,27 +19,21 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(RequestReader);
 
-      RequestReader(ServerChannel & channel,
-                    Time   read_timeout);
+      RequestReader(ServerChannel & channel);
 
       void clear();
 
       /** Stream related stuff
        * @{ */
       /** @warning this should never be called, will abort */
-      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes);
       /** reads the body (PUT and POST) */
-      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes);
       /** reads and discards all remaining body data */
-      virtual bool flush(Time timeout = 0);
+      virtual bool flush();
       /** @} */
 
       kvs & form();
-
-      inline Time readTimeout() const
-      {
-        return read_timeout_ > 0 ? time() + read_timeout_ : 0;
-      }
 
       inline ServerChannel & channel() const { return channel_; }
 
@@ -49,11 +43,10 @@ namespace mimosa
 
       bool prepare();
 
-      ServerChannel &     channel_;
-      int64_t             bytes_left_;
-      bool                parsed_form_;
-      kvs      form_;
-      Time       read_timeout_;
+      ServerChannel & channel_;
+      int64_t         bytes_left_;
+      bool            parsed_form_;
+      kvs             form_;
     };
   }
 }

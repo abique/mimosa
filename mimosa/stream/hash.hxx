@@ -35,8 +35,7 @@ namespace mimosa
     template <gnutls_digest_algorithm_t Algo, size_t Len>
     int64_t
     Hash<Algo, Len>::write(const char * data,
-                           uint64_t     nbytes,
-                           Time /*timeout*/)
+                           uint64_t     nbytes)
     {
       if (!handle_)
         return -1;
@@ -49,8 +48,7 @@ namespace mimosa
     template <gnutls_digest_algorithm_t Algo, size_t Len>
     int64_t
     Hash<Algo, Len>::read(char *       /*data*/,
-                          uint64_t     /*nbytes*/,
-                          Time /*timeout*/)
+                          uint64_t     /*nbytes*/)
     {
       assert(false && "invalid operation");
       return -1;

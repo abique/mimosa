@@ -61,10 +61,7 @@ namespace mimosa
         }
       }
 
-      ServerChannel channel(new stream::BufferedStream(stream),
-                            handler_,
-                            read_timeout_,
-                            write_timeout_);
+      ServerChannel channel(new stream::BufferedStream(stream), handler_);
       channel.setRemoteAddr(address, address_len);
       channel.run();
     }

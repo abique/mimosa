@@ -82,7 +82,7 @@ namespace mimosa
       {
         response.content_length_ = 0;
         response.status_ = kStatusNotModified;
-        response.sendHeader(response.writeTimeout());
+        response.sendHeader();
         return true;
       }
 
@@ -93,16 +93,16 @@ namespace mimosa
       response.content_length_ = st.st_size;
       response.content_type_ = MimeDb::instance().mimeType(real_path);
       response.last_modified_ = st.st_mtime;
-      response.sendHeader(response.writeTimeout());
+      response.sendHeader();
 
       stream::DirectFdStream file(fd);
       stream::DirectFdStream *sock = response.directFdStream();
 
       int64_t ret;
       if (sock)
-        ret = stream::copy(file, *sock, st.st_size, response.writeTimeout());
+        ret = stream::copy(file, *sock, st.st_size);
       else
-        ret = stream::copy(file, response, st.st_size, response.writeTimeout());
+        ret = stream::copy(file, response, st.st_size);
       return ret == st.st_size;
     }
 
@@ -116,7 +116,7 @@ namespace mimosa
         return ErrorHandler::basicResponse(request, response, kStatusNotFound);
 
       response.content_type_ = "text/html";
-      response.sendHeader(response.writeTimeout());
+      response.sendHeader();
       assert(response.transfer_encoding_ == kCodingChunked);
 
       std::ostringstream os;

@@ -12,11 +12,11 @@ namespace mimosa
     }
 
     Token
-    Decoder::pull(Time timeout)
+    Decoder::pull()
     {
       char c;
 
-      if (input_->read(&c, 1, timeout) != 1)
+      if (input_->read(&c, 1) != 1)
         return kReadError;
 
       switch (c) {
@@ -37,11 +37,11 @@ namespace mimosa
       case '8':
       case '9':
         int_ = c - '0';
-        return pullData(timeout);
+        return pullData();
 
       case 'i':
         int_ = 0;
-        return pullInt(timeout);
+        return pullInt();
 
       case 'e':
         return kEnd;
@@ -52,12 +52,12 @@ namespace mimosa
     }
 
     Token
-    Decoder::pullInt(Time timeout)
+    Decoder::pullInt()
     {
       bool minus = false;
       char c;
 
-      while (input_->read(&c, 1, timeout) == 1)
+      while (input_->read(&c, 1) == 1)
       {
         if (c == 'e') {
           int_ = int_ * !minus - int_ * minus;
@@ -81,12 +81,12 @@ namespace mimosa
     }
 
     Token
-    Decoder::pullData(Time timeout)
+    Decoder::pullData()
     {
       char c;
 
       // fetch the length
-      while (input_->read(&c, 1, timeout) == 1)
+      while (input_->read(&c, 1) == 1)
       {
         if (c == ':')
           goto get_data;
@@ -100,18 +100,18 @@ namespace mimosa
 
       get_data:
       data_.resize(int_);
-      if (input_->loopRead(&data_[0], int_, timeout) != int_)
+      if (input_->loopRead(&data_[0], int_) != int_)
         return kReadError;
       return kData;
     }
 
     bool
-    Decoder::eatValue(Time timeout)
+    Decoder::eatValue()
     {
       int stack = 0;
 
       do {
-        switch (pull(timeout)) {
+        switch (pull()) {
         case kInt:
         case kData:
           break;

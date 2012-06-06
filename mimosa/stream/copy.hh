@@ -9,8 +9,7 @@ namespace mimosa
   {
     int64_t copy(Stream &      input,
                  Stream &      output,
-                 int64_t       max_bytes = 0,
-                 Time timeout   = 0);
+                 int64_t       max_bytes = 0);
   }
 }
 

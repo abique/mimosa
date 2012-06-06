@@ -16,20 +16,20 @@ namespace mimosa
     public:
       Encoder(stream::Stream::Ptr output);
 
-      bool pushInt(int64_t value, Time timeout = 0);
-      bool pushData(const char *data, size_t len, Time timeout = 0);
+      bool pushInt(int64_t value);
+      bool pushData(const char *data, size_t len);
 
-      inline bool pushData(const std::string & data, Time timeout = 0) {
-        return pushData(data.data(), data.size(), timeout);
+      inline bool pushData(const std::string & data) {
+        return pushData(data.data(), data.size());
       }
 
-      inline bool pushData(const StringRef & data, Time timeout = 0) {
-        return pushData(data.data(), data.size(), timeout);
+      inline bool pushData(const StringRef & data) {
+        return pushData(data.data(), data.size());
       }
 
-      bool startDict(Time timeout = 0);
-      bool startList(Time timeout = 0);
-      bool end(Time timeout = 0);
+      bool startDict();
+      bool startList();
+      bool end();
 
     private:
       stream::Stream::Ptr output_;

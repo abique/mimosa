@@ -10,26 +10,24 @@ namespace mimosa
     ssize_t
     TlsStream::readWrapper(TlsStream * stream, char * data, size_t nbytes)
     {
-      return stream->stream_->read(data, nbytes, stream->read_timeout_);
+      return stream->stream_->read(data, nbytes);
     }
 
     ssize_t
     TlsStream::writeWrapper(TlsStream * stream, const char * data, size_t nbytes)
     {
-      return stream->stream_->write(data, nbytes, stream->write_timeout_);
+      return stream->stream_->write(data, nbytes);
     }
 
     ssize_t
     TlsStream::writevWrapper(TlsStream * stream, const giovec_t * iov, int iovcnt)
     {
-      return stream->stream_->writev((struct iovec*)iov, iovcnt, stream->write_timeout_);
+      return stream->stream_->writev((struct iovec*)iov, iovcnt);
     }
 
     TlsStream::TlsStream(Stream::Ptr stream, bool is_server)
       : Filter(stream),
-        session_(),
-        read_timeout_(0),
-        write_timeout_(0)
+        session_()
     {
       int err = gnutls_init(&session_, is_server ? GNUTLS_SERVER : GNUTLS_CLIENT);
       if (err != GNUTLS_E_SUCCESS)
@@ -48,10 +46,8 @@ namespace mimosa
     }
 
     int64_t
-    TlsStream::write(const char * data, uint64_t nbytes, Time timeout)
+    TlsStream::write(const char * data, uint64_t nbytes)
     {
-      write_timeout_ = timeout;
-
       do {
         nbytes = std::min(nbytes, (uint64_t)std::numeric_limits<ssize_t>::max());
         int ret = gnutls_record_send(session_, data, nbytes);
@@ -74,10 +70,8 @@ namespace mimosa
     }
 
     int64_t
-    TlsStream::read(char * data, uint64_t nbytes, Time timeout)
+    TlsStream::read(char * data, uint64_t nbytes)
     {
-      read_timeout_ = timeout;
-
       do {
         nbytes = std::min(nbytes, (uint64_t)std::numeric_limits<ssize_t>::max());
         int ret = gnutls_record_recv(session_, data, nbytes);

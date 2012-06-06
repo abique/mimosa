@@ -15,8 +15,7 @@ namespace mimosa
      * @return true if copy succeed, false otherwise
      */
     bool copyValue(Decoder & dec,
-                   Encoder & enc,
-                   Time      timeout = 0);
+                   Encoder & enc);
 
     /**
      * @ingroup bencode
@@ -26,8 +25,7 @@ namespace mimosa
      */
     bool copyToken(Token           token,
                    const Decoder & dec,
-                   Encoder &       enc,
-                   Time            timeout = 0);
+                   Encoder &       enc);
   }
 }
 

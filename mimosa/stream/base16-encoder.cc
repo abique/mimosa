@@ -19,7 +19,7 @@ namespace mimosa
     }
 
     int64_t
-    Base16Encoder::write(const char * data, uint64_t nbytes, Time timeout)
+    Base16Encoder::write(const char * data, uint64_t nbytes)
     {
       if (nbytes == 0)
         return 0;
@@ -38,11 +38,11 @@ namespace mimosa
         p += 1;
       }
 
-      return stream_->loopWrite(buffer.get(), 2 * nbytes, timeout);
+      return stream_->loopWrite(buffer.get(), 2 * nbytes);
     }
 
     int64_t
-    Base16Encoder::read(char * data, uint64_t nbytes, Time timeout)
+    Base16Encoder::read(char * data, uint64_t nbytes)
     {
       assert(false && "not implemented");
       return -1;

@@ -5,38 +5,37 @@ namespace mimosa
   namespace bencode
   {
     bool copyValue(Decoder & dec,
-                   Encoder & enc,
-                   Time      timeout)
+                   Encoder & enc)
     {
       int stack = 0;
 
       do {
-        switch (dec.pull(timeout)) {
+        switch (dec.pull()) {
 
         case kInt:
-          if (!enc.pushInt(dec.getInt(), timeout))
+          if (!enc.pushInt(dec.getInt()))
             return false;
           break;
 
         case kData:
-          if (!enc.pushData(dec.getData(), timeout))
+          if (!enc.pushData(dec.getData()))
             return false;
           break;
 
         case kList:
-          if (!enc.startList(timeout))
+          if (!enc.startList())
             return false;
           ++stack;
           break;
 
         case kDict:
-          if (!enc.startDict(timeout))
+          if (!enc.startDict())
             return false;
           ++stack;
           break;
 
         case kEnd:
-          if (!enc.end(timeout))
+          if (!enc.end())
             return false;
           --stack;
           break;
@@ -54,33 +53,32 @@ namespace mimosa
 
     bool copyToken(Token           token,
                    const Decoder & dec,
-                   Encoder &       enc,
-                   Time            timeout)
+                   Encoder &       enc)
     {
       switch (token) {
 
       case kInt:
-        if (!enc.pushInt(dec.getInt(), timeout))
+        if (!enc.pushInt(dec.getInt()))
           return false;
         return true;
 
       case kData:
-        if (!enc.pushData(dec.getData(), timeout))
+        if (!enc.pushData(dec.getData()))
           return false;
         return true;
 
       case kList:
-        if (!enc.startList(timeout))
+        if (!enc.startList())
           return false;
         return true;
 
       case kDict:
-        if (!enc.startDict(timeout))
+        if (!enc.startDict())
           return false;
         return true;
 
       case kEnd:
-        if (!enc.end(timeout))
+        if (!enc.end())
           return false;
         return true;
 

@@ -10,9 +10,9 @@ namespace mimosa
     }
 
     bool
-    Filter::flush(Time timeout)
+    Filter::flush()
     {
-      return stream_->flush(timeout);
+      return stream_->flush();
     }
   }
 }

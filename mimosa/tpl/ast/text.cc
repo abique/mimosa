@@ -7,11 +7,10 @@ namespace mimosa
     namespace ast
     {
       void
-      Text::execute(stream::Stream::Ptr   stream,
-                    const AbstractValue & /*value*/,
-                    Time         timeout) const
+      Text::execute(stream::Stream::Ptr stream,
+                    const AbstractValue & /*value*/) const
       {
-        stream->write(text_.data(), text_.size(), timeout);
+        stream->write(text_.data(), text_.size());
       }
     }
   }

@@ -19,8 +19,7 @@ namespace mimosa
         MIMOSA_DEF_PTR(Var);
 
         virtual void execute(stream::Stream::Ptr   stream,
-                             const AbstractValue & value,
-                             Time         timeout = 0) const;
+                             const AbstractValue & value) const;
 
         virtual StringRef var() const;
 

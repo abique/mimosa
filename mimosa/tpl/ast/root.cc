@@ -13,12 +13,11 @@ namespace mimosa
 
       void
       Root::execute(stream::Stream::Ptr   stream,
-                    const AbstractValue & value,
-                    Time         timeout) const
+                    const AbstractValue & value) const
       {
         for (auto it = childs_.begin();
              it != childs_.end(); ++it)
-          it->execute(stream, value, timeout);
+          it->execute(stream, value);
       }
     }
   }

@@ -20,10 +20,10 @@ namespace mimosa
       DirectFdStream(int fd, bool own_fd = true);
       virtual ~DirectFdStream();
 
-      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
-      virtual int64_t writev(const struct iovec *iov, int iovcnt, Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
-      virtual int64_t readv(const struct iovec *iov, int iovcnt, Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes);
+      virtual int64_t writev(const struct iovec *iov, int iovcnt);
+      virtual int64_t read(char * data, uint64_t nbytes);
+      virtual int64_t readv(const struct iovec *iov, int iovcnt);
 
       virtual void close();
 
@@ -39,8 +39,7 @@ namespace mimosa
 
     int64_t copy(DirectFdStream & input,
                  DirectFdStream & output,
-                 int64_t          max_bytes = 0,
-                 Time    timeout   = 0);
+                 int64_t          max_bytes = 0);
   }
 }
 

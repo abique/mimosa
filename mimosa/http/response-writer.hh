@@ -25,8 +25,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(ResponseWriter);
 
-      ResponseWriter(ServerChannel & channel,
-                     Time            write_timeout);
+      ResponseWriter(ServerChannel & channel);
       ~ResponseWriter();
 
       /** Stream related stuff
@@ -34,11 +33,11 @@ namespace mimosa
 
       /** If called before sendHeader(), sends the headers and
        * set transfer_encoding_ to kCodingChunked. */
-      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes);
       /** @warning this should never be called, will abort */
-      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t read(char * data, uint64_t nbytes);
       /** does nothing until sendHeader(), then flushes the write buffer */
-      virtual bool flush(Time timeout = 0);
+      virtual bool flush();
 
       /** @} */
 
@@ -49,14 +48,9 @@ namespace mimosa
        * Until you call sendHeader, everything you write to
        * body is buffered, so when you finishes Response knows the
        * amount of data to be written and set content_length_ */
-      bool sendHeader(Time timeout = 0);
+      bool sendHeader();
 
       void clear();
-
-      inline Time writeTimeout() const
-      {
-        return write_timeout_ > 0 ? time() + write_timeout_ : 0;
-      }
 
       inline ServerChannel & channel() const { return channel_; }
 
@@ -68,17 +62,15 @@ namespace mimosa
 
       /** tells that you finished to modify ResponseWriter and you will not
        * call write(). This method should only be called by ServerChannel. */
-      bool finish(Time timeout);
+      bool finish();
 
       /** writes a chunk if transfer_encoding_ is kCodingChunked */
       int64_t writeChunk(const char *  data,
-                         uint64_t      nbytes,
-                         Time timeout);
+                         uint64_t      nbytes);
 
       ServerChannel &       channel_;
       stream::Buffer::Slist buffers_;
       bool                  header_sent_;
-      Time                  write_timeout_;
     };
   }
 }

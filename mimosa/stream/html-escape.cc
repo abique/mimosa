@@ -12,7 +12,7 @@ namespace mimosa
     }
 
     int64_t
-    HtmlEscape::write(const char * data, uint64_t nbytes, Time timeout)
+    HtmlEscape::write(const char * data, uint64_t nbytes)
     {
       const char * const start = data;
       const char * const end   = data + nbytes;
@@ -26,7 +26,7 @@ namespace mimosa
 
         if (data < p)
         {
-          auto bytes = stream_->write(data, p - data, timeout);
+          auto bytes = stream_->write(data, p - data);
           if (bytes < 0)
             return data == start ? bytes : data - start;
           if (bytes < p - data)
@@ -49,7 +49,7 @@ namespace mimosa
           default: assert(false); break;
           }
 
-          auto wrote = stream_->loopWrite(replace, size, timeout);
+          auto wrote = stream_->loopWrite(replace, size);
           if (wrote < 0)
             return data - start;
           if (wrote < size)
@@ -62,7 +62,7 @@ namespace mimosa
     }
 
     int64_t
-    HtmlEscape::read(char * data, uint64_t nbytes, Time timeout)
+    HtmlEscape::read(char * data, uint64_t nbytes)
     {
       assert(false && "TODO");
       errno = ENOSYS;

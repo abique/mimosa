@@ -17,7 +17,7 @@ namespace mimosa
     }
 
     int64_t
-    Lzma::write(const char * data, uint64_t nbytes, Time timeout)
+    Lzma::write(const char * data, uint64_t nbytes)
     {
       lzma_.next_in = (const uint8_t*)data;
       lzma_.avail_in = nbytes;
@@ -32,8 +32,8 @@ namespace mimosa
           return -1;
 
         if (buffer_.size() > lzma_.avail_out &&
-            stream_->loopWrite(buffer_.data(), buffer_.size() - lzma_.avail_out, timeout)
-            != buffer_.size() - lzma_.avail_out)
+            stream_->loopWrite(buffer_.data(), buffer_.size() - lzma_.avail_out)
+            != static_cast<int64_t> (buffer_.size() - lzma_.avail_out))
           return -1;
 
         if (ret == LZMA_STREAM_END)
@@ -45,14 +45,14 @@ namespace mimosa
     }
 
     int64_t
-    Lzma::read(char * data, uint64_t nbytes, Time timeout)
+    Lzma::read(char * /*data*/, uint64_t /*nbytes*/)
     {
       assert(false);
       return -1;
     }
 
     bool
-    Lzma::flush(Time timeout)
+    Lzma::flush()
     {
       lzma_.next_in = NULL;
       lzma_.avail_in = 0;
@@ -64,11 +64,11 @@ namespace mimosa
         lzma_ret ret = lzma_code(&lzma_, LZMA_FINISH);
 
         if (buffer_.size() > lzma_.avail_out &&
-            stream_->loopWrite(buffer_.data(), buffer_.size() - lzma_.avail_out, timeout) < 0)
+            stream_->loopWrite(buffer_.data(), buffer_.size() - lzma_.avail_out) < 0)
           return false;
 
         if (ret == LZMA_STREAM_END)
-          return stream_->flush(timeout);
+          return stream_->flush();
 
         if (ret != LZMA_OK)
           return false;

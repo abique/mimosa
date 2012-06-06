@@ -7,12 +7,12 @@ namespace mimosa
   namespace stream
   {
     int64_t
-    Stream::writev(const struct iovec * iov, int iovcnt, Time timeout)
+    Stream::writev(const struct iovec * iov, int iovcnt)
     {
       int64_t bytes = 0;
       for (int i = 0; i < iovcnt; ++i)
       {
-        int64_t ret = loopWrite((const char *)iov[i].iov_base, iov[i].iov_len, timeout);
+        int64_t ret = loopWrite((const char *)iov[i].iov_base, iov[i].iov_len);
         if (ret <= 0)
         {
           if (bytes > 0)
@@ -29,12 +29,12 @@ namespace mimosa
     }
 
     int64_t
-    Stream::readv(const struct iovec * iov, int iovcnt, Time timeout)
+    Stream::readv(const struct iovec * iov, int iovcnt)
     {
       int64_t bytes = 0;
       for (int i = 0; i < iovcnt; ++i)
       {
-        int64_t ret = loopRead((char *)iov[i].iov_base, iov[i].iov_len, timeout);
+        int64_t ret = loopRead((char *)iov[i].iov_base, iov[i].iov_len);
         if (ret <= 0)
         {
           if (bytes > 0)
@@ -51,11 +51,11 @@ namespace mimosa
     }
 
     int64_t
-    Stream::loopRead(char * data, const uint64_t nbytes, Time timeout)
+    Stream::loopRead(char * data, const uint64_t nbytes)
     {
       for (int64_t bytes_left = nbytes; bytes_left > 0; )
       {
-        auto bytes = read(data, bytes_left, timeout);
+        auto bytes = read(data, bytes_left);
         if (bytes <= 0)
         {
           if (errno == EAGAIN)
@@ -69,13 +69,13 @@ namespace mimosa
     }
 
     int64_t
-    Stream::loopWrite(const char * data, const uint64_t nbytes, Time timeout)
+    Stream::loopWrite(const char * data, const uint64_t nbytes)
     {
       int64_t bytes;
 
       for (int64_t bytes_left = nbytes; bytes_left > 0; )
       {
-        bytes = write(data, bytes_left, timeout);
+        bytes = write(data, bytes_left);
         if (bytes <= 0)
         {
           if (errno == EAGAIN)
@@ -89,14 +89,14 @@ namespace mimosa
     }
 
     int64_t
-    Stream::loopWritev(struct iovec *iov, int iovcnt, Time timeout)
+    Stream::loopWritev(struct iovec *iov, int iovcnt)
     {
       uint64_t total = 0;
       ssize_t  nbytes;
 
       while (iovcnt > 0)
       {
-        nbytes = writev(iov, iovcnt, timeout);
+        nbytes = writev(iov, iovcnt);
         if (nbytes <= 0)
         {
           if (errno == EAGAIN)

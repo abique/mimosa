@@ -10,24 +10,24 @@ namespace mimosa
     }
 
     int64_t
-    TeeStream::write(const char * data, uint64_t nbytes, Time timeout)
+    TeeStream::write(const char * data, uint64_t nbytes)
     {
-      auto bytes = stream_->write(data, nbytes, timeout);
+      auto bytes = stream_->write(data, nbytes);
       if (bytes < 0)
         return bytes;
       for (auto it = ostreams_.begin(); it != ostreams_.end(); ++it)
-        (*it)->write(data, bytes, 0);
+        (*it)->write(data, bytes);
       return bytes;
     }
 
     int64_t
-    TeeStream::read(char * data, uint64_t nbytes, Time timeout)
+    TeeStream::read(char * data, uint64_t nbytes)
     {
-      auto bytes = stream_->read(data, nbytes, timeout);
+      auto bytes = stream_->read(data, nbytes);
       if (bytes < 0)
         return bytes;
       for (auto it = istreams_.begin(); it != istreams_.end(); ++it)
-        (*it)->write(data, bytes, 0);
+        (*it)->write(data, bytes);
       return bytes;
     }
 
@@ -42,13 +42,13 @@ namespace mimosa
     }
 
     bool
-    TeeStream::flush(Time timeout)
+    TeeStream::flush()
     {
-      auto ret = stream_->flush(timeout);
+      auto ret = stream_->flush();
       for (auto it = istreams_.begin(); it != istreams_.end(); ++it)
-        (*it)->flush(0);
+        (*it)->flush();
       for (auto it = ostreams_.begin(); it != ostreams_.end(); ++it)
-        (*it)->flush(0);
+        (*it)->flush();
       return ret;
     }
   }

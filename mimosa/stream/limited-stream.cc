@@ -14,13 +14,13 @@ namespace mimosa
     }
 
     int64_t
-    LimitedStream::write(const char * data, uint64_t nbytes, Time timeout)
+    LimitedStream::write(const char * data, uint64_t nbytes)
     {
       uint64_t can_write = nbytes > wbytes_left_ ? wbytes_left_ : nbytes;
       if (can_write == 0)
         return 0;
 
-      int64_t wbytes = stream_->write(data, can_write, timeout);
+      int64_t wbytes = stream_->write(data, can_write);
       if (wbytes <= 0)
         return wbytes;
 
@@ -29,13 +29,13 @@ namespace mimosa
     }
 
     int64_t
-    LimitedStream::read(char * data, uint64_t nbytes, Time timeout)
+    LimitedStream::read(char * data, uint64_t nbytes)
     {
       uint64_t can_read = nbytes > rbytes_left_ ? rbytes_left_ : nbytes;
       if (can_read == 0)
         return 0;
 
-      int64_t rbytes = stream_->write(data, can_read, timeout);
+      int64_t rbytes = stream_->write(data, can_read);
       if (rbytes <= 0)
         return rbytes;
 

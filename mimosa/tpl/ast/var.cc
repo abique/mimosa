@@ -14,8 +14,7 @@ namespace mimosa
     {
       void
       Var::execute(stream::Stream::Ptr   stream,
-                   const AbstractValue & value,
-                   Time         timeout) const
+                   const AbstractValue & value) const
       {
         const AbstractValue * v = &value;
 
@@ -30,11 +29,11 @@ namespace mimosa
           stream = FilterFactory::instance().create(*it, stream);
 
         if (v)
-          v->write(stream, timeout);
+          v->write(stream);
         else
           not_found:
           if (TPL_DEBUG)
-            format::format(stream, timeout, "(%s not found)", var());
+            format::format(*stream, "(%s not found)", var());
       }
 
       StringRef

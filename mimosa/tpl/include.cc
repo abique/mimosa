@@ -22,9 +22,9 @@ namespace mimosa
     }
 
     void
-    Include::write(stream::Stream::Ptr stream, Time timeout) const
+    Include::write(stream::Stream::Ptr stream) const
     {
-      tpl_->execute(stream, *this, timeout);
+      tpl_->execute(stream, *this);
     }
 
     AbstractValue::Iterator::Ptr

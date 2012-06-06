@@ -27,25 +27,25 @@ namespace mimosa
     }
 
     int64_t
-    DirectFdStream::write(const char * data, uint64_t nbytes, Time /*timeout*/)
+    DirectFdStream::write(const char * data, uint64_t nbytes)
     {
       return ::write(fd_, data, nbytes);
     }
 
     int64_t
-    DirectFdStream::writev(const struct iovec *iov, int iovcnt, Time /*timeout*/)
+    DirectFdStream::writev(const struct iovec *iov, int iovcnt)
     {
       return ::writev(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
     }
 
     int64_t
-    DirectFdStream::read(char * data, uint64_t nbytes, Time /*timeout*/)
+    DirectFdStream::read(char * data, uint64_t nbytes)
     {
       return ::read(fd_, data, nbytes);
     }
 
     int64_t
-    DirectFdStream::readv(const struct iovec *iov, int iovcnt, Time /*timeout*/)
+    DirectFdStream::readv(const struct iovec *iov, int iovcnt)
     {
       return ::readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
     }
@@ -74,8 +74,7 @@ namespace mimosa
 
     int64_t copySendfile(DirectFdStream & input,
                          DirectFdStream & output,
-                         int64_t          max_bytes,
-                         Time    /*timeout*/)
+                         int64_t          max_bytes)
     {
       int64_t total = 0;
 
@@ -100,8 +99,7 @@ namespace mimosa
 
     int64_t copySplice(DirectFdStream & input,
                        DirectFdStream & output,
-                       int64_t          max_bytes,
-                       Time    /*timeout*/)
+                       int64_t          max_bytes)
     {
       int64_t total = 0;
 
@@ -126,15 +124,15 @@ namespace mimosa
 
     int64_t copy(DirectFdStream & input,
                  DirectFdStream & output,
-                 int64_t          max_bytes,
-                 Time    timeout)
+                 int64_t          max_bytes)
     {
       if (S_ISREG(input.fdMode()))
-        return copySendfile(input, output, max_bytes, timeout);
+        return copySendfile(input, output, max_bytes);
       else if (S_ISFIFO(input.fdMode()) || S_ISSOCK(input.fdMode()))
-        return copySplice(input, output, max_bytes, timeout);
-      return copy(static_cast<Stream &> (input), static_cast<Stream &> (output),
-                  max_bytes, timeout);
+        return copySplice(input, output, max_bytes);
+      return copy(static_cast<Stream &> (input),
+                  static_cast<Stream &> (output),
+                  max_bytes);
     }
   }
 }

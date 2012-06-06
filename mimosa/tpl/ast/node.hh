@@ -19,8 +19,7 @@ namespace mimosa
       public:
 
         virtual void execute(stream::Stream::Ptr   stream,
-                             const AbstractValue & value,
-                             Time         timeout = 0) const = 0;
+                             const AbstractValue & value) const = 0;
 
         virtual void addChild(Node::Ptr /*node*/) {}
         virtual StringRef var() const { return "(none)"; }

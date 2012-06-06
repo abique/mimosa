@@ -14,8 +14,8 @@ namespace mimosa
 
       Base16Decoder(Stream::Ptr stream, const char * base = NULL);
 
-      virtual int64_t write(const char * data, uint64_t nbytes, Time timeout = 0);
-      virtual int64_t read(char * data, uint64_t nbytes, Time timeout = 0);
+      virtual int64_t write(const char * data, uint64_t nbytes);
+      virtual int64_t read(char * data, uint64_t nbytes);
 
       uint8_t decodeByte(uint8_t c) const;
 

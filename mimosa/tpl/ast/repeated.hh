@@ -16,8 +16,7 @@ namespace mimosa
         MIMOSA_DEF_PTR(Repeated);
 
         virtual void execute(stream::Stream::Ptr   stream,
-                             const AbstractValue & value,
-                             Time         timeout = 0) const;
+                             const AbstractValue & value) const;
 
         virtual void addChild(Node::Ptr node) { childs_.push(node); }
         virtual StringRef var() const { return var_; }

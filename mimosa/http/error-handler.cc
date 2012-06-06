@@ -12,7 +12,7 @@ namespace mimosa
     {
       response.status_ = status;
       format::format(
-        &response,
+        response,
         "<html><head><title>Error %v - %v</title>"
         "</head><body>Error %v - %v</body></html>",
         status, statusToString(status),

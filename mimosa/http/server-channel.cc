@@ -6,13 +6,11 @@ namespace mimosa
   namespace http
   {
     ServerChannel::ServerChannel(stream::BufferedStream::Ptr stream,
-                                 Handler::Ptr                handler,
-                                 Time               read_timeout,
-                                 Time               write_timeout)
+                                 Handler::Ptr                handler)
       : stream_(stream),
         handler_(handler),
-        request_(new RequestReader(*this, read_timeout)),
-        response_(new ResponseWriter(*this, write_timeout)),
+        request_(new RequestReader(*this)),
+        response_(new ResponseWriter(*this)),
         addr_(nullptr),
         addr_len_(0)
     {
@@ -40,7 +38,7 @@ namespace mimosa
     {
       bool found = false;
       stream::Buffer::Ptr buffer = stream_->readUntil(
-        "\r\n\r\n", 5 * 1024, request_->readTimeout(), &found);
+        "\r\n\r\n", 5 * 1024, &found);
       if (!buffer)
       {
         requestTimeout();
@@ -72,12 +70,12 @@ namespace mimosa
     bool
     ServerChannel::sendResponse()
     {
-      if (!response_->finish(response_->writeTimeout()))
+      if (!response_->finish())
         return false;
 
       // don't flush yet if we can handle next request and send just one tcp packet
       if (stream_->readyRead() == 0)
-        return stream_->flush(response_->writeTimeout());
+        return stream_->flush();
 
       return true;
     }

@@ -20,8 +20,7 @@ namespace mimosa
     }
 
     void
-    List::write(stream::Stream::Ptr /*stream*/,
-                Time       /*timeout*/) const
+    List::write(stream::Stream::Ptr /*stream*/) const
     {
     }
 

@@ -6,7 +6,7 @@
 #define CHECK_BYTE_SIZE(Size, Ref)              \
   do {                                          \
     stream::StringStream s;                     \
-    printByteSize(s, Size, 0);                  \
+    printByteSize(s, Size);                     \
     EXPECT_EQ(Ref, s.str());                    \
   } while (0)
 
