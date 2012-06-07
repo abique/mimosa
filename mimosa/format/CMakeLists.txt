@@ -1,4 +1,6 @@
 install(FILES
+  print.hh
+  print.hxx
   format.hh
   format.hxx
   format.doch
