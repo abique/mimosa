@@ -4,7 +4,7 @@
 #include "log.hh"
 #include "server.hh"
 #include "server-channel.hh"
-#include "../stream/direct-fd-stream.hh"
+#include "../stream/net-fd-stream.hh"
 #include "../stream/tls-stream.hh"
 #include "../stream/tee-stream.hh"
 #include "../stream/fd-stream.hh"
@@ -36,7 +36,7 @@ namespace mimosa
                   const ::sockaddr * address,
                   socklen_t          address_len) const
     {
-      stream::Stream::Ptr stream(new stream::DirectFdStream(fd));
+      stream::Stream::Ptr stream(new stream::NetFdStream(fd, true));
       if (x509_cred_)
       {
         auto tls_stream = new stream::TlsStream(stream, true);
@@ -63,6 +63,8 @@ namespace mimosa
 
       ServerChannel channel(new stream::BufferedStream(stream), handler_);
       channel.setRemoteAddr(address, address_len);
+      channel.setReadTimeout(read_timeout_);
+      channel.setWriteTimeout(write_timeout_);
       channel.run();
     }
 

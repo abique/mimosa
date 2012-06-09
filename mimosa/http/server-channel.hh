@@ -35,6 +35,9 @@ namespace mimosa
       inline const ::sockaddr * remoteAddr() const { return addr_; }
       inline ::socklen_t remoteAddrLen() const { return addr_len_; }
 
+      inline void setReadTimeout(Time timeout) { read_timeout_ = timeout; }
+      inline void setWriteTimeout(Time timeout) { write_timeout_ = timeout; }
+
     private:
       friend class RequestReader;
       friend class ResponseWriter;
@@ -52,6 +55,8 @@ namespace mimosa
       ResponseWriter::Ptr         response_;
       const ::sockaddr *          addr_;
       ::socklen_t                 addr_len_;
+      Time                        read_timeout_;
+      Time                        write_timeout_;
     };
   }
 }

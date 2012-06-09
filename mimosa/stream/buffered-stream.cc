@@ -8,7 +8,7 @@ namespace mimosa
   namespace stream
   {
     BufferedStream::BufferedStream(Stream::Ptr stream, uint64_t buffer_size)
-      : stream_(stream),
+      : Filter(stream),
         buffer_size_(buffer_size),
         wbuffer_(buffer_size_),
         wpos_(0),
@@ -55,7 +55,7 @@ namespace mimosa
       if (stream_->loopWrite(wbuffer_.data(), wpos_) != static_cast<int64_t> (wpos_))
         return false;
       wpos_ = 0;
-      return stream_->flush();
+      return true;
     }
 
     bool

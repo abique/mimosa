@@ -13,6 +13,7 @@ uint16_t & PORT = *options::addOption<uint16_t>("", "port", "the port to use", 4
 std::string & PATH = *options::addOption<std::string>("", "path", "the data dir to expose", "/usr");
 std::string & CERT = *options::addOption<std::string>("", "cert", "the certificate (cert.pem)", "");
 std::string & KEY = *options::addOption<std::string>("", "key", "the key (key.pem)", "");
+uint64_t & TIMEOUT = *options::addOption<uint64_t>("", "timeout", "the read & write timeout in ms", 5000);
 
 class HelloHandler : public mimosa::http::Handler
 {
@@ -107,6 +108,8 @@ int main(int argc, char ** argv)
     dispatch->registerHandler("/data/*", new http::FsHandler(PATH, 1, true));
 
     http::Server::Ptr server(new http::Server);
+    server->setReadTimeout(TIMEOUT * millisecond);
+    server->setWriteTimeout(TIMEOUT * millisecond);
     server->setHandler(dispatch);
 
     if (!CERT.empty() && !KEY.empty())

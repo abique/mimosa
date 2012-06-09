@@ -27,6 +27,22 @@ namespace mimosa
       virtual int64_t read(char * data, uint64_t nbytes) = 0;
       virtual int64_t readv(const struct iovec *iov, int iovcnt);
 
+      /**
+       * @param timeout an absolute point in the monotonic clock reference
+       * after which, every operation will fails with errno set to ETIMEDOUT.
+       * If timeout = 0, then it will never timeout.
+       * @{
+       */
+      virtual void setReadTimeout(Time timeout) { (void)timeout; }
+      virtual void setWriteTimeout(Time timeout) { (void)timeout; }
+
+      inline void setTimeout(Time timeout) {
+        setReadTimeout(timeout);
+        setWriteTimeout(timeout);
+      }
+      /** @} */
+
+      /** helper */
       inline int64_t write(const std::string & str) {
         return write(str.data(), str.size());
       }

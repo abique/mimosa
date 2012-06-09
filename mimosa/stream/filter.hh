@@ -18,6 +18,8 @@ namespace mimosa
       virtual int64_t read(char * data, uint64_t nbytes) = 0;
 
       virtual bool flush();
+      virtual void setReadTimeout(Time timeout);
+      virtual void setWriteTimeout(Time timeout);
 
     protected:
       Stream::Ptr stream_;

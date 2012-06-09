@@ -12,7 +12,9 @@ namespace mimosa
         request_(new RequestReader(*this)),
         response_(new ResponseWriter(*this)),
         addr_(nullptr),
-        addr_len_(0)
+        addr_len_(0),
+        read_timeout_(0),
+        write_timeout_(0)
     {
     }
 
@@ -37,6 +39,7 @@ namespace mimosa
     ServerChannel::readRequest()
     {
       bool found = false;
+      stream_->setReadTimeout(read_timeout_ > 0 ? read_timeout_ + monotonicTimeCoarse() : 0);
       stream::Buffer::Ptr buffer = stream_->readUntil(
         "\r\n\r\n", 5 * 1024, &found);
       if (!buffer)
@@ -64,6 +67,7 @@ namespace mimosa
     bool
     ServerChannel::runHandler()
     {
+      stream_->setWriteTimeout(write_timeout_ > 0 ? write_timeout_ + monotonicTimeCoarse() : 0);
       return handler_->handle(*request_, *response_);
     }
 

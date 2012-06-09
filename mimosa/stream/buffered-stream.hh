@@ -4,14 +4,14 @@
 # include <cstring>
 # include <string>
 
-# include "stream.hh"
+# include "filter.hh"
 # include "buffer.hh"
 
 namespace mimosa
 {
   namespace stream
   {
-    class BufferedStream : public Stream
+    class BufferedStream : public Filter
     {
     public:
       MIMOSA_DEF_PTR(BufferedStream);
@@ -54,7 +54,6 @@ namespace mimosa
     private:
       bool flushWith(const char *data, uint64_t nbytes);
 
-      Stream::Ptr    stream_;
       const uint64_t buffer_size_;
 
       Buffer        wbuffer_;

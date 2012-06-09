@@ -27,13 +27,16 @@ namespace mimosa
       void setSecure(const std::string & cert_file,
                      const std::string & key_file);
 
+      inline void setReadTimeout(Time timeout) { read_timeout_ = timeout; }
+      inline void setWriteTimeout(Time timeout) { write_timeout_ = timeout; }
+
     private:
       virtual void serve(int                fd,
                          const ::sockaddr * address,
                          socklen_t          address_len) const;
 
-      Time                      read_timeout_;
-      Time                      write_timeout_;
+      Time                               read_timeout_;
+      Time                               write_timeout_;
       Handler::Ptr                       handler_;
       ::gnutls_certificate_credentials_t x509_cred_;
       ::gnutls_priority_t                priority_cache_;

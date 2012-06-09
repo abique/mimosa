@@ -12,23 +12,19 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(NetFdStream);
 
-      NetFdStream(int fd, bool own_fd);
+      NetFdStream(int fd, bool own_fd = true);
 
-      virtual int64_t write(const char * data, uint64_t nbytes);
-      virtual int64_t writev(const struct iovec *iov, int iovcnt);
-      virtual int64_t read(char * data, uint64_t nbytes);
-      virtual int64_t readv(const struct iovec *iov, int iovcnt);
+      virtual int64_t write(const char * data, uint64_t nbytes) override;
+      virtual int64_t writev(const struct iovec *iov, int iovcnt) override;
+      virtual int64_t read(char * data, uint64_t nbytes) override;
+      virtual int64_t readv(const struct iovec *iov, int iovcnt) override;
 
-      /**
-       * @param timeout an absolute point in the monotonic clock reference
-       * after which, every operation will fails with errno set to ETIMEDOUT.
-       * If timeout = 0, then it will never timeout.
-       */
-      inline void setTimeout(Time timeout) { timeout_ = timeout; }
-      inline Time timeout() const { return timeout_; }
+      virtual void setReadTimeout(Time timeout) override;
+      virtual void setWriteTimeout(Time timeout) override;
 
     private:
-      Time timeout_;
+      Time read_timeout_;
+      Time write_timeout_;
     };
   }
 }
