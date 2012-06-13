@@ -25,6 +25,11 @@ namespace mimosa
     inline Value find(const StringRef & key) const;
 
     /**
+     * @return a valid pointer if found, nullptr otherwise
+     */
+    inline Trie<Value, GetKey> * prefix(const StringRef & key) const;
+
+    /**
      * @return true if one element has been removed, false otherwise
      */
     inline bool erase(const StringRef & key);

@@ -99,6 +99,27 @@ namespace mimosa
   }
 
   template <typename Value, StringRef (*GetKey)(Value value)>
+  inline Trie<Value, GetKey> *
+  Trie<Value, GetKey>::prefix(const StringRef & key) const
+  {
+    assert(key.size() >= depth_);
+
+    if (key.size() == depth_)
+      return this;
+
+    if (size_ == 1) {
+      if (value_ && GetKey(value_) == key)
+        return this;
+      return nullptr;
+    }
+
+    if (!childs_ || !childs_[(uint8_t)key[depth_]])
+      return nullptr;
+
+    return childs_[(uint8_t)key[depth_]]->prefix(key);
+  }
+
+  template <typename Value, StringRef (*GetKey)(Value value)>
   inline Value
   Trie<Value, GetKey>::find(const StringRef & key) const
   {
