@@ -102,7 +102,8 @@ add_library(mimosa
   uri/normalize-path.cc
 
   # core initialisation
-  init.cc)
+  init.cc
+  priviledge-drop.cc)
 target_link_libraries(mimosa gnutls pthread rt)
 
 add_subdirectory(format)
