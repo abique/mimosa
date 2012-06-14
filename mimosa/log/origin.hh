@@ -48,8 +48,8 @@ namespace mimosa
 
     public:
       typedef IntrusiveDList<Origin,
-                                        Origin *,
-                                        &Origin::origins_hook_> origins_type;
+                             Origin *,
+                             &Origin::origins_hook_> origins_type;
     };
   }
 }
