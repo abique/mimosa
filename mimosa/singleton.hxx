@@ -7,8 +7,10 @@ namespace mimosa
   T &
   Singleton<T>::instance()
   {
-    if (!instance_)
+    if (!instance_) {
+      instance_ = (T*)1;
       instance_ = new T;
+    }
     return *instance_;
   }
 
