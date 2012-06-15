@@ -17,7 +17,7 @@ namespace mimosa
     static T & instance();
     static void release();
 
-  private:
+  protected:
     static T * instance_;
   };
 }
