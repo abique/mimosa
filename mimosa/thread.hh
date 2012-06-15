@@ -25,6 +25,7 @@ namespace mimosa
     bool tryJoin();
     bool timedJoin(Time timeout);
     void detach();
+    void cancel();
 
     inline pthread_t threadId() const { return thread_; }
 

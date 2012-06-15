@@ -97,4 +97,11 @@ namespace mimosa
     ::pthread_detach(thread_);
     state_ = kDetached;
   }
+
+  void Thread::cancel()
+  {
+    if (state_ != kRunning)
+      return;
+    ::pthread_cancel(thread_);
+  }
 }
