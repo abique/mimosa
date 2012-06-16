@@ -8,12 +8,13 @@ find_package(GnuTLS REQUIRED)
 
 include_directories(${GNUTLS_INCLUDE_DIR} .)
 
-# -Weffc++
 add_definitions(
-  -std=c++0x
+  -std=c++11
   -D_GNU_SOURCE -D_LARGEFILE64_SOURCE ${GNUTLS_DEFINITIONS}
   -Wall -Wextra -Werror=return-type
-  -fsplit-stack)
+  # -Weffc++
+  # -fsplit-stack
+)
 
 include(cmake/Tests.cmake)
 include(cmake/Flex.cmake)
