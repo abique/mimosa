@@ -10,6 +10,8 @@ namespace mimosa
     class LimitedStream : public Stream
     {
     public:
+      MIMOSA_DEF_PTR(LimitedStream);
+
       LimitedStream(Stream::Ptr stream);
 
       virtual int64_t write(const char * data, uint64_t nbytes);
