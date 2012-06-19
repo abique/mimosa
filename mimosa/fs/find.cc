@@ -11,8 +11,8 @@ namespace mimosa
   {
     void
     find(const std::string &                                    root,
-         bool                                                   is_recursive,
-         const std::function<void (const std::string & path)> & cb)
+         uint32_t                                               max_depth,
+         const std::function<bool (const std::string & path)> & cb)
     {
       DirIterator it(root);
 
@@ -24,7 +24,7 @@ namespace mimosa
         std::string path = it.entryPath();
         cb(path);
 
-        if (!is_recursive)
+        if (max_depth > 0)
           continue;
 
         struct stat st;
@@ -32,7 +32,7 @@ namespace mimosa
           continue;
 
         if (S_ISDIR(st.st_mode))
-          find(path, true, cb);
+          find(path, max_depth - 1, cb);
       }
     }
   }

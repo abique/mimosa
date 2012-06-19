@@ -3,6 +3,7 @@
 
 # include <string>
 # include <functional>
+# include <cstdint>
 
 namespace mimosa
 {
@@ -10,11 +11,13 @@ namespace mimosa
   {
     /**
      * @ingroup Fs
+     * @param cb return false to break the loop
+     * @param max_depth the maximum depth
      */
     void
     find(const std::string &                                    root,
-         bool                                                   is_recursive,
-         const std::function<void (const std::string & path)> & cb);
+         uint32_t                                               max_depth,
+         const std::function<bool (const std::string & path)> & cb);
   }
 }
 
