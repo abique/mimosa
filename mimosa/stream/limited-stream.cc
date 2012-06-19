@@ -1,4 +1,5 @@
 #include <cerrno>
+#include <algorithm>
 
 #include "limited-stream.hh"
 
@@ -16,30 +17,26 @@ namespace mimosa
     int64_t
     LimitedStream::write(const char * data, uint64_t nbytes)
     {
-      uint64_t can_write = nbytes > wbytes_left_ ? wbytes_left_ : nbytes;
+      uint64_t can_write = std::min(nbytes, wbytes_left_);
       if (can_write == 0)
         return 0;
 
       int64_t wbytes = stream_->write(data, can_write);
-      if (wbytes <= 0)
-        return wbytes;
-
-      wbytes_left_ -= wbytes;
+      if (wbytes > 0)
+        wbytes_left_ -= wbytes;
       return wbytes;
     }
 
     int64_t
     LimitedStream::read(char * data, uint64_t nbytes)
     {
-      uint64_t can_read = nbytes > rbytes_left_ ? rbytes_left_ : nbytes;
+      uint64_t can_read = std::min(nbytes, rbytes_left_);
       if (can_read == 0)
         return 0;
 
-      int64_t rbytes = stream_->write(data, can_read);
-      if (rbytes <= 0)
-        return rbytes;
-
-      rbytes_left_ -= rbytes;
+      int64_t rbytes = stream_->read(data, can_read);
+      if (rbytes > 0)
+        rbytes_left_ -= rbytes;
       return rbytes;
     }
   }
