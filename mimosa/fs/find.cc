@@ -24,7 +24,7 @@ namespace mimosa
         std::string path = it.entryPath();
         cb(path);
 
-        if (max_depth > 0)
+        if (max_depth == 0)
           continue;
 
         struct stat st;
