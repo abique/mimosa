@@ -21,5 +21,4 @@ namespace mimosa
   }
 }
 
-template class mimosa::Cache<std::string,
-                                        mimosa::tpl::Template::Ptr>;
+template class mimosa::Cache<std::string, mimosa::tpl::Template::Ptr>;
