@@ -1,4 +1,5 @@
 install(FILES
+  chunked-stream.hh
   coding.hh
   cookie.hh
   dispatch-handler.hh
@@ -23,6 +24,7 @@ mimosa_flex(request-lexer)
 mimosa_bison(request-parser)
 
 add_library(mimosa-http
+  chunked-stream.cc
   cookie.cc
   dispatch-handler.cc
   error-handler.cc

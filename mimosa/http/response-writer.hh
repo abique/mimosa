@@ -11,6 +11,7 @@ namespace mimosa
   namespace http
   {
     class ServerChannel;
+    class Request;
 
     /**
      * This stream buffers output until sendHeader is called.
@@ -52,6 +53,14 @@ namespace mimosa
 
       void clear();
 
+      /** Will try to enable compression depending on what the client
+       * supports. Compression will be transparent for the user, simply keep
+       * using response.write().
+       *
+       * @return true if compression is enabled, false otherwise.
+       */
+      bool enableCompression(const Request & request);
+
       inline ServerChannel & channel() const { return channel_; }
 
       /** @return nullptr if we can't convert the output stream to a direct fd */
@@ -64,11 +73,8 @@ namespace mimosa
        * call write(). This method should only be called by ServerChannel. */
       bool finish();
 
-      /** writes a chunk if transfer_encoding_ is kCodingChunked */
-      int64_t writeChunk(const char *  data,
-                         uint64_t      nbytes);
-
       ServerChannel &       channel_;
+      Stream::Ptr           stream_;
       stream::Buffer::Slist buffers_;
       bool                  header_sent_;
     };

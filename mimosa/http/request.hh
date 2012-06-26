@@ -114,10 +114,10 @@ namespace mimosa
       time_t      if_modified_since_;
 
       // cleaned up location and queries
-      mutable bool           location_normalized_;
-      mutable std::string    location_;
-      mutable bool           query_parsed_;
-      mutable kvs query_;
+      mutable bool        location_normalized_;
+      mutable std::string location_;
+      mutable bool        query_parsed_;
+      mutable kvs         query_;
 
       // basic stuff
       int  accept_encoding_;    // Coding bitfield

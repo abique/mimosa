@@ -3,7 +3,10 @@
 
 #include "response-writer.hh"
 #include "server-channel.hh"
+#include "chunked-stream.hh"
 #include "../format/print.hh"
+#include "../stream/compress.hh"
+#include "log.hh"
 
 namespace mimosa
 {
@@ -35,34 +38,20 @@ namespace mimosa
     }
 
     int64_t
-    ResponseWriter::writeChunk(const char * data,
-                               uint64_t     nbytes)
-    {
-      bool ok = true;
-
-      ok = ok & format::printHex(*channel_.stream_, nbytes);
-      ok = ok & format::printStatic(*channel_.stream_, "\r\n");
-      ok = ok & format::print(*channel_.stream_, data, nbytes);
-      ok = ok & format::printStatic(*channel_.stream_, "\r\n");
-      return ok ? nbytes : -1;
-    }
-
-    int64_t
     ResponseWriter::write(const char * data, uint64_t nbytes)
     {
       if (!header_sent_ && !sendHeader())
         return -1;
 
-      if (transfer_encoding_ == kCodingChunked)
-        return writeChunk(data, nbytes);
-      else
-        return channel_.stream_->loopWrite(data, nbytes);
+      return stream_->write(data, nbytes);
     }
 
     bool
     ResponseWriter::flush()
     {
-      return channel_.stream_->flush();
+      if (!stream_)
+        return true;
+      return stream_->flush();
     }
 
     bool
@@ -71,20 +60,51 @@ namespace mimosa
       if (!header_sent_ && !sendHeader())
           return false;
 
-      // write the final chunk
-      if (transfer_encoding_ == kCodingChunked && writeChunk("", 0) < 0)
-          return false;
-      return true;
+      if ((content_encoding_ != kCodingIdentity ||
+           transfer_encoding_ != kCodingIdentity) &&
+          !stream_->flush())
+        return false;
+
+      // Chunked-Encoding: write the final chunk
+      if (transfer_encoding_ == kCodingChunked &&
+          channel_.stream_->loopWrite("0\r\n\r\n", 5) != 5)
+        return false;
+      return channel_.stream_->flush();
     }
 
     bool
     ResponseWriter::sendHeader()
     {
+      // don't send the header two times
       if (header_sent_)
         return true;
       header_sent_ = true;
-      if (content_length_ < 0)
+
+      // check if we have to use Chunked-Endcoding
+      if (content_length_ < 0 || transfer_encoding_ == kCodingChunked) {
         transfer_encoding_ = kCodingChunked;
+        stream_ = new ChunkedStream(channel_.stream_);
+        // prevent to many small writes
+        stream_ = new stream::BufferedStream(stream_);
+      } else
+        stream_ = channel_.stream_;
+
+      // check if we have to encode the content
+      switch (content_encoding_) {
+      case kCodingIdentity:
+        break;
+
+      case kCodingCompress:
+        stream_ = new stream::Compress(stream_);
+        break;
+
+        // XXX add more encoders (gzip, etc..)
+
+      default:
+        http_log->error("unsupported content_encoding: %v", content_encoding_);
+        break;
+      }
+
       return print(*channel_.stream_);
     }
 
@@ -93,12 +113,15 @@ namespace mimosa
     {
       Response::clear();
       header_sent_ = false;
+      stream_      = nullptr;
     }
 
     stream::DirectFdStream *
     ResponseWriter::directFdStream()
     {
-      if (!header_sent_)
+      if (!header_sent_ ||
+          transfer_encoding_ != kCodingIdentity ||
+          content_encoding_ != kCodingIdentity)
         return NULL;
 
       stream::Stream * stream = channel_.stream_->underlyingStream();
@@ -108,6 +131,24 @@ namespace mimosa
       if (!channel_.stream_->flush())
         return NULL;
       return fd_stream;
+    }
+
+    bool
+    ResponseWriter::enableCompression(const Request & request)
+    {
+      if (content_encoding_ != kCodingIdentity)
+        return true;
+
+      if (header_sent_)
+        return false;
+
+      // XXX add support for other encodings
+      if (request.acceptEncoding() & kCodingCompress) {
+        content_encoding_ = kCodingCompress;
+        return true;
+      }
+
+      return false;
     }
   }
 }
