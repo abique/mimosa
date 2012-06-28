@@ -45,7 +45,7 @@ add_library(mimosa-http
   server-channel.cc
   time.cc
   )
-target_link_libraries(mimosa-http mimosa)
+target_link_libraries(mimosa-http mimosa-stream-zlib mimosa)
 
 install(TARGETS mimosa-http
   RUNTIME DESTINATION bin

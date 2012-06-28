@@ -40,6 +40,32 @@ namespace mimosa
         ok = ok & format::printStatic(stream, "\r\n");
       }
 
+      switch (content_encoding_)
+      {
+      case kCodingIdentity:
+        break;
+
+      case kCodingDeflate:
+        ok = ok & format::printStatic(stream, "Content-Encoding: deflate\r\n");
+        break;
+
+      case kCodingGzip:
+        ok = ok & format::printStatic(stream, "Content-Encoding: gzip\r\n");
+        break;
+
+      case kCodingCompress:
+        ok = ok & format::printStatic(stream, "Content-Encoding: compress\r\n");
+        break;
+
+      case kCodingSdch:
+        ok = ok & format::printStatic(stream, "Content-Encoding: sdch\r\n");
+        break;
+
+      default:
+        http_log->warning("invalid Content-Encoding: %d", content_encoding_);
+        break;
+      }
+
       switch (transfer_encoding_)
       {
       case kCodingIdentity:

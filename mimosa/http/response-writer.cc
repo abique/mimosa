@@ -5,7 +5,7 @@
 #include "server-channel.hh"
 #include "chunked-stream.hh"
 #include "../format/print.hh"
-#include "../stream/compress.hh"
+#include "../stream/zlib-encoder.hh"
 #include "log.hh"
 
 namespace mimosa
@@ -94,8 +94,12 @@ namespace mimosa
       case kCodingIdentity:
         break;
 
-      case kCodingCompress:
-        stream_ = new stream::Compress(stream_);
+      case kCodingDeflate:
+        stream_ = new stream::ZlibEncoder(stream_, 9, Z_DEFLATED, 15, 8, Z_DEFAULT_STRATEGY);
+        break;
+
+      case kCodingGzip:
+        stream_ = new stream::ZlibEncoder(stream_, 9, Z_DEFLATED, 15 + 16, 8, Z_DEFAULT_STRATEGY);
         break;
 
         // XXX add more encoders (gzip, etc..)
@@ -143,8 +147,11 @@ namespace mimosa
         return false;
 
       // XXX add support for other encodings
-      if (request.acceptEncoding() & kCodingCompress) {
-        content_encoding_ = kCodingCompress;
+      if (request.acceptEncoding() & kCodingGzip) {
+        content_encoding_ = kCodingGzip;
+        return true;
+      } else if (request.acceptEncoding() & kCodingDeflate) {
+        content_encoding_ = kCodingDeflate;
         return true;
       }
 
