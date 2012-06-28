@@ -98,6 +98,10 @@ namespace mimosa
       stream::DirectFdStream file(fd);
       stream::DirectFdStream *sock = response.directFdStream();
 
+      // XXX: to use sendfile, we need to remove compression, so we also have
+      // to check if the file we're going to send need to be compressed (like .avi,
+      // .gif, .zip, ...)
+
       int64_t ret;
       if (sock)
         ret = stream::copy(file, *sock, st.st_size);
