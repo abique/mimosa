@@ -36,6 +36,28 @@ namespace mimosa
       z_stream zstream_;
       Buffer   buffer_;
     };
+
+    class DeflateEncoder : public ZlibEncoder
+    {
+    public:
+      DeflateEncoder(Stream::Ptr stream,
+                     int         level       = Z_DEFAULT_COMPRESSION,
+                     int         method      = Z_DEFLATED,
+                     int         window_bits = 15,
+                     int         mem_level   = 8,
+                     int         strategy    = Z_DEFAULT_STRATEGY);
+    };
+
+    class GzipEncoder : public ZlibEncoder
+    {
+    public:
+      GzipEncoder(Stream::Ptr stream,
+                  int         level       = Z_DEFAULT_COMPRESSION,
+                  int         method      = Z_DEFLATED,
+                  int         window_bits = 15 + 16,
+                  int         mem_level   = 8,
+                  int         strategy    = Z_DEFAULT_STRATEGY);
+    };
   }
 }
 

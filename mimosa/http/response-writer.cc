@@ -95,14 +95,12 @@ namespace mimosa
         break;
 
       case kCodingDeflate:
-        stream_ = new stream::ZlibEncoder(stream_, 9, Z_DEFLATED, 15, 8, Z_DEFAULT_STRATEGY);
+        stream_ = new stream::DeflateEncoder(stream_);
         break;
 
       case kCodingGzip:
-        stream_ = new stream::ZlibEncoder(stream_, 9, Z_DEFLATED, 15 + 16, 8, Z_DEFAULT_STRATEGY);
+        stream_ = new stream::GzipEncoder(stream_);
         break;
-
-        // XXX add more encoders (gzip, etc..)
 
       default:
         http_log->error("unsupported content_encoding: %v", content_encoding_);
@@ -146,7 +144,6 @@ namespace mimosa
       if (header_sent_)
         return false;
 
-      // XXX add support for other encodings
       if (request.acceptEncoding() & kCodingGzip) {
         content_encoding_ = kCodingGzip;
         return true;

@@ -87,5 +87,27 @@ namespace mimosa
           return false;
       }
     }
+
+    DeflateEncoder::DeflateEncoder(Stream::Ptr stream,
+                                   int         level,
+                                   int         method,
+                                   int         window_bits,
+                                   int         mem_level,
+                                   int         strategy)
+      : ZlibEncoder(stream, level, method, window_bits,
+                    mem_level, strategy)
+    {
+    }
+
+    GzipEncoder::GzipEncoder(Stream::Ptr stream,
+                             int         level,
+                             int         method,
+                             int         window_bits,
+                             int         mem_level,
+                             int         strategy)
+      : ZlibEncoder(stream, level, method, window_bits,
+                    mem_level, strategy)
+    {
+    }
   }
 }
