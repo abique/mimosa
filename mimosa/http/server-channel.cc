@@ -68,6 +68,8 @@ namespace mimosa
     ServerChannel::runHandler()
     {
       stream_->setWriteTimeout(write_timeout_ > 0 ? write_timeout_ + monotonicTimeCoarse() : 0);
+      // enable compression by default
+      response_->enableCompression(*request_);
       return handler_->handle(*request_, *response_);
     }
 
