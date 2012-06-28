@@ -24,21 +24,33 @@ namespace mimosa
       if (nbytes == 0)
         return 0;
 
-      std::unique_ptr<char> buffer(new char[2 * nbytes]);
-
-      char * b = buffer.get();
+      char               buffer[256];
+      uint64_t           off = 0;
       const char * const end = data + nbytes;
-      const char * p = data;
+      const char *       p   = data;
 
-      while (p < end)
-      {
-        b[0] = base_[(*p & 0xf0) >> 4];
-        b[1] = base_[*p & 0x0f];
-        b += 2;
-        p += 1;
-      }
+      do {
+        char * b = buffer;
+        char * const b_end = buffer + sizeof (buffer);
 
-      return stream_->loopWrite(buffer.get(), 2 * nbytes);
+        while (p < end && b < b_end)
+        {
+          b[0] = base_[(*p & 0xf0) >> 4];
+          b[1] = base_[*p & 0x0f];
+          b += 2;
+          p += 1;
+        }
+
+        int64_t wbytes = stream_->loopWrite(buffer, b - buffer);
+        if (wbytes < 0) {
+          if (off > 0)
+            return off;
+          return -1;
+        }
+
+        off += (b - buffer) >> 1;
+      } while (p < end);
+      return nbytes;
     }
 
     int64_t
