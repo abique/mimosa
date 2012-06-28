@@ -3,7 +3,6 @@ install(FILES
   base16-encoder.hh
   buffered-stream.hh
   buffer.hh
-  compress.hh
   copy.hh
   direct-fd-stream.hh
   fd-stream.hh
@@ -21,6 +20,15 @@ install(FILES
   string-stream.hh
   tee-stream.hh
   tls-stream.hh
+  zlib-encoder.hh
   DESTINATION include/mimosa/stream/)
+
+add_library(mimosa-stream-lzma lzma.cc lzma-decoder.cc lzma-encoder.cc)
+target_link_libraries(mimosa-stream-lzma mimosa lzma)
+
+if(ZLIB_FOUND)
+  add_library(mimosa-stream-zlib zlib-encoder.cc)
+  target_link_libraries(mimosa-stream-zlib mimosa z)
+endif()
 
 add_subdirectory(tests)

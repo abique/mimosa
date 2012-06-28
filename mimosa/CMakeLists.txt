@@ -63,7 +63,6 @@ add_library(mimosa
   stream/base16-encoder.cc
   stream/buffer.cc
   stream/buffered-stream.cc
-  stream/compress.cc
   stream/copy.cc
   stream/direct-fd-stream.cc
   stream/fd-stream.cc
@@ -71,9 +70,6 @@ add_library(mimosa
   stream/hash.cc
   stream/html-escape.cc
   stream/limited-stream.cc
-  stream/lzma.cc
-  stream/lzma-decoder.cc
-  stream/lzma-encoder.cc
   stream/percent-encoder.cc
   stream/net-fd-stream.cc
   stream/stream.cc
@@ -104,7 +100,7 @@ add_library(mimosa
   # core initialisation
   init.cc
   priviledge-drop.cc)
-target_link_libraries(mimosa gnutls pthread rt)
+target_link_libraries(mimosa gnutls z pthread rt)
 
 add_subdirectory(format)
 add_subdirectory(options)
