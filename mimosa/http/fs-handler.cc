@@ -90,7 +90,12 @@ namespace mimosa
       if (fd < 0)
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
 
-      response.content_length_ = st.st_size;
+      // XXX: to use sendfile, we need to remove compression, so we also have
+      // to check if the file we're going to send need to be compressed (like .avi,
+      // .gif, .zip, ...)
+
+      if (response.content_encoding_ == kCodingIdentity)
+        response.content_length_ = st.st_size;
       response.content_type_ = MimeDb::instance().mimeType(real_path);
       response.last_modified_ = st.st_mtime;
       response.sendHeader();
@@ -98,9 +103,6 @@ namespace mimosa
       stream::DirectFdStream file(fd);
       stream::DirectFdStream *sock = response.directFdStream();
 
-      // XXX: to use sendfile, we need to remove compression, so we also have
-      // to check if the file we're going to send need to be compressed (like .avi,
-      // .gif, .zip, ...)
 
       int64_t ret;
       if (sock)
