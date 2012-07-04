@@ -41,6 +41,7 @@ namespace mimosa
 
     TlsStream::~TlsStream()
     {
+      flush();
       gnutls_deinit(session_);
       session_ = nullptr;
     }

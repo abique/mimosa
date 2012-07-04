@@ -26,6 +26,7 @@ namespace mimosa
 
     ZlibEncoder::~ZlibEncoder()
     {
+      flush();
       ::deflateEnd(&zstream_);
     }
 

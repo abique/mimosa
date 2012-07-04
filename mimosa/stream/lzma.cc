@@ -13,6 +13,7 @@ namespace mimosa
 
     Lzma::~Lzma()
     {
+      flush();
       lzma_end(&lzma_);
     }
 

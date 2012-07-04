@@ -20,6 +20,7 @@ namespace mimosa
 
     BufferedStream::~BufferedStream()
     {
+      flush();
     }
 
     uint64_t
