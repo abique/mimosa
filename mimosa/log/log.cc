@@ -42,7 +42,8 @@ namespace mimosa
     {
       Output()
         : open_time_(0),
-          path_()
+          path_(),
+          fd_(STDOUT_FILENO)
       {
       }
 
@@ -81,9 +82,13 @@ namespace mimosa
         path_ = buffer;
         open_time_ = monotonicTimeCoarse();
         if (::dup2(fd, STDOUT_FILENO) < 0) {
-          assert(false); // XXX
-        } else
+          // keep STDOUT_FILENO open so we can try to re-dup2
+          // on next open
+          fd_ = fd;
+        } else {
           ::close(fd);
+          fd_ = STDOUT_FILENO;
+        }
       }
 
       void compress(bool join)
@@ -128,6 +133,7 @@ namespace mimosa
 
       Time        open_time_;
       std::string path_;
+      int         fd_;
     };
 
     void log(Level level, const Origin * origin, const std::string & msg)
@@ -161,7 +167,7 @@ namespace mimosa
 
       Mutex::Locker locker(stdout_lock);
       output.check(tm);
-      ::write(STDOUT_FILENO, str.c_str(), str.size());
+      ::write(output.fd_, str.c_str(), str.size());
     }
   }
 }
