@@ -23,12 +23,4 @@ install(FILES
   zlib-encoder.hh
   DESTINATION include/mimosa/stream/)
 
-add_library(mimosa-stream-lzma lzma.cc lzma-decoder.cc lzma-encoder.cc)
-target_link_libraries(mimosa-stream-lzma mimosa lzma)
-
-if(ZLIB_FOUND)
-  add_library(mimosa-stream-zlib zlib-encoder.cc)
-  target_link_libraries(mimosa-stream-zlib mimosa z)
-endif()
-
 add_subdirectory(tests)

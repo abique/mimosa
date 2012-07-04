@@ -76,6 +76,10 @@ add_library(mimosa
   stream/string-stream.cc
   stream/tee-stream.cc
   stream/tls-stream.cc
+  stream/zlib-encoder.cc
+  stream/lzma.cc
+  stream/lzma-decoder.cc
+  stream/lzma-encoder.cc
 
   # format
   format/print.cc
@@ -100,7 +104,7 @@ add_library(mimosa
   # core initialisation
   init.cc
   priviledge-drop.cc)
-target_link_libraries(mimosa gnutls z pthread rt)
+target_link_libraries(mimosa gnutls lzma z pthread rt)
 
 add_subdirectory(format)
 add_subdirectory(options)
