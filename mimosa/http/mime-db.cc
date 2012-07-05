@@ -29,7 +29,7 @@ namespace mimosa
 
       auto mime_type = mime_types_.find(ext);
       if (mime_type == mime_types_.end())
-        return "application/binary";
+        return "application/octet-stream";
       return mime_type->second;
     }
 
