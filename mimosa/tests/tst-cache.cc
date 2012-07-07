@@ -5,29 +5,26 @@
 
 namespace mimosa
 {
-  namespace container
+  namespace
   {
-    namespace
+    class MyCache : public Cache<int, int>
     {
-      class MyCache : public Cache<int, int>
+    protected:
+      virtual void cacheMiss(const int & key)
       {
-      protected:
-        virtual void cacheMiss(const int & key)
-        {
-          set(key, key + 42);
-        }
-      };
-
-      TEST(Cache, Simple)
-      {
-        MyCache cache;
-
-        auto val = cache.get(0);
-        ASSERT_EQ(val->get(), 42);
-
-        val = cache.get(0);
-        ASSERT_EQ(val->get(), 42);
+        set(key, key + 42);
       }
+    };
+
+    TEST(Cache, Simple)
+    {
+      MyCache cache;
+
+      auto val = cache.get(0);
+      ASSERT_EQ(val->get(), 42);
+
+      val = cache.get(0);
+      ASSERT_EQ(val->get(), 42);
     }
   }
 }

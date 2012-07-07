@@ -6,6 +6,7 @@ install(FILES
   channel.hh
   cpu-foreach.hh
   condition.hh
+  container-of.hh
   function.hh
   future.hh
   future.hxx
