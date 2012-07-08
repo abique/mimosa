@@ -16,8 +16,6 @@ namespace mimosa
       class Var : public Node
       {
       public:
-        MIMOSA_DEF_PTR(Var);
-
         virtual void execute(stream::Stream::Ptr   stream,
                              const AbstractValue & value) const;
 

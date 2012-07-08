@@ -29,7 +29,7 @@ namespace mimosa
           Template::Ptr tpl = Template::parseString(*it);
           EXPECT_TRUE(tpl);
           if (!tpl)
-            std::cout << "template: " << *it << std::endl;;
+            std::cout << "template: " << *it << std::endl;
         }
       }
 

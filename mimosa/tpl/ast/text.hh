@@ -13,8 +13,6 @@ namespace mimosa
       class Text : public Node
       {
       public:
-        MIMOSA_DEF_PTR(Text);
-
         virtual void execute(stream::Stream::Ptr   stream,
                              const AbstractValue & value) const;
 

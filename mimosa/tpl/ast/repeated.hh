@@ -13,12 +13,11 @@ namespace mimosa
       class Repeated : public Node
       {
       public:
-        MIMOSA_DEF_PTR(Repeated);
-
+        ~Repeated();
         virtual void execute(stream::Stream::Ptr   stream,
                              const AbstractValue & value) const;
 
-        virtual void addChild(Node::Ptr node) { childs_.push(node); }
+        virtual void addChild(Node * node) { childs_.push(node); }
         virtual StringRef var() const { return var_; }
 
         StringRef var_;

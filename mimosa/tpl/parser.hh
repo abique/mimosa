@@ -15,8 +15,11 @@ namespace mimosa
     {
     public:
       Parser(const Template & tpl);
+      ~Parser();
 
-      ast::Root::Ptr parse();
+      void reset();
+
+      ast::Root * parse();
 
       bool parseText();
       bool parseAction();
@@ -32,11 +35,11 @@ namespace mimosa
 
       StringRef input_;
 
-      std::vector<ast::Node::Ptr> stack_;
+      std::vector<ast::Node *> stack_;
       int line_;
       int column_;
 
-      ast::Root::Ptr root_;
+      ast::Root * root_;
     };
   }
 }

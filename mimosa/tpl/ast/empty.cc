@@ -7,6 +7,15 @@ namespace mimosa
   {
     namespace ast
     {
+      Empty::~Empty()
+      {
+        while (!childs_.empty()) {
+          auto child = childs_.front();
+          childs_.pop();
+          delete child;
+        }
+      }
+
       void
       Empty::execute(stream::Stream::Ptr   stream,
                      const AbstractValue & value) const

@@ -11,6 +11,15 @@ namespace mimosa
       {
       }
 
+      Root::~Root()
+      {
+        while (!childs_.empty()) {
+          auto child = childs_.front();
+          childs_.pop();
+          delete child;
+        }
+      }
+
       void
       Root::execute(stream::Stream::Ptr   stream,
                     const AbstractValue & value) const

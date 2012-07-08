@@ -20,16 +20,27 @@ namespace mimosa
     {
     }
 
-    ast::Root::Ptr
+    Parser::~Parser()
+    {
+      delete root_;
+    }
+
+    ast::Root *
     Parser::parse()
     {
       if (action_start_.empty() || action_end_.empty())
         return nullptr;
 
       stack_.push_back(root_);
-      if (!parseText())
+      auto succeed = parseText();
+      auto root    = root_;
+      root_        = nullptr;
+
+      if (!succeed) {
+        delete root;
         return nullptr;
-      return root_;
+      }
+      return root;
     }
 
     bool
@@ -124,7 +135,7 @@ namespace mimosa
       if (end == StringRef::npos)
         return false;
 
-      ast::Repeated::Ptr node = new ast::Repeated;
+      auto node = new ast::Repeated;
       node->var_ = input_.substr(0, end);
       stack_.back()->addChild(node);
       stack_.push_back(node);
@@ -144,7 +155,7 @@ namespace mimosa
       if (end == StringRef::npos)
         return false;
 
-      ast::Empty::Ptr node = new ast::Empty;
+      auto node = new ast::Empty;
       node->var_ = input_.substr(0, end);
 
       StringRef ref_var = stack_.back()->var();
@@ -176,7 +187,7 @@ namespace mimosa
       if (end == StringRef::npos)
         return false;
 
-      ast::Empty::Ptr node = new ast::Empty;
+      auto node = new ast::Empty;
       node->var_ = input_.substr(0, end);
       stack_.back()->addChild(node);
       stack_.push_back(node);

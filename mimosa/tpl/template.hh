@@ -14,6 +14,8 @@ namespace mimosa
     class Template : public RefCountable<Template>
     {
     public:
+      ~Template();
+
       static Template::Ptr parseString(const std::string & str);
       static Template::Ptr parseFile(const std::string & path);
 
@@ -23,9 +25,9 @@ namespace mimosa
     private:
       friend class Parser;
 
-      std::string         data_;
-      std::string         filename_;
-      ast::Root::ConstPtr root_;
+      std::string       data_;
+      std::string       filename_;
+      const ast::Root * root_;
     };
   }
 }

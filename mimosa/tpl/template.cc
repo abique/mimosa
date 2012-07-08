@@ -10,6 +10,11 @@ namespace mimosa
 {
   namespace tpl
   {
+    Template::~Template()
+    {
+      delete root_;
+    }
+
     Template::Ptr
     Template::parseString(const std::string & str)
     {

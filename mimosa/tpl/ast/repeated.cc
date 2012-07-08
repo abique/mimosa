@@ -7,6 +7,15 @@ namespace mimosa
   {
     namespace ast
     {
+      Repeated::~Repeated()
+      {
+        while (!childs_.empty()) {
+          auto child = childs_.front();
+          childs_.pop();
+          delete child;
+        }
+      }
+
       void
       Repeated::execute(stream::Stream::Ptr   stream,
                         const AbstractValue & value) const
