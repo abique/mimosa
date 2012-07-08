@@ -21,6 +21,7 @@ namespace mimosa
     {
     public:
       Response();
+      ~Response();
 
       /** convert the response to an http response header */
       bool print(stream::Stream & stream) const;

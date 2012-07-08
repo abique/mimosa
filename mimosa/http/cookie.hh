@@ -3,7 +3,6 @@
 
 # include <string>
 
-# include "../ref-countable.hh"
 # include "../intrusive-slist.hh"
 
 namespace mimosa
@@ -13,11 +12,11 @@ namespace mimosa
     /**
      * @ingroup Http
      */
-    class Cookie : public RefCountable<Cookie>
+    class Cookie
     {
     public:
-      IntrusiveSlistHook<Cookie::Ptr> next_;
-      typedef IntrusiveSlist<Cookie, Cookie::Ptr, &Cookie::next_> Slist;
+      IntrusiveSlistHook<Cookie *> next_;
+      typedef IntrusiveSlist<Cookie, Cookie *, &Cookie::next_> Slist;
 
       Cookie();
 

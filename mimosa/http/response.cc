@@ -14,6 +14,11 @@ namespace mimosa
       clear(); // to ensure the same state
     }
 
+    Response::~Response()
+    {
+      clear();
+    }
+
     bool
     Response::print(stream::Stream & stream) const
     {
@@ -151,7 +156,12 @@ namespace mimosa
       content_length_    = -1;
       content_type_      = "text/plain";
       last_modified_     = 0;
-      cookies_.clear();
+
+      while (!cookies_.empty()) {
+        auto cookie = cookies_.front();
+        cookies_.pop();
+        delete cookie;
+      }
       unparsed_headers_.clear();
     }
   }
