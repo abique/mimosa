@@ -5,8 +5,8 @@
 %error-verbose
 %name-prefix "mimosa_http_request_"
 
-%lex-param {yyscan_t yyscanner}
-%parse-param {yyscan_t yyscanner}
+%lex-param {void * yyscanner}
+%parse-param {void * yyscanner}
 %parse-param {mimosa::http::Request & rq}
 
 %{
@@ -18,7 +18,7 @@
 #include "request-parser.hh"
 #include "request-lexer.hh"
 
-  static void yyerror(yyscan_t                /*yyscanner*/,
+  static void yyerror(void *                  /*yyscanner*/,
                       mimosa::http::Request & /*rq*/,
                       const char *            str)
   {

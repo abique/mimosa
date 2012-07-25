@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <string>
 
+#include "request.hh"
 #include "request-parser.hh"
 
 #define SAVE_TEXT                                   \
