@@ -129,7 +129,8 @@ namespace mimosa
 
       os << "<!DOCTYPE html><html><head>"
         "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>"
-        "</head><body><h1>Directory listing: " << request.location() << "</h1><hr/>";
+        "<title>" << request.location() << "</title></head>"
+        "<body><h1>Directory listing: " << request.location() << "</h1><hr/>";
 
       std::vector<std::string> directories;
       std::vector<std::string> files;
