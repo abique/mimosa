@@ -127,8 +127,9 @@ namespace mimosa
 
       std::ostringstream os;
 
-      os << "<html><head></head><body><h1>Directory listing: " << request.location()
-         << "</h1><hr/>";
+      os << "<!DOCTYPE html><html><head>"
+        "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>"
+        "</head><body><h1>Directory listing: " << request.location() << "</h1><hr/>";
 
       std::vector<std::string> directories;
       std::vector<std::string> files;
