@@ -8,14 +8,15 @@
 
 소소
 
-Mimosa is a high level framework on top of melon or pthreads.
-https://github.com/babali/melon
-
 Mimosa provides:
  - logging framework
+ - options parser
+ - intrusive containers
  - streams
  - rpc
- - web server
+ - http server
+ - templating system
+ - bencode parser
  - and more ... :-)
 
 Depends
@@ -23,5 +24,7 @@ Depends
  - flex
  - bison
  - gnutls
- - melon or pthreads
  - zlib
+ - lzma
+ - bzip2
+ - google protocol buffers
