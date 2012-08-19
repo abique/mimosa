@@ -65,7 +65,8 @@ namespace mimosa
     // ensure that the hook is not already used
     assert(!hook.next_);
     hook.next_ = bucket;
-    bucket     = hook.next_;
+    bucket     = entry;
+    ++size_;
   }
 
   template <typename T, typename Ptr, IntrusiveHashTableHook<Ptr> T::*Member>
@@ -122,6 +123,8 @@ namespace mimosa
         --size_;
         return;
       }
+      prev = &(ptr->*Member).next_;
+      ptr  = (ptr->*Member).next_;
     }
   }
 
