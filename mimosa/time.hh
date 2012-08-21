@@ -6,6 +6,7 @@
 # include <stdexcept>
 
 # include <unistd.h>
+# include <sys/time.h>
 
 namespace mimosa
 {
@@ -61,10 +62,20 @@ namespace mimosa
     return monotonicTimeCoarse();
   }
 
-  inline void toTimeSpec(Time time, ::timespec * tp)
+  inline ::timespec toTimeSpec(Time time)
   {
-    tp->tv_sec = time / second;
-    tp->tv_nsec = time % second;
+    ::timespec tp;
+    tp.tv_sec  = time / second;
+    tp.tv_nsec = time % second;
+    return tp;
+  }
+
+  inline ::timeval toTimeVal(Time time)
+  {
+    ::timeval tv;
+    tv.tv_sec  = time / second;
+    tv.tv_usec = (time % second) / microsecond;
+    return tv;
   }
 
   inline void sleep(Time duration) { ::usleep(duration / microsecond); }

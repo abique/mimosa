@@ -82,8 +82,7 @@ namespace mimosa
     if (state_ != kRunning)
       return false;
 
-    ::timespec tp;
-    toTimeSpec(timeout, &tp);
+    ::timespec tp = toTimeSpec(timeout);
     if (::pthread_timedjoin_np(thread_, NULL, &tp))
       return false;
     state_ = kJoined;

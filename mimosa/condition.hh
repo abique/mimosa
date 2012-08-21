@@ -48,8 +48,7 @@ namespace mimosa
      */
     inline bool timedWait(Mutex & mutex, Time time)
     {
-      ::timespec tp;
-      toTimeSpec(time, &tp);
+      ::timespec tp = toTimeSpec(time);
       return !::pthread_cond_timedwait(&cond_, &mutex.mutex_, &tp);
     }
 

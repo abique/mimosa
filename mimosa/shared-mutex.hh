@@ -45,8 +45,7 @@ namespace mimosa
 
     inline bool timedSharedMutex(Time time)
     {
-      ::timespec tp;
-      toTimeSpec(time, &tp);
+      ::timespec tp = toTimeSpec(time);
       return ::pthread_rwlock_timedrdlock(&lock_, &tp);
     }
 
@@ -62,8 +61,7 @@ namespace mimosa
 
     inline bool timedLock(Time time)
     {
-      ::timespec tp;
-      toTimeSpec(time, &tp);
+      ::timespec tp = toTimeSpec(time);
       return ::pthread_rwlock_timedwrlock(&lock_, &tp);
     }
 
