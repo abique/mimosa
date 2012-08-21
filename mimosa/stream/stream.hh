@@ -42,6 +42,22 @@ namespace mimosa
       }
       /** @} */
 
+      /**
+       * @param timeout a duration after which a blocking I/O fails.
+       * @warning This setting only apply if the thread is blocked on
+       * I/O. If combined with setTimeout(), it may not work as expected
+       * as the previous one may block in (select, poll, epoll_wait).
+       * @{
+       */
+      virtual void setReadIdleTimeout(Time timeout) { (void)timeout; }
+      virtual void setWriteIdleTimeout(Time timeout) { (void)timeout; }
+
+      inline void setIdleTimeout(Time timeout) {
+        setReadIdleTimeout(timeout);
+        setWriteIdleTimeout(timeout);
+      }
+      /** @} */
+
       /** helper */
       inline int64_t write(const std::string & str) {
         return write(str.data(), str.size());

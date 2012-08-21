@@ -31,7 +31,7 @@ namespace mimosa
       ::mode_t fdMode() const { if (!mode_) stat(); return mode_; }
       bool stat() const;
 
-    private:
+    protected:
       int      fd_;
       bool     own_fd_;
       mutable ::mode_t mode_; // st_mode from struct ::stat

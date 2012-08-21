@@ -22,9 +22,14 @@ namespace mimosa
       virtual void setReadTimeout(Time timeout) override;
       virtual void setWriteTimeout(Time timeout) override;
 
+      virtual void setReadIdleTimeout(Time timeout) override;
+      virtual void setWriteIdleTimeout(Time timeout) override;
+
     private:
       Time read_timeout_;
       Time write_timeout_;
+      Time read_idle_timeout_;
+      Time write_idle_timeout_;
     };
   }
 }
