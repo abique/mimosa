@@ -154,7 +154,6 @@ namespace mimosa
       std::string user_agent_;
 
       // content-range
-      bool    has_content_range_;
       int64_t content_range_start_;
       int64_t content_range_end_;
       int64_t content_range_length_;
