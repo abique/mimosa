@@ -90,12 +90,37 @@ namespace mimosa
       if (fd < 0)
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
 
+      int64_t length = st.st_size;
+
       // XXX: to use sendfile, we need to remove compression, so we also have
       // to check if the file we're going to send need to be compressed (like .avi,
       // .gif, .zip, ...)
 
-      if (response.content_encoding_ == kCodingIdentity)
+      if (response.content_encoding_ == kCodingIdentity) {
         response.content_length_ = st.st_size;
+
+        if (request.hasContentRange()) {
+          if ((request.contentRangeLength() > 0 &&
+               request.contentRangeLength() != st.st_size) ||
+              request.contentRangeStart() >= request.contentRangeEnd() ||
+              request.contentRangeEnd() >= st.st_size) {
+            ::close(fd);
+            return ErrorHandler::basicResponse(request, response, kStatusRequestedRangeNotSatisfiable);
+          }
+
+          if (request.contentRangeStart() > 0)
+            if (::lseek64(fd, request.contentRangeStart(), SEEK_SET) != request.contentRangeStart()) {
+              ::close(fd);
+              return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+            }
+
+          length = request.contentRangeEnd() - request.contentRangeStart();
+          response.status_ = kStatusPartialContent;
+          response.setContentRange(request.contentRangeStart(),
+                                   request.contentRangeStart(),
+                                   st.st_size);
+        }
+      }
       response.content_type_ = MimeDb::instance().mimeType(real_path);
       response.last_modified_ = st.st_mtime;
       response.sendHeader();
@@ -103,12 +128,11 @@ namespace mimosa
       stream::DirectFdStream file(fd);
       stream::DirectFdStream *sock = response.directFdStream();
 
-
       int64_t ret;
       if (sock)
-        ret = stream::copy(file, *sock, st.st_size);
+        ret = stream::copy(file, *sock, length);
       else
-        ret = stream::copy(file, response, st.st_size);
+        ret = stream::copy(file, response, length);
       return ret == st.st_size;
     }
 
