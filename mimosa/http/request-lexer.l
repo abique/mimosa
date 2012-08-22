@@ -40,6 +40,12 @@
 %x value_cookie_sm
 %x port
 %x host
+%x content_range_unit
+%x content_range_start
+%x content_range_dash
+%x content_range_end
+%x content_range_slash
+%x content_range_length
 
 separtor [\(\)<>@,;:\\"/\[\]\?={} \t]
 token    [^\(\)<>@,;:\\"/\[\]\?={} \t\r\n\v]+
@@ -69,6 +75,7 @@ cookie_octet [^\r\r\n\v ;",\\]
 <key>(?i:Connection){spaces}*:          BEGIN(value_connection); return KEY_CONNECTION;
 <key>(?i:Cookie){spaces}*:              BEGIN(value_cookie_attr); return KEY_COOKIE;
 <key>(?i:Content-Length){spaces}*:      BEGIN(value64); return KEY_CONTENT_LENGTH;
+<key>(?i:Content-Range){spaces}*:       BEGIN(content_range_unit); return KEY_CONTENT_RANGE;
 <key>(?i:Content-Type)                  BEGIN(colon); return KEY_CONTENT_TYPE;
 <key>(?i:Host){spaces}*:                BEGIN(host); return KEY_HOST;
 <key>(?i:Referr?er)                     BEGIN(colon); return KEY_REFERRER;
@@ -84,6 +91,14 @@ cookie_octet [^\r\r\n\v ;",\\]
 <port>[0-9]+                            yylval->ival = atoi(yytext); return PORT;
 
 <value>[^[:space:]].*/\r\n      SAVE_TEXT; return VALUE;
+
+<content_range_unit>bytes          BEGIN(content_range_start); yylval->val64 = 1; return RANGE_UNIT;
+<content_range_start>[[:digit:]]+  BEGIN(content_range_dash); yylval->val64 = strtoll(yytext, nullptr, 0); return RANGE_START;
+<content_range_dash>-              BEGIN(content_range_end);
+<content_range_end>[[:digit:]]+    BEGIN(content_range_slash); yylval->val64 = strtoll(yytext, nullptr, 0); return RANGE_END;
+<content_range_slash>\/            BEGIN(content_range_length);
+<content_range_length>[[:digit:]]+ yylval->val64 = strtoll(yytext, nullptr, 0); return RANGE_LENGTH;
+<content_range_length>\*           yylval->val64 = -1; return RANGE_LENGTH;
 
 <value_accept_encoding>(?i:compress) return COMPRESS;
 <value_accept_encoding>(?i:identity) return IDENTITY;

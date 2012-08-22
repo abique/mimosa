@@ -41,6 +41,9 @@ namespace mimosa
       referrer_.clear();
       user_agent_.clear();
       unparsed_headers_.clear();
+      content_range_start_ = 0;
+      content_range_end_ = 0;
+      content_range_length_ = 0;
     }
 
 #define PARSE(Name, Const, Scan)                                        \

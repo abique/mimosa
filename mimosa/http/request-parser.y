@@ -45,6 +45,7 @@
 %token KEY_ACCEPT_ENCODING
 %token KEY_CONNECTION
 %token KEY_COOKIE
+%token KEY_CONTENT_RANGE
 %token KEY_CONTENT_LENGTH
 %token KEY_CONTENT_TYPE
 %token KEY_HOST
@@ -56,6 +57,7 @@
 %token <text> VALUE HOST
 %token <ival> VALUE_CONNECTION PORT
 %token <val64> VAL64
+%token <val64> RANGE_UNIT RANGE_START RANGE_END RANGE_LENGTH
 %token COMPRESS IDENTITY DEFLATE GZIP SDCH
 
 %destructor { delete $$; } <text>
@@ -92,6 +94,9 @@ kv:
 | KEY_REFERRER VALUE { rq.setReferrer(std::move(*$2)); delete $2; }
 | KEY_USER_AGENT VALUE { rq.setUserAgent(std::move(*$2)); delete $2; };
 | KEY_IF_MODIFIED_SINCE VALUE { rq.parseIfModifiedSince(std::move(*$2)); delete $2; }
+| KEY_CONTENT_RANGE RANGE_UNIT RANGE_START RANGE_END RANGE_LENGTH {
+    rq.setContentRange($2 * $3, $2 * $4, $2 * $5);
+}
 
 accept_encodings: /* epsilon */
 | COMPRESS accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingCompress); }

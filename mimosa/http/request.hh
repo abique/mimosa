@@ -68,8 +68,7 @@ namespace mimosa
 
       const kvs & cookies() const { return cookies_; }
       inline void addCookie(const std::string & key,
-                            const std::string & value)
-      {
+                            const std::string & value) {
         cookies_.insert(std::make_pair(key, value));
       }
 
@@ -93,14 +92,33 @@ namespace mimosa
 
       inline const kvs & unparsedHeaders() const { return unparsed_headers_; }
       inline void addHeader(const std::string & key,
-                            const std::string & value)
-      {
+                            const std::string & value) {
         unparsed_headers_.insert(std::make_pair(key, value));
       }
 
       inline time_t hasIfModifiedSince() const { return if_modified_since_ > 0; }
       inline time_t ifModifiedSince() const { return if_modified_since_; }
       void parseIfModifiedSince(const std::string & value);
+
+      /**
+       * @{
+       * Content-Range stuff.
+       * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16
+       *
+       * contentRangeLength is set to -1 for '*'.
+       */
+      inline bool hasContentRange() const {
+        return content_range_start_ > 0 || content_range_end_ > 0;
+      }
+      inline int64_t contentRangeStart() const { return content_range_start_; }
+      inline int64_t contentRangeEnd() const { return content_range_end_; }
+      inline int64_t contentRangeLength() const { return content_range_length_; }
+      inline void setContentRange(int64_t start, int64_t end, int64_t length) {
+        content_range_start_  = start;
+        content_range_end_    = end;
+        content_range_length_ = length;
+      }
+      /** @} */
 
     protected:
 
@@ -134,6 +152,12 @@ namespace mimosa
       // usefull for stats
       std::string referrer_;
       std::string user_agent_;
+
+      // content-range
+      bool    has_content_range_;
+      int64_t content_range_start_;
+      int64_t content_range_end_;
+      int64_t content_range_length_;
 
       // other headers
       kvs unparsed_headers_;

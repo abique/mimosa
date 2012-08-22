@@ -171,6 +171,58 @@ namespace mimosa
         ASSERT_EQ(38, rq.contentLength());
       }
 
+      TEST(RequestParser, ContentRange_0_499_1234)
+      {
+        const char str[] =
+          "POST /login HTTP/1.1\r\n"
+          "Content-Range: bytes 0-499/1234\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        EXPECT_EQ(true, rq.hasContentRange());
+        EXPECT_EQ(0, rq.contentRangeStart());
+        EXPECT_EQ(499, rq.contentRangeEnd());
+        EXPECT_EQ(1234, rq.contentRangeLength());
+      }
+
+      TEST(RequestParser, ContentRange_500_999_1234)
+      {
+        const char str[] =
+          "POST /login HTTP/1.1\r\n"
+          "Content-Range: bytes 500-999/1234\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        EXPECT_EQ(true, rq.hasContentRange());
+        EXPECT_EQ(500, rq.contentRangeStart());
+        EXPECT_EQ(999, rq.contentRangeEnd());
+        EXPECT_EQ(1234, rq.contentRangeLength());
+      }
+
+      TEST(RequestParser, ContentRange_500_999_star)
+      {
+        const char str[] =
+          "POST /login HTTP/1.1\r\n"
+          "Content-Range: bytes 500-999/*\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        EXPECT_EQ(true, rq.hasContentRange());
+        EXPECT_EQ(500, rq.contentRangeStart());
+        EXPECT_EQ(999, rq.contentRangeEnd());
+        EXPECT_EQ(-1, rq.contentRangeLength());
+      }
+
+      TEST(RequestParser, ContentRange_invalid)
+      {
+        const char str[] =
+          "POST /login HTTP/1.1\r\n"
+          "Content-Range: bytes 500-999\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(false, rq.parse(str, sizeof (str)));
+      }
+
       TEST(RequestParser, HardCookie1)
       {
         const char str[] =
