@@ -38,6 +38,15 @@ namespace mimosa
         ok = ok & format::printDecimal(stream, content_length_);
         ok = ok & format::printStatic(stream, "\r\n");
       }
+      if (hasContentRange()) {
+        ok = ok & format::printStatic(stream, "Content-Range: bytes ");
+        ok = ok & format::printDecimal(stream, content_range_start_);
+        ok = ok & format::printStatic(stream, "-");
+        ok = ok & format::printDecimal(stream, content_range_end_);
+        ok = ok & format::printStatic(stream, "/");
+        ok = ok & format::printDecimal(stream, content_range_length_);
+        ok = ok & format::printStatic(stream, "\r\n");
+      }
       if (!content_type_.empty())
       {
         ok = ok & format::printStatic(stream, "Content-Type: ");

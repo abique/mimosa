@@ -49,6 +49,25 @@ namespace mimosa
 
         EXPECT_EQ(ref, str);
       }
+
+      TEST(Response, ContentRange)
+      {
+        Response resp;
+
+        resp.status_ = kStatusPartialContent;
+        resp.setContentRange(1, 2, 3);
+
+        auto str = resp.toHttpHeader();
+        static const char *ref =
+          "HTTP/1.1 206 PartialContent\r\n"
+          "Server: mimosa\r\n"
+          "Connection: Close\r\n"
+          "Content-Range: bytes 1-2/3\r\n"
+          "Content-Type: text/plain\r\n"
+          "\r\n";
+
+        EXPECT_EQ(ref, str);
+      }
     }
   }
 }

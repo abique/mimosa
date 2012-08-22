@@ -27,6 +27,26 @@ namespace mimosa
       bool print(stream::Stream & stream) const;
       std::string toHttpHeader() const;
 
+      /**
+       * @{
+       * Content-Range stuff.
+       * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16
+       *
+       * contentRangeLength is set to -1 for '*'.
+       */
+      inline bool hasContentRange() const {
+        return status_ == kStatusPartialContent;
+      }
+      inline int64_t contentRangeStart() const { return content_range_start_; }
+      inline int64_t contentRangeEnd() const { return content_range_end_; }
+      inline int64_t contentRangeLength() const { return content_range_length_; }
+      inline void setContentRange(int64_t start, int64_t end, int64_t length) {
+        content_range_start_  = start;
+        content_range_end_    = end;
+        content_range_length_ = length;
+      }
+      /** @} */
+
       void clear();
 
       Status        status_;
@@ -38,6 +58,11 @@ namespace mimosa
       Cookie::Slist cookies_;
       kvs           unparsed_headers_;
       time_t        last_modified_;
+
+      // content-range
+      int64_t content_range_start_;
+      int64_t content_range_end_;
+      int64_t content_range_length_;
     };
   }
 }
