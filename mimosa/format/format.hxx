@@ -13,6 +13,15 @@ namespace mimosa
       return os;
     }
 
+#ifndef HAS_STRCHRNUL
+    const char * strchrnul(const char *str, char chr)
+    {
+      while (*str && *str != chr)
+        ++str;
+      return str;
+    }
+#endif // !HAS_STRCHRNUL
+
     template <typename T, typename ... Args>
     inline
     std::ostream & format(std::ostream & os,

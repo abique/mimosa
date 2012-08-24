@@ -26,4 +26,11 @@ include(cmake/Flex.cmake)
 include(cmake/Bison.cmake)
 include(cmake/TemplateConverter.cmake)
 
+include(CheckFunctionExists)
+
+check_function_exists(strchrnul HAS_STRCHRNUL)
+if(HAS_STRCHRNUL)
+  add_definitions(HAS_STRCHRNUL)
+endif()
+
 add_subdirectory(mimosa)
