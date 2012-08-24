@@ -30,12 +30,12 @@ include(CheckFunctionExists)
 
 check_function_exists(strchrnul HAS_STRCHRNUL)
 if(HAS_STRCHRNUL)
-  add_definitions(HAS_STRCHRNUL)
+  add_definitions(-DHAS_STRCHRNUL)
 endif()
 
 check_function_exists(timegm HAS_TIMEGM)
 if(HAS_TIMEGM)
-  add_definitions(HAS_TIMEGM)
+  add_definitions(-DHAS_TIMEGM)
 endif()
 
 add_subdirectory(mimosa)
