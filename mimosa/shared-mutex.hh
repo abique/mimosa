@@ -1,6 +1,8 @@
 #ifndef MIMOSA_SHARED_MUTEX_HH
 # define MIMOSA_SHARED_MUTEX_HH
 
+# include <pthread.h>
+
 # include <stdexcept>
 
 # include "non-copyable.hh"
