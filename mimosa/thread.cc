@@ -66,29 +66,6 @@ namespace mimosa
     state_ = kJoined;
   }
 
-  bool Thread::tryJoin()
-  {
-    if (state_ != kRunning)
-      return false;
-
-    if (::pthread_tryjoin_np(thread_, NULL))
-      return false;
-    state_ = kJoined;
-    return true;
-  }
-
-  bool Thread::timedJoin(Time timeout)
-  {
-    if (state_ != kRunning)
-      return false;
-
-    ::timespec tp = toTimeSpec(timeout);
-    if (::pthread_timedjoin_np(thread_, NULL, &tp))
-      return false;
-    state_ = kJoined;
-    return true;
-  }
-
   void Thread::detach()
   {
     if (state_ != kRunning)

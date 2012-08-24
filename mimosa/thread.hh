@@ -22,8 +22,6 @@ namespace mimosa
 
     bool start();
     void join();
-    bool tryJoin();
-    bool timedJoin(Time timeout);
     void detach();
     void cancel();
 
