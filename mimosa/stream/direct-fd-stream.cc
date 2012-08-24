@@ -1,4 +1,6 @@
-#include <sys/sendfile.h>
+#ifdef __linux__
+# include <sys/sendfile.h>
+#endif
 
 #include <cerrno>
 #include <algorithm>
@@ -73,6 +75,7 @@ namespace mimosa
       return true;
     }
 
+#ifdef __linux__
     static int64_t copySendfile(DirectFdStream & input,
                                 DirectFdStream & output,
                                 int64_t          max_bytes)
@@ -123,7 +126,6 @@ namespace mimosa
       return total;
     }
 
-#if 0
     static int64_t copySpliceAny(DirectFdStream & input,
                                  DirectFdStream & output,
                                  int64_t          max_bytes)
@@ -168,12 +170,14 @@ namespace mimosa
       ::close(pfd[1]);
       return total;
     }
-#endif
+#endif // __linux__
 
     int64_t copy(DirectFdStream & input,
                  DirectFdStream & output,
                  int64_t          max_bytes)
     {
+
+#ifdef __linux__
       // disk to fd
       if (S_ISREG(input.fdMode()))
         return copySendfile(input, output, max_bytes);
@@ -182,11 +186,10 @@ namespace mimosa
       if (S_ISFIFO(input.fdMode()) || S_ISFIFO(output.fdMode()))
         return copySplice(input, output, max_bytes);
 
-#if 0
       // splice: input -> pipe -> output
       if (max_bytes == 0 || max_bytes > 4096)
         return copySpliceAny(input, output, max_bytes);
-#endif
+#endif // __linux__
 
       // user copy
       return copy(static_cast<Stream &> (input),
