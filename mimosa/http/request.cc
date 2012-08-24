@@ -85,6 +85,26 @@ namespace mimosa
       return location_;
     }
 
+#ifndef HAS_TIMEGM
+    time_t
+    timegm(struct tm *tm)
+    {
+      time_t ret;
+      char *tz;
+
+      tz = getenv("TZ");
+      setenv("TZ", "", 1);
+      tzset();
+      ret = mktime(tm);
+      if (tz)
+        setenv("TZ", tz, 1);
+      else
+        unsetenv("TZ");
+      tzset();
+      return ret;
+    }
+#endif // !HAS_TIMEGM
+
     void
     Request::parseIfModifiedSince(const std::string & value)
     {

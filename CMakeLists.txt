@@ -33,4 +33,9 @@ if(HAS_STRCHRNUL)
   add_definitions(HAS_STRCHRNUL)
 endif()
 
+check_function_exists(timegm HAS_TIMEGM)
+if(HAS_TIMEGM)
+  add_definitions(HAS_TIMEGM)
+endif()
+
 add_subdirectory(mimosa)
