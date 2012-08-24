@@ -145,7 +145,7 @@ namespace mimosa
           limit = max_bytes - total;
 
         ssize_t rbytes = ::splice(input.fd(), nullptr, pfd[1], nullptr, limit, 0);
-        if (bytes <= 0) {
+        if (rbytes <= 0) {
           if (errno == EAGAIN)
             continue;
           goto end;
