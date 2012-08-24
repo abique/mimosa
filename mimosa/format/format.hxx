@@ -14,7 +14,7 @@ namespace mimosa
     }
 
 #ifndef HAS_STRCHRNUL
-    const char * strchrnul(const char *str, char chr)
+    inline const char * strchrnul(const char *str, char chr)
     {
       while (*str && *str != chr)
         ++str;
