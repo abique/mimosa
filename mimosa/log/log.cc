@@ -27,7 +27,7 @@ namespace mimosa
     static std::string & COMPRESSION = *options::addOption<std::string>(
       "log", "log-compression", "selection the compression method: identity, gzip, xz", "xz");
     static std::string & FILE = *options::addOption<std::string>(
-      "log", "log-file", "the path to the log file, it will be passed to strftime(3)", "");
+      "log", "log-file", "the path to the log file, it will be passed to strftime(3), ie: my-app-%Y-%m-%d.%H:%M:%S.log", "");
 
     static const char * const log_colors[] = {
       "\e[0;32m", // debug
