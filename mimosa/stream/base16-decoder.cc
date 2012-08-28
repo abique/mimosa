@@ -34,20 +34,19 @@ namespace mimosa
       if (nbytes < 2)
         return 0;
 
-      std::unique_ptr<char> buffer(new char[nbytes / 2]);
+      char buffer[nbytes / 2];
 
-      char * b = buffer.get();
+      char * b = buffer;
       const char * const end = data + (nbytes & ~1);
       const char * p = data;
 
-      while (p < end)
-      {
+      while (p < end) {
         b[0] = ((decodeByte(p[0]) & 0x0f) << 4) | (decodeByte(p[1]) & 0xf);
         b += 1;
         p += 2;
       }
 
-      if (stream_->loopWrite(buffer.get(), nbytes / 2) == nbytes / 2)
+      if (stream_->loopWrite(buffer, nbytes / 2) == nbytes / 2)
         return nbytes;
       return -1;
     }
