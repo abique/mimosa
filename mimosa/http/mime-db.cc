@@ -47,6 +47,27 @@ namespace mimosa
 
       std::string line;
 
+#define DEF(Ext, Type) mime_types_[Ext] = Type;
+
+      DEF("bmp", "image/bmp");
+      DEF("css", "text/css");
+      DEF("gif", "image/gif");
+      DEF("htm", "text/html");
+      DEF("html", "text/html");
+      DEF("ico", "image/x-icon");
+      DEF("jpe", "image/jpeg");
+      DEF("jpeg", "image/jpeg");
+      DEF("jpg", "image/jpeg");
+      DEF("js", "application/javascript");
+      DEF("json", "application/json");
+      DEF("pdf", "application/pdf");
+      DEF("png", "image/png");
+      DEF("svg", "image/svg+xml");
+      DEF("svgz", "image/svg+xml");
+      DEF("torrent", "application/x-bittorrent");
+      DEF("txt", "text/plain");
+      DEF("xml", "text/xml");
+
       while (std::getline(in, line))
       {
         auto pos = line.find('#');
