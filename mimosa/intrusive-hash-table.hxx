@@ -54,7 +54,7 @@ namespace mimosa
 
   template <typename T, typename Ptr, IntrusiveHashTableHook<Ptr> T::*Member>
   void
-  IntrusiveHashTable<T, Ptr, Member>::insert(Ptr entry)
+  IntrusiveHashTable<T, Ptr, Member>::insert(Ptr entry, bool auto_rehash)
   {
     if (capacity_ == 0)
       rehash(8);
@@ -67,21 +67,24 @@ namespace mimosa
     hook.next_ = bucket;
     bucket     = entry;
     ++size_;
+
+    if (auto_rehash)
+      rehash(0);
   }
 
   template <typename T, typename Ptr, IntrusiveHashTableHook<Ptr> T::*Member>
   void
   IntrusiveHashTable<T, Ptr, Member>::rehash(size_t capacity)
   {
-    if (capacity_ == capacity)
-      return;
-
     if (capacity == 0) {
-      assert(empty());
-      free(buckets_);
-      buckets_  = nullptr;
-      capacity_ = 0;
-    }
+      if (capacity_ < 8)
+        capacity = 8;
+      else if (size_ >= capacity_ || size_ * 2 < capacity_)
+        capacity = (size_ * 3) / 2;
+      else
+        return;
+    } else if (capacity_ == capacity)
+      return;
 
     Ptr * new_buckets = reinterpret_cast<Ptr *> (calloc(sizeof (*new_buckets), capacity));
     if (!new_buckets)
@@ -107,7 +110,7 @@ namespace mimosa
 
   template <typename T, typename Ptr, IntrusiveHashTableHook<Ptr> T::*Member>
   void
-  IntrusiveHashTable<T, Ptr, Member>::remove(Ptr entry)
+  IntrusiveHashTable<T, Ptr, Member>::remove(Ptr entry, bool auto_rehash)
   {
     if (!buckets_)
       return;
@@ -121,11 +124,14 @@ namespace mimosa
         *prev      = hook.next_;
         hook.next_ = nullptr;
         --size_;
-        return;
+        break;
       }
       prev = &(ptr->*Member).next_;
       ptr  = (ptr->*Member).next_;
     }
+
+    if (auto_rehash)
+      rehash(0);
   }
 
   template <typename T, typename Ptr, IntrusiveHashTableHook<Ptr> T::*Member>

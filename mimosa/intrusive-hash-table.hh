@@ -31,9 +31,15 @@ namespace mimosa
     inline size_t size() const { return size_; }
     inline size_t capacity() const { return capacity_; }
 
-    inline void insert(Ptr entry);
-    inline void rehash(size_t capacity);
-    inline void remove(Ptr entry);
+    inline void insert(Ptr entry, bool auto_rehash = true);
+
+    /**
+     * Rehash to capacity.
+     * @capacity if 0, then try to find a good size and rehash if necessary.
+     */
+    inline void rehash(size_t capacity = 0);
+
+    inline void remove(Ptr entry, bool auto_rehash = true);
     inline void clear();
 
     template <typename Eq>

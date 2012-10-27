@@ -34,7 +34,7 @@ namespace mimosa
       EXPECT_EQ(ht.capacity(), 3);
 
       auto item = new Item(1);
-      ht.insert(item);
+      ht.insert(item, false);
 
       EXPECT_EQ(ht.size(), 1);
       EXPECT_EQ(ht.empty(), false);
@@ -43,7 +43,7 @@ namespace mimosa
       auto item2 = ht.find(item->hook_.hash_, [] (Item *) { return true; });
       EXPECT_EQ(item2, item);
 
-      ht.remove(item);
+      ht.remove(item, false);
 
       EXPECT_EQ(ht.size(), 0);
       EXPECT_EQ(ht.empty(), true);
@@ -63,7 +63,7 @@ namespace mimosa
       Item * items[5];
       for (int i = 0; i < 5; ++i) {
         items[i] = new Item(i);
-        ht.insert(items[i]);
+        ht.insert(items[i], false);
         EXPECT_EQ(ht.size(), i + 1);
         EXPECT_EQ(ht.empty(), false);
         EXPECT_EQ(ht.capacity(), 1);
@@ -75,7 +75,7 @@ namespace mimosa
       }
 
       for (int i = 0; i < 5; ++i) {
-        ht.remove(items[i]);
+        ht.remove(items[i], false);
         EXPECT_EQ(ht.size(), 5 - i - 1);
       }
 
