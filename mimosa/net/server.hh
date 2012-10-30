@@ -29,7 +29,7 @@ namespace mimosa
       inline int fd() const { return fd_; }
       int accept(::sockaddr *  address     = nullptr,
                  ::socklen_t * address_len = nullptr,
-                 Time timeout     = 0) const;
+                 Time          timeout     = 0) const;
 
       /// @param new_thread if true, after accept return a valid fd, serveOne
       /// will call serve(fd) in a new thread
@@ -37,10 +37,10 @@ namespace mimosa
 
       void close();
 
-    protected:
+      /// The default implementation just closes the fd.
       virtual void serve(int                fd,
                          const ::sockaddr * address,
-                         socklen_t          address_len) const = 0;
+                         socklen_t          address_len) const;
 
     private:
       int  fd_;

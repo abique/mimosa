@@ -145,5 +145,13 @@ namespace mimosa
       fd_ = -1;
       ::close(fd);
     }
+
+    void
+    Server::serve(int                fd,
+                  const ::sockaddr * address,
+                  socklen_t          address_len) const
+    {
+      ::close(fd);
+    }
   }
 }

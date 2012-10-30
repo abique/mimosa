@@ -30,10 +30,11 @@ namespace mimosa
       inline void setReadTimeout(Time timeout) { read_timeout_ = timeout; }
       inline void setWriteTimeout(Time timeout) { write_timeout_ = timeout; }
 
-    private:
       virtual void serve(int                fd,
                          const ::sockaddr * address,
-                         socklen_t          address_len) const;
+                         socklen_t          address_len) const override;
+
+    private:
 
       Time                               read_timeout_;
       Time                               write_timeout_;
