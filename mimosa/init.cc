@@ -14,10 +14,6 @@
 
 namespace mimosa
 {
-  static void dummy(int)
-  {
-  }
-
   static void gnutls_log(int /*level*/, const char *msg)
   {
     printf("%s", msg);
@@ -28,7 +24,7 @@ namespace mimosa
     // initialize uptime
     uptime();
 
-    ::signal(SIGPIPE, dummy);
+    ::signal(SIGPIPE, SIG_IGN);
     ::sched_param sc_params;
     sc_params.sched_priority = 1;
     if (::sched_setscheduler(::getpid(), SCHED_FIFO, &sc_params))
