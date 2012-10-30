@@ -11,12 +11,13 @@
 #include "init.hh"
 #include "options/options.hh"
 #include "uptime.hh"
+#include "log/log.hh"
 
 namespace mimosa
 {
   static void gnutls_log(int /*level*/, const char *msg)
   {
-    printf("%s", msg);
+    log::info("[gnutls] %s", msg);
   }
 
   void init(int argc, char ** argv)
