@@ -20,7 +20,7 @@ Mimosa provides:
  - and more ... :-)
 
 Depends
- - gcc >= 4.6
+ - gcc >= 4.6 or clang >= 3.1
  - flex
  - bison
  - gnutls
