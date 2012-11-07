@@ -1,3 +1,5 @@
+protoc_mimosa(kv-db)
+
 add_library(rpc-kv-db-proto kv-db.pb.cc)
 
 add_executable(rpc-kv-db kv-db.cc database.cc)

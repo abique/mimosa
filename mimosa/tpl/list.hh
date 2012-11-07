@@ -28,7 +28,7 @@ namespace mimosa
       inline void append(AbstractValue::Ptr value)
       {
         value->parent_ = this;
-        values_.push_back(value);
+        values_.push_back(value.get());
       }
 
       MIMOSA_TPL_APPEND_HELPER

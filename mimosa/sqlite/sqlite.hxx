@@ -126,7 +126,7 @@ namespace mimosa
     inline void
     Stmt::fetchChain(int pos, const char ** value, int * nbytes, Args ... args)
     {
-      *value = sqlite3_column_text(stmt_, pos);
+      *value = reinterpret_cast<const char *> (sqlite3_column_text(stmt_, pos));
       *nbytes = sqlite3_column_bytes(stmt_, pos);
       fetchChain(pos + 1, args...);
     }

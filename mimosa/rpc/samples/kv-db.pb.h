@@ -718,7 +718,7 @@ public:
                                ::mimosa::rpc::samples::pb::Result>(request));
     call->setServiceId(2753234432UL);
     call->setMethodId(4248514160UL);
-    channel_->sendCall(call);
+    channel_->sendCall(call.get());
     return call;
   }
   
@@ -732,7 +732,7 @@ public:
                                ::mimosa::rpc::samples::pb::Result>(request));
     call->setServiceId(2753234432UL);
     call->setMethodId(3860080092UL);
-    channel_->sendCall(call);
+    channel_->sendCall(call.get());
     return call;
   }
   
@@ -746,7 +746,7 @@ public:
                                ::mimosa::rpc::samples::pb::Result>(request));
     call->setServiceId(2753234432UL);
     call->setMethodId(3960539263UL);
-    channel_->sendCall(call);
+    channel_->sendCall(call.get());
     return call;
   }
   

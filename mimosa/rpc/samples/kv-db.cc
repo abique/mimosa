@@ -16,7 +16,7 @@ int main(int argc, char ** argv)
   service_map->add(new rpc::samples::Database);
 
   rpc::Server::Ptr server = new rpc::Server;
-  server->setServiceMap(service_map);
+  server->setServiceMap(service_map.get());
   server->listenInet4(PORT);
 
   while (true)

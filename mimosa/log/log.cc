@@ -111,9 +111,9 @@ namespace mimosa
             stream::Stream::Ptr out;
 
             if (!::strcasecmp(COMPRESSION.c_str(), "gzip"))
-              out = new stream::GzipEncoder(out_fd_stream);
+              out = new stream::GzipEncoder(out_fd_stream.get());
             else
-              out = new stream::LzmaEncoder(out_fd_stream);
+              out = new stream::LzmaEncoder(out_fd_stream.get());
 
             fd = ::open(path.c_str(), O_RDONLY, 0644);
             if (fd < 0)

@@ -11,7 +11,7 @@ namespace mimosa
     }
 
     FdStream::FdStream(DirectFdStream::Ptr stream, uint64_t buffer_size)
-      : BufferedStream(stream, buffer_size)
+      : BufferedStream(stream.get(), buffer_size)
     {
     }
 

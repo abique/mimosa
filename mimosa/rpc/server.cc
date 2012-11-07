@@ -16,7 +16,7 @@ namespace mimosa
                   socklen_t          address_len) const
     {
       stream::FdStream::Ptr stream = new stream::FdStream(fd);
-      Channel::Ptr channel = new Channel(stream, service_map_);
+      Channel::Ptr channel = new Channel(stream.get(), service_map_);
       channel->start();
     }
   }

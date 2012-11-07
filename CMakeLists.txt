@@ -13,8 +13,6 @@ add_definitions(
   -std=c++11
   -D_GNU_SOURCE -D_LARGEFILE64_SOURCE
   -Wall -Wextra -Werror=return-type
-  # -Weffc++
-  # -fsplit-stack
 )
 
 if(GNUTLS_FOUND)
@@ -24,7 +22,7 @@ endif()
 include(cmake/Tests.cmake)
 include(cmake/Flex.cmake)
 include(cmake/Bison.cmake)
-include(cmake/TemplateConverter.cmake)
+include(cmake/ProtocMimosa.cmake)
 
 include(CheckFunctionExists)
 

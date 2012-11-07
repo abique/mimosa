@@ -83,7 +83,7 @@ namespace mimosa
       // check if we have to use Chunked-Endcoding
       if (content_length_ < 0 || transfer_encoding_ == kCodingChunked) {
         transfer_encoding_ = kCodingChunked;
-        stream_ = new ChunkedStream(channel_.stream_);
+        stream_ = new ChunkedStream(channel_.stream_.get());
         // prevent to many small writes
         stream_ = new stream::BufferedStream(stream_);
       } else
