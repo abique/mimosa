@@ -258,6 +258,51 @@ namespace mimosa
         if (it != rq.cookies().end())
           EXPECT_EQ(it->second, "1fc8f6730ca6349face3c667bb2cb71037cb3e90b85149fbc32963a2d1cd6d72");
       }
+
+      TEST(RequestParser, TE_W3C_Validator_1)
+      {
+        const char str[] =
+          "GET /stat HTTP/1.1\r\n"
+          "TE: deflate,gzip;q=0.3\r\n"
+          "Connection: TE, close\r\n"
+          "Cache-Control: max-age=0\r\n"
+          "Accept-Encoding: gzip, x-gzip, deflate, x-bzip2\r\n"
+          "Host: home.toofishes.net:8888\r\n"
+          "User-Agent: W3C_Validator/1.3\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+      }
+
+      TEST(RequestParser, TE_W3C_Validator_2)
+      {
+        const char str[] =
+          "GET /stat HTTP/1.1\r\n"
+          "TE: deflate,gzip;q=0.3\r\n"
+          "Connection: close, te\r\n"
+          "Cache-Control: max-age=0\r\n"
+          "Accept-Encoding: gzip, x-gzip, deflate, x-bzip2\r\n"
+          "Host: home.toofishes.net:8888\r\n"
+          "User-Agent: W3C_Validator/1.3\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+      }
+
+      TEST(RequestParser, TE_W3C_Validator_3)
+      {
+        const char str[] =
+          "GET /stat HTTP/1.1\r\n"
+          "TE: deflate,gzip;q=0.3\r\n"
+          "Connection: ,te,, close, te,\r\n"
+          "Cache-Control: max-age=0\r\n"
+          "Accept-Encoding: gzip, x-gzip, deflate, x-bzip2\r\n"
+          "Host: home.toofishes.net:8888\r\n"
+          "User-Agent: W3C_Validator/1.3\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+      }
     }
   }
 }

@@ -116,6 +116,8 @@ cookie_octet [^\r\r\n\v ;",\\]
 <value_cookie_str>\\.           yyextra->push_back(yytext[1]);
 <value_cookie_str>\"            BEGIN(value_cookie_sm); yylval->text = new std::string(*yyextra); return VALUE;
 
+<value_connection>,
+<value_connection>(?i:TE)
 <value_connection>(?i:keep-alive)  yylval->ival = 1; return VALUE_CONNECTION;
 <value_connection>(?i:close)       yylval->ival = 0; return VALUE_CONNECTION;
 
