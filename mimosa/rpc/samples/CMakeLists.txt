@@ -1,4 +1,4 @@
-protoc_mimosa(kv-db)
+mimosa_protoc(kv-db)
 
 add_library(rpc-kv-db-proto kv-db.pb.cc)
 
