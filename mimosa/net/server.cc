@@ -8,6 +8,7 @@
 #include "server.hh"
 #include "accept.hh"
 #include "../thread.hh"
+#include "../log/log.hh"
 
 namespace mimosa
 {
@@ -131,7 +132,8 @@ namespace mimosa
             }).start();
         else
           serve(fd, &addr.addr, addr_len);
-      }
+      } else
+        log::error("accept() failed: %s", ::strerror(errno));
     }
 
     void
@@ -147,8 +149,8 @@ namespace mimosa
 
     void
     Server::serve(int                fd,
-                  const ::sockaddr * address,
-                  socklen_t          address_len) const
+                  const ::sockaddr * /*address*/,
+                  socklen_t          /*address_len*/) const
     {
       ::close(fd);
     }
