@@ -90,9 +90,8 @@ namespace mimosa
     {
       LISTEN_COMMON_1(AF_UNIX);
 
-      std::unique_ptr<char> data(
-        new char[((size_t) (((::sockaddr_un *) 0)->sun_path)) + path.size() + 1]);
-      ::sockaddr_un & addr = *(::sockaddr_un*)data.get();
+      char data[((size_t) (((::sockaddr_un *) 0)->sun_path)) + path.size() + 1];
+      ::sockaddr_un & addr = *(::sockaddr_un*)data;
       addr.sun_family = AF_UNIX;
       ::memcpy(addr.sun_path, path.c_str(), path.size() + 1);
       ::unlink(path.c_str());
