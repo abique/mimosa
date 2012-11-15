@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <climits>
 #include <cassert>
+#include <memory>
 
 #include "thread.hh"
 
@@ -8,8 +9,8 @@ namespace mimosa
 {
   static void* startWrapper(std::function<void ()> * fct)
   {
+    std::unique_ptr<std::function<void ()> > x(fct);
     (*fct)();
-    delete fct;
     return 0;
   }
 
