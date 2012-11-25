@@ -6,6 +6,7 @@
 #include <mimosa/http/server.hh>
 #include <mimosa/http/dispatch-handler.hh>
 #include <mimosa/http/fs-handler.hh>
+#include <mimosa/http/log-handler.hh>
 
 using namespace mimosa;
 
@@ -107,10 +108,13 @@ int main(int argc, char ** argv)
     dispatch->registerHandler("/post-echo", new PostEchoHandler);
     dispatch->registerHandler("/data/*", new http::FsHandler(PATH, 1, true));
 
+    auto logger(new http::LogHandler);
+    logger->setHandler(dispatch);
+
     http::Server::Ptr server(new http::Server);
     server->setReadTimeout(TIMEOUT * millisecond);
     server->setWriteTimeout(TIMEOUT * millisecond);
-    server->setHandler(dispatch);
+    server->setHandler(logger);
 
     if (!CERT.empty() && !KEY.empty())
       server->setSecure(CERT, KEY);
