@@ -264,6 +264,7 @@ namespace mimosa
             }
 
             file.length_ = dec_->getInt();
+            info_->length_ += file.length_;
           } else if (dec_->getData() == "path") {
             if (got_path) {
               error_ = kParseError;
