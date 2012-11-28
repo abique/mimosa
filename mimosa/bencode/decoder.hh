@@ -40,6 +40,8 @@ namespace mimosa
       inline int64_t getInt() const { return int_; }
       inline const std::string & getData() const { return data_; }
 
+      inline void setInput(stream::Stream::Ptr input) { input_ = input; }
+
     private:
       Token pullInt();
       Token pullData();

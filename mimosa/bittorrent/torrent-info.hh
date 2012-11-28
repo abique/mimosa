@@ -15,7 +15,7 @@ namespace mimosa
       ~TorrentInfo();
 
       struct File {
-        std::string name_;
+        std::string path_;
         uint64_t    length_;
       };
 
