@@ -13,13 +13,13 @@ namespace mimosa
     TorrentParser::TorrentParser()
       : error_(kSucceed),
         dec_(nullptr),
-        info_(nullptr)
+        desc_(nullptr)
     {
     }
 
     TorrentParser::~TorrentParser()
     {
-      delete info_;
+      delete desc_;
     }
 
     bool
@@ -39,8 +39,8 @@ namespace mimosa
       in_ = in;
       bencode::Decoder dec(in_);
       dec_ = &dec;
-      delete info_;
-      info_ = new TorrentInfo;
+      delete desc_;
+      desc_ = new TorrentDescriptor;
 
       parseRoot();
 
@@ -150,7 +150,7 @@ namespace mimosa
           return false;
         }
 
-        info_->name_ = dec_->getData();
+        desc_->name_ = dec_->getData();
         return true;
       }
 
@@ -167,7 +167,7 @@ namespace mimosa
           return false;
         }
 
-        info_->length_ = dec_->getInt();
+        desc_->length_ = dec_->getInt();
         return true;
       }
 
@@ -184,7 +184,7 @@ namespace mimosa
           return false;
         }
 
-        info_->piece_length_ = dec_->getInt();
+        desc_->piece_length_ = dec_->getInt();
         return true;
       }
 
@@ -242,7 +242,7 @@ namespace mimosa
     bool
     TorrentParser::parseInfoFilesFile()
     {
-      TorrentInfo::File file;
+      TorrentDescriptor::File file;
       bool got_length = false;
       bool got_path = false;
 
@@ -264,7 +264,7 @@ namespace mimosa
             }
 
             file.length_ = dec_->getInt();
-            info_->length_ += file.length_;
+            desc_->length_ += file.length_;
           } else if (dec_->getData() == "path") {
             if (got_path) {
               error_ = kParseError;
@@ -295,7 +295,7 @@ namespace mimosa
             return false;
           }
 
-          info_->files_.push_back(std::move(file));
+          desc_->files_.push_back(std::move(file));
           return true;
 
         default:

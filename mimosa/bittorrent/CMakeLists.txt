@@ -1,10 +1,10 @@
 install(FILES
-  torrent-info.hh
+  torrent-descriptor.hh
   torrent-parser.hh
   DESTINATION include/mimosa/bittorrent/)
 
 add_library(mimosa-bittorrent
-  torrent-info.cc
+  torrent-descriptor.cc
   torrent-parser.cc
   )
 target_link_libraries(mimosa-bittorrent

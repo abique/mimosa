@@ -1,10 +1,10 @@
-#include "torrent-info.hh"
+#include "torrent-descriptor.hh"
 
 namespace mimosa
 {
   namespace bittorrent
   {
-    TorrentInfo::TorrentInfo()
+    TorrentDescriptor::TorrentDescriptor()
       : length_(0),
         piece_length_(0),
         is_private_(false),
@@ -12,7 +12,7 @@ namespace mimosa
     {
     }
 
-    TorrentInfo::~TorrentInfo()
+    TorrentDescriptor::~TorrentDescriptor()
     {
       delete[] pieces_;
     }

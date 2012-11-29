@@ -1,5 +1,5 @@
-#ifndef MIMOSA_BITTORRENT_TORRENT_INFO_HH
-# define MIMOSA_BITTORRENT_TORRENT_INFO_HH
+#ifndef MIMOSA_BITTORRENT_TORRENT_DESCRIPTOR_HH
+# define MIMOSA_BITTORRENT_TORRENT_DESCRIPTOR_HH
 
 # include <cstdint>
 # include <string>
@@ -9,10 +9,10 @@ namespace mimosa
 {
   namespace bittorrent
   {
-    struct TorrentInfo
+    struct TorrentDescriptor
     {
-      TorrentInfo();
-      ~TorrentInfo();
+      TorrentDescriptor();
+      ~TorrentDescriptor();
 
       struct File {
         std::string path_;
@@ -47,4 +47,4 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_BITTORRENT_TORRENT_INFO_HH */
+#endif /* !MIMOSA_BITTORRENT_TORRENT_DESCRIPTOR_HH */
