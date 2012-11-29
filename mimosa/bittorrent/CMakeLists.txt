@@ -9,7 +9,6 @@ add_library(mimosa-bittorrent
   )
 target_link_libraries(mimosa-bittorrent
   mimosa-bencode
-  mimosa-stream
   mimosa)
 
 install(TARGETS mimosa-bittorrent
