@@ -59,6 +59,7 @@ namespace mimosa
           return;
 
         if (open_time_ == 0 ||
+            fd_ < 0 ||
             (ROTATION_INTERVAL > 0 &&
              monotonicTimeCoarse() > open_time_ + ROTATION_INTERVAL * second))
           open(tm);
@@ -89,6 +90,15 @@ namespace mimosa
           ::close(fd);
           fd_ = STDOUT_FILENO;
         }
+      }
+
+      void release()
+      {
+        if (FILE.empty() || fd_ < 0)
+          return;
+
+        ::close(fd_);
+        fd_ = -1;
       }
 
       void compress(bool join)
@@ -136,11 +146,11 @@ namespace mimosa
       int         fd_;
     };
 
+    static Output output;
+    static Mutex  stdout_lock;
+
     void log(Level level, const Origin * origin, const std::string & msg)
     {
-      static Output output;
-      static Mutex  stdout_lock;
-
       auto real_time = realTime();
       time_t ts = real_time / second;
       tm tm;
@@ -168,6 +178,12 @@ namespace mimosa
       Mutex::Locker locker(stdout_lock);
       output.check(tm);
       ::write(output.fd_, str.c_str(), str.size());
+    }
+
+    void release()
+    {
+      Mutex::Locker locker(stdout_lock);
+      output.release();
     }
   }
 }

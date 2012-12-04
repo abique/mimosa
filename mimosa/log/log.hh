@@ -14,6 +14,12 @@ namespace mimosa
 
     void log(Level level, const Origin * origin, const std::string & msg);
 
+    /**
+     * Closes the log file descriptor if the option -log-file is not empty.
+     * The next call to log() will re-open it.
+     */
+    void release();
+
 # define IMPL_LOG(Level, Name)                          \
     template <typename ... Args>                        \
     inline void                                         \
