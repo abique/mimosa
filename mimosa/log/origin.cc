@@ -134,7 +134,7 @@ namespace mimosa
         {
         }
 
-        virtual bool parse(int & argc, char **& argv)
+        virtual bool parse(int & /*argc*/, char **& /*argv*/)
         {
           auto & list = Origins::instance().list_;
           for (auto it = list.begin(); it != list.end(); ++it)
