@@ -13,7 +13,7 @@ namespace mimosa
   namespace options
   {
     bool
-    MessageOption::parse(int & argc, char **& argv)
+    MessageOption::parse(int & /*argc*/, char **& /*argv*/)
     {
       std::cout << message_ << std::endl;
       ::exit(0);

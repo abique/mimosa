@@ -38,6 +38,7 @@
 
 # include <string>
 # include <sstream>
+# include <vector>
 
 namespace mimosa
 {
@@ -137,6 +138,49 @@ namespace mimosa
       T           value_;
     };
 
+    /// MultiOption is a simple option with one following argument
+    /// typed by T.
+    ///
+    /// The parsing is done through std::istream >> T&.
+    template <typename T>
+    class MultiOption : public BasicOption
+    {
+    public:
+      MultiOption(const char * group,
+                  const char * name,
+                  const char * desc)
+        : BasicOption(group, name, desc)
+      {
+      }
+
+      virtual bool parse(int & argc, char **& argv)
+      {
+        if (argc < 1)
+          return false;
+
+        T value;
+
+        std::istringstream is(*argv);
+        is >> value;
+
+        --argc;
+        ++argv;
+
+        if (!is.fail()) {
+          value_.push_back(value);
+          return true;
+        }
+        return false;
+      }
+
+      virtual void showDesc(std::ostream & os)
+      {
+        os << "  -" << name_ << " [*] (" << desc_ << ")" << std::endl;
+      }
+
+      std::vector<T> value_;
+    };
+
     /// This options just displays a message and exits the program
     /// when triggered
     class MessageOption : public BasicOption
@@ -180,6 +224,19 @@ namespace mimosa
                   T            default_value = T())
     {
       auto opt = new Option<T>(group, name, desc, default_value);
+      addBasicOption(opt);
+      return &opt->value_;
+    }
+
+    /// This adds an option to the options parser
+    template <typename T>
+    inline
+    std::vector<T> *
+    addMultiOption(const char * group,
+                   const char * name,
+                   const char * desc)
+    {
+      auto opt = new MultiOption<T>(group, name, desc);
       addBasicOption(opt);
       return &opt->value_;
     }
