@@ -18,6 +18,7 @@ namespace mimosa
       stream::FdStream::Ptr stream = new stream::FdStream(fd);
       Channel::Ptr channel = new Channel(stream.get(), service_map_);
       channel->start();
+      channel->wait();
     }
   }
 }

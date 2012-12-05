@@ -50,18 +50,17 @@ namespace mimosa
       {
         stream::Buffer::Ptr buffer;
 
-        if (write_queue_.pop(buffer))
+        if (!write_queue_.pop(buffer))
           return;
 
-        do {
-          assert(buffer);
-          if (stream_->loopWrite(buffer->data(), buffer->size()) != buffer->size())
-          {
-            close();
-            return;
-          }
-        } while (write_queue_.tryPop(buffer));
-        stream_->flush();
+        assert(buffer);
+        if (stream_->loopWrite(buffer->data(), buffer->size()) != buffer->size()) {
+          stream_->close();
+          return;
+        }
+
+        if (!stream_->flush())
+          return;
       }
       log::error("end of write loop");
     }
@@ -73,9 +72,8 @@ namespace mimosa
       {
         uint8_t msg_type;
         int ret = 0;
-        if ((ret = stream_->read((char*)&msg_type, 1)) != 1)
-        {
-          close();
+        if ((ret = stream_->read((char*)&msg_type, 1)) != 1) {
+          stream_->close();
           return;
         }
 
@@ -90,9 +88,8 @@ namespace mimosa
         default:      ok = false; break;
         }
 
-        if (!ok)
-        {
-          close();
+        if (!ok) {
+          stream_->close();
           return;
         }
       }
@@ -303,12 +300,19 @@ namespace mimosa
     }
 
     void
+    Channel::wait()
+    {
+      rthread_.join();
+    }
+
+    void
     Channel::close()
     {
       status_ = kClosed;
       stream_->close();
       write_queue_.close();
       wthread_.join();
+      rthread_.cancel();
       rthread_.join();
     }
   }

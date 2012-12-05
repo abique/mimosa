@@ -33,6 +33,7 @@ namespace mimosa
       void start();
       inline Status status() const { return status_; }
       void close();
+      void wait();
 
       void sendCall(BasicCall::Ptr call);
       void sendResponse(BasicCall::Ptr call);
