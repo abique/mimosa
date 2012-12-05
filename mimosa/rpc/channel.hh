@@ -6,6 +6,7 @@
 # include "../stream/buffer.hh"
 # include "../stream/buffered-stream.hh"
 # include "../channel.hh"
+# include "../thread.hh"
 # include "protocol.hh"
 # include "service-map.hh"
 
@@ -57,15 +58,20 @@ namespace mimosa
        * then re-call nextTag() */
       uint32_t nextTag();
 
-      stream::BufferedStream::Ptr                                 stream_;
-      ServiceMap::ConstPtr                                        service_map_;
-      Mutex                                                       scalls_mutex_;
-      std::map<uint32_t, BasicCall::Ptr>                          scalls_; // sent calls
-      Mutex                                                       rcalls_mutex_;
-      std::map<uint32_t, BasicCall::Ptr>                          rcalls_; // received calls
-      Status                                                      status_;
-      mimosa::Channel<stream::Buffer::Ptr, stream::Buffer::Slist> write_queue_;
-      uint32_t                                                    next_tag_;
+      typedef mimosa::Channel<stream::Buffer::Ptr,
+                              stream::Buffer::SlistPtr> write_queue_type;
+
+      stream::BufferedStream::Ptr        stream_;
+      ServiceMap::ConstPtr               service_map_;
+      Mutex                              scalls_mutex_;
+      std::map<uint32_t, BasicCall::Ptr> scalls_; // sent calls
+      Mutex                              rcalls_mutex_;
+      std::map<uint32_t, BasicCall::Ptr> rcalls_; // received calls
+      Status                             status_;
+      uint32_t                           next_tag_;
+      Thread                             wthread_;
+      Thread                             rthread_;
+      write_queue_type                   write_queue_;
     };
   }
 }

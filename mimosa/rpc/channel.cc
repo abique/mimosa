@@ -1,6 +1,8 @@
 #include <endian.h>
 #include <cassert>
+#include <memory>
 
+#include "../log/log.hh"
 #include "../thread.hh"
 #include "channel.hh"
 #include "protocol.hh"
@@ -16,13 +18,16 @@ namespace mimosa
         scalls_(),
         rcalls_(),
         status_(kOk),
-        write_queue_(),
-        next_tag_(0)
+        next_tag_(0),
+        wthread_([this] { this->writeLoop(); }),
+        rthread_([this] { this->readLoop(); }),
+        write_queue_()
     {
     }
 
     Channel::~Channel()
     {
+      close();
     }
 
     uint32_t
@@ -34,9 +39,8 @@ namespace mimosa
     void
     Channel::start()
     {
-      Channel::Ptr channel(this);
-      Thread([channel]() { channel->readLoop(); }).start();
-      Thread([channel]() { channel->writeLoop(); }).start();
+      wthread_.start();
+      rthread_.start();
     }
 
     void
@@ -45,19 +49,21 @@ namespace mimosa
       while (status_ == kOk)
       {
         stream::Buffer::Ptr buffer;
-        if (!write_queue_.pop(buffer))
-        {
-          stream_->flush();
-          continue;
-        }
-        int64_t ret = 0;
-        if ((ret = stream_->loopWrite(buffer->data(), buffer->size())) != buffer->size())
-        {
-          close();
+
+        if (write_queue_.pop(buffer))
           return;
-        }
+
+        do {
+          assert(buffer);
+          if (stream_->loopWrite(buffer->data(), buffer->size()) != buffer->size())
+          {
+            close();
+            return;
+          }
+        } while (write_queue_.tryPop(buffer));
         stream_->flush();
       }
+      log::error("end of write loop");
     }
 
     void
@@ -302,6 +308,8 @@ namespace mimosa
       status_ = kClosed;
       stream_->close();
       write_queue_.close();
+      wthread_.join();
+      rthread_.join();
     }
   }
 }
