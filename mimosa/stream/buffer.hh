@@ -29,13 +29,19 @@ namespace mimosa
       void resize(uint64_t size);
 
     private:
-      IntrusiveSlistHook<Buffer*> next_;
+      union {
+        IntrusiveSlistHook<Buffer*>     next_;
+        IntrusiveSlistHook<Buffer::Ptr> next_ptr_;
+      };
       uint64_t                    size_;
       char *                      data_;
 
     public:
       typedef IntrusiveSlist<Buffer, Buffer *, &Buffer::next_> Slist;
       friend class IntrusiveSlist<Buffer, Buffer *, &Buffer::next_>;
+
+      typedef IntrusiveSlist<Buffer, Buffer::Ptr, &Buffer::next_ptr_> SlistPtr;
+      friend class IntrusiveSlist<Buffer, Buffer::Ptr, &Buffer::next_ptr_>;
     };
   }
 }
