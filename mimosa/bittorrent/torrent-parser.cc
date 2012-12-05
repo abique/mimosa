@@ -13,7 +13,11 @@ namespace mimosa
     TorrentParser::TorrentParser()
       : error_(kSucceed),
         dec_(nullptr),
-        desc_(nullptr)
+        desc_(nullptr),
+        got_info_name_(false),
+        got_info_length_(false),
+        got_info_piece_length_(false),
+        got_info_files_(false)
     {
     }
 
@@ -53,6 +57,11 @@ namespace mimosa
     {
       bool got_info = false;
 
+      got_info_name_ = false;
+      got_info_length_ = false;
+      got_info_piece_length_ = false;
+      got_info_files_ = false;
+
       auto token = dec_->pull();
       if (token != bencode::kDict) {
         error_ = kParseError;
@@ -66,6 +75,8 @@ namespace mimosa
         case bencode::kData:
           // XXX announce
           // XXX nodes
+          // XXX comment
+          // XXX created by
 
           if (dec_->getData() == "info") {
             if (got_info) {
@@ -84,6 +95,7 @@ namespace mimosa
             dec_->setInput(in_);
 
             got_info = true;
+            memcpy(desc_->info_hash_.bytes_, sha1->digest(), 20);
           } else if (!dec_->eatValue()) {
             error_ = kInputError;
             return false;
@@ -272,17 +284,8 @@ namespace mimosa
             }
             got_path = true;
 
-            token = dec_->pull();
-            if (token != bencode::kData) {
-              error_ = kParseError;
+            if (!parseInfoFilesFilePath(file))
               return false;
-            }
-
-            file.path_ = dec_->getData();
-            if (file.path_.empty()) {
-              error_ = kParseError;
-              return false;
-            }
           } else if (!dec_->eatValue()) {
             error_ = kInputError;
             return false;
@@ -306,6 +309,38 @@ namespace mimosa
           break;
         }
       }
+    }
+
+    bool
+    TorrentParser::parseInfoFilesFilePath(TorrentDescriptor::File & file)
+    {
+      auto token = dec_->pull();
+      if (token != bencode::kList) {
+        error_ = kParseError;
+        return false;
+      }
+
+      while (true) {
+        token = dec_->pull();
+
+        if (token == bencode::kEnd)
+          break;
+
+        if (token != bencode::kData) {
+          error_ = kParseError;
+          return false;
+        }
+
+        if (!file.path_.empty())
+          file.path_.append("/", 1);
+        file.path_.append(dec_->getData());
+      }
+
+      if (file.path_.empty()) {
+        error_ = kParseError;
+        return false;
+      }
+      return true;
     }
   }
 }

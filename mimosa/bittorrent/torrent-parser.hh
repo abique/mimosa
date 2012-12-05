@@ -43,6 +43,7 @@ namespace mimosa
       bool parseInfoData();
       bool parseInfoFiles();
       bool parseInfoFilesFile();
+      bool parseInfoFilesFilePath(TorrentDescriptor::File & file);
 
       Error               error_;
       stream::Stream::Ptr in_;
