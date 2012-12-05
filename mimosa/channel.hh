@@ -39,16 +39,16 @@ namespace mimosa
     inline bool pop(T & t)
     {
       Mutex::Locker locker(mutex_);
-      while (!closed_)
-      {
+      while (true) {
         if (!queue_.empty())
         {
           t = queue_.front();
           queue_.pop();
           return true;
         }
-        else
-          cond_.wait(mutex_);
+        else if (closed_)
+          return false;
+        cond_.wait(mutex_);
       }
       return false;
     }
@@ -56,7 +56,7 @@ namespace mimosa
     inline bool tryPop(T & t)
     {
       Mutex::Locker locker(mutex_);
-      if (closed_ || queue_.empty())
+      if (queue_.empty())
         return false;
 
       t = queue_.front();
@@ -64,6 +64,8 @@ namespace mimosa
       return true;
     }
 
+    /** closes the push end, it is possible to pop
+     * until the channel is empty */
     inline void close()
     {
       Mutex::Locker locker(mutex_);
@@ -73,7 +75,7 @@ namespace mimosa
 
     inline bool empty() const
     {
-      return queue_.emtpy();
+      return queue_.empty();
     }
 
     bool      closed_;
