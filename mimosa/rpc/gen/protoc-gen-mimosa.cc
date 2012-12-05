@@ -159,9 +159,9 @@ class ServiceGenerator : public gpc::CodeGenerator
       fillMethodDict(method, &variables);
       printer.Print(
         variables,
-        "virtual void $MethodName$(::mimosa::rpc::Call<\n"
-        "  $RequestType$,\n"
-        "  $ResponseType$>::Ptr call) = 0;\n"
+        "virtual bool $MethodName$(\n"
+        "  $RequestType$ & request,\n"
+        "  $ResponseType$ & response) = 0;\n"
         );
       if (mi + 1 < service->method_count())
         printer.Print("\n");
@@ -196,7 +196,8 @@ class ServiceGenerator : public gpc::CodeGenerator
         "  call->allocateMessages();\n"
         "  if (!call->request().ParseFromArray(request_data, request_size))\n"
         "    return ::mimosa::rpc::Service::kInvalidMsg;\n"
-        "  $MethodName$(call);\n"
+        "  if (!$MethodName$(call->request(), call->response()))\n"
+        "    call->cancel();\n"
         "  return ::mimosa::rpc::Service::kSucceed;\n"
         "}\n"
         );

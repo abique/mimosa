@@ -6,44 +6,47 @@ namespace mimosa
   {
     namespace samples
     {
-      void
-      Database::get(Call<pb::Key, pb::Result>::Ptr call)
+      bool
+      Database::get(pb::Key & request, pb::Result & response)
       {
         SharedMutex::ReadLocker locker(lock_);
-        printf("get(%s)\n", call->request().key().c_str());
-        auto it = kv_.find(call->request().key());
+        printf("get(%s)\n", request.key().c_str());
+        auto it = kv_.find(request.key());
         if (it == kv_.end())
-          call->response().set_status(pb::kNotFound);
+          response.set_status(pb::kNotFound);
         else
         {
-          call->response().set_value(it->second);
-          call->response().set_status(pb::kOk);
+          response.set_value(it->second);
+          response.set_status(pb::kOk);
         }
+        return true;
       }
 
-      void
-      Database::set(Call<pb::KeyValue, pb::Result>::Ptr call)
+      bool
+      Database::set(pb::KeyValue & request, pb::Result & response)
       {
         SharedMutex::ReadLocker locker(lock_);
-        printf("set(%s, %s)\n", call->request().key().c_str(),
-               call->request().value().c_str());
-        kv_[call->request().key()] = call->request().value();
-        call->response().set_status(pb::kOk);
+        printf("set(%s, %s)\n", request.key().c_str(),
+               request.value().c_str());
+        kv_[request.key()] = request.value();
+        response.set_status(pb::kOk);
+        return true;
       }
 
-      void
-      Database::del(Call<pb::Key, pb::Result>::Ptr call)
+      bool
+      Database::del(pb::Key & request, pb::Result & response)
       {
         SharedMutex::Locker locker(lock_);
-        printf("del(%s)\n", call->request().key().c_str());
-        auto it = kv_.find(call->request().key());
+        printf("del(%s)\n", request.key().c_str());
+        auto it = kv_.find(request.key());
         if (it == kv_.end())
-          call->response().set_status(pb::kNotFound);
+          response.set_status(pb::kNotFound);
         else
         {
           kv_.erase(it);
-          call->response().set_status(pb::kOk);
+          response.set_status(pb::kOk);
         }
+        return true;
       }
     }
   }

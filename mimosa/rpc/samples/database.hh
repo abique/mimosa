@@ -15,11 +15,11 @@ namespace mimosa
       {
       public:
         // You have to implement the following rpc methods
-        virtual void get(Call<pb::Key, pb::Result>::Ptr call);
+        virtual bool get(pb::Key & request, pb::Result & response);
 
-        virtual void set(Call<pb::KeyValue, pb::Result>::Ptr call);
+        virtual bool set(pb::KeyValue & request, pb::Result & response);
 
-        virtual void del(Call<pb::Key, pb::Result>::Ptr call);
+        virtual bool del(pb::Key & request, pb::Result & response);
         // End of rpc methods
 
       private:
