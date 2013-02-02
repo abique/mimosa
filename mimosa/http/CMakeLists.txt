@@ -2,6 +2,7 @@ install(FILES
   chunked-stream.hh
   coding.hh
   cookie.hh
+  crud-handler.hh
   dispatch-handler.hh
   error-handler.hh
   fs-handler.hh
@@ -26,6 +27,7 @@ mimosa_bison(request-parser)
 add_library(mimosa-http
   chunked-stream.cc
   cookie.cc
+  crud-handler.cc
   dispatch-handler.cc
   error-handler.cc
   fs-handler.cc
