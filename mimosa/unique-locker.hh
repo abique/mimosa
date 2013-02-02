@@ -40,7 +40,7 @@ namespace mimosa
     inline bool timedLock(Time timeout)
     {
       if (!is_locked_)
-        is_locked_ = mutex_.timedlock(time);
+        is_locked_ = mutex_.timedlock(timeout);
       return is_locked_;
     }
 

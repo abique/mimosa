@@ -34,7 +34,7 @@ namespace mimosa
         error_ = kOpenError;
         return false;
       }
-      return parse(stream);
+      return parse(stream.get());
     }
 
     bool
@@ -86,8 +86,8 @@ namespace mimosa
 
             stream::Sha1::Ptr sha1(new stream::Sha1);
             stream::TeeStream::Ptr tee(new stream::TeeStream(in_));
-            tee->teeInput(sha1);
-            dec_->setInput(tee);
+            tee->teeInput(sha1.get());
+            dec_->setInput(tee.get());
 
             if (!parseInfo())
               return false;
