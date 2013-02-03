@@ -121,6 +121,7 @@ add_subdirectory(bencode)
 add_subdirectory(flat)
 add_subdirectory(fs)
 add_subdirectory(bittorrent)
+add_subdirectory(json)
 
 add_subdirectory(tests)
 
