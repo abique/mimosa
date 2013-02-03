@@ -1,10 +1,18 @@
 #ifndef MIMOSA_JSON_ENCODER_HH
 # define MIMOSA_JSON_ENCODER_HH
 
+# include <vector>
+
+# include "../stream/stream.hh"
+
 namespace mimosa
 {
   namespace json
   {
+    /**
+     * @ingroup json
+     * JSON stream encoder.
+     */
     class Encoder
     {
     public:
@@ -22,15 +30,24 @@ namespace mimosa
       bool pushNull();
 
     private:
+      bool pushSeparator();
+      void nextState();
+
       enum State
       {
         kArray,
+        kArrayNext,
         kObjectKey,
         kObjectValue,
+        kObjectNext,
       };
 
       stream::Stream::Ptr output_;
       std::vector<State>  state_;
+    };
+
+    class SyntaxError
+    {
     };
   }
 }

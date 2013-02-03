@@ -55,6 +55,7 @@ namespace mimosa
       case kMethodOptions:
       case kMethodConnect:
       case kMethodPatch:
+      default:
         return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
       }
     }

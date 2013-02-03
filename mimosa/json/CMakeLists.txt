@@ -1,4 +1,5 @@
 install(FILES
+  decoder.hh
   encoder.hh
   DESTINATION include/mimosa/json/)
 
@@ -11,3 +12,5 @@ install(TARGETS mimosa-json
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib)
+
+add_subdirectory(tests)
