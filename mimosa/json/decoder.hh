@@ -26,7 +26,8 @@ namespace mimosa
         KObjectBegin,
         kObjectEnd,
         kString,
-        kNumber,
+        kInteger,
+        kRational,
         kBoolean,
         kNull,
         kEof,
@@ -43,9 +44,14 @@ namespace mimosa
         return string_;
       }
 
-      inline int64_t number() const
+      inline int64_t integer() const
       {
-        return number_;
+        return integer_;
+      }
+
+      inline int64_t rational() const
+      {
+        return rational_;
       }
 
       inline bool boolean() const
@@ -63,10 +69,17 @@ namespace mimosa
         kObjectNext,
       };
 
+      enum Token pullNull();
+      enum Token pullTrue();
+      enum Token pullFalse();
+      enum Token pullString();
+      enum Token pullNumber();
+
       stream::Stream::Ptr input_;
       std::vector<State>  state_;
 
-      int64_t     number_;
+      double      rational_;
+      int64_t     integer_;
       bool        boolean_;
       std::string string_;
     };
