@@ -16,7 +16,10 @@ add_library(mimosa-rpc
   service-map.cc)
 target_link_libraries(mimosa-rpc mimosa protobuf)
 
-install(TARGETS mimosa-rpc
+add_library(mimosa-rpc-bencode bencode.cc)
+target_link_libraries(mimosa-rpc-bencode mimosa-rpc mimosa-bencode)
+
+install(TARGETS mimosa-rpc mimosa-rpc-bencode
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib)
