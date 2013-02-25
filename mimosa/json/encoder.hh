@@ -26,6 +26,7 @@ namespace mimosa
 
       bool pushString(const std::string & data);
       bool pushNumber(int64_t value);
+      bool pushFloat(double value);
       bool pushBoolean(bool value);
       bool pushNull();
 
