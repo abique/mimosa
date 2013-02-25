@@ -145,6 +145,22 @@ namespace mimosa
     }
 
     bool
+    Encoder::pushFloat(double value)
+    {
+      if (!state_.empty() && state_.back() == kObjectKey)
+        throw SyntaxError();
+
+      if (!pushSeparator())
+        return false;
+
+      if (!format::format(*output_, "%v", value))
+        return false;
+
+      nextState();
+      return true;
+    }
+
+    bool
     Encoder::pushSeparator()
     {
       if (state_.empty())
