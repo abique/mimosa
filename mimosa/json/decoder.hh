@@ -31,11 +31,10 @@ namespace mimosa
         kBoolean,
         kNull,
         kEof,
-
-        /* error tokens */
-        kReadError,
-        kParseError,
       };
+
+      struct ReadError {};
+      struct SyntaxError {};
 
       Token pull();
 
@@ -74,13 +73,16 @@ namespace mimosa
       enum Token pullFalse();
       enum Token pullString();
       enum Token pullNumber();
+      enum Token pullValue();
 
       stream::Stream::Ptr input_;
       std::vector<State>  state_;
 
-      double      rational_;
-      int64_t     integer_;
-      bool        boolean_;
+      union {
+        double  rational_;
+        int64_t integer_;
+        bool    boolean_;
+      }
       std::string string_;
     };
   }
