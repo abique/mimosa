@@ -7,7 +7,6 @@ install(FILES
   direct-fd-stream.hh
   fd-stream.hh
   filter.hh
-  gzip-stream.hh
   hash.hh
   hash.hxx
   html-escape.hh
@@ -15,6 +14,7 @@ install(FILES
   lzma.hh
   lzma-decoder.hh
   lzma-encoder.hh
+  net-fd-stream.hh
   percent-encoder.hh
   stream.hh
   string-stream.hh
