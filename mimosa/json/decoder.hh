@@ -39,6 +39,7 @@ namespace mimosa
       struct SyntaxError {};
 
       Token pull();
+      void  eatValue();
 
       inline const std::string & string() const
       {

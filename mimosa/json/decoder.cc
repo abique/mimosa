@@ -470,5 +470,36 @@ namespace mimosa
       c_     = c;
       has_c_ = true;
     }
+
+    void
+    Decoder::eatValue()
+    {
+      int depth = 0;
+
+      do {
+        auto token = pull();
+        switch (token) {
+        case kArrayBegin:
+        case kObjectBegin:
+          ++depth;
+          break;
+
+        case kArrayEnd:
+        case kObjectEnd:
+          --depth;
+          break;
+
+        case kString:
+        case kRational:
+        case kInteger:
+        case kBoolean:
+        case kNull:
+          break;
+
+        case kEof:
+          return;
+        }
+      } while (depth > 0);
+    }
   }
 }
