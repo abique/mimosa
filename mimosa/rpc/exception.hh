@@ -8,6 +8,18 @@ namespace mimosa
     class MissingRequiredField
     {
     };
+
+    class InvalidFormat
+    {
+    };
+
+    class FieldAlreadySet
+    {
+    };
+
+    class InvalidEnumValue
+    {
+    };
   }
 }
 

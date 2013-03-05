@@ -6,12 +6,12 @@ namespace mimosa
   namespace rpc
   {
 #define ENC_FIELD(Type, Fn, Push)                                       \
-    case google::protobuf::FieldDescriptor::TYPE_##Type:                \
+    case google::protobuf::FieldDescriptor::CPPTYPE_##Type:             \
     if (field->is_repeated()) {                                         \
       enc.startArray();                                                 \
       for (int i = 0; i < ref->FieldSize(msg, field); ++i)              \
         enc.push##Push(ref->GetRepeated##Fn(msg, field, i));            \
-      enc.endArray();                                                   \
+          enc.endArray();                                               \
     } else {                                                            \
       if (field->is_required() && !field->has_default_value() &&        \
           !ref->HasField(msg, field))                                   \
@@ -20,8 +20,8 @@ namespace mimosa
     }                                                                   \
     break
 
-    void encode(json::Encoder & enc,
-                const google::protobuf::Message & msg)
+    void jsonEncode(json::Encoder &                   enc,
+                    const google::protobuf::Message & msg)
     {
       enc.startObject();
       auto desc = msg.GetDescriptor();
@@ -29,45 +29,220 @@ namespace mimosa
       for (int i = 0; i < desc->field_count(); ++i) {
         auto field = desc->field(i);
         enc.pushString(field->name());
-        switch (field->type()) {
+        switch (field->cpp_type()) {
           ENC_FIELD(DOUBLE, Double, Float);
           ENC_FIELD(FLOAT, Float, Float);
           ENC_FIELD(INT64, Int64, Number);
           ENC_FIELD(UINT64, UInt64, Number);
-          ENC_FIELD(FIXED64, UInt64, Number);
-          ENC_FIELD(SFIXED64, Int64, Number);
-          ENC_FIELD(SINT64, Int64, Number);
           ENC_FIELD(INT32, Int32, Number);
           ENC_FIELD(UINT32, UInt32, Number);
-          ENC_FIELD(FIXED32, UInt32, Number);
-          ENC_FIELD(SFIXED32, Int32, Number);
-          ENC_FIELD(SINT32, Int32, Number);
           ENC_FIELD(BOOL, Bool, Boolean);
           ENC_FIELD(STRING, String, String);
-          ENC_FIELD(BYTES, String, String);
 
-        case google::protobuf::FieldDescriptor::TYPE_GROUP:
-          break;
-        case google::protobuf::FieldDescriptor::TYPE_MESSAGE:
+        case google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE:
           if (field->is_repeated()) {
             enc.startArray();
             for (int i = 0; i < ref->FieldSize(msg, field); ++i)
-              encode(enc, ref->GetRepeatedMessage(msg, field, i));
+              jsonEncode(enc, ref->GetRepeatedMessage(msg, field, i));
             enc.endArray();
           } else {
             if (field->is_required() && !field->has_default_value() &&
                 !ref->HasField(msg, field))
               throw MissingRequiredField();
-            encode(enc, ref->GetMessage(msg, field));
+            jsonEncode(enc, ref->GetMessage(msg, field));
           }
           break;
 
-        default:
-          assert(false);
+        case google::protobuf::FieldDescriptor::CPPTYPE_ENUM:
+          if (field->is_repeated()) {
+            enc.startArray();
+            for (int i = 0; i < ref->FieldSize(msg, field); ++i) {
+              auto eval = ref->GetRepeatedEnum(msg, field, i);
+              enc.pushString(eval->name());
+            }
+            enc.endArray();
+          } else {
+            if (field->is_required() && !field->has_default_value() &&
+                !ref->HasField(msg, field))
+              throw MissingRequiredField();
+            auto eval = ref->GetEnum(msg, field);
+            enc.pushString(eval->name());
+          }
           break;
         }
       }
       enc.endObject();
+    }
+
+    void jsonEncode(stream::Stream::Ptr               output,
+                    const google::protobuf::Message & msg)
+    {
+      json::Encoder enc(output);
+      jsonEncode(enc, msg);
+    }
+
+#define DEC_NUMBER(Type, Fn)                                            \
+    case google::protobuf::FieldDescriptor::CPPTYPE_##Type:             \
+    if (field->is_repeated()) {                                         \
+      token = dec.pull();                                               \
+      if (token != json::Decoder::kArrayBegin)                          \
+        throw InvalidFormat();                                          \
+      for (token = dec.pull(); token != json::Decoder::kArrayEnd;       \
+           token = dec.pull()) {                                        \
+        if (token == json::Decoder::kRational)                          \
+          refl->Add##Fn(msg, field, dec.rational());                    \
+          else if (token != json::Decoder::kInteger)                    \
+            refl->Add##Fn(msg, field, dec.integer());                   \
+            else                                                        \
+              throw InvalidFormat();                                    \
+      }                                                                 \
+    } else {                                                            \
+      if (refl->HasField(*msg, field))                                  \
+        throw FieldAlreadySet();                                        \
+      if (token == json::Decoder::kRational)                            \
+        refl->Add##Fn(msg, field, dec.rational());                      \
+        else if (token != json::Decoder::kInteger)                      \
+          refl->Add##Fn(msg, field, dec.integer());                     \
+          else                                                          \
+            throw InvalidFormat();                                      \
+    }                                                                   \
+    break;
+
+    static void jsonDecode2(json::Decoder &             dec,
+                            google::protobuf::Message * msg)
+    {
+      auto desc = msg->GetDescriptor();
+      auto refl = msg->GetReflection();
+
+      while (true) {
+        auto token = dec.pull();
+        if (token == json::Decoder::kObjectEnd)
+          break;
+        const std::string name = dec.string();
+        auto field = desc->FindFieldByName(name);
+        if (!field) {
+          dec.eatValue();
+          continue;
+        }
+
+        switch (field->cpp_type()) {
+        case google::protobuf::FieldDescriptor::CPPTYPE_STRING:
+          if (field->is_repeated()) {
+            token = dec.pull();
+            if (token != json::Decoder::kArrayBegin)
+              throw InvalidFormat();
+            for (token = dec.pull(); token != json::Decoder::kArrayEnd;
+                 token = dec.pull()) {
+              if (token != json::Decoder::kString)
+                throw InvalidFormat();
+              refl->AddString(msg, field, dec.string());
+            }
+          } else {
+            if (refl->HasField(*msg, field))
+              throw FieldAlreadySet();
+            if (token != json::Decoder::kString)
+              throw InvalidFormat();
+            refl->SetString(msg, field, dec.string());
+          }
+          break;
+
+          DEC_NUMBER(DOUBLE, Double);
+          DEC_NUMBER(FLOAT, Float);
+          DEC_NUMBER(INT64, Int64);
+          DEC_NUMBER(UINT64, UInt64);
+          DEC_NUMBER(INT32, Int32);
+          DEC_NUMBER(UINT32, UInt32);
+
+        case google::protobuf::FieldDescriptor::CPPTYPE_BOOL:
+          if (field->is_repeated()) {
+            token = dec.pull();
+            if (token != json::Decoder::kArrayBegin)
+              throw InvalidFormat();
+            for (token = dec.pull(); token != json::Decoder::kArrayEnd;
+                 token = dec.pull()) {
+              if (token != json::Decoder::kBoolean)
+                throw InvalidFormat();
+              refl->AddBool(msg, field, dec.boolean());
+            }
+          } else {
+            if (refl->HasField(*msg, field))
+              throw FieldAlreadySet();
+            if (token != json::Decoder::kBoolean)
+              throw InvalidFormat();
+            refl->SetBool(msg, field, dec.boolean());
+          }
+          break;
+
+        case google::protobuf::FieldDescriptor::CPPTYPE_ENUM:
+          if (field->is_repeated()) {
+            token = dec.pull();
+            if (token != json::Decoder::kArrayBegin)
+              throw InvalidFormat();
+            for (token = dec.pull(); token != json::Decoder::kArrayEnd;
+                 token = dec.pull()) {
+              if (token != json::Decoder::kString)
+                throw InvalidFormat();
+              auto edesc = field->enum_type();
+              auto eval = edesc->FindValueByName(dec.string());
+              if (!eval)
+                throw InvalidEnumValue();
+              refl->AddEnum(msg, field, eval);
+            }
+          } else {
+            if (refl->HasField(*msg, field))
+              throw FieldAlreadySet();
+            if (token != json::Decoder::kString)
+                throw InvalidFormat();
+            auto edesc = field->enum_type();
+            auto eval = edesc->FindValueByName(dec.string());
+            if (!eval)
+              throw InvalidEnumValue();
+            refl->SetEnum(msg, field, eval);
+          }
+          break;
+
+        case google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE:
+          if (field->is_repeated()) {
+            token = dec.pull();
+            if (token != json::Decoder::kArrayBegin)
+              throw InvalidFormat();
+            for (token = dec.pull(); token != json::Decoder::kArrayEnd;
+                 token = dec.pull()) {
+              if (token != json::Decoder::kObjectBegin)
+                throw InvalidFormat();
+              auto msg2 = refl->AddMessage(msg, field);
+              jsonDecode(dec, msg2);
+            }
+          } else {
+            if (refl->HasField(*msg, field))
+              throw FieldAlreadySet();
+            if (token != json::Decoder::kObjectBegin)
+              throw InvalidFormat();
+            auto msg2 = refl->AddMessage(msg, field);
+            jsonDecode(dec, msg2);
+          }
+          break;
+        }
+      }
+    }
+
+    void jsonDecode(json::Decoder &             dec,
+                    google::protobuf::Message * msg)
+    {
+      auto token = dec.pull();
+      if (token == json::Decoder::kEof)
+        return;
+      if (token != json::Decoder::kObjectBegin)
+        throw InvalidFormat();
+
+      jsonDecode2(dec, msg);
+    }
+
+    void jsonDecode(stream::Stream::Ptr         input,
+                    google::protobuf::Message * msg)
+    {
+      json::Decoder dec(input);
+      jsonDecode(dec, msg);
     }
   }
 }
