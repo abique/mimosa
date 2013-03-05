@@ -5,6 +5,7 @@ install(FILES
 
 add_library(mimosa-json
   encoder.cc
+  decoder.cc
   )
 target_link_libraries(mimosa-json mimosa)
 

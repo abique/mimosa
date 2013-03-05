@@ -2,6 +2,7 @@
 # define MIMOSA_JSON_DECODER_HH
 
 #include <vector>
+#include <string>
 
 #include "../stream/stream.hh"
 
@@ -23,7 +24,7 @@ namespace mimosa
         /* real tokens */
         kArrayBegin,
         kArrayEnd,
-        KObjectBegin,
+        kObjectBegin,
         kObjectEnd,
         kString,
         kInteger,
@@ -38,7 +39,7 @@ namespace mimosa
 
       Token pull();
 
-      inline std::string & string() const
+      inline const std::string & string() const
       {
         return string_;
       }
@@ -73,7 +74,18 @@ namespace mimosa
       enum Token pullFalse();
       enum Token pullString();
       enum Token pullNumber();
+      enum Token pullRationalDot(int sign);
+      enum Token pullRationalExp();
       enum Token pullValue();
+      enum Token pullValueOrArrayEnd();
+      enum Token pullCommaOrArrayEnd();
+      enum Token pullObjectKey();
+      enum Token pullObjectValue();
+      enum Token pullObjectNext();
+
+      bool getc(char * c);
+      bool getcnows(char * c);
+      void ungetc(char c);
 
       stream::Stream::Ptr input_;
       std::vector<State>  state_;
@@ -82,8 +94,11 @@ namespace mimosa
         double  rational_;
         int64_t integer_;
         bool    boolean_;
-      }
+      };
       std::string string_;
+
+      bool has_c_; // true if we have a character in c_
+      char c_;     // buffer for ungetc
     };
   }
 }
