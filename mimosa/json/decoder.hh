@@ -49,7 +49,7 @@ namespace mimosa
         return integer_;
       }
 
-      inline int64_t rational() const
+      inline double rational() const
       {
         return rational_;
       }
@@ -90,11 +90,9 @@ namespace mimosa
       stream::Stream::Ptr input_;
       std::vector<State>  state_;
 
-      union {
-        double  rational_;
-        int64_t integer_;
-        bool    boolean_;
-      };
+      double      rational_;
+      int64_t     integer_;
+      bool        boolean_;
       std::string string_;
 
       bool has_c_; // true if we have a character in c_

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cmath>
 
 #include "decoder.hh"
@@ -99,7 +100,7 @@ namespace mimosa
     Decoder::pullRationalExp()
     {
       int sign = 1;
-      int64_t exp;
+      int64_t exp = 0;
       char c;
       bool got_number = false;
 
@@ -147,13 +148,13 @@ namespace mimosa
     {
       char c;
       bool got_number = false;
-      int64_t div = 10;
+      double div = 10;
 
       while (true) {
         if (!getc(&c)) {
           if (!got_number)
             throw SyntaxError();
-          return kRational;
+          goto ret;
         }
 
         switch (c) {
@@ -168,7 +169,7 @@ namespace mimosa
         case '8':
         case '9':
           got_number = true;
-          rational_ += sign * (c - '0') / (double)div;
+          rational_ += (((double)(c - '0')) / div);
           div *= 10;
           break;
 
@@ -176,14 +177,18 @@ namespace mimosa
         case 'e':
           if (!got_number)
             throw SyntaxError();
+          rational_ *= sign;
           return pullRationalExp();
 
         default:
           ungetc(c);
-          integer_ *= sign;
-          return kRational;
+          goto ret;
         }
       }
+
+      ret:
+      rational_ *= sign;
+      return kRational;
     }
 
     Decoder::Token
@@ -193,11 +198,13 @@ namespace mimosa
       char c;
       bool got_number = false;
 
+      integer_ = 0;
+
       while (true) {
         if (!getc(&c)) {
           if (!got_number)
             throw SyntaxError();
-          return kInteger;
+          goto ret;
         }
 
         switch (c) {
@@ -224,7 +231,7 @@ namespace mimosa
         case '.':
           if (!got_number)
             throw SyntaxError();
-          rational_ = integer_ * sign;
+          rational_ = integer_;
           return pullRationalDot(sign);
 
         case 'E':
@@ -236,10 +243,13 @@ namespace mimosa
 
         default:
           ungetc(c);
-          integer_ *= sign;
-          return kInteger;
+          goto ret;
         }
       }
+
+      ret:
+      integer_ *= sign;
+      return kInteger;
     }
 
     Decoder::Token
