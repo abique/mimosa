@@ -20,8 +20,10 @@ namespace mimosa
       char buffer[3];
 
       ret = input_->loopRead(buffer, sizeof (buffer));
-      if (ret != sizeof (buffer))
+      if (ret < 0)
         throw ReadError();
+      if (ret != sizeof (buffer))
+        throw PrematureEof();
       if (buffer[0] != 'u' || buffer[1] != 'l' || buffer[2] != 'l')
         throw SyntaxError();
       return kNull;
@@ -34,8 +36,10 @@ namespace mimosa
       char buffer[3];
 
       ret = input_->loopRead(buffer, sizeof (buffer));
-      if (ret != sizeof (buffer))
+      if (ret < 0)
         throw ReadError();
+      if (ret != sizeof (buffer))
+        throw PrematureEof();
       if (buffer[0] != 'r' || buffer[1] != 'u' || buffer[2] != 'e')
         throw SyntaxError();
       boolean_ = true;
@@ -49,8 +53,10 @@ namespace mimosa
       char buffer[4];
 
       ret = input_->loopRead(buffer, sizeof (buffer));
-      if (ret != sizeof (buffer))
+      if (ret < 0)
         throw ReadError();
+      if (ret != sizeof (buffer))
+        throw PrematureEof();
       if (buffer[0] != 'a' || buffer[1] != 'l' || buffer[2] != 's' || buffer[3] != 'e')
         throw SyntaxError();
       boolean_ = false;
@@ -181,6 +187,8 @@ namespace mimosa
           return pullRationalExp();
 
         default:
+          if (!got_number)
+            throw SyntaxError();
           ungetc(c);
           goto ret;
         }
@@ -313,10 +321,12 @@ namespace mimosa
 
       switch (c) {
       case ']':
+        state_.pop_back();
         return kArrayEnd;
 
       default:
         ungetc(c);
+        state_.back() = kArrayNext;
         return pullValue();
       }
     }
@@ -331,9 +341,11 @@ namespace mimosa
 
       switch (c) {
       case ']':
+        state_.pop_back();
         return kArrayEnd;
 
       case ',':
+        state_.back() = kArrayNext;
         return pullValue();
 
       default:
@@ -351,9 +363,11 @@ namespace mimosa
 
       switch (c) {
       case '"':
+        state_.back() = kObjectValue;
         return pullString();
 
       case '}':
+        state_.pop_back();
         return kObjectEnd;
 
       default:
@@ -366,9 +380,10 @@ namespace mimosa
     {
       char c;
 
-      if (!getcnows(&c) || c != ',')
+      if (!getcnows(&c) || c != ':')
         throw SyntaxError();
 
+      state_.back() = kObjectNext;
       return pullValue();
     }
 
@@ -382,9 +397,11 @@ namespace mimosa
 
       switch (c) {
       case ',':
-        return kObjectBegin;
+        state_.back() = kObjectValue;
+        return pullString();
 
       case '}':
+        state_.pop_back();
         return kObjectEnd;
 
       default:
@@ -395,45 +412,24 @@ namespace mimosa
     Decoder::Token
     Decoder::pull()
     {
-      Decoder::Token token;
-
       if (state_.empty())
         return pullValue();
 
-      auto & state = state_.back();
-      switch (state) {
+      switch (state_.back()) {
       case kArray:
-        token = pullValueOrArrayEnd();
-        if (token == kArrayEnd)
-          state_.pop_back();
-        else
-          state = kArrayNext;
-        return token;
+        return pullValueOrArrayEnd();
 
       case kArrayNext:
-        token = pullCommaOrArrayEnd();
-        if (token == kArrayEnd)
-          state_.pop_back();
-        return token;
+        return pullCommaOrArrayEnd();
 
       case kObjectKey:
-        token = pullObjectKey();
-        if (token == kObjectEnd)
-          state_.pop_back();
-        else
-          state = kObjectValue;
-        return token;
+        return pullObjectKey();
 
       case kObjectValue:
         return pullObjectValue();
 
       case kObjectNext:
-        token = pullObjectNext();
-        if (token == kObjectEnd)
-          state_.pop_back();
-        else
-          state = kObjectValue;
-        return token;
+        return pullObjectNext();
 
       default:
         assert(false);

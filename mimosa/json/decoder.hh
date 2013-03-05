@@ -35,6 +35,7 @@ namespace mimosa
       };
 
       struct ReadError {};
+      struct PrematureEof {};
       struct SyntaxError {};
 
       Token pull();
