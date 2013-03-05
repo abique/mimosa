@@ -14,7 +14,7 @@ namespace mimosa
       TEST(Hash##Type, Simple)                                  \
       {                                                         \
         StringStream::Ptr str = new StringStream;               \
-        Type::Ptr filter = new Type(str);                       \
+        Type::Ptr filter = new Type(str.get());                 \
         filter->write(Input, sizeof (Input) - 1);               \
         ASSERT_EQ(str->str(), Output);                          \
       }

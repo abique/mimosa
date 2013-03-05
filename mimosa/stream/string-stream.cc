@@ -7,7 +7,8 @@ namespace mimosa
   namespace stream
   {
     StringStream::StringStream(const std::string & str)
-      : str_(str)
+      : read_pos_(0),
+        str_(str)
     {
     }
 
@@ -24,9 +25,10 @@ namespace mimosa
       if (str_.size() <= read_pos_)
         return 0;
 
-      nbytes = str_.size() - read_pos_;
-      ::memcpy(data, str_.data() + read_pos_, nbytes);
-      return nbytes;
+      int64_t can_read = std::min(nbytes, str_.size() - read_pos_);
+      ::memcpy(data, str_.data() + read_pos_, can_read);
+      read_pos_ += can_read;
+      return can_read;
     }
   }
 }

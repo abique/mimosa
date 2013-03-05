@@ -13,7 +13,7 @@ namespace mimosa
       TEST(HtmlEscape, Test)                                    \
       {                                                         \
         StringStream::Ptr stream = new StringStream;            \
-        HtmlEscape::Ptr filter = new HtmlEscape(stream);        \
+        HtmlEscape::Ptr filter = new HtmlEscape(stream.get());  \
         filter->loopWrite(Input, sizeof (Input) - 1);           \
         ASSERT_EQ(Output, stream->str());                       \
       }

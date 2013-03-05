@@ -1,4 +1,5 @@
 mimosa_test(mimosa-json
+  tst-decoder.cc
   tst-encoder.cc
 )
 

@@ -41,7 +41,7 @@ namespace mimosa
         Value<std::string> value("value1", "world!");
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, value);
+        tpl->execute(stream.get(), value);
 
         ASSERT_EQ("hello world!", stream->str());
       }
@@ -54,7 +54,7 @@ namespace mimosa
         Value<std::string> value("world!");
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, value);
+        tpl->execute(stream.get(), value);
 
         ASSERT_EQ("hello world!", stream->str());
       }
@@ -67,7 +67,7 @@ namespace mimosa
         Value<int> value(2);
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, value);
+        tpl->execute(stream.get(), value);
 
         ASSERT_EQ("hello 2 2", stream->str());
       }
@@ -80,7 +80,7 @@ namespace mimosa
         Value<int> value(2);
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, value);
+        tpl->execute(stream.get(), value);
 
         ASSERT_EQ("2", stream->str());
       }
@@ -97,7 +97,7 @@ namespace mimosa
         list.append(new Value<float>(3.14));
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, list);
+        tpl->execute(stream.get(), list);
 
         ASSERT_EQ("hello 42 toto 3.14", stream->str());
       }
@@ -110,7 +110,7 @@ namespace mimosa
         List list;
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, list);
+        tpl->execute(stream.get(), list);
 
         ASSERT_EQ("yy", stream->str());
       }
@@ -123,7 +123,7 @@ namespace mimosa
         List list;
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, list);
+        tpl->execute(stream.get(), list);
 
         ASSERT_EQ("yy", stream->str());
       }
@@ -142,7 +142,7 @@ namespace mimosa
         list.append(list2);
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, list);
+        tpl->execute(stream.get(), list);
 
         ASSERT_EQ("[42, ], [tutu, toto, tata, ], ", stream->str());
       }
@@ -158,7 +158,7 @@ namespace mimosa
         dict.append("c", "hehe");
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, dict);
+        tpl->execute(stream.get(), dict);
 
         ASSERT_EQ("42 tutu hehe", stream->str());
       }
@@ -172,7 +172,7 @@ namespace mimosa
         dict.append("a", 42);
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, dict);
+        tpl->execute(stream.get(), dict);
 
         ASSERT_EQ("42", stream->str());
       }
@@ -192,7 +192,7 @@ namespace mimosa
         ASSERT_NE(dict.lookup("a")->lookup("b"), nullptr);
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, dict);
+        tpl->execute(stream.get(), dict);
 
         ASSERT_EQ("42", stream->str());
       }
@@ -205,7 +205,7 @@ namespace mimosa
         Value<std::string> value("ho'ho");
 
         stream::StringStream::Ptr stream = new stream::StringStream();
-        tpl->execute(stream, value);
+        tpl->execute(stream.get(), value);
 
         ASSERT_EQ("ho&apos;ho", stream->str());
       }
