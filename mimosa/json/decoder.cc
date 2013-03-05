@@ -393,7 +393,7 @@ namespace mimosa
       char c;
 
       if (!getcnows(&c))
-        throw SyntaxError();
+        throw PrematureEof();
 
       switch (c) {
       case ',':

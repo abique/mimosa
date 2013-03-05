@@ -182,6 +182,19 @@ namespace mimosa
         ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
       }
 
+      TEST(Decoder, Object1)
+      {
+        auto ss = new stream::StringStream("{\"key1\":42}");
+        Decoder dec(ss);
+
+        ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("key1", dec.string());
+        ASSERT_EQ(Decoder::kInteger, dec.pull());
+        ASSERT_EQ(42, dec.integer());
+        ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
+      }
+
 #define TEST_THROW(Name, Exception, String, Nb)         \
                                                         \
       TEST(Decoder, Exception##Name)                    \
@@ -212,6 +225,11 @@ namespace mimosa
       TEST_THROW(Array3, SyntaxError, "[32,]", 2)
       TEST_THROW(Array4, SyntaxError, "[32,42,]", 3)
       TEST_THROW(Array5, SyntaxError, "[[32,42],]", 5)
+      TEST_THROW(Object1, SyntaxError, "{42", 1)
+      TEST_THROW(Object2, SyntaxError, "{{", 1)
+      TEST_THROW(Object3, SyntaxError, "{[", 1)
+      TEST_THROW(Object4, SyntaxError, "{\"key\",32}", 2)
+      TEST_THROW(Object4, PrematureEof, "{\"key\":32", 3)
     }
   }
 }
