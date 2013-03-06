@@ -212,6 +212,71 @@ namespace mimosa
         ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
       }
 
+      TEST(Decoder, Object3)
+      {
+        auto ss = new stream::StringStream("{\"key\":\"tutu\",\"value\":\"tata\",\"opt\":\"toptop\"}");
+        Decoder dec(ss);
+
+        ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("key", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("tutu", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("value", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("tata", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("opt", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("toptop", dec.string());
+        ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
+      }
+
+      TEST(Decoder, EatValue1)
+      {
+        auto ss = new stream::StringStream("[21,32,45]");
+        Decoder dec(ss);
+
+        ASSERT_EQ(Decoder::kArrayBegin, dec.pull());
+        ASSERT_EQ(Decoder::kInteger, dec.pull());
+        ASSERT_EQ(21, dec.integer());
+        dec.eatValue();
+        ASSERT_EQ(Decoder::kInteger, dec.pull());
+        ASSERT_EQ(45, dec.integer());
+        ASSERT_EQ(Decoder::kArrayEnd, dec.pull());
+      }
+
+      TEST(Decoder, EatValue2)
+      {
+        auto ss = new stream::StringStream("{\"key\":\"tutu\",\"value\":\"tata\"}");
+        Decoder dec(ss);
+
+        ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("key", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("tutu", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("value", dec.string());
+        dec.eatValue();
+        ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
+      }
+
+      TEST(Decoder, EatValue3)
+      {
+        auto ss = new stream::StringStream("[21,{\"key\":\"tutu\",\"value\":\"tata\"},45]");
+        Decoder dec(ss);
+
+        ASSERT_EQ(Decoder::kArrayBegin, dec.pull());
+        ASSERT_EQ(Decoder::kInteger, dec.pull());
+        ASSERT_EQ(21, dec.integer());
+        dec.eatValue();
+        ASSERT_EQ(Decoder::kInteger, dec.pull());
+        ASSERT_EQ(45, dec.integer());
+        ASSERT_EQ(Decoder::kArrayEnd, dec.pull());
+      }
+
 #define TEST_THROW(Name, Exception, String, Nb)         \
                                                         \
       TEST(Decoder, Exception##Name)                    \
