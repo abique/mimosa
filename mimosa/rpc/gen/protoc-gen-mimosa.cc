@@ -300,7 +300,21 @@ class ServiceGenerator : public gpc::CodeGenerator
 
     printer.Print(
       variables,
+      "    } catch (::mimosa::json::Decoder::ReadError e) {\n"
+      "      response.write(\"Read error\", 10);\n"
+      "      response.setStatus(::mimosa::http::kStatusBadRequest);\n"
+      "      return true;\n"
+      "    } catch (::mimosa::json::Decoder::PrematureEof e) {\n"
+      "      response.write(\"Premature end of file\", 21);\n"
+      "      response.setStatus(::mimosa::http::kStatusBadRequest);\n"
+      "      return true;\n"
+      "    } catch (::mimosa::json::Decoder::SyntaxError e) {\n"
+      "      response.write(\"Syntax error\", 12);\n"
+      "      response.setStatus(::mimosa::http::kStatusBadRequest);\n"
+      "      return true;\n"
       "    } catch (...) {\n"
+      "      return ::mimosa::http::ErrorHandler::basicResponse(\n"
+      "        request, response, ::mimosa::http::kStatusInternalServerError);\n"
       "    }\n"
       "\n"
       "    return ::mimosa::http::ErrorHandler::basicResponse(\n"

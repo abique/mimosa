@@ -28,6 +28,11 @@ namespace mimosa
       auto ref = msg.GetReflection();
       for (int i = 0; i < desc->field_count(); ++i) {
         auto field = desc->field(i);
+
+        if ((!field->is_repeated() && !ref->HasField(msg, field)) ||
+            (field->is_repeated() && !ref->FieldSize(msg, field)))
+          continue;
+
         enc.pushString(field->name());
         switch (field->cpp_type()) {
           ENC_FIELD(DOUBLE, Double, Float);
@@ -99,6 +104,7 @@ namespace mimosa
     } else {                                                            \
       if (refl->HasField(*msg, field))                                  \
         throw FieldAlreadySet();                                        \
+      token = dec.pull();                                               \
       if (token == json::Decoder::kRational)                            \
         refl->Add##Fn(msg, field, dec.rational());                      \
         else if (token != json::Decoder::kInteger)                      \
@@ -140,6 +146,7 @@ namespace mimosa
           } else {
             if (refl->HasField(*msg, field))
               throw FieldAlreadySet();
+            token = dec.pull();
             if (token != json::Decoder::kString)
               throw InvalidFormat();
             refl->SetString(msg, field, dec.string());
@@ -167,6 +174,7 @@ namespace mimosa
           } else {
             if (refl->HasField(*msg, field))
               throw FieldAlreadySet();
+            token = dec.pull();
             if (token != json::Decoder::kBoolean)
               throw InvalidFormat();
             refl->SetBool(msg, field, dec.boolean());
@@ -191,6 +199,7 @@ namespace mimosa
           } else {
             if (refl->HasField(*msg, field))
               throw FieldAlreadySet();
+            token = dec.pull();
             if (token != json::Decoder::kString)
                 throw InvalidFormat();
             auto edesc = field->enum_type();
