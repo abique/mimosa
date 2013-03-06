@@ -398,7 +398,7 @@ namespace mimosa
       switch (c) {
       case ',':
         state_.back() = kObjectValue;
-        return pullString();
+        return pullObjectKey();
 
       case '}':
         state_.pop_back();

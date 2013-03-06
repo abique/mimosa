@@ -195,6 +195,23 @@ namespace mimosa
         ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
       }
 
+      TEST(Decoder, Object2)
+      {
+        auto ss = new stream::StringStream("{\"key\":\"tutu\",\"value\":\"tata\"}");
+        Decoder dec(ss);
+
+        ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("key", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("tutu", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("value", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("tata", dec.string());
+        ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
+      }
+
 #define TEST_THROW(Name, Exception, String, Nb)         \
                                                         \
       TEST(Decoder, Exception##Name)                    \
