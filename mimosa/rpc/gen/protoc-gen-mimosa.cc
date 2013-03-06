@@ -238,6 +238,84 @@ class ServiceGenerator : public gpc::CodeGenerator
     return true;
   }
 
+  static bool generateHttpHandler(gpio::Printer &               printer,
+                                  const gp::ServiceDescriptor * service,
+                                  std::string *                 error)
+  {
+    std::map<std::string, std::string> variables;
+    if (!fillServiceDict(service, &variables, error))
+      return false;
+    printer.Print(
+      variables,
+      "class $ServiceName$HttpHandler : public ::mimosa::http::Handler\n"
+      "{\n"
+      "public:\n"
+      "  MIMOSA_DEF_PTR($ServiceName$HttpHandler);\n"
+      "  inline\n"
+      "  $ServiceName$HttpHandler($ServiceName$::Server::Ptr service, const char * start_url)\n"
+      "    : service_(service),\n"
+      "      start_url_(start_url)\n"
+      "  {\n"
+      "  }\n"
+      "\n"
+      "  inline virtual bool\n"
+      "  handle(::mimosa::http::RequestReader & request,\n"
+      "         ::mimosa::http::ResponseWriter & response) const override\n"
+      "  {\n"
+      "    if (request.method() != ::mimosa::http::kMethodPost)\n"
+      "      return ::mimosa::http::ErrorHandler::basicResponse(\n"
+      "        request, response, ::mimosa::http::kStatusMethodNotAllowed);\n"
+      "\n"
+      "    if (request.location().size() < start_url_.size() ||\n"
+      "        strncmp(request.location().c_str(), start_url_.c_str(), start_url_.size()))\n"
+      "      return ::mimosa::http::ErrorHandler::basicResponse(\n"
+      "        request, response, ::mimosa::http::kStatusInternalServerError);\n"
+      "\n"
+      "    std::string method_name(request.location().substr(start_url_.size()));\n"
+      "\n"
+      "    try {\n"
+      );
+
+    printer.Indent(); printer.Indent(); printer.Indent();
+    for (int mi = 0; mi < service->method_count(); ++mi)
+    {
+      auto method = service->method(mi);
+      fillMethodDict(method, &variables);
+      printer.Print(
+        variables,
+        "if (method_name == \"$MethodName$\")\n"
+        "{\n"
+        "  std::unique_ptr< $RequestType$> rq(new $RequestType$);\n"
+        "  std::unique_ptr< $ResponseType$> rp(new $ResponseType$);\n"
+        "  ::mimosa::rpc::jsonDecode(&request, rq.get());\n"
+        "  if (!service_->$MethodName$(*rq, *rp))\n"
+        "    return ::mimosa::http::ErrorHandler::basicResponse(\n"
+        "      request, response, http::kStatusServiceUnavailable);\n"
+        "  ::mimosa::rpc::jsonEncode(&response, *rp);\n"
+        "  return true;\n"
+        "}\n"
+        );
+    }
+    printer.Outdent(); printer.Outdent(); printer.Outdent();
+
+    printer.Print(
+      variables,
+      "    } catch (...) {\n"
+      "    }\n"
+      "\n"
+      "    return ::mimosa::http::ErrorHandler::basicResponse(\n"
+      "      request, response, ::mimosa::http::kStatusNotFound);\n"
+      "  }\n"
+      "\n"
+      "private:\n"
+      "  $ServiceName$::Server::Ptr service_;\n"
+      "  std::string start_url_;\n"
+      "};\n\n"
+      );
+
+    return true;
+  }
+
   virtual bool Generate(const gp::FileDescriptor* file,
                         const std::string&        parameter,
                         gpc::GeneratorContext*    generator_context,
@@ -255,20 +333,27 @@ class ServiceGenerator : public gpc::CodeGenerator
       auto stream = generator_context->OpenForInsert(header_filename, "includes");
       gpio::Printer printer(stream, '$');
       printer.Print(
+        "#include <memory>\n"
+        "\n"
+        "#include <mimosa/http/handler.hh>\n"
+        "#include <mimosa/http/error-handler.hh>\n"
         "#include <mimosa/rpc/service.hh>\n"
         "#include <mimosa/rpc/call.hh>\n"
-        "#include <mimosa/rpc/channel.hh>\n");
+        "#include <mimosa/rpc/channel.hh>\n"
+        "#include <mimosa/rpc/json.hh>\n");
     }
 
     for (int i = 0; i < file->service_count(); ++i)
     {
-      auto stream  = generator_context->OpenForInsert(header_filename, "namespace_scope");
+      auto stream = generator_context->OpenForInsert(header_filename, "namespace_scope");
       gpio::Printer printer(stream, '$');
       if (!generateService(printer, file->service(i), error))
         return false;
       if (!generateServiceServer(printer, file->service(i), error))
         return false;
       if (!generateServiceClient(printer, file->service(i), error))
+        return false;
+      if (!generateHttpHandler(printer, file->service(i), error))
         return false;
     }
 
