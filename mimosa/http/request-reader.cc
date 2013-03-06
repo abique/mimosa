@@ -1,4 +1,5 @@
 #include <cstring>
+#include <algorithm>
 
 #include "../uri/parse-query.hh"
 #include "../uri/percent-encoding.hh"
@@ -45,7 +46,7 @@ namespace mimosa
     int64_t
     RequestReader::read(char * data, uint64_t nbytes)
     {
-      uint64_t can_read = static_cast<int64_t>(nbytes) <= bytes_left_ ? nbytes : bytes_left_;
+      uint64_t can_read = std::min(nbytes, static_cast<uint64_t> (bytes_left_));
       int64_t rbytes = channel_.stream_->read(data, can_read);
       if (rbytes > 0)
         bytes_left_ -= rbytes;

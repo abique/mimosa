@@ -45,6 +45,7 @@ namespace mimosa
         content_range_end_    = end;
         content_range_length_ = length;
       }
+      inline void setStatus(Status status) { status_ = status; }
       /** @} */
 
       void clear();
