@@ -290,7 +290,7 @@ class ServiceGenerator : public gpc::CodeGenerator
         "  ::mimosa::rpc::jsonDecode(&request, rq.get());\n"
         "  if (!service_->$MethodName$(*rq, *rp))\n"
         "    return ::mimosa::http::ErrorHandler::basicResponse(\n"
-        "      request, response, http::kStatusServiceUnavailable);\n"
+        "      request, response, ::mimosa::http::kStatusServiceUnavailable);\n"
         "  ::mimosa::rpc::jsonEncode(&response, *rp);\n"
         "  return true;\n"
         "}\n"
