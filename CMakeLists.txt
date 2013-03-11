@@ -36,4 +36,9 @@ if(HAS_TIMEGM)
   add_definitions(-DHAS_TIMEGM)
 endif()
 
+check_function_exists(sched_setaffinity HAS_SCHED_SETAFFINITY)
+if(HAS_SCHED_SETAFFINITY)
+  add_definitions(-DHAS_SCHED_SETAFFINITY)
+endif()
+
 add_subdirectory(mimosa)

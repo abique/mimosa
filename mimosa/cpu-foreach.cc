@@ -25,14 +25,14 @@ namespace mimosa
     for (int i = 0; i < nproc; ++i)
     {
       threads[i].reset(new Thread([i, nproc, &cb] {
-#ifdef __linux__
+#ifdef HAS_SCHED_SETAFFINITY
             cpu_set_t * set = CPU_ALLOC(nproc);
             assert(set);
             CPU_ZERO_S(nproc, set);
             CPU_SET(i, set);
 
             sched_setaffinity(0, CPU_ALLOC_SIZE(nproc), set);
-#endif /* __linux__ */
+#endif /* HAS_SCHED_SETAFFINITY */
 
             try {
               cb();
