@@ -84,7 +84,11 @@ namespace mimosa
       template <typename ...Args>
       inline Stmt& bindChain(int pos, int value, Args ... args);
       template <typename ...Args>
+      inline Stmt& bindChain(int pos, unsigned int value, Args ... args);
+      template <typename ...Args>
       inline Stmt& bindChain(int pos, int64_t value, Args ... args);
+      template <typename ...Args>
+      inline Stmt& bindChain(int pos, uint64_t value, Args ... args);
       template <typename ...Args>
       inline Stmt& bindChain(int pos, double value, Args ... args);
       template <typename ...Args>

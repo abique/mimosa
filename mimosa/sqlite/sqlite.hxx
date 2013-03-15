@@ -28,7 +28,23 @@ namespace mimosa
 
     template <typename ...Args>
     inline Stmt&
+    Stmt::bindChain(int pos, unsigned int value, Args ... args)
+    {
+      sqlite3_bind_int(stmt_, pos, value);
+      return bindChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline Stmt&
     Stmt::bindChain(int pos, int64_t value, Args ... args)
+    {
+      sqlite3_bind_int64(stmt_, pos, value);
+      return bindChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline Stmt&
+    Stmt::bindChain(int pos, uint64_t value, Args ... args)
     {
       sqlite3_bind_int64(stmt_, pos, value);
       return bindChain(pos + 1, args...);
