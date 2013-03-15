@@ -55,6 +55,7 @@ namespace mimosa
     Base16Decoder::read(char * data, uint64_t nbytes)
     {
       assert(false && "not implemented");
+      errno = ENOSYS;
       return -1;
     }
   }
