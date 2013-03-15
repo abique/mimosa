@@ -28,10 +28,10 @@ namespace mimosa
     };
 
     template <typename T>
-    std::string && filter(const std::string & data);
+    inline std::string && filter(const std::string & data);
 
     template <typename T>
-    std::string && filter(const void * data, uint64_t nbytes);
+    inline std::string && filter(const char * data, uint64_t nbytes);
   }
 }
 
