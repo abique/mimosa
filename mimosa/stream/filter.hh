@@ -1,6 +1,8 @@
 #ifndef MIMOSA_STREAM_FILTER_HH
 # define MIMOSA_STREAM_FILTER_HH
 
+# include <string>
+
 # include "stream.hh"
 
 namespace mimosa
@@ -24,7 +26,15 @@ namespace mimosa
     protected:
       Stream::Ptr stream_;
     };
+
+    template <typename T>
+    std::string && filter(const std::string & data);
+
+    template <typename T>
+    std::string && filter(const void * data, uint64_t nbytes);
   }
 }
+
+# include "filter.hxx"
 
 #endif /* !MIMOSA_STREAM_FILTER_HH */
