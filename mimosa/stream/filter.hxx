@@ -5,7 +5,7 @@ namespace mimosa
   namespace stream
   {
     template <typename T>
-    inline std::string && filter(const char * data, uint64_t nbytes)
+    inline std::string filter(const char * data, uint64_t nbytes)
     {
       mimosa::stream::StringStream::Ptr s = new mimosa::stream::StringStream;
       T filter(s);
@@ -14,7 +14,7 @@ namespace mimosa
     }
 
     template <typename T>
-    inline std::string && filter(const std::string & data)
+    inline std::string filter(const std::string & data)
     {
       return filter<T>(data.data(), data.size());
     }
