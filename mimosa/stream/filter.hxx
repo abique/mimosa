@@ -8,7 +8,7 @@ namespace mimosa
     inline std::string filter(const char * data, uint64_t nbytes)
     {
       mimosa::stream::StringStream::Ptr s = new mimosa::stream::StringStream;
-      T filter(s);
+      T filter(s.get());
       filter.write(data, nbytes);
       return s->moveStr();
     }
