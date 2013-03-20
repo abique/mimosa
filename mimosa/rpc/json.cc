@@ -225,10 +225,11 @@ namespace mimosa
           } else {
             if (refl->HasField(*msg, field))
               throw FieldAlreadySet();
+            token = dec.pull();
             if (token != json::Decoder::kObjectBegin)
               throw InvalidFormat();
-            auto msg2 = refl->AddMessage(msg, field);
-            jsonDecode(dec, msg2);
+            auto msg2 = refl->MutableMessage(msg, field);
+            jsonDecode2(dec, msg2);
           }
           break;
         }
