@@ -312,6 +312,22 @@ class ServiceGenerator : public gpc::CodeGenerator
       "      response.write(\"Syntax error\", 12);\n"
       "      response.setStatus(::mimosa::http::kStatusBadRequest);\n"
       "      return true;\n"
+      "    } catch (::mimosa::rpc::InvalidFormat e) {\n"
+      "      response.write(\"Invalid format\", 14);\n"
+      "      response.setStatus(::mimosa::http::kStatusBadRequest);\n"
+      "      return true;\n"
+      "    } catch (::mimosa::rpc::MissingRequiredField e) {\n"
+      "      response.write(\"Missing required field\", 22);\n"
+      "      response.setStatus(::mimosa::http::kStatusBadRequest);\n"
+      "      return true;\n"
+      "    } catch (::mimosa::rpc::FieldAlreadySet e) {\n"
+      "      response.write(\"Field already set\", 17);\n"
+      "      response.setStatus(::mimosa::http::kStatusBadRequest);\n"
+      "      return true;\n"
+      "    } catch (::mimosa::rpc::InvalidEnumValue e) {\n"
+      "      response.write(\"invalid enum value\", 18);\n"
+      "      response.setStatus(::mimosa::http::kStatusBadRequest);\n"
+      "      return true;\n"
       "    } catch (...) {\n"
       "      return ::mimosa::http::ErrorHandler::basicResponse(\n"
       "        request, response, ::mimosa::http::kStatusInternalServerError);\n"
@@ -354,7 +370,8 @@ class ServiceGenerator : public gpc::CodeGenerator
         "#include <mimosa/rpc/service.hh>\n"
         "#include <mimosa/rpc/call.hh>\n"
         "#include <mimosa/rpc/channel.hh>\n"
-        "#include <mimosa/rpc/json.hh>\n");
+        "#include <mimosa/rpc/json.hh>\n"
+        "#include <mimosa/rpc/exception.hh>\n");
     }
 
     for (int i = 0; i < file->service_count(); ++i)
