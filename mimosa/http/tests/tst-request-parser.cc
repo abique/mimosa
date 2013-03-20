@@ -12,8 +12,8 @@ namespace mimosa
       TEST(RequestParser, Meth##Simple)                 \
       {                                                 \
         char str[] = #Meth " / HTTP/1.0\r\n\r\n";       \
-        Request rq;                                     \
-        EXPECT_EQ(1, rq.parse(str, sizeof (str)));      \
+          Request rq;                                   \
+          EXPECT_EQ(1, rq.parse(str, sizeof (str)));    \
       }
 
       METHOD_TEST(GET)
@@ -299,6 +299,21 @@ namespace mimosa
           "Accept-Encoding: gzip, x-gzip, deflate, x-bzip2\r\n"
           "Host: home.toofishes.net:8888\r\n"
           "User-Agent: W3C_Validator/1.3\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+      }
+
+      TEST(RequestParser, PostFail1)
+      {
+        const char str[] =
+          "POST https://localhost:19042/api/groupCreate HTTP/1.1\r\n"
+          "Accept: application/json, text/plain, */*\r\n"
+          "Referer: https://localhost:19042/\r\n"
+          "Origin: https://localhost:19042\r\n"
+          "X-Requested-With: XMLHttpRequest\r\n"
+          "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.172 Safari/537.22\r\n"
+          "Content-Type: application/json;charset=UTF-8\r\n"
           "\r\n";
         Request rq;
         EXPECT_EQ(true, rq.parse(str, sizeof (str)));

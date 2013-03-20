@@ -233,6 +233,35 @@ namespace mimosa
         ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
       }
 
+      TEST(Decoder, Object4)
+      {
+        auto ss = new stream::StringStream("{\"auth\":{\"user\":\"abique\",\"token\":\"73fb9b3572145e1f77687614204a97c6a06e369e4685dfe59bfdf558204df7ec\"},\"grp\":\"tutu\",\"desc\":\"tata\"}");
+        Decoder dec(ss);
+
+        ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("auth", dec.string());
+        ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("user", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("abique", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("token", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("73fb9b3572145e1f77687614204a97c6a06e369e4685dfe59bfdf558204df7ec", dec.string());
+        ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("grp", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("tutu", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("desc", dec.string());
+        ASSERT_EQ(Decoder::kString, dec.pull());
+        ASSERT_EQ("tata", dec.string());
+        ASSERT_EQ(Decoder::kObjectEnd, dec.pull());
+      }
+
       TEST(Decoder, EatValue1)
       {
         auto ss = new stream::StringStream("[21,32,45]");
