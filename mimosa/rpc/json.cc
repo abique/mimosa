@@ -96,21 +96,21 @@ namespace mimosa
            token = dec.pull()) {                                        \
         if (token == json::Decoder::kRational)                          \
           refl->Add##Fn(msg, field, dec.rational());                    \
-          else if (token != json::Decoder::kInteger)                    \
-            refl->Add##Fn(msg, field, dec.integer());                   \
-            else                                                        \
-              throw InvalidFormat();                                    \
+        else if (token == json::Decoder::kInteger)                      \
+          refl->Add##Fn(msg, field, dec.integer());                     \
+        else                                                            \
+          throw InvalidFormat();                                        \
       }                                                                 \
     } else {                                                            \
       if (refl->HasField(*msg, field))                                  \
         throw FieldAlreadySet();                                        \
       token = dec.pull();                                               \
       if (token == json::Decoder::kRational)                            \
-        refl->Add##Fn(msg, field, dec.rational());                      \
-        else if (token != json::Decoder::kInteger)                      \
-          refl->Add##Fn(msg, field, dec.integer());                     \
-          else                                                          \
-            throw InvalidFormat();                                      \
+        refl->Set##Fn(msg, field, dec.rational());                      \
+      else if (token == json::Decoder::kInteger)                        \
+        refl->Set##Fn(msg, field, dec.integer());                       \
+      else                                                              \
+        throw InvalidFormat();                                          \
     }                                                                   \
     break;
 
