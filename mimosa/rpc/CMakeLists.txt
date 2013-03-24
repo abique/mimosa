@@ -25,10 +25,7 @@ target_link_libraries(mimosa-rpc-bencode mimosa-rpc mimosa-bencode)
 add_library(mimosa-rpc-json json.cc)
 target_link_libraries(mimosa-rpc-json mimosa-rpc mimosa-json)
 
-add_library(mimosa-rpc-http)
-target_link_libraries(mimosa-rpc-http mimosa-rpc-json mimosa-http)
-
-install(TARGETS mimosa-rpc mimosa-rpc-bencode mimosa-rpc-json mimosa-rpc-http
+install(TARGETS mimosa-rpc mimosa-rpc-bencode mimosa-rpc-json
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib)
