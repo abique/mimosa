@@ -1,5 +1,6 @@
 #include <ctime>
 #include <string>
+#include <cstring>
 
 #include "time.hh"
 
@@ -10,9 +11,10 @@ namespace mimosa
     std::string time(::time_t t)
     {
       char buffer[64];
-      tm   tm;
 
-      asctime_r(gmtime_r(&t, &tm), buffer);
+      ctime_r(&t, buffer); // needs at most 26 bytes
+      // remove trailing \n
+      buffer[::strlen(buffer) - 1] = '\0';
       return buffer;
     }
   }
