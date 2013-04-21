@@ -13,9 +13,16 @@ namespace mimosa
       char buffer[64];
 
       ctime_r(&t, buffer); // needs at most 26 bytes
-      // remove trailing \n
-      buffer[::strlen(buffer) - 1] = '\0';
+      buffer[::strlen(buffer) - 1] = '\0'; // remove trailing \n
       return buffer;
+    }
+
+    ::time_t time(const std::string & str)
+    {
+      tm tm;
+
+      strptime(str.c_str(), "%a %b %d %H:%M:%S %Y", &tm);
+      return mktime(&tm); // local time
     }
   }
 }

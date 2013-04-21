@@ -58,7 +58,7 @@ namespace mimosa
       std::string   content_type_;
       Cookie::Slist cookies_;
       kvs           unparsed_headers_;
-      time_t        last_modified_;
+      time_t        last_modified_; // local time
 
       // content-range
       int64_t content_range_start_;

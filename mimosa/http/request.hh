@@ -129,7 +129,7 @@ namespace mimosa
       std::string raw_location_;
       std::string host_;
       uint16_t    port_;
-      time_t      if_modified_since_;
+      time_t      if_modified_since_; // local time
 
       // cleaned up location and queries
       mutable bool        location_normalized_;

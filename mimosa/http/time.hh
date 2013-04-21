@@ -12,6 +12,8 @@ namespace mimosa
      * @ingroup Http
      */
     std::string time(::time_t t = ::time(nullptr));
+
+    ::time_t time(const std::string & str);
   }
 }
 

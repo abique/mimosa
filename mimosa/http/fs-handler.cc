@@ -12,6 +12,7 @@
 #include "fs-handler.hh"
 #include "error-handler.hh"
 #include "mime-db.hh"
+#include "log.hh"
 
 namespace mimosa
 {

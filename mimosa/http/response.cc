@@ -137,7 +137,7 @@ namespace mimosa
       {
         ok = ok & format::printStatic(stream, "Last-Modified: ");
         ok = ok & format::print(stream, http::time(last_modified_));
-        ok = ok & format::printStatic(stream, " GMT\r\n");
+        ok = ok & format::printStatic(stream, "\r\n");
       }
 
       // end of response
