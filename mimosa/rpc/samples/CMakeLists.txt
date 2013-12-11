@@ -8,5 +8,5 @@ target_link_libraries(rpc-kv-db rpc-kv-db-proto mimosa-rpc)
 add_executable(rpc-kv-client kv-db-client.cc)
 target_link_libraries(rpc-kv-client rpc-kv-db-proto mimosa-rpc)
 
-add_executable(rpc-kv-db-http kv-db-http.cc database.cc)
-target_link_libraries(rpc-kv-db-http rpc-kv-db-proto mimosa-rpc-http)
+# add_executable(rpc-kv-db-http kv-db-http.cc database.cc)
+# target_link_libraries(rpc-kv-db-http rpc-kv-db-proto mimosa-rpc-http)

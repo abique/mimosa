@@ -25,7 +25,8 @@ namespace mimosa
       if (str_.size() <= read_pos_)
         return 0;
 
-      int64_t can_read = std::min(nbytes, str_.size() - read_pos_);
+      int64_t can_read = std::min(
+        nbytes, static_cast<uint64_t> (str_.size() - read_pos_));
       ::memcpy(data, str_.data() + read_pos_, can_read);
       read_pos_ += can_read;
       return can_read;
