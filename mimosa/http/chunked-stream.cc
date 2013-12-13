@@ -25,9 +25,10 @@ namespace mimosa
     }
 
     int64_t
-    ChunkedStream::read(char * data, uint64_t nbytes)
+    ChunkedStream::read(char * /*data*/, uint64_t /*nbytes*/)
     {
       assert(false);
+      errno = ENOSYS;
       return -1;
     }
   }

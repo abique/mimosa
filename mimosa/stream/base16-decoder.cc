@@ -46,13 +46,13 @@ namespace mimosa
         p += 2;
       }
 
-      if (stream_->loopWrite(buffer, nbytes / 2) == nbytes / 2)
+      if (stream_->loopWrite(buffer, nbytes / 2) == static_cast<int64_t>(nbytes / 2))
         return nbytes;
       return -1;
     }
 
     int64_t
-    Base16Decoder::read(char * data, uint64_t nbytes)
+    Base16Decoder::read(char * /*data*/, uint64_t /*nbytes*/)
     {
       assert(false && "not implemented");
       errno = ENOSYS;

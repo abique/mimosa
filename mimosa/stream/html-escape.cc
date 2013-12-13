@@ -62,7 +62,7 @@ namespace mimosa
     }
 
     int64_t
-    HtmlEscape::read(char * data, uint64_t nbytes)
+    HtmlEscape::read(char * /*data*/, uint64_t /*nbytes*/)
     {
       assert(false && "TODO");
       errno = ENOSYS;
