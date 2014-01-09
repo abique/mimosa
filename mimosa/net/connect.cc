@@ -68,7 +68,7 @@ namespace mimosa
                             Time timeout)
     {
       size_t addr_len = ((size_t) (((::sockaddr_un *) 0)->sun_path)) + path.size() + 1;
-      std::unique_ptr<char> data(new char[addr_len]);
+      std::unique_ptr<char[]> data(new char[addr_len]);
       ::sockaddr_un & addr = *(::sockaddr_un*)data.get();
       addr.sun_family = AF_UNIX;
       ::memcpy(addr.sun_path, path.c_str(), path.size() + 1);
