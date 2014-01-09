@@ -59,7 +59,7 @@ namespace mimosa
        * then re-call nextTag() */
       uint32_t nextTag();
 
-      typedef mimosa::Channel<stream::Buffer *,
+      typedef mimosa::Channel<stream::Buffer::Ptr,
                               stream::Buffer::Slist> write_queue_type;
 
       stream::BufferedStream::Ptr        stream_;

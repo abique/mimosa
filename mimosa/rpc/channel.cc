@@ -48,7 +48,7 @@ namespace mimosa
     {
       while (status_ == kOk)
       {
-        stream::Buffer* buffer;
+        stream::Buffer::Ptr buffer;
 
         if (!write_queue_.pop(buffer))
           return;
@@ -56,15 +56,12 @@ namespace mimosa
         assert(buffer);
         if (stream_->loopWrite(buffer->data(), buffer->size()) != buffer->size()) {
           stream_->close();
-          delete buffer;
           return;
         }
-        delete buffer;
 
         if (!stream_->flush())
           return;
       }
-      log::error("end of write loop");
     }
 
     void
@@ -318,9 +315,9 @@ namespace mimosa
       rthread_.join();
 
       // clear write queue
-      stream::Buffer *buffer;
-      while (write_queue_.pop(buffer))
-        delete buffer;
+      stream::Buffer::Ptr buffer;
+      while (!write_queue_.empty())
+        write_queue_.pop(buffer);
     }
   }
 }
