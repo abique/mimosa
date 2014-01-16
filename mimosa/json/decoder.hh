@@ -61,6 +61,11 @@ namespace mimosa
         return boolean_;
       }
 
+      inline size_t depth() const
+      {
+        return state_.size();
+      }
+
     private:
       enum State
       {

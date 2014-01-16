@@ -215,12 +215,14 @@ namespace mimosa
             token = dec.pull();
             if (token != json::Decoder::kArrayBegin)
               throw InvalidFormat();
-            for (token = dec.pull(); token != json::Decoder::kArrayEnd;
-                 token = dec.pull()) {
+            for (auto depth = dec.depth(); depth == dec.depth(); ) {
+              token = dec.pull();
+              if (token == json::Decoder::kArrayEnd)
+                break;
               if (token != json::Decoder::kObjectBegin)
                 throw InvalidFormat();
               auto msg2 = refl->AddMessage(msg, field);
-              jsonDecode(dec, msg2);
+              jsonDecode2(dec, msg2);
             }
           } else {
             if (refl->HasField(*msg, field))
