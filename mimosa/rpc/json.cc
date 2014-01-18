@@ -94,23 +94,25 @@ namespace mimosa
         throw InvalidFormat();                                          \
       for (token = dec.pull(); token != json::Decoder::kArrayEnd;       \
            token = dec.pull()) {                                        \
-        if (token == json::Decoder::kRational)                          \
+        if (token == json::Decoder::kRational) {                        \
           refl->Add##Fn(msg, field, dec.rational());                    \
-        else if (token == json::Decoder::kInteger)                      \
+        } else if (token == json::Decoder::kInteger) {                  \
           refl->Add##Fn(msg, field, dec.integer());                     \
-        else                                                            \
+        } else if (token != json::Decoder::kNull) {                     \
           throw InvalidFormat();                                        \
+        }                                                               \
       }                                                                 \
     } else {                                                            \
       if (refl->HasField(*msg, field))                                  \
         throw FieldAlreadySet();                                        \
       token = dec.pull();                                               \
-      if (token == json::Decoder::kRational)                            \
+      if (token == json::Decoder::kRational) {                          \
         refl->Set##Fn(msg, field, dec.rational());                      \
-      else if (token == json::Decoder::kInteger)                        \
+      } else if (token == json::Decoder::kInteger) {                    \
         refl->Set##Fn(msg, field, dec.integer());                       \
-      else                                                              \
+      } else if (token != json::Decoder::kNull) {                       \
         throw InvalidFormat();                                          \
+      }                                                                 \
     }                                                                   \
     break;
 
@@ -139,17 +141,19 @@ namespace mimosa
               throw InvalidFormat();
             for (token = dec.pull(); token != json::Decoder::kArrayEnd;
                  token = dec.pull()) {
-              if (token != json::Decoder::kString)
+              if (token == json::Decoder::kString)
+                refl->AddString(msg, field, dec.string());
+              else if (token != json::Decoder::kNull)
                 throw InvalidFormat();
-              refl->AddString(msg, field, dec.string());
             }
           } else {
             if (refl->HasField(*msg, field))
               throw FieldAlreadySet();
             token = dec.pull();
-            if (token != json::Decoder::kString)
+            if (token == json::Decoder::kString)
+              refl->SetString(msg, field, dec.string());
+            else if (token != json::Decoder::kNull)
               throw InvalidFormat();
-            refl->SetString(msg, field, dec.string());
           }
           break;
 
@@ -168,16 +172,18 @@ namespace mimosa
             for (token = dec.pull(); token != json::Decoder::kArrayEnd;
                  token = dec.pull()) {
               if (token != json::Decoder::kBoolean)
+                refl->AddBool(msg, field, dec.boolean());
+              else if (token != json::Decoder::kNull)
                 throw InvalidFormat();
-              refl->AddBool(msg, field, dec.boolean());
             }
           } else {
             if (refl->HasField(*msg, field))
               throw FieldAlreadySet();
             token = dec.pull();
-            if (token != json::Decoder::kBoolean)
+            if (token == json::Decoder::kBoolean)
+              refl->SetBool(msg, field, dec.boolean());
+            else if (token != json::Decoder::kNull)
               throw InvalidFormat();
-            refl->SetBool(msg, field, dec.boolean());
           }
           break;
 
@@ -188,6 +194,8 @@ namespace mimosa
               throw InvalidFormat();
             for (token = dec.pull(); token != json::Decoder::kArrayEnd;
                  token = dec.pull()) {
+              if (token == json::Decoder::kNull)
+                continue;
               if (token != json::Decoder::kString)
                 throw InvalidFormat();
               auto edesc = field->enum_type();
@@ -200,8 +208,10 @@ namespace mimosa
             if (refl->HasField(*msg, field))
               throw FieldAlreadySet();
             token = dec.pull();
+            if (token == json::Decoder::kNull)
+              break;
             if (token != json::Decoder::kString)
-                throw InvalidFormat();
+              throw InvalidFormat();
             auto edesc = field->enum_type();
             auto eval = edesc->FindValueByName(dec.string());
             if (!eval)
