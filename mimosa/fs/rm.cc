@@ -34,7 +34,7 @@ namespace mimosa
 
       if (S_ISDIR(st.st_mode)) {
         if (recursive)
-          for (DirIterator it(path); it.end(); ++it)
+          for (DirIterator it(path); !it.end(); ++it)
             rm(it.entryPath(), true, force);
         if (!::rmdir(path.c_str()))
           return true;
