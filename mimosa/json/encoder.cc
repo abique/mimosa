@@ -117,8 +117,38 @@ namespace mimosa
         if (*it == '\\' || *it == '"')
           if (output_->loopWrite("\\", 1) != 1)
             return false;
-        if (output_->loopWrite(&*it, 1) != 1)
+
+        switch (*it) {
+        case '\r':
+          if (output_->loopWrite("\\r", 2) != 2)
             return false;
+          break;
+
+        case '\n':
+          if (output_->loopWrite("\\n", 2) != 2)
+            return false;
+          break;
+
+        case '\t':
+          if (output_->loopWrite("\\t", 2) != 2)
+            return false;
+          break;
+
+        case '\v':
+          if (output_->loopWrite("\\v", 2) != 2)
+            return false;
+          break;
+
+        case '\\':
+        case '"':
+          if (output_->loopWrite("\\", 1) != 1)
+            return false;
+          /* fall through */
+
+        default:
+          if (output_->loopWrite(&*it, 1) != 1)
+            return false;
+        }
       }
 
       if (output_->loopWrite("\"", 1) != 1)
