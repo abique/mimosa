@@ -143,12 +143,6 @@ namespace mimosa
             return false;
           break;
 
-        case '\\':
-        case '"':
-          if (output_->loopWrite("\\", 1) != 1)
-            return false;
-          /* fall through */
-
         default:
           if (output_->loopWrite(&*it, 1) != 1)
             return false;
