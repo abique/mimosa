@@ -112,7 +112,6 @@ namespace mimosa
       if (output_->loopWrite("\"", 1) != 1)
         return false;
 
-      // XXX do it better
       for (auto it = data.begin(); it != data.end(); ++it) {
         if (*it == '\\' || *it == '"')
           if (output_->loopWrite("\\", 1) != 1)
@@ -136,6 +135,11 @@ namespace mimosa
 
         case '\v':
           if (output_->loopWrite("\\v", 2) != 2)
+            return false;
+          break;
+
+        case '\b':
+          if (output_->loopWrite("\\b", 2) != 2)
             return false;
           break;
 
