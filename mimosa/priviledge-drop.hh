@@ -3,6 +3,10 @@
 
 namespace mimosa
 {
+  void priviledgeDrop(const std::string & chroot,
+                      const std::string & user,
+                      const std::string & group);
+
   /**
    * This function registers options for chroot and userid/groupid.
    *

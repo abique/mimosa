@@ -5,6 +5,7 @@
 
 #include <cstring>
 #include <cerrno>
+#include <string>
 
 #include "priviledge-drop.hh"
 #include "options/options.hh"
@@ -38,43 +39,50 @@ namespace mimosa
     return true;
   }
 
-  void priviledgeDrop()
+  void priviledgeDrop(const std::string & chroot,
+                      const std::string & user,
+                      const std::string & group)
   {
-    if (ROOT && !ROOT->empty()) {
-      if (::chroot(ROOT->c_str()))
-        log::error("chroot(%s) failed: %s", *ROOT, strerror(errno));
+    if (!chroot.empty()) {
+      if (::chroot(chroot.c_str()))
+        log::error("chroot(%s) failed: %s", chroot, strerror(errno));
     }
 
     uid_t uid = getuid();
     gid_t gid = getgid();
 
-    if (uid == 0 && UID && !UID->empty()) {
-      if (!isNumber(*UID)) {
-        struct passwd *p = getpwnam(UID->c_str());
+    if (uid == 0 && !user.empty()) {
+      if (!isNumber(user)) {
+        struct passwd *p = getpwnam(user.c_str());
         if (!p)
-          log::error("getpwnam(%s) failed: %s", *UID, strerror(errno));
+          log::error("getpwnam(%s) failed: %s", user, strerror(errno));
         else {
           uid = p->pw_uid;
           gid = p->pw_gid;
         }
       } else
-        uid = atoi(UID->c_str());
+        uid = atoi(user.c_str());
     }
 
-    if (uid == 0 && GID && !GID->empty()) {
-      if (!isNumber(*GID)) {
-        struct group *g = getgrnam(GID->c_str());
+    if (uid == 0 && !group.empty()) {
+      if (!isNumber(group)) {
+        struct group *g = getgrnam(group.c_str());
         if (!g)
-          log::error("getgrnam(%s) failed: %s", *GID, strerror(errno));
+          log::error("getgrnam(%s) failed: %s", group, strerror(errno));
         else
           gid = g->gr_gid;
       } else
-        gid = atoi(GID->c_str());
+        gid = atoi(group.c_str());
     }
 
     if (setgid(gid))
       log::error("setgid(%d) failed: %s", gid, strerror(errno));
     if (setuid(uid))
       log::error("setuid(%d) failed: %s", uid, strerror(errno));
+  }
+
+  void priviledgeDrop()
+  {
+    priviledgeDrop(*ROOT, *UID, *GID);
   }
 }
