@@ -271,7 +271,7 @@ class ServiceGenerator : public gpc::CodeGenerator
       "      return ::mimosa::http::ErrorHandler::basicResponse(\n"
       "        request, response, ::mimosa::http::kStatusInternalServerError);\n"
       "\n"
-      "    std::string method_name(request.location().substr(start_url_.size()));\n"
+      "    const std::string method_name(request.location().substr(start_url_.size()));\n"
       "\n"
       "    try {\n"
       );
