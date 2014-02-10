@@ -14,7 +14,8 @@ namespace mimosa
         addr_(nullptr),
         addr_len_(0),
         read_timeout_(0),
-        write_timeout_(0)
+        write_timeout_(0),
+        is_ssl_(false)
     {
     }
 

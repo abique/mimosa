@@ -38,6 +38,9 @@ namespace mimosa
       inline void setReadTimeout(Time timeout) { read_timeout_ = timeout; }
       inline void setWriteTimeout(Time timeout) { write_timeout_ = timeout; }
 
+      inline bool isSsl() const { return is_ssl_; }
+      inline void setSsl(bool is_ssl) { is_ssl_ = is_ssl; }
+
     private:
       friend class RequestReader;
       friend class ResponseWriter;
@@ -57,6 +60,7 @@ namespace mimosa
       ::socklen_t                 addr_len_;
       Time                        read_timeout_;
       Time                        write_timeout_;
+      bool                        is_ssl_;
     };
   }
 }

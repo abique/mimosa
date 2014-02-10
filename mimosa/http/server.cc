@@ -65,6 +65,7 @@ namespace mimosa
       channel.setRemoteAddr(address, address_len);
       channel.setReadTimeout(read_timeout_);
       channel.setWriteTimeout(write_timeout_);
+      channel.setSsl(x509_cred_);
       channel.run();
     }
 
