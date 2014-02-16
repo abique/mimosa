@@ -16,7 +16,7 @@ namespace mimosa
       Repository(const std::string & repo_path);
       ~Repository();
 
-      inline operator git_repository * () { return repo_; }
+      inline operator git_repository * () const { return repo_; }
 
       int64_t lastCommitTime() const;
 

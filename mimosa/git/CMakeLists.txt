@@ -12,6 +12,7 @@ install(FILES
 
 add_library(mimosa-git
   archive.cc
+  reference.cc
   repository.cc
   revwalk.cc
   tree.cc
