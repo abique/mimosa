@@ -48,6 +48,8 @@ namespace mimosa
       inline void setStatus(Status status) { status_ = status; }
       /** @} */
 
+      inline void setContentType(const std::string & ct) { content_type_ = ct; }
+
       void clear();
 
       Status        status_;
