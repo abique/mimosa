@@ -39,13 +39,15 @@ namespace mimosa
     return true;
   }
 
-  void priviledgeDrop(const std::string & chroot,
+  bool priviledgeDrop(const std::string & chroot,
                       const std::string & user,
                       const std::string & group)
   {
     if (!chroot.empty()) {
-      if (::chroot(chroot.c_str()))
+      if (::chroot(chroot.c_str())) {
         log::error("chroot(%s) failed: %s", chroot, strerror(errno));
+        return false;
+      }
     }
 
     uid_t uid = getuid();
@@ -54,9 +56,10 @@ namespace mimosa
     if (uid == 0 && !user.empty()) {
       if (!isNumber(user)) {
         struct passwd *p = getpwnam(user.c_str());
-        if (!p)
+        if (!p) {
           log::error("getpwnam(%s) failed: %s", user, strerror(errno));
-        else {
+          return false;
+        } else {
           uid = p->pw_uid;
           gid = p->pw_gid;
         }
@@ -67,22 +70,29 @@ namespace mimosa
     if (uid == 0 && !group.empty()) {
       if (!isNumber(group)) {
         struct group *g = getgrnam(group.c_str());
-        if (!g)
+        if (!g) {
           log::error("getgrnam(%s) failed: %s", group, strerror(errno));
-        else
+          return false;
+        } else
           gid = g->gr_gid;
       } else
         gid = atoi(group.c_str());
     }
 
-    if (setgid(gid))
+    if (setgid(gid)) {
       log::error("setgid(%d) failed: %s", gid, strerror(errno));
-    if (setuid(uid))
+      return false;
+    }
+
+    if (setuid(uid)) {
       log::error("setuid(%d) failed: %s", uid, strerror(errno));
+      return false;
+    }
+    return true;
   }
 
-  void priviledgeDrop()
+  bool priviledgeDrop()
   {
-    priviledgeDrop(*ROOT, *UID, *GID);
+    return priviledgeDrop(*ROOT, *UID, *GID);
   }
 }
