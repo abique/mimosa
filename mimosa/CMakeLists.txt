@@ -123,6 +123,7 @@ add_subdirectory(fs)
 add_subdirectory(bittorrent)
 add_subdirectory(json)
 add_subdirectory(archive)
+add_subdirectory(git)
 
 add_subdirectory(tests)
 
