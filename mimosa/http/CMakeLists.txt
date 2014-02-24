@@ -8,6 +8,7 @@ install(FILES
   fs-handler.hh
   handler.hh
   method.hh
+  method-handler.hh
   log.hh
   log-handler.hh
   redirect.hh
@@ -32,6 +33,7 @@ add_library(mimosa-http
   error-handler.cc
   fs-handler.cc
   method.cc
+  method-handler.cc
   mime-db.cc
   log.cc
   log-handler.cc
