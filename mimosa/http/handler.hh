@@ -11,7 +11,6 @@ namespace mimosa
   namespace http
   {
     class Request;
-    class ResponseWriter;
 
     /**
      * @ingroup Http

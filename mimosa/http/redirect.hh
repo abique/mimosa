@@ -3,12 +3,12 @@
 
 # include <string>
 
+# include "response-writer.hh"
+
 namespace mimosa
 {
   namespace http
   {
-    class ResponseWriter;
-
     /**
      * @ingroup Http
      */

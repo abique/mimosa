@@ -43,7 +43,7 @@ namespace mimosa
 
     private:
       friend class RequestReader;
-      friend class ResponseWriter;
+      friend class MessageWriter<ServerChannel, Response>;
 
       bool readRequest();
       bool runHandler();
