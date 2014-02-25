@@ -30,7 +30,6 @@ namespace mimosa
 #if 0 // not supported by gnutls
       HASH_TEST(Rmd160, "bonjour", "f02368945726d5fc2a14eb576f7276c0")
 #endif
-      HASH_TEST(Md2, "bonjour", "91c6f440d8fc32de5f2c2687de605272")
       HASH_TEST(Md5, "bonjour", "f02368945726d5fc2a14eb576f7276c0")
       HASH_TEST(Sha1, "bonjour", "1f71e0f4ac9b47cd93bf269e4017abaab9d3bd63")
       HASH_TEST(Sha224, "bonjour", "f8ec9284e160c5afe456b48702e08a14095ab37bca36808e10a22f71")

@@ -40,7 +40,6 @@ namespace mimosa
 # if 0 // not supported by gnutls
     typedef Hash<GNUTLS_DIG_RMD160, 20> Rmd160;
 # endif
-    typedef Hash<GNUTLS_DIG_MD2, 16> Md2;
     typedef Hash<GNUTLS_DIG_MD5, 16> Md5;
     typedef Hash<GNUTLS_DIG_SHA1, 20> Sha1;
     typedef Hash<GNUTLS_DIG_SHA224, 28> Sha224;
@@ -48,7 +47,6 @@ namespace mimosa
     typedef Hash<GNUTLS_DIG_SHA384, 48> Sha384;
     typedef Hash<GNUTLS_DIG_SHA512, 64> Sha512;
 
-    extern template class Hash<GNUTLS_DIG_MD2, 16>;
     extern template class Hash<GNUTLS_DIG_MD5, 16>;
     extern template class Hash<GNUTLS_DIG_SHA1, 20>;
     extern template class Hash<GNUTLS_DIG_SHA224, 28>;
