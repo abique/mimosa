@@ -33,8 +33,6 @@ namespace mimosa
       virtual bool flush();
       /** @} */
 
-      kvs & form();
-
       inline ServerChannel & channel() const { return channel_; }
 
     private:
@@ -45,8 +43,6 @@ namespace mimosa
 
       ServerChannel & channel_;
       int64_t         bytes_left_;
-      bool            parsed_form_;
-      kvs             form_;
     };
   }
 }

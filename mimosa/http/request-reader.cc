@@ -13,9 +13,7 @@ namespace mimosa
   {
     RequestReader::RequestReader(ServerChannel & channel)
       : channel_(channel),
-        bytes_left_(0),
-        parsed_form_(false),
-        form_()
+        bytes_left_(0)
     {
     }
 
@@ -23,8 +21,6 @@ namespace mimosa
     RequestReader::clear()
     {
       bytes_left_ = 0;
-      parsed_form_ = false;
-      form_.clear();
     }
 
     bool
@@ -67,25 +63,6 @@ namespace mimosa
         if (read(buffer.data(), buffer.size()) <= 0)
           return false;
       return true;
-    }
-
-    kvs &
-    RequestReader::form()
-    {
-      if (parsed_form_ ||
-          ::strcasecmp(contentType().c_str(), "application/x-www-form-urlencoded"))
-        return form_;
-
-      parsed_form_ = true;
-      stream::Buffer buffer(contentLength());
-      int64_t rbytes = 0;
-
-      rbytes = channel_.stream_->loopRead(buffer.data(), contentLength());
-      if (rbytes < contentLength())
-        return form_;
-
-      uri::parseQuery(buffer.data(), buffer.size(), &form_);
-      return form_;
     }
   }
 }
