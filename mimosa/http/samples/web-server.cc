@@ -7,6 +7,7 @@
 #include <mimosa/http/dispatch-handler.hh>
 #include <mimosa/http/fs-handler.hh>
 #include <mimosa/http/log-handler.hh>
+#include <mimosa/uri/parse-query.hh>
 
 using namespace mimosa;
 
@@ -69,6 +70,13 @@ class PostEchoHandler : public mimosa::http::Handler
   virtual bool handle(mimosa::http::RequestReader &  request,
                       mimosa::http::ResponseWriter & response) const
   {
+    stream::Buffer buffer(request.contentLength());
+    int64_t rbytes = request.loopRead(buffer.data(), request.contentLength());
+    if (rbytes < request.contentLength())
+      return false;
+    kvs form;
+    uri::parseQuery(buffer.data(), buffer.size(), &form);
+
     std::ostringstream os;
     os <<
       "<html><head><title>Post Echo!</title></head>"
@@ -76,7 +84,6 @@ class PostEchoHandler : public mimosa::http::Handler
       "Method: " << methodString(request.method()) << "<br/>"
       "Content-Type: " << request.contentType() << "<br/>"
       "<ul>";
-    kvs form = request.form();
     for (auto it = form.cbegin(); it != form.cend(); ++it)
       os << "<li>" << it->first << " = " << it->second << "</li>";
     os <<

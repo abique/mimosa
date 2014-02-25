@@ -42,7 +42,7 @@ namespace mimosa
       inline void setSsl(bool is_ssl) { is_ssl_ = is_ssl; }
 
     private:
-      friend class RequestReader;
+      friend class MessageReader<ServerChannel, Request>;
       friend class MessageWriter<ServerChannel, Response>;
 
       bool readRequest();
