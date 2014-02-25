@@ -1,14 +1,5 @@
-#ifndef MIMOSA_HTTP_SERVERCHANNEL_HH
-# define MIMOSA_HTTP_SERVERCHANNEL_HH
-
-# include <sys/types.h>
-# include <sys/socket.h>
-
-# include "../non-copyable.hh"
-# include "../stream/buffered-stream.hh"
-# include "handler.hh"
-# include "request.hh"
-# include "response-writer.hh"
+#ifndef MIMOSA_HTTP_CLIENT_CHANNEL_HH
+# define MIMOSA_HTTP_CLIENT_CHANNEL_HH
 
 namespace mimosa
 {
@@ -17,14 +8,11 @@ namespace mimosa
     /**
      * @ingroup Http
      */
-    class ServerChannel : private NonCopyable
+    class ClientChannel : private NonCopyable
     {
     public:
-      ServerChannel(stream::BufferedStream::Ptr stream,
-                    Handler::Ptr                handler);
-      ~ServerChannel();
-
-      void run();
+      ClientChannel(stream::BufferedStream::Ptr stream);
+      ~ClientChannel();
 
       inline void setRemoteAddr(const ::sockaddr * addr, ::socklen_t addr_len)
       {
@@ -45,17 +33,7 @@ namespace mimosa
       friend class MessageReader<ServerChannel, Request>;
       friend class MessageWriter<ServerChannel, Response>;
 
-      bool readRequest();
-      bool runHandler();
-      bool sendResponse();
-
-      void requestTimeout();
-      void badRequest();
-
       stream::BufferedStream::Ptr stream_;
-      Handler::Ptr                handler_;
-      RequestReader::Ptr          request_;
-      ResponseWriter::Ptr         response_;
       const ::sockaddr *          addr_;
       ::socklen_t                 addr_len_;
       Time                        read_timeout_;
@@ -65,4 +43,4 @@ namespace mimosa
   }
 }
 
-#endif // MIMOSA_HTTP_SERVERCHANNEL_HH
+#endif /* !MIMOSA_HTTP_CLIENT_CHANNEL_HH */

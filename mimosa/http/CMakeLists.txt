@@ -1,5 +1,6 @@
 install(FILES
   chunked-stream.hh
+  client-channel.hh
   coding.hh
   cookie.hh
   crud-handler.hh
@@ -9,6 +10,10 @@ install(FILES
   handler.hh
   method.hh
   method-handler.hh
+  message-reader.hh
+  message-reader.hxx
+  message-writer.hh
+  message-writer.hxx
   log.hh
   log-handler.hh
   redirect.hh
@@ -27,6 +32,7 @@ mimosa_bison(request-parser)
 
 add_library(mimosa-http
   chunked-stream.cc
+  client-channel.cc
   cookie.cc
   crud-handler.cc
   dispatch-handler.cc
