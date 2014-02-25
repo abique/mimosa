@@ -34,8 +34,8 @@ class HelloHandler : public mimosa::http::Handler
       "</body></html>";
 
     std::string data(os.str());
-    response.status_ = mimosa::http::kStatusOk;
-    response.content_type_ = "text/html";
+    response.setStatus(mimosa::http::kStatusOk);
+    response.setContentType("text/html");
     response.write(data.data(), data.size());
     return true;
   }
@@ -58,8 +58,8 @@ class QueryEchoHandler : public mimosa::http::Handler
       "</body></html>";
 
     std::string data(os.str());
-    response.status_ = mimosa::http::kStatusOk;
-    response.content_type_ = "text/html";
+    response.setStatus(mimosa::http::kStatusOk);
+    response.setContentType("text/html");
     response.write(data.data(), data.size());
     return true;
   }
@@ -97,8 +97,8 @@ class PostEchoHandler : public mimosa::http::Handler
       "</body></html>";
 
     std::string data(os.str());
-    response.status_ = mimosa::http::kStatusOk;
-    response.content_type_ = "text/html";
+    response.setStatus(mimosa::http::kStatusOk);
+    response.setContentType("text/html");
     response.write(data.data(), data.size());
     return true;
   }

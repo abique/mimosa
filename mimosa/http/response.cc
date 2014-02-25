@@ -140,6 +140,12 @@ namespace mimosa
         ok = ok & format::printStatic(stream, "\r\n");
       }
 
+      if (!location_.empty()) {
+        ok = ok & format::printStatic(stream, "Location: ");
+        ok = ok & format::print(stream, location_);
+        ok = ok & format::printStatic(stream, "\r\n");
+      }
+
       // end of response
       ok = ok & format::printStatic(stream, "\r\n");
       return ok;
@@ -172,6 +178,7 @@ namespace mimosa
         delete cookie;
       }
       unparsed_headers_.clear();
+      location_.clear();
     }
   }
 }

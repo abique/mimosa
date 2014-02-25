@@ -1,6 +1,9 @@
 #ifndef MIMOSA_HTTP_MESSAGE_WRITER_HH
 # define MIMOSA_HTTP_MESSAGE_WRITER_HH
 
+# include "../stream/direct-fd-stream.hh"
+# include "../stream/buffer.hh"
+
 namespace mimosa
 {
   namespace http

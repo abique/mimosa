@@ -24,6 +24,10 @@ namespace mimosa
 
       void clear();
 
+      /** convert the response to an http response header */
+      bool print(stream::Stream & stream) const;
+      std::string toHttpHeader() const;
+
       /**
        * @brief parses the buffer
        * @return true on success and false otherwise
@@ -120,6 +124,11 @@ namespace mimosa
       }
       /** @} */
 
+      inline Coding contentEncoding() const { return content_encoding_; }
+      inline void setContentEncoding(Coding c) { content_encoding_ = c; }
+      inline Coding transferEncoding() const { return transfer_encoding_; }
+      inline void setTransferEncoding(Coding c) { transfer_encoding_ = c; }
+
     protected:
 
       // mandatory stuff
@@ -157,6 +166,9 @@ namespace mimosa
       int64_t content_range_start_;
       int64_t content_range_end_;
       int64_t content_range_length_;
+
+      Coding content_encoding_;
+      Coding transfer_encoding_;
 
       // other headers
       kvs unparsed_headers_;

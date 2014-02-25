@@ -1,6 +1,14 @@
 #ifndef MIMOSA_HTTP_CLIENT_CHANNEL_HH
 # define MIMOSA_HTTP_CLIENT_CHANNEL_HH
 
+# include <sys/types.h>
+# include <sys/socket.h>
+
+# include "../non-copyable.hh"
+# include "../stream/buffered-stream.hh"
+# include "request-writer.hh"
+# include "response-reader.hh"
+
 namespace mimosa
 {
   namespace http
@@ -29,9 +37,11 @@ namespace mimosa
       inline bool isSsl() const { return is_ssl_; }
       inline void setSsl(bool is_ssl) { is_ssl_ = is_ssl; }
 
+      inline stream::BufferedStream::Ptr stream() const { return stream_; }
+
     private:
-      friend class MessageReader<ServerChannel, Request>;
-      friend class MessageWriter<ServerChannel, Response>;
+      friend class MessageReader<ClientChannel, Request>;
+      friend class MessageWriter<ClientChannel, Response>;
 
       stream::BufferedStream::Ptr stream_;
       const ::sockaddr *          addr_;

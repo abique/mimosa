@@ -41,6 +41,8 @@ namespace mimosa
       inline bool isSsl() const { return is_ssl_; }
       inline void setSsl(bool is_ssl) { is_ssl_ = is_ssl; }
 
+      inline stream::BufferedStream::Ptr stream() const { return stream_; }
+
     private:
       friend class MessageReader<ServerChannel, Request>;
       friend class MessageWriter<ServerChannel, Response>;

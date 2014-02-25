@@ -71,9 +71,9 @@ namespace mimosa
 
       // Chunked-Encoding: write the final chunk
       if (Message::transfer_encoding_ == kCodingChunked &&
-          channel_.stream_->loopWrite("0\r\n\r\n", 5) != 5)
+          channel_.stream()->loopWrite("0\r\n\r\n", 5) != 5)
         return false;
-      return channel_.stream_->flush();
+      return channel_.stream()->flush();
     }
 
     template <typename Channel, typename Message>
@@ -89,11 +89,11 @@ namespace mimosa
       if (Message::content_length_ < 0 ||
           Message::transfer_encoding_ == kCodingChunked) {
         Message::transfer_encoding_ = kCodingChunked;
-        stream_ = new ChunkedStream(channel_.stream_.get());
+        stream_ = new ChunkedStream(channel_.stream().get());
         // prevent to many small writes
         stream_ = new stream::BufferedStream(stream_);
       } else
-        stream_ = channel_.stream_;
+        stream_ = channel_.stream();
 
       // check if we have to encode the content
       switch (Message::content_encoding_) {
@@ -114,14 +114,14 @@ namespace mimosa
         break;
       }
 
-      return Message::print(*channel_.stream_);
+      return Message::print(*channel_.stream());
     }
 
     template <typename Channel, typename Message>
     void
     MessageWriter<Channel, Message>::clear()
     {
-      Response::clear();
+      Message::clear();
       header_sent_ = false;
       stream_      = nullptr;
     }
@@ -135,11 +135,11 @@ namespace mimosa
           Message::content_encoding_ != kCodingIdentity)
         return NULL;
 
-      stream::Stream * stream = channel_.stream_->underlyingStream();
+      stream::Stream * stream = channel_.stream()->underlyingStream();
       stream::DirectFdStream * fd_stream = dynamic_cast<stream::DirectFdStream *> (stream);
       if (!fd_stream)
         return NULL;
-      if (!channel_.stream_->flush())
+      if (!channel_.stream()->flush())
         return NULL;
       return fd_stream;
     }

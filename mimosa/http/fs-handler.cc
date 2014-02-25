@@ -81,8 +81,8 @@ namespace mimosa
     {
       if (request.hasIfModifiedSince() && request.ifModifiedSince() >= st.st_mtime)
       {
-        response.content_length_ = 0;
-        response.status_ = kStatusNotModified;
+        response.setContentLength(0);
+        response.setStatus(kStatusNotModified);
         response.sendHeader();
         return true;
       }
@@ -97,8 +97,8 @@ namespace mimosa
       // to check if the file we're going to send need to be compressed (like .avi,
       // .gif, .zip, ...)
 
-      if (response.content_encoding_ == kCodingIdentity) {
-        response.content_length_ = st.st_size;
+      if (response.contentEncoding() == kCodingIdentity) {
+        response.setContentLength(st.st_size);
 
         if (request.hasContentRange()) {
           if ((request.contentRangeLength() > 0 &&
@@ -116,14 +116,14 @@ namespace mimosa
             }
 
           length = request.contentRangeEnd() - request.contentRangeStart();
-          response.status_ = kStatusPartialContent;
+          response.setStatus(kStatusPartialContent);
           response.setContentRange(request.contentRangeStart(),
                                    request.contentRangeStart(),
                                    st.st_size);
         }
       }
-      response.content_type_ = MimeDb::instance().mimeType(real_path);
-      response.last_modified_ = st.st_mtime;
+      response.setContentType(MimeDb::instance().mimeType(real_path));
+      response.setLastModified(st.st_mtime);
       response.sendHeader();
 
       stream::DirectFdStream file(fd);
@@ -146,9 +146,9 @@ namespace mimosa
       if (!dir)
         return ErrorHandler::basicResponse(request, response, kStatusNotFound);
 
-      response.content_type_ = "text/html";
+      response.setContentType("text/html");
       response.sendHeader();
-      assert(response.transfer_encoding_ == kCodingChunked);
+      assert(response.transferEncoding() == kCodingChunked);
 
       std::ostringstream os;
 

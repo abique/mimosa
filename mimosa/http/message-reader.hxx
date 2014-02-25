@@ -46,7 +46,7 @@ namespace mimosa
     MessageReader<Channel, Message>::read(char * data, uint64_t nbytes)
     {
       uint64_t can_read = std::min(nbytes, static_cast<uint64_t> (bytes_left_));
-      int64_t rbytes = channel_.stream_->read(data, can_read);
+      int64_t rbytes = channel_.stream()->read(data, can_read);
       if (rbytes > 0)
         bytes_left_ -= rbytes;
       return rbytes;

@@ -48,7 +48,9 @@ add_library(mimosa-http
   request-reader.cc
   request-lexer.cc
   request-parser.cc
+  request-writer.cc
   response.cc
+  response-reader.cc
   response-writer.cc
   status.cc
   server.cc

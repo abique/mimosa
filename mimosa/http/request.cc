@@ -6,6 +6,7 @@
 #include "../uri/normalize-path.hh"
 #include "../uri/parse-query.hh"
 #include "../uri/percent-encoding.hh"
+#include "../format/print.hh"
 
 int mimosa_http_request_parse(yyscan_t scanner, mimosa::http::Request & request);
 
@@ -44,7 +45,25 @@ namespace mimosa
       content_range_start_ = 0;
       content_range_end_ = 0;
       content_range_length_ = 0;
+      content_encoding_  = kCodingIdentity;
+      transfer_encoding_ = kCodingIdentity;
     }
+
+    bool
+    Request::print(stream::Stream & stream) const
+    {
+      bool ok = true;
+      ok = ok & format::print(stream, methodString(method_));
+      ok = ok & format::printStatic(stream, " ");
+      ok = ok & format::print(stream, raw_location_);
+      ok = ok & format::printStatic(stream, " HTTP/1.1\r\n");
+
+      ok = ok & format::printStatic(stream, "Host: ");
+      ok = ok & format::print(stream, host_);
+      ok = ok & format::printStatic(stream, "\r\n");
+      return ok;
+    }
+
 
 #define PARSE(Name, Const, Scan)                                        \
     bool                                                                \
