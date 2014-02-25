@@ -19,7 +19,7 @@ namespace mimosa
     class ClientChannel : private NonCopyable
     {
     public:
-      ClientChannel(stream::BufferedStream::Ptr stream);
+      ClientChannel();
       ~ClientChannel();
 
       inline void setRemoteAddr(const ::sockaddr * addr, ::socklen_t addr_len)

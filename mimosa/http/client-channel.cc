@@ -4,8 +4,8 @@ namespace mimosa
 {
   namespace http
   {
-    ClientChannel::ClientChannel(stream::BufferedStream::Ptr stream)
-      : stream_(stream),
+    ClientChannel::ClientChannel()
+      : stream_(),
         addr_(nullptr),
         addr_len_(0),
         read_timeout_(0),
