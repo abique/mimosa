@@ -11,7 +11,6 @@ namespace mimosa
                     archive::Writer &   archive,
                     const std::string & prefix)
     {
-      char oid_str[GIT_OID_HEXSZ + 1];
       for (size_t i = 0; i < git_tree_entrycount(tree); ++i) {
         const git_tree_entry *entry = git_tree_entry_byindex(tree, i);
         if (!entry)
