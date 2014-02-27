@@ -65,6 +65,8 @@ namespace mimosa
       inline void setLastModified(time_t t) { last_modified_ = t; }
       inline time_t lastModified() const { return last_modified_; }
 
+      inline void addCookie(Cookie *cookie) { cookies_.push(cookie); }
+
       void clear();
 
     protected:
