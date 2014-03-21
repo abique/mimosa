@@ -12,8 +12,8 @@ namespace mimosa
 
     void
     Server::serve(int                fd,
-                  const ::sockaddr * address,
-                  socklen_t          address_len) const
+                  const ::sockaddr * /*address*/,
+                  socklen_t          /*address_len*/) const
     {
       stream::FdStream::Ptr stream = new stream::FdStream(fd);
       Channel::Ptr channel = new Channel(stream.get(), service_map_);
