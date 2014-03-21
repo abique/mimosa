@@ -13,7 +13,7 @@ namespace mimosa
 	Scheme		scheme_;
 	StringRef	host_;
 	uint16_t	port_;
-	StringRef	location_;
+	StringRef	path_;
 	StringRef	query_;
 	StringRef	anchor_;
       };
@@ -116,7 +116,7 @@ namespace mimosa
 	  EXPECT_EQ(url.scheme(), data.scheme_);
 	  EXPECT_EQ(url.host(), data.host_);
 	  EXPECT_EQ(url.port(), data.port_);
-	  EXPECT_EQ(url.location(), data.location_);
+	  EXPECT_EQ(url.path(), data.path_);
 	  EXPECT_EQ(url.query(), data.query_);
 	  EXPECT_EQ(url.anchor(), data.anchor_);
 	}

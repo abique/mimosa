@@ -14,14 +14,20 @@ namespace mimosa
     class Url : public RefCountable<Url>
     {
     public:
+      Url();
+      Url(const std::string & url);
+
       bool parse(const std::string & url, std::string *parse_error);
 
       inline Scheme scheme() const { return scheme_; }
       inline const StringRef & host() const { return host_; }
       inline uint16_t port() const { return port_; }
-      inline const StringRef & location() const { return location_; }
+      inline const StringRef & path() const { return path_; }
       inline const StringRef & query() const { return query_; }
       inline const StringRef & anchor() const { return anchor_; }
+      inline StringRef location() const {
+        return StringRef(path_.begin());
+      }
 
       inline const std::string & rawUrl() const { return raw_url_; }
 
@@ -32,7 +38,7 @@ namespace mimosa
       bool parseAuthority(StringRef & in, std::string *parse_error);
       bool parseHost(StringRef & in, std::string *parse_error);
       bool parsePort(StringRef & in, std::string *parse_error);
-      void parseLocation(StringRef & in);
+      void parsePath(StringRef & in);
       void parseQuery(StringRef & in);
       void parseAnchor(StringRef & in);
 
@@ -40,7 +46,7 @@ namespace mimosa
       Scheme		scheme_;
       StringRef		host_;
       uint16_t		port_;
-      StringRef		location_;
+      StringRef		path_;
       StringRef		query_;
       StringRef		anchor_;
     };

@@ -4,6 +4,22 @@ namespace mimosa
 {
   namespace uri
   {
+    Url::Url()
+      : raw_url_(),
+        scheme_(kSchemeUnknown),
+        host_(),
+        port_(80),
+        path_(),
+        query_(),
+        anchor_()
+    {
+    }
+
+    Url::Url(const std::string & url)
+    {
+      parse(url, nullptr);
+    }
+
     bool
     Url::parse(const std::string & url, std::string *parse_error)
     {
@@ -15,7 +31,7 @@ namespace mimosa
 	return false;
       if (!parseAuthority(in, parse_error))
 	return false;
-      parseLocation(in);
+      parsePath(in);
       if (!in.empty() && in[0] == '?') {
 	in = in.substr(1);
 	parseQuery(in);
@@ -115,7 +131,7 @@ namespace mimosa
     }
 
     void
-    Url::parseLocation(StringRef & in)
+    Url::parsePath(StringRef & in)
     {
       auto it = in.begin();
       for (; it != in.end(); ++it)
@@ -123,10 +139,10 @@ namespace mimosa
 	  break;
       auto len = it - in.begin();
       if (len > 0) {
-	location_ = in.substr(0, len);
+	path_ = in.substr(0, len);
 	in = in.substr(len);
       } else
-	location_ = "/";
+	path_ = "/";
     }
 
     void
