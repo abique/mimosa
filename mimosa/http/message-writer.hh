@@ -64,7 +64,7 @@ namespace mimosa
       /** @return nullptr if we can't convert the output stream to a direct fd */
       stream::DirectFdStream * directFdStream();
 
-    private:
+    protected:
       friend Channel;
 
       /** tells that you finished to modify ResponseWriter and you will not

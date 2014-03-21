@@ -28,6 +28,8 @@ namespace mimosa
         addr_len_ = addr_len;
       }
 
+      bool connect(const std::string & host, uint16_t port, bool ssl);
+
       inline const ::sockaddr * remoteAddr() const { return addr_; }
       inline ::socklen_t remoteAddrLen() const { return addr_len_; }
 
@@ -38,6 +40,12 @@ namespace mimosa
       inline void setSsl(bool is_ssl) { is_ssl_ = is_ssl; }
 
       inline stream::BufferedStream::Ptr stream() const { return stream_; }
+
+      /////////////
+      // Helpers //
+      /////////////
+
+      ResponseReader::Ptr get(const std::string & url);
 
     private:
       friend class MessageReader<ClientChannel, Request>;

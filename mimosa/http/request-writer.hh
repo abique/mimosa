@@ -3,13 +3,25 @@
 
 # include "request.hh"
 # include "message-writer.hh"
+# include "response-reader.hh"
 
 namespace mimosa
 {
   namespace http
   {
-    class  ClientChannel;
-    typedef MessageWriter<ClientChannel, Request> RequestWriter;
+    class ClientChannel;
+
+    class RequestWriter : public MessageWriter<ClientChannel, Request>
+    {
+    public:
+      inline RequestWriter(ClientChannel & channel)
+        : MessageWriter<ClientChannel, Request> (channel)
+      {
+      }
+
+      ResponseReader::Ptr send();
+    };
+
     extern template class MessageWriter<ClientChannel, Request>;
   }
 }

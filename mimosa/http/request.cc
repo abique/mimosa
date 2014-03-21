@@ -140,5 +140,14 @@ namespace mimosa
         return empty;
       return it->second;
     }
+
+    void
+    Request::setUrl(const uri::Url & url)
+    {
+      url_ = url;
+      setRawLocation(url.rawUrl());
+      setHost(url.host());
+      setPort(url.port());
+    }
   }
 }

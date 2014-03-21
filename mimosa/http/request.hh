@@ -5,6 +5,7 @@
 # include <map>
 
 # include "../kvs.hh"
+# include "../uri/url.hh"
 # include "../stream/stream.hh"
 # include "coding.hh"
 # include "method.hh"
@@ -129,8 +130,11 @@ namespace mimosa
       inline Coding transferEncoding() const { return transfer_encoding_; }
       inline void setTransferEncoding(Coding c) { transfer_encoding_ = c; }
 
-    protected:
+      // sets also raw location, host, port and location
+      void setUrl(const uri::Url & url);
+      inline const uri::Url & url() const { return url_; }
 
+    protected:
       // mandatory stuff
       Method      method_;
       uint8_t     proto_major_;
@@ -139,6 +143,9 @@ namespace mimosa
       std::string host_;
       uint16_t    port_;
       time_t      if_modified_since_; // local time
+
+      // requiered when sending a request
+      uri::Url url_;
 
       // cleaned up location and queries
       mutable bool        location_normalized_;
