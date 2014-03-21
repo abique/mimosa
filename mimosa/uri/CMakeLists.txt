@@ -5,4 +5,6 @@ install(FILES
   url.hh
   DESTINATION include/mimosa/uri/)
 
+add_library(mimosa-uri url.cc)
+
 add_subdirectory(tests)
