@@ -26,6 +26,10 @@ namespace mimosa
     inline size_type size() const { return len_; }
     inline const char * data() const { return data_; }
     inline bool empty() const { return !data_ || !len_; }
+    inline void clear() { data_ = nullptr; len_ = 0; }
+
+    inline const char *begin() const { return data_; }
+    inline const char *end() const { return data_ + len_; }
 
     inline char operator[](size_type pos) const { assert(len_ > pos); return data_[pos]; }
 
@@ -80,8 +84,13 @@ namespace mimosa
     inline bool streq(const StringRef & other) const {
       return other.len_ == len_ && (other.data_ == data_ || !::strncmp(other.data_, data_, len_));
     }
+
     inline bool strcaseeq(const StringRef & other) const {
       return other.len_ == len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, len_));
+    }
+
+    inline bool strncaseeq(const StringRef & other) const {
+      return other.len_ <= len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, other.len_));
     }
 
     inline StringRef substr(size_type start = 0, size_type n = npos) const {
