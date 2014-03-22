@@ -70,5 +70,42 @@ namespace mimosa
 
       EXPECT_NE(s1, s2);
     }
+
+    TEST(StringRef, Atoi)
+    {
+      EXPECT_EQ(StringRef("24").atoi<int>(), 24);
+      EXPECT_EQ(StringRef("-5").atoi<int>(), -5);
+    }
+
+    TEST(StringRef, AtoiHex)
+    {
+      EXPECT_EQ(StringRef("0").atoiHex<int>(), 0);
+      EXPECT_EQ(StringRef("-5").atoiHex<int>(), -5);
+      EXPECT_EQ(StringRef("b").atoiHex<int>(), 11);
+      EXPECT_EQ(StringRef("10").atoiHex<int>(), 16);
+      EXPECT_EQ(StringRef("1F").atoiHex<int>(), 31);
+    }
+
+    TEST(StringRef, ConsumeToken)
+    {
+      StringRef s1("tutu \t");
+      StringRef s2(s1.consumeToken(" \t\v\r"));
+
+      EXPECT_EQ(s1, " \t");
+      EXPECT_EQ(s2, "tutu");
+    }
+
+    TEST(StringRef, strncaseeq)
+    {
+      StringRef s1("http/1.1");
+      EXPECT_TRUE(s1.strncaseeq("http/1."));
+    }
+
+    TEST(StringRef, eatWhitespaces)
+    {
+      StringRef s1("  \ttatata");
+      s1.eatWhitespaces(" \t");
+      EXPECT_EQ(s1, StringRef("tatata"));
+    }
   }
 }

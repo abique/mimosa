@@ -106,7 +106,7 @@ namespace mimosa
       auto e = end();
       for (; it < e && sp.find(*it) != npos; ++it)
         ;
-      *this = substr(it - e);
+      *this = substr(it - data_);
     }
 
     inline StringRef getLine(const StringRef & eol = "\n") const {
@@ -114,7 +114,7 @@ namespace mimosa
         (const void *)data_, len_, (const void *)eol.data_, eol.len_);
       if (!r)
         return *this;
-      return StringRef(data_, r - data_);
+      return StringRef(data_, r - data_ + eol.size());
     }
 
     inline StringRef consumeLine(const StringRef & eol = "\n") {
@@ -153,7 +153,34 @@ namespace mimosa
       }
 
       for (; it < e && '0' <= *it && *it <= '9'; ++it)
-        value = value * 10 + value;
+        value = value * 10 + (*it - '0');
+      return value * sign;
+    }
+
+    template <typename Int>
+    inline Int atoiHex() const {
+      if (empty())
+        return 0;
+
+      Int value = 0;
+      Int sign = 1;
+      auto it = begin();
+      auto e = end();
+      if (*it == '-') {
+        ++it;
+        sign = -1;
+      }
+
+      for (; it < e; ++it) {
+        if ('0' <= *it && *it <= '9')
+          value = value * 16 + (*it - '0');
+        else if ('A' <= *it && *it <= 'F')
+          value = value * 16 + (*it - 'A' + 10);
+        else if ('a' <= *it && *it <= 'f')
+          value = value * 16 + (*it - 'a' + 10);
+        else
+          break;
+      }
       return value * sign;
     }
 
