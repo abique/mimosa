@@ -45,7 +45,7 @@ namespace mimosa
       return std::string(data_, len_);
     }
 
-    inline size_type find(char c, size_type pos) const {
+    inline size_type find(char c, size_type pos = 0) const {
       if (pos >= len_)
         return npos;
       const char * found = static_cast<const char *>(::memchr(data_ + pos, c, len_ - pos));
@@ -99,6 +99,43 @@ namespace mimosa
       if (n == npos || start + n >= len_)
         n = len_ - start;
       return StringRef(data_ + start, n);
+    }
+
+    inline void eatWhitespaces(const StringRef & sp) {
+      auto it = begin();
+      auto e = end();
+      for (; it < e && sp.find(*it) != npos; ++it)
+        ;
+      *this = substr(it - e);
+    }
+
+    inline StringRef getLine(const StringRef & eol = "\n") const {
+      const char  *r = (const char *)memmem(
+        (const void *)data_, len_, (const void *)eol.data_, eol.len_);
+      if (!r)
+        return *this;
+      return StringRef(data_, r - data_);
+    }
+
+    inline StringRef consumeLine(const StringRef & eol = "\n") {
+      StringRef r = getLine(eol);
+      *this = substr(r.size());
+      return r;
+    }
+
+    inline StringRef getToken(const StringRef & sep = " \t\r\n\v") const {
+      auto it = begin();
+      auto e = end();
+      for (; it < e && sep.find(*it) == npos; ++it)
+        ;
+      StringRef r(data_, it - data_);
+      return r;
+    }
+
+    inline StringRef consumeToken(const StringRef & sep = " \t\r\n\v") {
+      StringRef r = getToken(sep);
+      *this = substr(r.size());
+      return r;
     }
 
     inline std::vector<StringRef> tokens(char c) const
