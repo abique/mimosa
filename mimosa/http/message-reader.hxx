@@ -57,6 +57,9 @@ namespace mimosa
       if (Message::transferEncoding() == kCodingChunked)
         can_read = nbytes;
 
+      if (can_read == 0)
+        return 0;
+
       int64_t rbytes = stream_->read(data, can_read);
       if (rbytes > 0)
         bytes_left_ -= rbytes;
