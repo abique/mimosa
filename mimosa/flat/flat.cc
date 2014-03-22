@@ -9,7 +9,7 @@ namespace mimosa
 {
   namespace flat
   {
-    static const long  PAGE_SIZE = sysconf(_SC_PAGE_SIZE);
+    const long Flat::PAGE_SIZE = sysconf(_SC_PAGE_SIZE);
 
     Flat::Flat(const std::string & path, int oflags, mode_t mode)
       : fd_(-1),

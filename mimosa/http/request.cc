@@ -62,6 +62,18 @@ namespace mimosa
       ok = ok & format::print(stream, host_);
       ok = ok & format::printStatic(stream, "\r\n");
 
+      if (content_length_ > 0) {
+        ok = ok & format::printStatic(stream, "Content-Length: ");
+        ok = ok & format::printDecimal(stream, content_length_);
+        ok = ok & format::printStatic(stream, "\r\n");
+      }
+
+      if (!content_type_.empty()) {
+        ok = ok & format::printStatic(stream, "Content-Type: ");
+        ok = ok & format::print(stream, content_type_);
+        ok = ok & format::printStatic(stream, "\r\n");
+      }
+
       // end
       ok = ok & format::printStatic(stream, "\r\n");
       return ok;

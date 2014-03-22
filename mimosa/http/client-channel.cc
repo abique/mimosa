@@ -48,9 +48,7 @@ namespace mimosa
       rw.setUrl(url);
       rw.setMethod(kMethodGet);
       rw.setProto(1, 1);
-      if (!rw.send())
-        return nullptr;
-      return rw.response();
+      return rw.send();
     }
   }
 }

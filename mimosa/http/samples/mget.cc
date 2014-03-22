@@ -22,7 +22,6 @@ int main(int argc, char **argv)
     return 1;
 
   mimosa::stream::copy(*response, *file);
-  file->flush();
 
   mimosa::deinit();
   return 0;
