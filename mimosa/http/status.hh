@@ -56,7 +56,7 @@ namespace mimosa
       kStatusHTTPVersionNotSupported      = 505,
     };
 
-    const char * statusToString(Status status);
+    const char * statusToString(int status);
   }
 }
 

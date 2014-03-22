@@ -29,6 +29,7 @@ namespace mimosa
       }
 
       bool connect(const std::string & host, uint16_t port, bool ssl);
+      bool readResponse(Response & rp);
 
       inline const ::sockaddr * remoteAddr() const { return addr_; }
       inline ::socklen_t remoteAddrLen() const { return addr_len_; }
@@ -50,6 +51,8 @@ namespace mimosa
     private:
       friend class MessageReader<ClientChannel, Request>;
       friend class MessageWriter<ClientChannel, Response>;
+      friend ResponseReader;
+      friend RequestWriter;
 
       stream::BufferedStream::Ptr stream_;
       const ::sockaddr *          addr_;

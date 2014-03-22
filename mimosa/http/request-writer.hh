@@ -19,7 +19,8 @@ namespace mimosa
       {
       }
 
-      ResponseReader::Ptr send();
+      bool send();
+      ResponseReader::Ptr response();
     };
 
     extern template class MessageWriter<ClientChannel, Request>;

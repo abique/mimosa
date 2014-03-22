@@ -4,7 +4,7 @@ namespace mimosa
 {
   namespace http
   {
-    const char * statusToString(Status status)
+    const char * statusToString(int status)
     {
       switch (status)
       {

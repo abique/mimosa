@@ -7,6 +7,8 @@ namespace mimosa
 {
   namespace http
   {
+    class RequestWriter;
+
     /**
      * @ingroup Http
      */
@@ -36,11 +38,13 @@ namespace mimosa
     private:
 
       friend Channel;
+      friend RequestWriter;
 
       bool prepare();
 
-      Channel & channel_;
-      int64_t   bytes_left_;
+      Channel &           channel_;
+      stream::Stream::Ptr stream_;
+      int64_t             bytes_left_;
     };
   }
 }

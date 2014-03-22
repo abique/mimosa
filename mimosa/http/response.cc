@@ -1,4 +1,6 @@
 #include <sstream>
+
+#include "../string-ref.hh"
 #include "response.hh"
 #include "log.hh"
 #include "time.hh"
@@ -171,6 +173,8 @@ namespace mimosa
       content_length_    = -1;
       content_type_      = "text/plain";
       last_modified_     = 0;
+      proto_major_       = 1;
+      proto_minor_       = 1;
 
       while (!cookies_.empty()) {
         auto cookie = cookies_.front();
@@ -179,6 +183,89 @@ namespace mimosa
       }
       unparsed_headers_.clear();
       location_.clear();
+    }
+
+    bool
+    Response::parse(const char * data, size_t size)
+    {
+      StringRef in(data, size);
+
+      clear();
+      StringRef line = in.consumeLine("\r\n");
+      if (!parseStatus(line))
+        return false;
+
+      while (!in.empty()) {
+        line = in.consumeLine("\r\n");
+
+        // check end of headers
+        if (line == "\r\n")
+            return true;
+
+        parseHeader(line);
+      }
+      return true;
+    }
+
+    bool
+    Response::parseStatus(StringRef & line)
+    {
+      line.eatWhitespaces(" \t");
+      auto token_http = line.consumeToken(" \t");
+      if (!token_http.strncaseeq("http/1."))
+        return false;
+
+      proto_major_ = 1;
+      proto_minor_ = 1;
+
+      line.eatWhitespaces(" \t");
+      auto token_status = line.consumeToken(" \t");
+      status_ = token_status.atoi<int>();
+      return true;
+    }
+
+    bool
+    Response::parseHeader(StringRef & line)
+    {
+      line.eatWhitespaces(" \t");
+      auto key = line.consumeToken(" :\t");
+      line.eatWhitespaces(" \t");
+      if (line.empty() || line[0] != ':')
+        return false;
+      line = line.substr(1);
+      line.eatWhitespaces(" \t");
+      auto value = line.substr(0, line.size() - 2);
+
+      if (key.strcaseeq("Content-Length"))
+        content_length_ = value.atoi<uint64_t>();
+      else if (key.strcaseeq("Connection")) {
+        if (value.strcaseeq("Keep-Alive"))
+          keep_alive_ = true;
+        else if (value.strcaseeq("Close"))
+          keep_alive_ = false;
+        else
+          keep_alive_ = proto_minor_;
+      } else if (key.strcaseeq("Content-Type"))
+        content_type_ = value;
+      else if (key.strcaseeq("Content-Encoding")) {
+        if (value.strcaseeq("compress"))
+          content_encoding_ = kCodingCompress;
+        else if (value.strcaseeq("identify"))
+          content_encoding_ = kCodingIdentity;
+        else if (value.strcaseeq("deflate"))
+          content_encoding_ = kCodingDeflate;
+        else if (value.strcaseeq("gzip"))
+          content_encoding_ = kCodingGzip;
+        else if (value.strcaseeq("sdch"))
+          content_encoding_ = kCodingSdch;
+      } else if (key.strcaseeq("Transfer-Encoding")) {
+        if (value.strcaseeq("chunked"))
+          transfer_encoding_ = kCodingChunked;
+        else if (value.strcaseeq("identity"))
+          transfer_encoding_ = kCodingIdentity;
+      } else
+        unparsed_headers_.emplace(std::make_pair(key, value));
+      return true;
     }
   }
 }

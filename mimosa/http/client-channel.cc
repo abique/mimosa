@@ -41,14 +41,16 @@ namespace mimosa
     ClientChannel::get(const std::string & raw_url)
     {
       uri::Url url;
-      if (url.parse(raw_url, nullptr))
+      if (!url.parse(raw_url, nullptr))
 	return nullptr;
 
       RequestWriter rw(*this);
       rw.setUrl(url);
       rw.setMethod(kMethodGet);
       rw.setProto(1, 1);
-      return rw.send();
+      if (!rw.send())
+        return nullptr;
+      return rw.response();
     }
   }
 }

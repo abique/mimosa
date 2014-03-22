@@ -8,6 +8,7 @@
 # include "status.hh"
 # include "cookie.hh"
 # include "../kvs.hh"
+# include "../string-ref.hh"
 # include "../stream/stream.hh"
 
 namespace mimosa
@@ -27,6 +28,8 @@ namespace mimosa
       bool print(stream::Stream & stream) const;
       std::string toHttpHeader() const;
 
+      bool parse(const char * data, size_t size);
+
       /**
        * @{
        * Content-Range stuff.
@@ -45,8 +48,10 @@ namespace mimosa
         content_range_end_    = end;
         content_range_length_ = length;
       }
-      inline void setStatus(Status status) { status_ = status; }
       /** @} */
+
+      inline void setStatus(int status) { status_ = status; }
+      inline int status() const { return status_; }
 
       inline int64_t contentLength() const { return content_length_; }
       inline void setContentLength(int64_t len) { content_length_ = len; }
@@ -67,10 +72,17 @@ namespace mimosa
 
       inline void addCookie(Cookie *cookie) { cookies_.push(cookie); }
 
+      inline uint8_t protoMajor() const { return proto_major_; }
+      inline uint8_t protoMinor() const { return proto_minor_; }
+      inline void setProto(uint8_t major, uint8_t minor) { proto_major_ = major; proto_minor_ = minor; }
+
       void clear();
 
     protected:
-      Status        status_;
+      bool parseStatus(StringRef & line);
+      bool parseHeader(StringRef & line);
+
+      int           status_;
       bool          keep_alive_;
       Coding        content_encoding_;
       Coding        transfer_encoding_;
@@ -80,6 +92,9 @@ namespace mimosa
       kvs           unparsed_headers_;
       time_t        last_modified_; // local time
       std::string   location_;
+
+      int proto_major_;
+      int proto_minor_;
 
       // content-range
       int64_t content_range_start_;

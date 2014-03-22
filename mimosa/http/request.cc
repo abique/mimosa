@@ -55,11 +55,14 @@ namespace mimosa
       bool ok = true;
       ok = ok & format::print(stream, methodString(method_));
       ok = ok & format::printStatic(stream, " ");
-      ok = ok & format::print(stream, raw_location_);
+      ok = ok & format::print(stream, url_.location());
       ok = ok & format::printStatic(stream, " HTTP/1.1\r\n");
 
       ok = ok & format::printStatic(stream, "Host: ");
       ok = ok & format::print(stream, host_);
+      ok = ok & format::printStatic(stream, "\r\n");
+
+      // end
       ok = ok & format::printStatic(stream, "\r\n");
       return ok;
     }

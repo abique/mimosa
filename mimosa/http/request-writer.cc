@@ -8,17 +8,29 @@ namespace mimosa
   {
     template class MessageWriter<ClientChannel, Request>;
 
-    ResponseReader::Ptr
+    bool
     RequestWriter::send()
     {
-      if (!channel_.connect(
-            url_.host(), url_.port(), url_.scheme() == uri::kSchemeHttps))
-        return nullptr;
-      if (!sendHeader())
+      bool is_ssl = url_.scheme() == uri::kSchemeHttps;
+      return channel_.connect(url_.host(), url_.port(), is_ssl) &&
+        sendHeader();
+    }
+
+    ResponseReader::Ptr
+    RequestWriter::response()
+    {
+      if (!flush())
         return nullptr;
 
       ResponseReader::Ptr rr = new ResponseReader(channel_);
-      // XXX parse response headers
+
+      bool found = false;
+      stream::Buffer::Ptr buffer = channel_.stream_->readUntil(
+        "\r\n\r\n", 5 * 1024, &found);
+      if (!buffer || !found || !rr->parse(buffer->data(), buffer->size()))
+        return nullptr;
+      if (!rr->prepare())
+        return nullptr;
       return rr;
     }
   }
