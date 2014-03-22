@@ -138,6 +138,25 @@ namespace mimosa
       return r;
     }
 
+    template <typename Int>
+    inline Int atoi() const {
+      if (empty())
+        return 0;
+
+      Int value = 0;
+      Int sign = 1;
+      auto it = begin();
+      auto e = end();
+      if (*it == '-') {
+        ++it;
+        sign = -1;
+      }
+
+      for (; it < e && '0' <= *it && *it <= '9'; ++it)
+        value = value * 10 + value;
+      return value * sign;
+    }
+
     inline std::vector<StringRef> tokens(char c) const
     {
       std::vector<StringRef> toks;
