@@ -1,5 +1,5 @@
-#include <mimosa/init.hh>
-#include <mimosa/options/options.hh>
+#include "../../init.hh"
+#include "../../options/options.hh"
 
 #include "../client-channel.hh"
 #include "../../stream/fd-stream.hh"
