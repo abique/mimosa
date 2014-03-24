@@ -31,7 +31,7 @@ namespace mimosa
 
       char buffer[1024];
       auto nbytes = stream_->read(buffer, sizeof (buffer));
-      if (nbytes < 5 || strncmp("200", buffer, 3)) {
+      if (nbytes < 5 || strncmp("220", buffer, 3)) {
         close();
         return false;
       }

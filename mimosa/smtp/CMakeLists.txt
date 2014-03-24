@@ -11,3 +11,5 @@ install(TARGETS mimosa-smtp
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib)
+
+add_subdirectory(sample)
