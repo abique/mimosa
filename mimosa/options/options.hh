@@ -135,7 +135,38 @@ namespace mimosa
         os << "  -" << name_ << " [=" << value_ << "] (" << desc_ << ")" << std::endl;
       }
 
-      T           value_;
+      T value_;
+    };
+
+    template <>
+    class Option<std::string> : public BasicOption
+    {
+    public:
+      Option(const char * group,
+             const char * name,
+             const char * desc,
+             std::string  default_value)
+        : BasicOption(group, name, desc), value_(default_value)
+      {
+      }
+
+      virtual bool parse(int & argc, char **& argv)
+      {
+        if (argc < 1)
+          return false;
+
+        value_ = *argv;
+        --argc;
+        ++argv;
+        return true;
+      }
+
+      virtual void showDesc(std::ostream & os)
+      {
+        os << "  -" << name_ << " [=" << value_ << "] (" << desc_ << ")" << std::endl;
+      }
+
+      std::string value_;
     };
 
     /// MultiOption is a simple option with one following argument
