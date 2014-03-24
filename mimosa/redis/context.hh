@@ -1,8 +1,6 @@
 #ifndef MIMOSA_REDIS_CONTEXT_HH
 # define MIMOSA_REDIS_CONTEXT_HH
 
-# include <stdargs>
-
 # include <hiredis/hiredis.h>
 
 # include "../non-copyable.hh"
@@ -26,6 +24,7 @@ namespace mimosa
           redisFree(ctx_);
         ctx_ = ctx.ctx_;
         ctx.ctx_ = nullptr;
+	return *this;
       }
 
       inline bool connect(const char *ip, int port) {
@@ -34,7 +33,7 @@ namespace mimosa
         return ctx_;
       }
 
-      inline operator (redisContext *)() const { return ctx_; }
+      inline operator redisContext *() const { return ctx_; }
 
       inline Reply command(const char *format, ...)
       {

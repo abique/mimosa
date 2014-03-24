@@ -11,20 +11,21 @@ namespace mimosa
     {
     public:
       inline Reply(Reply && reply) : reply_(reply.reply_) { reply.reply_ = nullptr; }
-      inline Reply(void *reply) : reply_(reply) {}
+      inline Reply(void *reply) : reply_(reinterpret_cast<redisReply*> (reply)) {}
+      inline ~Reply() {
+        if (reply_)
+          freeReplyObject(reply_);
+      }
 
       inline Reply & operator =(Reply && reply) {
         if (reply_)
           freeReplyObject(reply_);
         reply_ = reply.reply_;
         reply.reply_ = nullptr;
+	return *this;
       }
 
-      ~Reply() {
-        if (reply_)
-          freeReplyObject(reply_);
-      }
-
+      operator redisReply* () const { return reply_; }
       redisReply * operator ->() const { return reply_; }
 
     private:
