@@ -10,12 +10,14 @@ namespace mimosa
   {
     struct Mail
     {
+      std::string data() const;
+
       std::vector<std::string> to;
       std::vector<std::string> cc;
-      std::vector<std::string> cci;
       std::string from;
       std::string subject;
       std::string date;
+      std::string content;
     };
   }
 }

@@ -8,6 +8,8 @@ namespace mimosa
 {
   namespace smtp
   {
+    class Mail;
+
     /**
      * Simple smtp client.
      * https://tools.ietf.org/html/rfc5321
@@ -19,11 +21,17 @@ namespace mimosa
 
       bool connect(const std::string & host, uint16_t port);
       bool hello(const std::string & name);
+      bool from(const std::string & name);
+      bool to(const std::string & name);
+      bool data(const std::string & data);
+      void quit();
       void close();
 
+      bool sendMail(const Mail & mail);
+
     private:
-      stream::NetFdStream::Ptr net_stream_;
-      stream::BufferedStream::Ptr stream_;
+      stream::NetFdStream::Ptr stream_;
+      // stream::BufferedStream::Ptr stream_;
     };
   }
 }
