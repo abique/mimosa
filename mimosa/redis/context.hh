@@ -28,7 +28,8 @@ namespace mimosa
       }
 
       inline bool connect(const char *ip, int port) {
-        redisFree(ctx_);
+	if (ctx_)
+	  redisFree(ctx_);
         ctx_ = redisConnect(ip, port);
         return ctx_;
       }
