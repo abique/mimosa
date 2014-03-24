@@ -14,7 +14,9 @@ namespace mimosa
 
       std::vector<std::string> to;
       std::vector<std::string> cc;
+      std::vector<std::string> bcc;
       std::string from;
+      std::string reply_to;
       std::string subject;
       std::string date;
       std::string content;
