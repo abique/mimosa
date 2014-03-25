@@ -3,6 +3,8 @@
 
 # include <hiredis/hiredis.h>
 
+# include <mimosa/non-copyable.hh>
+
 namespace mimosa
 {
   namespace redis
