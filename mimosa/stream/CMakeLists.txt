@@ -1,6 +1,7 @@
 install(FILES
   base16-decoder.hh
   base16-encoder.hh
+  base64-decoder.hh
   buffered-stream.hh
   buffer.hh
   copy.hh
