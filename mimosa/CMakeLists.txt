@@ -18,6 +18,7 @@ install(FILES
   locker.hh
   mutex.hh
   non-copyable.hh
+  process.hh
   recursive-mutex.hh
   ref-countable.hh
   ref-counted-ptr.hh
@@ -55,6 +56,7 @@ add_library(mimosa
   thread.cc
   thread-pool.cc
   uptime.cc
+  process.cc
 
   # sync
   barrier.cc
