@@ -24,6 +24,9 @@ namespace mimosa
     ResponseReader::Ptr
     RequestWriter::response()
     {
+      if (!flush())
+        return nullptr;
+
       ResponseReader::Ptr rr = new ResponseReader(channel_);
 
       bool found = false;
