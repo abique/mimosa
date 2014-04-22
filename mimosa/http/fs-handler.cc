@@ -90,7 +90,7 @@ namespace mimosa
       }
 
       stream::DirectFdStream out;
-      if (!out.open(real_path.c_str(), O_WRONLY, 0666))
+      if (!out.open(real_path.c_str(), O_CREAT | O_TRUNC | O_WRONLY, 0666))
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
 
       if (stream::copy(request, out) < 0)
