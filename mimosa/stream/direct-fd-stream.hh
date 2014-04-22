@@ -17,7 +17,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(DirectFdStream);
 
-      DirectFdStream(int fd, bool own_fd = true);
+      DirectFdStream(int fd = -1, bool own_fd = true);
       virtual ~DirectFdStream();
 
       virtual int64_t write(const char * data, uint64_t nbytes);
@@ -27,6 +27,7 @@ namespace mimosa
 
       virtual void close();
 
+      bool open(const char * path, int oflags = O_RDONLY, mode_t mode = 0644);
       int fd() const { return fd_; }
       ::mode_t fdMode() const { if (!mode_) stat(); return mode_; }
       bool stat() const;

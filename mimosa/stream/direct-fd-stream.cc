@@ -75,6 +75,16 @@ namespace mimosa
       return true;
     }
 
+    bool
+    DirectFdStream::open(const char * path, int oflags, mode_t mode)
+    {
+      if (fd_ >= 0 && own_fd_)
+        ::close(fd_);
+      fd_ = ::open(path, oflags, mode);
+      own_fd_ = true;
+      return fd_ >= 0;
+    }
+
 #ifdef __linux__
     static int64_t copySendfile(DirectFdStream & input,
                                 DirectFdStream & output,
