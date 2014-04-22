@@ -14,6 +14,8 @@ namespace mimosa
     class MethodHandler : public Handler
     {
     public:
+      MethodHandler();
+
       virtual bool head(RequestReader & request,
                         ResponseWriter & response) const;
 
@@ -43,6 +45,17 @@ namespace mimosa
 
       virtual bool handle(RequestReader & request,
                           ResponseWriter & response) const override final;
+
+    protected:
+      unsigned allow_head : 1;
+      unsigned allow_get : 1;
+      unsigned allow_post : 1;
+      unsigned allow_put : 1;
+      unsigned allow_del : 1;
+      unsigned allow_trace : 1;
+      unsigned allow_options : 1;
+      unsigned allow_connect : 1;
+      unsigned allow_patch : 1;
     };
   }
 }
