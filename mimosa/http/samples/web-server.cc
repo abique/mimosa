@@ -113,7 +113,9 @@ int main(int argc, char ** argv)
     dispatch->registerHandler("/", new HelloHandler);
     dispatch->registerHandler("/query-echo", new QueryEchoHandler);
     dispatch->registerHandler("/post-echo", new PostEchoHandler);
-    dispatch->registerHandler("/data/*", new http::FsHandler(PATH, 1, true));
+    auto fs_handler = new http::FsHandler(PATH, 1);
+    fs_handler->enableReaddir(true);
+    dispatch->registerHandler("/data/*", fs_handler);
 
     auto logger(new http::LogHandler);
     logger->setHandler(dispatch);

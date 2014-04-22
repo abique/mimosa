@@ -9,6 +9,7 @@
 #include "../string-ref.hh"
 #include "../stream/copy.hh"
 #include "../stream/direct-fd-stream.hh"
+#include "../fs/rm.hh"
 #include "fs-handler.hh"
 #include "error-handler.hh"
 #include "mime-db.hh"
@@ -18,15 +19,18 @@ namespace mimosa
 {
   namespace http
   {
-    FsHandler::FsHandler(const std::string & root, int nskip, bool enable_readdir)
+    FsHandler::FsHandler(const std::string & root, int nskip)
       : root_(root),
         nskip_(nskip),
-        can_readdir_(enable_readdir)
+        can_readdir_(false),
+        can_get_(true),
+        can_put_(false),
+        can_delete_(false)
     {
     }
 
-    bool
-    FsHandler::get(RequestReader & request, ResponseWriter & response) const
+    std::string
+    FsHandler::checkPath(RequestReader & request) const
     {
       StringRef path(request.location());
       for (auto nskip = nskip_; nskip > 0; --nskip)
@@ -40,15 +44,28 @@ namespace mimosa
             break;
           }
           else
-            // TODO: error reporting
-            return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+            return "";
         }
         path = path.substr(pos);
       }
+
       // TODO: check every component for symlinks going out of root.
 
       std::string real_path(root_);
       real_path.append(path.data(), path.size());
+      return real_path;
+    }
+
+    bool
+    FsHandler::get(RequestReader & request, ResponseWriter & response) const
+    {
+      if (!can_get_)
+        return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+
+      std::string real_path = checkPath(request);
+      if (real_path.empty()) {
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      }
 
       struct stat st;
       if (::stat(real_path.c_str(), &st))
@@ -59,6 +76,49 @@ namespace mimosa
       else if (S_ISDIR(st.st_mode) && can_readdir_)
         return readDir(request, response, real_path);
       return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+    }
+
+    bool
+    FsHandler::put(RequestReader & request, ResponseWriter & response) const
+    {
+      if (!can_put_)
+        return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+
+      std::string real_path = checkPath(request);
+      if (real_path.empty()) {
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      }
+
+      stream::DirectFdStream out;
+      if (!out.open(real_path.c_str(), O_WRONLY, 0666))
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+
+      if (stream::copy(request, out) < 0)
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      return true;
+    }
+
+    bool
+    FsHandler::del(RequestReader & request, ResponseWriter & response) const
+    {
+      if (!can_delete_)
+        return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+
+      std::string real_path = checkPath(request);
+      if (real_path.empty()) {
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      }
+
+      if (!fs::rm(real_path, false, false)) {
+        if (errno == ENOENT)
+          return ErrorHandler::basicResponse(request, response, kStatusNotFound);
+        if (errno == EISDIR)
+          return ErrorHandler::basicResponse(request, response, kStatusBadRequest);
+        if (errno == EPERM || errno == EACCES)
+          return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      }
+      return true;
     }
 
     bool

@@ -15,10 +15,11 @@ namespace mimosa
     class FsHandler : public MethodHandler
     {
     public:
-      FsHandler(const std::string & root, int nskip, bool enable_readdir = false);
+      FsHandler(const std::string & root, int nskip);
 
-      /** This is the handle method. It must be thread-safe. */
       virtual bool get(RequestReader & request, ResponseWriter & response) const;
+      virtual bool del(RequestReader & request, ResponseWriter & response) const;
+      virtual bool put(RequestReader & request, ResponseWriter & response) const;
 
       static bool streamFile(RequestReader &     request,
                              ResponseWriter &    response,
@@ -29,7 +30,14 @@ namespace mimosa
                              ResponseWriter &    response,
                              const std::string & real_path);
 
+      inline void enableReaddir(bool enable) { can_readdir_ = enable; }
+      inline void enableGet(bool enable) { can_get_ = enable; }
+      inline void enablePut(bool enable) { can_put_ = enable; }
+      inline void enableDelete(bool enable) { can_delete_ = enable; }
+
     private:
+      std::string checkPath(RequestReader & request) const;
+
       bool readDir(RequestReader &     request,
                    ResponseWriter &    response,
                    const std::string & real_path) const;
@@ -37,7 +45,10 @@ namespace mimosa
       std::string root_;  // the root
       int         nskip_; // the number of directory to skip
                           // from the begining of the path
-      bool        can_readdir_;
+      bool        can_readdir_ : 1;
+      bool        can_get_ : 1;
+      bool        can_put_ : 1;
+      bool        can_delete_ : 1;
     };
   }
 }
