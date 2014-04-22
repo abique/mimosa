@@ -26,7 +26,7 @@ namespace mimosa
     }
 
     bool
-    FsHandler::handle(RequestReader & request, ResponseWriter & response) const
+    FsHandler::get(RequestReader & request, ResponseWriter & response) const
     {
       StringRef path(request.location());
       for (auto nskip = nskip_; nskip > 0; --nskip)

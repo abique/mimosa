@@ -3,7 +3,7 @@
 
 # include <string>
 
-# include "handler.hh"
+# include "method-handler.hh"
 
 namespace mimosa
 {
@@ -12,13 +12,13 @@ namespace mimosa
     /**
      * @ingroup Http
      */
-    class FsHandler : public Handler
+    class FsHandler : public MethodHandler
     {
     public:
       FsHandler(const std::string & root, int nskip, bool enable_readdir = false);
 
       /** This is the handle method. It must be thread-safe. */
-      virtual bool handle(RequestReader & request, ResponseWriter & response) const;
+      virtual bool get(RequestReader & request, ResponseWriter & response) const;
 
       static bool streamFile(RequestReader &     request,
                              ResponseWriter &    response,
