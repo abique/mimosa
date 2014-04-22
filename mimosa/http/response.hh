@@ -76,6 +76,12 @@ namespace mimosa
       inline uint8_t protoMinor() const { return proto_minor_; }
       inline void setProto(uint8_t major, uint8_t minor) { proto_major_ = major; proto_minor_ = minor; }
 
+      inline const kvs & unparsedHeaders() const { return unparsed_headers_; }
+      inline void addHeader(const std::string & key,
+                            const std::string & value) {
+        unparsed_headers_.insert(std::make_pair(key, value));
+      }
+
       void clear();
 
     protected:
