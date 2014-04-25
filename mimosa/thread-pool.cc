@@ -19,7 +19,13 @@ namespace mimosa
   bool
   ThreadPool::startThread()
   {
-    auto thread = new Thread(std::function<void ()> (*fct_));
+    return startThread(std::function<void ()> (*fct_));
+  }
+
+  bool
+  ThreadPool::startThread(std::function<void ()> && fct)
+  {
+    auto thread = new Thread(std::move(fct));
     thread->setStackSize(stack_size_);
     if (!thread->start())
     {
