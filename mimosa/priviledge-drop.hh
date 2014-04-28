@@ -1,6 +1,8 @@
 #ifndef MIMOSA_PRIVILEDGE_DROP_HH
 # define MIMOSA_PRIVILEDGE_DROP_HH
 
+# include <string>
+
 namespace mimosa
 {
   bool priviledgeDrop(const std::string & chroot,
