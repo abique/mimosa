@@ -13,6 +13,7 @@ namespace mimosa
   public:
     inline void setExecutable(const std::string & path) { path_ = path; }
     inline void addArg(const std::string & arg) { args_.push_back(arg); }
+    inline void setWorkingDirectory(const std::string & path) { wd_ = path; }
 
     bool start();
     int wait();
@@ -21,6 +22,7 @@ namespace mimosa
 
   private:
     std::string path_;
+    std::string wd_;
     std::vector<std::string> args_;
     pid_t pid_;
   };

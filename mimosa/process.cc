@@ -1,6 +1,7 @@
 #include <sys/wait.h>
 
 #include "process.hh"
+#include "log/log.hh"
 
 namespace mimosa
 {
@@ -14,6 +15,12 @@ namespace mimosa
     if (pid_ > 0)
       // in the parent
       return true;
+
+    // set working directory
+    if (!wd_.empty() && chdir(wd_.c_str())) {
+      mimosa::log::error("chdir(%s) failed: %s", strerror(errno));
+      exit(1);
+    }
 
     // in the child
     const char *args[args_.size() + 1];
