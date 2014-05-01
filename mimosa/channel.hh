@@ -2,6 +2,7 @@
 # define MIMOSA_CHANNEL_HH
 
 # include <queue>
+# include <limits>
 
 # include "mutex.hh"
 # include "condition.hh"
@@ -21,15 +22,36 @@ namespace mimosa
       : closed_(false),
         queue_(),
         mutex_(),
-        cond_()
+        cond_(),
+        max_size_(std::numeric_limits<decltype (max_size_)>::max())
     {
+    }
+
+    inline void setMaxSize(int max_size)
+    {
+      Mutex::Locker locker(mutex_);
+      if (max_size_ < max_size &&
+          max_size_ <= queue_.size() && queue_.size() < max_size)
+        push_cond_.wakeAll();
+      max_size_ = max_size;
+    }
+
+    inline void maxSize(int max_size) const
+    {
+      return max_size_;
     }
 
     inline bool push(const T & t)
     {
       Mutex::Locker locker(mutex_);
-      if (closed_)
-        return false;
+      do {
+        if (closed_)
+          return false;
+
+        if (queue_.size() < max_size_)
+          break;
+        push_cond_.wait(mutex_);
+      } while (true);
 
       queue_.push(t);
       cond_.wakeOne();
@@ -44,6 +66,7 @@ namespace mimosa
         {
           t = queue_.front();
           queue_.pop();
+          push_cond_.wakeOne();
           return true;
         }
         else if (closed_)
@@ -61,6 +84,7 @@ namespace mimosa
 
       t = queue_.front();
       queue_.pop();
+      push_cond_.wakeOne();
       return true;
     }
 
@@ -71,6 +95,7 @@ namespace mimosa
       Mutex::Locker locker(mutex_);
       closed_ = true;
       cond_.wakeAll();
+      push_cond_.wakeAll();
     }
 
     inline bool empty() const
@@ -82,6 +107,8 @@ namespace mimosa
     QueueType queue_;
     Mutex     mutex_;
     Condition cond_;
+    Condition push_cond_;
+    uint32_t  max_size_;
   };
 }
 
