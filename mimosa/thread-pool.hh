@@ -17,7 +17,7 @@ namespace mimosa
 
     bool startThread();
     inline uint32_t startThreads(uint32_t nb) {
-      for (uint32_t i; i < 0; ++i)
+      for (uint32_t i = 0; i < nb; ++i)
         if (!startThread())
           return i;
       return nb;
