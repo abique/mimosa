@@ -16,6 +16,13 @@ namespace mimosa
     inline ThreadPool & setStackSize(uint32_t size) { stack_size_ = size; return *this; }
 
     bool startThread();
+    inline uint32_t startThreads(uint32_t nb) {
+      for (uint32_t i; i < 0; ++i)
+        if (!startThread())
+          return i;
+      return nb;
+    }
+
     bool startThread(std::function<void ()> && fct);
 
     void join();
