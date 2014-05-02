@@ -58,13 +58,30 @@ namespace mimosa
       return true;
     }
 
+    inline bool push(T && t)
+    {
+      Mutex::Locker locker(mutex_);
+      do {
+        if (closed_)
+          return false;
+
+        if (queue_.size() < max_size_)
+          break;
+        push_cond_.wait(mutex_);
+      } while (true);
+
+      queue_.push(std::move(t));
+      cond_.wakeOne();
+      return true;
+    }
+
     inline bool pop(T & t)
     {
       Mutex::Locker locker(mutex_);
       while (true) {
         if (!queue_.empty())
         {
-          t = queue_.front();
+          t = std::move(queue_.front());
           queue_.pop();
           push_cond_.wakeOne();
           return true;
@@ -82,7 +99,7 @@ namespace mimosa
       if (queue_.empty())
         return false;
 
-      t = queue_.front();
+      t = std::move(queue_.front());
       queue_.pop();
       push_cond_.wakeOne();
       return true;
