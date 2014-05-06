@@ -27,7 +27,7 @@ namespace mimosa
     {
     }
 
-    inline void setMaxSize(int max_size)
+    inline void setMaxSize(size_t max_size)
     {
       Mutex::Locker locker(mutex_);
       if (max_size_ < max_size &&
@@ -36,7 +36,7 @@ namespace mimosa
       max_size_ = max_size;
     }
 
-    inline void maxSize(int max_size) const
+    inline void maxSize() const
     {
       return max_size_;
     }
@@ -125,7 +125,7 @@ namespace mimosa
     Mutex     mutex_;
     Condition cond_;
     Condition push_cond_;
-    uint32_t  max_size_;
+    size_t    max_size_;
   };
 }
 

@@ -54,7 +54,8 @@ namespace mimosa
           return;
 
         assert(buffer);
-        if (stream_->loopWrite(buffer->data(), buffer->size()) != buffer->size()) {
+        if (stream_->loopWrite(buffer->data(), buffer->size()) !=
+            static_cast<int64_t> (buffer->size())) {
           stream_->close();
           return;
         }
