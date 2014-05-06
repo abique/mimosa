@@ -10,6 +10,7 @@
 #include <vector>
 #include <memory>
 
+#include "cpu-count.hh"
 #include "cpu-foreach.hh"
 #include "thread.hh"
 
@@ -17,9 +18,8 @@ namespace mimosa
 {
   void cpuForeach(const std::function<void ()>& cb)
   {
-    int nproc = sysconf(_SC_NPROCESSORS_ONLN);
-
     std::vector<std::unique_ptr<Thread> > threads;
+    int nproc = cpuCount();
     threads.resize(nproc);
 
     for (int i = 0; i < nproc; ++i)

@@ -4,6 +4,7 @@ install(FILES
   cache.hh
   cache.hxx
   channel.hh
+  cpu-count.hh
   cpu-foreach.hh
   condition.hh
   container-of.hh
@@ -52,6 +53,7 @@ add_library(mimosa
   options/options.cc
 
   # runtime
+  cpu-count.cc
   cpu-foreach.cc
   thread.cc
   thread-pool.cc
