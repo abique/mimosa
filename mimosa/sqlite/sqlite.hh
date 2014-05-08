@@ -102,6 +102,8 @@ namespace mimosa
 
       inline void fetchChain(int) {}
       template <typename ...Args>
+      inline void fetchChain(int pos, bool * value, Args ... args);
+      template <typename ...Args>
       inline void fetchChain(int pos, int * value, Args ... args);
       template <typename ...Args>
       inline void fetchChain(int pos, int64_t * value, Args ... args);

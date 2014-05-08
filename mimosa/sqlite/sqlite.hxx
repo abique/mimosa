@@ -108,6 +108,14 @@ namespace mimosa
 
     template <typename ...Args>
     inline void
+    Stmt::fetchChain(int pos, bool * value, Args ... args)
+    {
+      *value = sqlite3_column_int(stmt_, pos);
+      fetchChain(pos + 1, args...);
+    }
+
+    template <typename ...Args>
+    inline void
     Stmt::fetchChain(int pos, int * value, Args ... args)
     {
       *value = sqlite3_column_int(stmt_, pos);
