@@ -1,4 +1,5 @@
 #include <sys/types.h>
+#include <sys/xattr.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
@@ -25,7 +26,8 @@ namespace mimosa
         can_readdir_(false),
         can_get_(true),
         can_put_(false),
-        can_delete_(false)
+        can_delete_(false),
+        use_xattr_(false)
     {
     }
 
@@ -71,9 +73,18 @@ namespace mimosa
       if (::stat(real_path.c_str(), &st))
         return ErrorHandler::basicResponse(request, response, kStatusNotFound);
 
-      if (S_ISREG(st.st_mode))
-        return streamFile(request, response, real_path, st);
-      else if (S_ISDIR(st.st_mode) && can_readdir_)
+      if (S_ISREG(st.st_mode)) {
+        auto ret = streamFile(request, response, real_path, st);
+
+        if (use_xattr_) {
+          char xattr_buffer[128];
+          getxattr(real_path.c_str(), "Content-Type", xattr_buffer, sizeof (xattr_buffer));
+          xattr_buffer[sizeof (xattr_buffer) - 1] = '\0';
+          response.setContentType(xattr_buffer);
+        }
+
+        return ret;
+      } else if (S_ISDIR(st.st_mode) && can_readdir_)
         return readDir(request, response, real_path);
       return ErrorHandler::basicResponse(request, response, kStatusForbidden);
     }
@@ -95,6 +106,10 @@ namespace mimosa
 
       if (stream::copy(request, out) < 0)
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+
+      if (use_xattr_)
+        setxattr(real_path.c_str(), "Content-Type", request.contentType().c_str(),
+                 request.contentType().size(), 0);
       return true;
     }
 
@@ -182,6 +197,7 @@ namespace mimosa
                                    st.st_size);
         }
       }
+
       response.setContentType(MimeDb::instance().mimeType(real_path));
       response.setLastModified(st.st_mtime);
       response.sendHeader();

@@ -34,6 +34,7 @@ namespace mimosa
       inline void enableGet(bool enable) { can_get_ = enable; }
       inline void enablePut(bool enable) { can_put_ = enable; }
       inline void enableDelete(bool enable) { can_delete_ = enable; }
+      inline void enableXattr(bool enable) { use_xattr_ = enable; }
 
     private:
       std::string checkPath(RequestReader & request) const;
@@ -49,6 +50,7 @@ namespace mimosa
       bool        can_get_ : 1;
       bool        can_put_ : 1;
       bool        can_delete_ : 1;
+      bool        use_xattr_ : 1;
     };
   }
 }
