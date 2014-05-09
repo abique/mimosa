@@ -78,7 +78,7 @@ namespace mimosa
 
         if (use_xattr_) {
           char xattr_buffer[128];
-          getxattr(real_path.c_str(), "Content-Type", xattr_buffer, sizeof (xattr_buffer));
+          getxattr(real_path.c_str(), "user.Content-Type", xattr_buffer, sizeof (xattr_buffer));
           xattr_buffer[sizeof (xattr_buffer) - 1] = '\0';
           response.setContentType(xattr_buffer);
         }
@@ -108,7 +108,7 @@ namespace mimosa
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
 
       if (use_xattr_)
-        setxattr(real_path.c_str(), "Content-Type", request.contentType().c_str(),
+        setxattr(real_path.c_str(), "user.Content-Type", request.contentType().c_str(),
                  request.contentType().size(), 0);
       return true;
     }
