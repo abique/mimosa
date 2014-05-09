@@ -22,7 +22,15 @@ namespace mimosa
       exit(1);
     }
 
-    // in the child
+    //////////////////
+    // in the child //
+    //////////////////
+
+    // setenv
+    for (auto & kv : env_)
+      setenv(kv.first.c_str(), kv.second.c_str(), true);
+
+    // execv
     const char *args[args_.size() + 1];
     for (size_t i = 0; i < args_.size(); ++i)
       args[i] = args_[i].c_str();
