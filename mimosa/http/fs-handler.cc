@@ -24,6 +24,7 @@ namespace mimosa
       : root_(root),
         nskip_(nskip),
         can_readdir_(false),
+        can_head_(true),
         can_get_(true),
         can_put_(false),
         can_delete_(false),
@@ -59,6 +60,23 @@ namespace mimosa
     }
 
     bool
+    FsHandler::head(RequestReader & request, ResponseWriter & response) const
+    {
+      if (!can_head_)
+        return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+
+      std::string real_path = checkPath(request);
+      if (real_path.empty()) {
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      }
+
+      struct stat st;
+      if (::stat(real_path.c_str(), &st))
+        return ErrorHandler::basicResponse(request, response, kStatusNotFound);
+      return true;
+    }
+
+    bool
     FsHandler::get(RequestReader & request, ResponseWriter & response) const
     {
       if (!can_get_)
@@ -74,16 +92,13 @@ namespace mimosa
         return ErrorHandler::basicResponse(request, response, kStatusNotFound);
 
       if (S_ISREG(st.st_mode)) {
-        auto ret = streamFile(request, response, real_path, st);
-
         if (use_xattr_) {
           char xattr_buffer[128];
           getxattr(real_path.c_str(), "user.Content-Type", xattr_buffer, sizeof (xattr_buffer));
           xattr_buffer[sizeof (xattr_buffer) - 1] = '\0';
           response.setContentType(xattr_buffer);
         }
-
-        return ret;
+        return streamFile(request, response, real_path, st);
       } else if (S_ISDIR(st.st_mode) && can_readdir_)
         return readDir(request, response, real_path);
       return ErrorHandler::basicResponse(request, response, kStatusForbidden);
@@ -109,7 +124,7 @@ namespace mimosa
 
       if (use_xattr_)
         setxattr(real_path.c_str(), "user.Content-Type", request.contentType().c_str(),
-                 request.contentType().size(), 0);
+                 request.contentType().size() + 1, 0);
       return true;
     }
 
@@ -198,7 +213,8 @@ namespace mimosa
         }
       }
 
-      response.setContentType(MimeDb::instance().mimeType(real_path));
+      if (response.contentType().empty())
+        response.setContentType(MimeDb::instance().mimeType(real_path));
       response.setLastModified(st.st_mtime);
       response.sendHeader();
 
