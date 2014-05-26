@@ -8,7 +8,7 @@
 
 namespace mimosa
 {
-  class Process
+  class ProcessConfig
   {
   public:
     inline void setExecutable(const std::string & path) { path_ = path; }
@@ -18,16 +18,25 @@ namespace mimosa
       env_.push_back(std::make_pair(key, value));
     }
 
+  protected:
+    std::string path_;
+    std::string wd_;
+    std::vector<std::string> args_;
+    std::vector<std::pair<std::string, std::string> > env_;
+  };
+
+  class Process : public ProcessConfig
+  {
+  public:
+    Process();
+    Process(const ProcessConfig & cfg);
+
     bool start();
     int wait();
 
     inline pid_t pid() const { return pid_; }
 
   private:
-    std::string path_;
-    std::string wd_;
-    std::vector<std::string> args_;
-    std::vector<std::pair<std::string, std::string> > env_;
     pid_t pid_;
   };
 }

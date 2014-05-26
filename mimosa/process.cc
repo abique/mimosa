@@ -5,6 +5,15 @@
 
 namespace mimosa
 {
+  Process::Process()
+  {
+  }
+
+  Process::Process(const ProcessConfig & cfg)
+    : ProcessConfig(cfg)
+  {
+  }
+
   bool
   Process::start()
   {
