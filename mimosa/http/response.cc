@@ -171,7 +171,7 @@ namespace mimosa
       content_encoding_  = kCodingIdentity;
       transfer_encoding_ = kCodingIdentity;
       content_length_    = -1;
-      content_type_      = "text/plain";
+      content_type_      = "";
       last_modified_     = 0;
       proto_major_       = 1;
       proto_minor_       = 1;

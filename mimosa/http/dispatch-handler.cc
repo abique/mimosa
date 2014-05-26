@@ -22,7 +22,6 @@ namespace mimosa
     bool
     DispatchHandler::handle(RequestReader & request, ResponseWriter & response) const
     {
-      response.setContentType("text/html");
       for (auto it = handlers_.cbegin(); it != handlers_.cend(); ++it)
         if (!::fnmatch(it->first.c_str(), request.location().c_str(), 0))
           return it->second->handle(request, response);
