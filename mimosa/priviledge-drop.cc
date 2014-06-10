@@ -93,6 +93,8 @@ namespace mimosa
 
   bool priviledgeDrop()
   {
+    if (!ROOT || !UID || !GID)
+      return false;
     return priviledgeDrop(*ROOT, *UID, *GID);
   }
 }
