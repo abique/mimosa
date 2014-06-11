@@ -333,6 +333,9 @@ namespace mimosa
         enc.pushString("name");
         enc.pushString(entry->d_name);
 
+        enc.pushString("size");
+        enc.pushNumber(st.st_size);
+
         enc.pushString("type");
         if (S_ISDIR(st.st_mode))
           enc.pushString("dir");
