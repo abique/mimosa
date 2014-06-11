@@ -10,7 +10,9 @@
 #include "../string-ref.hh"
 #include "../stream/copy.hh"
 #include "../stream/direct-fd-stream.hh"
+#include "../stream/buffered-stream.hh"
 #include "../fs/rm.hh"
+#include "../json/encoder.hh"
 #include "fs-handler.hh"
 #include "error-handler.hh"
 #include "mime-db.hh"
@@ -234,6 +236,18 @@ namespace mimosa
                        ResponseWriter &    response,
                        const std::string & real_path) const
     {
+      auto & format = request.queryGet("format");
+
+      if (format == "json")
+        return readDirJson(request, response, real_path);
+      return readDirHtml(request, response, real_path);
+    }
+
+    bool
+    FsHandler::readDirHtml(RequestReader &     request,
+                           ResponseWriter &    response,
+                           const std::string & real_path) const
+    {
       DIR * dir = ::opendir(real_path.c_str());
       if (!dir)
         return ErrorHandler::basicResponse(request, response, kStatusNotFound);
@@ -284,6 +298,63 @@ namespace mimosa
       ::closedir(dir);
       std::string data(os.str());
       response.write(data.data(), data.size());
+      return true;
+    }
+
+    bool
+    FsHandler::readDirJson(RequestReader &     request,
+                           ResponseWriter &    response,
+                           const std::string & real_path) const
+    {
+      DIR * dir = ::opendir(real_path.c_str());
+      if (!dir)
+        return ErrorHandler::basicResponse(request, response, kStatusNotFound);
+
+      response.setContentType("application/json");
+      response.sendHeader();
+
+      stream::Stream::Ptr buf(new stream::BufferedStream(&response));
+      json::Encoder enc(buf);
+
+      enc.startArray();
+      struct dirent * entry;
+      while ((entry = ::readdir(dir)))
+      {
+        std::ostringstream tmp;
+        tmp << real_path << '/' << entry->d_name;
+
+        std::string file_path(tmp.str());
+        struct ::stat st;
+        if (::stat(file_path.c_str(), &st))
+          continue;
+
+        enc.startObject();
+
+        enc.pushString("name");
+        enc.pushString(entry->d_name);
+
+        enc.pushString("type");
+        if (S_ISDIR(st.st_mode))
+          enc.pushString("dir");
+        else if (S_ISREG(st.st_mode))
+          enc.pushString("reg");
+        else if (S_ISLNK(st.st_mode))
+          enc.pushString("lnk");
+        else if (S_ISSOCK(st.st_mode))
+          enc.pushString("sock");
+        else if (S_ISFIFO(st.st_mode))
+          enc.pushString("fifo");
+        else if (S_ISCHR(st.st_mode))
+          enc.pushString("chr");
+        else if (S_ISBLK(st.st_mode))
+          enc.pushString("blk");
+        else
+          enc.pushString("???");
+
+        enc.endObject();
+      }
+      enc.endArray();
+      ::closedir(dir);
       return true;
     }
   }

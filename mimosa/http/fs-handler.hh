@@ -44,6 +44,12 @@ namespace mimosa
       bool readDir(RequestReader &     request,
                    ResponseWriter &    response,
                    const std::string & real_path) const;
+      bool readDirHtml(RequestReader &     request,
+                       ResponseWriter &    response,
+                       const std::string & real_path) const;
+      bool readDirJson(RequestReader &     request,
+                       ResponseWriter &    response,
+                       const std::string & real_path) const;
 
       std::string root_;  // the root
       int         nskip_; // the number of directory to skip
