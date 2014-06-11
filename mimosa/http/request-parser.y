@@ -37,6 +37,7 @@
 
 // first line
 %token HEAD GET POST PUT DELETE TRACE OPTIONS CONNECT PATCH
+%token PROPFIND PROPPATCH MKCOL COPY MOVE LOCK UNLOCK
 %token <text> LOCATION
 %token <ival> PROTO_MAJOR PROTO_MINOR
 
@@ -79,6 +80,13 @@ method:
 | OPTIONS { rq.setMethod(mimosa::http::kMethodOptions); }
 | CONNECT { rq.setMethod(mimosa::http::kMethodConnect); }
 | PATCH   { rq.setMethod(mimosa::http::kMethodPatch); };
+| PROPFIND { rq.setMethod(mimosa::http::kMethodPropfind); }
+| PROPPATCH { rq.setMethod(mimosa::http::kMethodProppatch); }
+| MKCOL { rq.setMethod(mimosa::http::kMethodMkcol); }
+| COPY { rq.setMethod(mimosa::http::kMethodCopy); }
+| MOVE { rq.setMethod(mimosa::http::kMethodMove); }
+| LOCK { rq.setMethod(mimosa::http::kMethodLock); }
+| UNLOCK { rq.setMethod(mimosa::http::kMethodUnlock); };
 
 kvs: kv kvs | /* epsilon */ ;
 

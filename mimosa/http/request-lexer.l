@@ -63,6 +63,13 @@ cookie_octet [^\r\r\n\v ;",\\]
 <INITIAL>(?i:OPTIONS)   BEGIN(location); return OPTIONS;
 <INITIAL>(?i:CONNECT)   BEGIN(location); return CONNECT;
 <INITIAL>(?i:PATCH)     BEGIN(location); return PATCH;
+<INITIAL>(?i:PROPFIND)  BEGIN(location); return PROPFIND;
+<INITIAL>(?i:PROPPATCH) BEGIN(location); return PROPPATCH;
+<INITIAL>(?i:MKCOL)     BEGIN(location); return MKCOL;
+<INITIAL>(?i:COPY)      BEGIN(location); return COPY;
+<INITIAL>(?i:MOVE)      BEGIN(location); return MOVE;
+<INITIAL>(?i:LOCK)      BEGIN(location); return LOCK;
+<INITIAL>(?i:UNLOCK)    BEGIN(location); return UNLOCK;
 
 <location>[^\t\v\r\n ]+ BEGIN(protover); SAVE_TEXT; return LOCATION;
 
