@@ -54,6 +54,7 @@ namespace mimosa
       kStatusServiceUnavailable           = 503,
       kStatusGatewayTimeout               = 504,
       kStatusHTTPVersionNotSupported      = 505,
+      kStatusInsufficientStorage          = 507,
     };
 
     const char * statusToString(int status);

@@ -171,6 +171,8 @@ namespace mimosa
           return ErrorHandler::basicResponse(request, response, kStatusForbidden);
         if (errno == EEXIST)
           return ErrorHandler::basicResponse(request, response, kStatusConflict);
+        if (errno == ENOSPC)
+          return ErrorHandler::basicResponse(request, response, kStatusInsufficientStorage);
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
       }
       return true;

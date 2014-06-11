@@ -52,6 +52,7 @@ namespace mimosa
       case kStatusServiceUnavailable:           return "ServiceUnavailable";
       case kStatusGatewayTimeout:               return "GatewayTimeout";
       case kStatusHTTPVersionNotSupported:      return "HTTPVersionNotSupported";
+      case kStatusInsufficientStorage:          return "InsufficientStorage";
 
       default: return "(unknown status)";
       }
