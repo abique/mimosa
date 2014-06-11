@@ -30,6 +30,7 @@ namespace mimosa
         can_get_(true),
         can_put_(false),
         can_delete_(false),
+        can_mkcol_(false),
         use_xattr_(false)
     {
     }
@@ -148,6 +149,28 @@ namespace mimosa
           return ErrorHandler::basicResponse(request, response, kStatusBadRequest);
         if (errno == EPERM || errno == EACCES)
           return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      }
+      return true;
+    }
+
+    bool
+    FsHandler::mkcol(RequestReader & request,
+                     ResponseWriter & response) const
+    {
+      if (!can_mkcol_)
+        return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+
+      std::string real_path = checkPath(request);
+      if (real_path.empty()) {
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      }
+
+      if (mkdir(real_path.c_str(), 0777)) {
+        if (errno == EPERM || errno == EACCES)
+          return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+        if (errno == EEXIST)
+          return ErrorHandler::basicResponse(request, response, kStatusConflict);
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
       }
       return true;
