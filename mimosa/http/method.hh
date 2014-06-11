@@ -19,6 +19,15 @@ namespace mimosa
       kMethodOptions,
       kMethodConnect,
       kMethodPatch,
+
+      // WebDAV
+      kMethodPropfind,
+      kMethodProppatch,
+      kMethodMkcol,
+      kMethodCopy,
+      kMethodMove,
+      kMethodLock,
+      kMethodUnlock,
     };
 
     /**

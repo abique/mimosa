@@ -16,6 +16,10 @@ namespace mimosa
     public:
       MethodHandler();
 
+      //////////
+      // HTTP //
+      //////////
+
       virtual bool head(RequestReader & request,
                         ResponseWriter & response) const;
 
@@ -42,6 +46,35 @@ namespace mimosa
 
       virtual bool patch(RequestReader & request,
                          ResponseWriter & response) const;
+
+      ////////////
+      // WebDAV //
+      ////////////
+
+      virtual bool propfind(RequestReader & request,
+                            ResponseWriter & response) const;
+
+      virtual bool proppatch(RequestReader & request,
+                             ResponseWriter & response) const;
+
+      virtual bool mkcol(RequestReader & request,
+                         ResponseWriter & response) const;
+
+      virtual bool copy(RequestReader & request,
+                        ResponseWriter & response) const;
+
+      virtual bool move(RequestReader & request,
+                        ResponseWriter & response) const;
+
+      virtual bool lock(RequestReader & request,
+                        ResponseWriter & response) const;
+
+      virtual bool unlock(RequestReader & request,
+                          ResponseWriter & response) const;
+
+      ///////////
+      // FINAL //
+      ///////////
 
       virtual bool handle(RequestReader & request,
                           ResponseWriter & response) const override final;

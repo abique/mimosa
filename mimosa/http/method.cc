@@ -17,6 +17,16 @@ namespace mimosa
       case kMethodOptions: return "OPTIONS";
       case kMethodConnect: return "CONNECT";
       case kMethodPatch:   return "PATCH";
+
+      // WebDAV
+      case kMethodPropfind:  return "PROPFIND";
+      case kMethodProppatch: return "PROPPATCH";
+      case kMethodMkcol:     return "MKCOL";
+      case kMethodCopy:      return "COPY";
+      case kMethodMove:      return "MOVE";
+      case kMethodLock:      return "LOCK";
+      case kMethodUnlock:    return "UNLOCK";
+
       default:             return "(none)";
       }
     }

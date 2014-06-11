@@ -67,16 +67,16 @@ namespace mimosa
       char buffer[128] = "";
       char *p = buffer;
 
-#define APPEND_METHOD(Name, Str)                  \
-      do {                                        \
-        if (allow_##Name) {                       \
-          if (p != buffer) {                      \
-            *p = ',';                             \
-            ++p;                                  \
-          }                                       \
-          strcpy(p, Str);                         \
-          p += sizeof (Str) - 1;                  \
-        }                                         \
+#define APPEND_METHOD(Name, Str)                \
+      do {                                      \
+        if (allow_##Name) {                     \
+          if (p != buffer) {                    \
+            *p = ',';                           \
+            ++p;                                \
+          }                                     \
+          strcpy(p, Str);                       \
+          p += sizeof (Str) - 1;                \
+        }                                       \
       } while (0)
 
       APPEND_METHOD(head, "HEAD");
@@ -105,6 +105,55 @@ namespace mimosa
     bool
     MethodHandler::patch(RequestReader & request,
                          ResponseWriter & response) const
+    {
+      return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
+    }
+
+    bool
+    MethodHandler::propfind(RequestReader & request,
+                            ResponseWriter & response) const
+    {
+      return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
+    }
+
+    bool
+    MethodHandler::proppatch(RequestReader & request,
+                             ResponseWriter & response) const
+    {
+      return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
+    }
+
+    bool
+    MethodHandler::mkcol(RequestReader & request,
+                         ResponseWriter & response) const
+    {
+      return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
+    }
+
+    bool
+    MethodHandler::copy(RequestReader & request,
+                        ResponseWriter & response) const
+    {
+      return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
+    }
+
+    bool
+    MethodHandler::move(RequestReader & request,
+                        ResponseWriter & response) const
+    {
+      return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
+    }
+
+    bool
+    MethodHandler::lock(RequestReader & request,
+                        ResponseWriter & response) const
+    {
+      return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
+    }
+
+    bool
+    MethodHandler::unlock(RequestReader & request,
+                          ResponseWriter & response) const
     {
       return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
     }
@@ -140,6 +189,27 @@ namespace mimosa
 
       case kMethodPatch:
         return patch(request, response);
+
+      case kMethodPropfind:
+        return propfind(request, response);
+
+      case kMethodProppatch:
+        return proppatch(request, response);
+
+      case kMethodMkcol:
+        return mkcol(request, response);
+
+      case kMethodCopy:
+        return copy(request, response);
+
+      case kMethodMove:
+        return move(request, response);
+
+      case kMethodLock:
+        return lock(request, response);
+
+      case kMethodUnlock:
+        return unlock(request, response);
 
       default:
         return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
