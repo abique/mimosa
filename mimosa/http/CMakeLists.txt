@@ -8,6 +8,7 @@ install(FILES
   error-handler.hh
   fs-handler.hh
   handler.hh
+  host-handler.hh
   method.hh
   method-handler.hh
   message-reader.hh
@@ -38,6 +39,7 @@ add_library(mimosa-http
   dispatch-handler.cc
   error-handler.cc
   fs-handler.cc
+  host-handler.cc
   method.cc
   method-handler.cc
   mime-db.cc
