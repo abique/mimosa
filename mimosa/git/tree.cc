@@ -9,7 +9,8 @@ namespace mimosa
                const git_oid *  id)
       : tree_(nullptr)
     {
-      git_tree_lookup(&tree_, repo, id);
+      if (id)
+        git_tree_lookup(&tree_, repo, id);
     }
 
     Tree::Tree(git_repository *    repo,
