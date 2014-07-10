@@ -38,6 +38,7 @@
 // first line
 %token HEAD GET POST PUT DELETE TRACE OPTIONS CONNECT PATCH
 %token PROPFIND PROPPATCH MKCOL COPY MOVE LOCK UNLOCK
+%token SYMLINK
 %token <text> LOCATION
 %token <ival> PROTO_MAJOR PROTO_MINOR
 
@@ -86,7 +87,8 @@ method:
 | COPY { rq.setMethod(mimosa::http::kMethodCopy); }
 | MOVE { rq.setMethod(mimosa::http::kMethodMove); }
 | LOCK { rq.setMethod(mimosa::http::kMethodLock); }
-| UNLOCK { rq.setMethod(mimosa::http::kMethodUnlock); };
+| UNLOCK { rq.setMethod(mimosa::http::kMethodUnlock); }
+| SYMLINK { rq.setMethod(mimosa::http::kMethodSymlink); };
 
 kvs: kv kvs | /* epsilon */ ;
 

@@ -27,6 +27,9 @@ namespace mimosa
       case kMethodLock:      return "LOCK";
       case kMethodUnlock:    return "UNLOCK";
 
+      // Custom
+      case kMethodSymlink: return "SYMLINK";
+
       default:             return "(none)";
       }
     }

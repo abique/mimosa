@@ -70,6 +70,7 @@ cookie_octet [^\r\r\n\v ;",\\]
 <INITIAL>(?i:MOVE)      BEGIN(location); return MOVE;
 <INITIAL>(?i:LOCK)      BEGIN(location); return LOCK;
 <INITIAL>(?i:UNLOCK)    BEGIN(location); return UNLOCK;
+<INITIAL>(?i:SYMLINK)    BEGIN(location); return SYMLINK;
 
 <location>[^\t\v\r\n ]+ BEGIN(protover); SAVE_TEXT; return LOCATION;
 

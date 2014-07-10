@@ -14,7 +14,15 @@ namespace mimosa
         allow_trace(true),
         allow_options(true),
         allow_connect(true),
-        allow_patch(true)
+        allow_patch(true),
+        allow_propfind(true),
+        allow_proppatch(true),
+        allow_copy(true),
+        allow_mkcol(true),
+        allow_move(true),
+        allow_lock(true),
+        allow_unlock(true),
+        allow_symlink(true)
     {
     }
 
@@ -89,6 +97,16 @@ namespace mimosa
       APPEND_METHOD(connect, "CONNECT");
       APPEND_METHOD(patch, "PATCH");
 
+      APPEND_METHOD(propfind, "PROPFIND");
+      APPEND_METHOD(proppatch, "PROPPATCH");
+      APPEND_METHOD(mkcol, "MKCOL");
+      APPEND_METHOD(copy, "COPY");
+      APPEND_METHOD(move, "MOVE");
+      APPEND_METHOD(lock, "LOCK");
+      APPEND_METHOD(unlock, "UNLOCK");
+
+      APPEND_METHOD(symlink, "SYMLINK");
+
 #undef APPEND_METHOD
 
       response.addHeader("Allow", buffer);
@@ -159,6 +177,13 @@ namespace mimosa
     }
 
     bool
+    MethodHandler::symlink(RequestReader & request,
+                           ResponseWriter & response) const
+    {
+      return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
+    }
+
+    bool
     MethodHandler::handle(RequestReader & request,
                           ResponseWriter & response) const
     {
@@ -210,6 +235,9 @@ namespace mimosa
 
       case kMethodUnlock:
         return unlock(request, response);
+
+      case kMethodSymlink:
+        return symlink(request, response);
 
       default:
         return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);

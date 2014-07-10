@@ -28,6 +28,9 @@ namespace mimosa
       kMethodMove,
       kMethodLock,
       kMethodUnlock,
+
+      // Custom??
+      kMethodSymlink,
     };
 
     /**
