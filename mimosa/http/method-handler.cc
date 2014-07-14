@@ -22,7 +22,7 @@ namespace mimosa
         allow_move(true),
         allow_lock(true),
         allow_unlock(true),
-        allow_symlink(true)
+        allow_mimosa_symlink(true)
     {
     }
 
@@ -105,7 +105,7 @@ namespace mimosa
       APPEND_METHOD(lock, "LOCK");
       APPEND_METHOD(unlock, "UNLOCK");
 
-      APPEND_METHOD(symlink, "SYMLINK");
+      APPEND_METHOD(mimosa_symlink, "MIMOSA_SYMLINK");
 
 #undef APPEND_METHOD
 
@@ -177,8 +177,8 @@ namespace mimosa
     }
 
     bool
-    MethodHandler::symlink(RequestReader & request,
-                           ResponseWriter & response) const
+    MethodHandler::mimosaSymlink(RequestReader & request,
+                                 ResponseWriter & response) const
     {
       return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);
     }
@@ -236,8 +236,8 @@ namespace mimosa
       case kMethodUnlock:
         return unlock(request, response);
 
-      case kMethodSymlink:
-        return symlink(request, response);
+      case kMethodMimosaSymlink:
+        return mimosaSymlink(request, response);
 
       default:
         return ErrorHandler::basicResponse(request, response, kStatusNotImplemented);

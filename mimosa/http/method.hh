@@ -30,7 +30,7 @@ namespace mimosa
       kMethodUnlock,
 
       // Custom??
-      kMethodSymlink,
+      kMethodMimosaSymlink,
     };
 
     /**

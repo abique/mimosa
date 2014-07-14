@@ -76,8 +76,8 @@ namespace mimosa
       // Custom //
       ////////////
 
-      virtual bool symlink(RequestReader & request,
-                           ResponseWriter & response) const;
+      virtual bool mimosaSymlink(RequestReader & request,
+                                 ResponseWriter & response) const;
 
       ///////////
       // FINAL //
@@ -103,7 +103,7 @@ namespace mimosa
       unsigned allow_move : 1;
       unsigned allow_lock : 1;
       unsigned allow_unlock : 1;
-      unsigned allow_symlink : 1;
+      unsigned allow_mimosa_symlink : 1;
     };
   }
 }
