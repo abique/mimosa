@@ -4,6 +4,7 @@
 # include <hiredis/hiredis.h>
 
 # include "../non-copyable.hh"
+# include "log.hh"
 
 namespace mimosa
 {
@@ -40,7 +41,13 @@ namespace mimosa
       {
         va_list args;
         va_start(args, format);
-        return Reply(redisvCommand(ctx_, format, args));
+        Reply reply(redisvCommand(ctx_, format, args));
+
+        // check and log
+        if (reply->type == REDIS_REPLY_ERROR)
+          redis_log->error("redis command failed: %s", reply->str);
+
+        return reply;
       }
 
     private:

@@ -130,6 +130,7 @@ add_subdirectory(json)
 add_subdirectory(archive)
 add_subdirectory(git)
 add_subdirectory(smtp)
+add_subdirectory(redis)
 
 add_subdirectory(tests)
 
