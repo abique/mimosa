@@ -39,6 +39,7 @@ namespace mimosa
       inline void enableDelete(bool enable) { can_delete_ = enable; }
       inline void enableMkcol(bool enable) { can_mkcol_ = enable; }
       inline void enableXattr(bool enable) { use_xattr_ = enable; }
+      inline void enableSymlink(bool enable) { can_symlink_ = enable; }
 
     private:
       std::string checkPath(RequestReader & request) const;
@@ -63,6 +64,7 @@ namespace mimosa
       bool        can_delete_ : 1;
       bool        can_mkcol_ : 1;
       bool        use_xattr_ : 1;
+      bool        can_symlink_ : 1;
     };
   }
 }

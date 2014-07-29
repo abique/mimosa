@@ -31,7 +31,8 @@ namespace mimosa
         can_put_(false),
         can_delete_(false),
         can_mkcol_(false),
-        use_xattr_(false)
+        use_xattr_(false),
+        can_symlink_(false)
     {
     }
 
