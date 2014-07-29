@@ -210,36 +210,34 @@ namespace mimosa
 
       int64_t length = st.st_size;
 
-      // XXX: to use sendfile, we need to remove compression, so we also have
-      // to check if the file we're going to send need to be compressed (like .avi,
-      // .gif, .zip, ...)
+      // to use sendfile and support content-range, we need identity
+      response.setContentEncoding(kCodingIdentity);
+      response.setContentLength(st.st_size);
 
-      if (response.contentEncoding() == kCodingIdentity) {
-        response.setContentLength(st.st_size);
+      // content-range support
+      if (request.hasContentRange()) {
+        if ((request.contentRangeLength() > 0 &&
+             request.contentRangeLength() != st.st_size) ||
+            request.contentRangeStart() >= request.contentRangeEnd() ||
+            request.contentRangeEnd() >= st.st_size) {
+          ::close(fd);
+          return ErrorHandler::basicResponse(request, response, kStatusRequestedRangeNotSatisfiable);
+        }
 
-        if (request.hasContentRange()) {
-          if ((request.contentRangeLength() > 0 &&
-               request.contentRangeLength() != st.st_size) ||
-              request.contentRangeStart() >= request.contentRangeEnd() ||
-              request.contentRangeEnd() >= st.st_size) {
+        if (request.contentRangeStart() > 0)
+          if (::lseek64(fd, request.contentRangeStart(), SEEK_SET) != request.contentRangeStart()) {
             ::close(fd);
-            return ErrorHandler::basicResponse(request, response, kStatusRequestedRangeNotSatisfiable);
+            return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
           }
 
-          if (request.contentRangeStart() > 0)
-            if (::lseek64(fd, request.contentRangeStart(), SEEK_SET) != request.contentRangeStart()) {
-              ::close(fd);
-              return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
-            }
-
-          length = request.contentRangeEnd() - request.contentRangeStart();
-          response.setStatus(kStatusPartialContent);
-          response.setContentRange(request.contentRangeStart(),
-                                   request.contentRangeStart(),
-                                   st.st_size);
-        }
+        length = request.contentRangeEnd() - request.contentRangeStart();
+        response.setStatus(kStatusPartialContent);
+        response.setContentRange(request.contentRangeStart(),
+                                 request.contentRangeStart(),
+                                 st.st_size);
       }
 
+      // guess content-type
       if (response.contentType().empty())
         response.setContentType(MimeDb::instance().mimeType(real_path));
       response.setLastModified(st.st_mtime);
