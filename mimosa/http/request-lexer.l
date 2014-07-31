@@ -89,6 +89,7 @@ cookie_octet [^\r\r\n\v ;",\\]
 <key>(?i:Referr?er)                     BEGIN(colon); return KEY_REFERRER;
 <key>(?i:User-Agent)                    BEGIN(colon); return KEY_USER_AGENT;
 <key>(?i:If-Modified-Since)             BEGIN(colon); return KEY_IF_MODIFIED_SINCE;
+<key>(?i:Destination)                   BEGIN(colon); return KEY_DESTINATION;
 <key>[-_[:alnum:]]+                     BEGIN(colon); SAVE_TEXT; return KEY;
 
 <colon>:                                BEGIN(value);

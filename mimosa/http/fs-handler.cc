@@ -7,16 +7,17 @@
 #include <sstream>
 #include <algorithm>
 
-#include "../string-ref.hh"
-#include "../stream/copy.hh"
-#include "../stream/direct-fd-stream.hh"
-#include "../stream/buffered-stream.hh"
 #include "../fs/rm.hh"
 #include "../json/encoder.hh"
-#include "fs-handler.hh"
+#include "../stream/buffered-stream.hh"
+#include "../stream/copy.hh"
+#include "../stream/direct-fd-stream.hh"
+#include "../string-ref.hh"
+#include "../uri/normalize-path.hh"
 #include "error-handler.hh"
-#include "mime-db.hh"
+#include "fs-handler.hh"
 #include "log.hh"
+#include "mime-db.hh"
 
 namespace mimosa
 {
@@ -32,14 +33,21 @@ namespace mimosa
         can_delete_(false),
         can_mkcol_(false),
         use_xattr_(false),
-        can_symlink_(false)
+        can_symlink_(false),
+        can_move_(false)
     {
     }
 
     std::string
     FsHandler::checkPath(RequestReader & request) const
     {
-      StringRef path(request.location());
+      return checkPath(request.location());
+    }
+
+    std::string
+    FsHandler::checkPath(const std::string & location) const
+    {
+      StringRef path(location);
       for (auto nskip = nskip_; nskip > 0; --nskip)
       {
         auto pos = path.find('/', 1);
@@ -168,6 +176,34 @@ namespace mimosa
       }
 
       if (mkdir(real_path.c_str(), 0777)) {
+        if (errno == EPERM || errno == EACCES)
+          return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+        if (errno == EEXIST)
+          return ErrorHandler::basicResponse(request, response, kStatusConflict);
+        if (errno == ENOSPC)
+          return ErrorHandler::basicResponse(request, response, kStatusInsufficientStorage);
+        return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
+      }
+      return true;
+    }
+
+    bool
+    FsHandler::move(RequestReader & request,
+                    ResponseWriter & response) const
+    {
+      if (!can_move_)
+        return ErrorHandler::basicResponse(request, response, kStatusForbidden);
+
+      std::string source_real_path = checkPath(request);
+      std::string destination;
+      uri::normalizePath(request.destination().c_str(), request.destination().size(),
+                         &destination);
+      std::string destination_real_path = checkPath(destination);
+      if (source_real_path.empty() || destination_real_path.empty()) {
+        return ErrorHandler::basicResponse(request, response, kStatusBadRequest);
+      }
+
+      if (::rename(source_real_path.c_str(), destination_real_path.c_str())) {
         if (errno == EPERM || errno == EACCES)
           return ErrorHandler::basicResponse(request, response, kStatusForbidden);
         if (errno == EEXIST)

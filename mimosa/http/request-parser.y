@@ -54,6 +54,7 @@
 %token KEY_REFERRER
 %token KEY_USER_AGENT
 %token KEY_IF_MODIFIED_SINCE
+%token KEY_DESTINATION
 
 // values
 %token <text> VALUE HOST
@@ -104,6 +105,7 @@ kv:
 | KEY_REFERRER VALUE { rq.setReferrer(std::move(*$2)); delete $2; }
 | KEY_USER_AGENT VALUE { rq.setUserAgent(std::move(*$2)); delete $2; };
 | KEY_IF_MODIFIED_SINCE VALUE { rq.parseIfModifiedSince(std::move(*$2)); delete $2; }
+| KEY_DESTINATION VALUE { rq.setDestination(std::move(*$2)); delete $2; }
 | KEY_CONTENT_RANGE RANGE_UNIT RANGE_START RANGE_END RANGE_LENGTH {
     rq.setContentRange($2 * $3, $2 * $4, $2 * $5);
 }

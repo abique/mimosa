@@ -47,6 +47,8 @@ namespace mimosa
       content_range_length_ = 0;
       content_encoding_  = kCodingIdentity;
       transfer_encoding_ = kCodingIdentity;
+      destination_normalized_ = false;
+      destination_.clear();
     }
 
     bool
@@ -117,6 +119,22 @@ namespace mimosa
       uri::percentDecode(raw_location_.data(), pos, &decoded, uri::kRfc2396);
       uri::normalizePath(decoded.data(), decoded.size(), &location_);
       return location_;
+    }
+
+    const std::string &
+    Request::destination() const
+    {
+      if (destination_normalized_)
+        return destination_;
+      if (destination_.empty()) {
+        destination_ = "/";
+      } else {
+        std::string tmp(destination_);
+        if (tmp[0] != '/')
+          tmp = "/" + destination_;
+        uri::normalizePath(tmp.c_str(), tmp.size(), &destination_);
+      }
+      return destination_;
     }
 
     void

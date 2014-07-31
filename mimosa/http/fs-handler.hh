@@ -22,6 +22,7 @@ namespace mimosa
       virtual bool del(RequestReader & request, ResponseWriter & response) const;
       virtual bool put(RequestReader & request, ResponseWriter & response) const;
       virtual bool mkcol(RequestReader & request, ResponseWriter & response) const;
+      virtual bool move(RequestReader & request, ResponseWriter & response) const;
 
       static bool streamFile(RequestReader &     request,
                              ResponseWriter &    response,
@@ -40,8 +41,10 @@ namespace mimosa
       inline void enableMkcol(bool enable) { can_mkcol_ = enable; }
       inline void enableXattr(bool enable) { use_xattr_ = enable; }
       inline void enableSymlink(bool enable) { can_symlink_ = enable; }
+      inline void enableMove(bool enable) { can_move_ = enable; }
 
     private:
+      std::string checkPath(const std::string & location) const;
       std::string checkPath(RequestReader & request) const;
 
       bool readDir(RequestReader &     request,
@@ -65,6 +68,7 @@ namespace mimosa
       bool        can_mkcol_ : 1;
       bool        use_xattr_ : 1;
       bool        can_symlink_ : 1;
+      bool        can_move_ : 1;
     };
   }
 }

@@ -130,6 +130,9 @@ namespace mimosa
       inline Coding transferEncoding() const { return transfer_encoding_; }
       inline void setTransferEncoding(Coding c) { transfer_encoding_ = c; }
 
+      inline void setDestination(const std::string & dest) { destination_ = dest; }
+      const std::string & destination() const;
+
       // sets also raw location, host, port and location
       void setUrl(const uri::Url & url);
       inline const uri::Url & url() const { return url_; }
@@ -176,6 +179,9 @@ namespace mimosa
 
       Coding content_encoding_;
       Coding transfer_encoding_;
+
+      mutable bool destination_normalized_;
+      mutable std::string destination_;
 
       // other headers
       kvs unparsed_headers_;
