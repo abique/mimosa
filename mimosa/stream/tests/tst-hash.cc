@@ -13,13 +13,8 @@ namespace mimosa
 #define HASH_TEST(Type, Input, Output)                                  \
       TEST(Hash##Type, Simple)                                          \
       {                                                                 \
-        ASSERT_EQ(Type::digestLen(),                                    \
-                  gnutls_hash_get_len(Type::digestType()));             \
-                                                                        \
         Type::Ptr hash = new Type;                                      \
         hash->write(Input, sizeof (Input) - 1);                         \
-                                                                        \
-        ASSERT_EQ((bool)*hash, true);                                   \
                                                                         \
         StringStream::Ptr str = new StringStream;                       \
         Base16Encoder::Ptr filter = new Base16Encoder(str.get());       \

@@ -1,8 +1,11 @@
 #ifndef MIMOSA_STREAM_HASH_HH
 # define MIMOSA_STREAM_HASH_HH
 
-# include <gnutls/gnutls.h>
-# include <gnutls/crypto.h>
+# include <nettle/md2.h>
+# include <nettle/md5.h>
+# include <nettle/sha1.h>
+# include <nettle/sha2.h>
+# include <nettle/sha3.h>
 
 # include "stream.hh"
 
@@ -10,19 +13,19 @@ namespace mimosa
 {
   namespace stream
   {
-    template <gnutls_digest_algorithm_t Algo, size_t Len>
+    template <typename Ctx,
+              void Init(Ctx *),
+              void Update(Ctx *, unsigned, const uint8_t *),
+              void Digest(Ctx *, unsigned, uint8_t *),
+              size_t Len>
     class Hash : public Stream
     {
     public:
       MIMOSA_DEF_PTR(Hash);
 
       Hash();
-      ~Hash();
 
-      inline operator bool () { return handle_; }
-
-      /// could fail (oom for exemple)
-      bool reset();
+      void reset();
 
       virtual int64_t write(const char * data, uint64_t nbytes);
       virtual int64_t read(char * data, uint64_t nbytes);
@@ -30,29 +33,39 @@ namespace mimosa
       char * digest();
 
       static inline size_t digestLen() { return Len; }
-      static inline gnutls_digest_algorithm_t digestType() { return Algo; }
 
     private:
-      gnutls_hash_hd_t handle_;
-      char             digest_[Len];
+      Ctx  ctx_;
+      char digest_[Len];
     };
 
-# if 0 // not supported by gnutls
-    typedef Hash<GNUTLS_DIG_RMD160, 20> Rmd160;
-# endif
-    typedef Hash<GNUTLS_DIG_MD5, 16> Md5;
-    typedef Hash<GNUTLS_DIG_SHA1, 20> Sha1;
-    typedef Hash<GNUTLS_DIG_SHA224, 28> Sha224;
-    typedef Hash<GNUTLS_DIG_SHA256, 32> Sha256;
-    typedef Hash<GNUTLS_DIG_SHA384, 48> Sha384;
-    typedef Hash<GNUTLS_DIG_SHA512, 64> Sha512;
+#define MIMOSA_NETTLE_HASH(HASH, hash, Class)                   \
+    typedef Hash<struct hash##_ctx,                             \
+                 hash##_init,                                   \
+                 hash##_update,                                 \
+                 hash##_digest,                                 \
+                 HASH##_DIGEST_SIZE> Class;                     \
+                                                                \
+    extern template class Hash<struct hash##_ctx,               \
+                               hash##_init,                     \
+                               hash##_update,                   \
+                               hash##_digest,                   \
+                               HASH##_DIGEST_SIZE>;
 
-    extern template class Hash<GNUTLS_DIG_MD5, 16>;
-    extern template class Hash<GNUTLS_DIG_SHA1, 20>;
-    extern template class Hash<GNUTLS_DIG_SHA224, 28>;
-    extern template class Hash<GNUTLS_DIG_SHA256, 32>;
-    extern template class Hash<GNUTLS_DIG_SHA384, 48>;
-    extern template class Hash<GNUTLS_DIG_SHA512, 64>;
+
+    MIMOSA_NETTLE_HASH(MD2, md2, Md2);
+    MIMOSA_NETTLE_HASH(MD5, md5, Md5);
+    MIMOSA_NETTLE_HASH(SHA1, sha1, Sha1);
+    MIMOSA_NETTLE_HASH(SHA224, sha224, Sha224);
+    MIMOSA_NETTLE_HASH(SHA256, sha256, Sha256);
+    MIMOSA_NETTLE_HASH(SHA384, sha384, Sha384);
+    MIMOSA_NETTLE_HASH(SHA512, sha512, Sha512);
+    MIMOSA_NETTLE_HASH(SHA3_224, sha3_224, Sha3_224);
+    MIMOSA_NETTLE_HASH(SHA3_256, sha3_256, Sha3_256);
+    MIMOSA_NETTLE_HASH(SHA3_384, sha3_384, Sha3_384);
+    MIMOSA_NETTLE_HASH(SHA3_512, sha3_512, Sha3_512);
+
+#undef MIMOSA_NETTLE_HASH
   }
 }
 

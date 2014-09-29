@@ -2,63 +2,62 @@ namespace mimosa
 {
   namespace stream
   {
-    template <gnutls_digest_algorithm_t Algo, size_t Len>
-    Hash<Algo, Len>::Hash()
-      : handle_(nullptr)
+    template <typename Ctx,
+              void Init(Ctx *),
+              void Update(Ctx *, unsigned, const uint8_t *),
+              void Digest(Ctx *, unsigned, uint8_t *),
+              size_t Len>
+    Hash<Ctx, Init, Update, Digest, Len>::Hash()
     {
       reset();
     }
 
-    template <gnutls_digest_algorithm_t Algo, size_t Len>
-    Hash<Algo, Len>::~Hash()
+    template <typename Ctx,
+              void Init(Ctx *),
+              void Update(Ctx *, unsigned, const uint8_t *),
+              void Digest(Ctx *, unsigned, uint8_t *),
+              size_t Len>
+    void
+    Hash<Ctx, Init, Update, Digest, Len>::reset()
     {
-      if (handle_)
-      {
-        gnutls_hash_deinit(handle_, nullptr);
-        handle_ = nullptr;
-      }
+      Init(&ctx_);
     }
 
-    template <gnutls_digest_algorithm_t Algo, size_t Len>
-    bool
-    Hash<Algo, Len>::reset()
-    {
-      if (handle_)
-      {
-        gnutls_hash_deinit(handle_, nullptr);
-        handle_ = nullptr;
-      }
-
-      return !gnutls_hash_init(&handle_, Algo);
-    }
-
-    template <gnutls_digest_algorithm_t Algo, size_t Len>
+    template <typename Ctx,
+              void Init(Ctx *),
+              void Update(Ctx *, unsigned, const uint8_t *),
+              void Digest(Ctx *, unsigned, uint8_t *),
+              size_t Len>
     int64_t
-    Hash<Algo, Len>::write(const char * data,
-                           uint64_t     nbytes)
+    Hash<Ctx, Init, Update, Digest, Len>::write(const char * data,
+                                                uint64_t     nbytes)
     {
-      if (!handle_)
-        return -1;
-
-      if (!gnutls_hash(handle_, data, nbytes))
-        return nbytes;
-      return -1;
+      Update(&ctx_, nbytes, (const uint8_t*)data);
+      return nbytes;
     }
 
-    template <gnutls_digest_algorithm_t Algo, size_t Len>
+    template <typename Ctx,
+              void Init(Ctx *),
+              void Update(Ctx *, unsigned, const uint8_t *),
+              void Digest(Ctx *, unsigned, uint8_t *),
+              size_t Len>
     int64_t
-    Hash<Algo, Len>::read(char *       /*data*/,
-                          uint64_t     /*nbytes*/)
+    Hash<Ctx, Init, Update, Digest, Len>::read(char *       /*data*/,
+                                               uint64_t     /*nbytes*/)
     {
       assert(false && "invalid operation");
       return -1;
     }
 
-    template <gnutls_digest_algorithm_t Algo, size_t Len>
+    template <typename Ctx,
+              void Init(Ctx *),
+              void Update(Ctx *, unsigned, const uint8_t *),
+              void Digest(Ctx *, unsigned, uint8_t *),
+              size_t Len>
     char *
-    Hash<Algo, Len>::digest()
+    Hash<Ctx, Init, Update, Digest, Len>::digest()
     {
-      gnutls_hash_output(handle_, digest_);
+      Digest(&ctx_, sizeof (digest_), (uint8_t*)digest_);
       return digest_;
     }
   }
