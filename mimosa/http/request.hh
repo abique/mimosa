@@ -9,6 +9,7 @@
 # include "../stream/stream.hh"
 # include "coding.hh"
 # include "method.hh"
+# include "byte-range.hh"
 
 namespace mimosa
 {
@@ -137,6 +138,10 @@ namespace mimosa
       void setUrl(const uri::Url & url);
       inline const uri::Url & url() const { return url_; }
 
+      bool hasRange() const { return !ranges_.empty(); }
+      const std::vector<ByteRange> & range() const { return ranges_; }
+      void addRange(const ByteRange & r) { ranges_.push_back(r); }
+
     protected:
       // mandatory stuff
       Method      method_;
@@ -176,6 +181,8 @@ namespace mimosa
       int64_t content_range_start_;
       int64_t content_range_end_;
       int64_t content_range_length_;
+
+      std::vector<ByteRange> ranges_;
 
       Coding content_encoding_;
       Coding transfer_encoding_;

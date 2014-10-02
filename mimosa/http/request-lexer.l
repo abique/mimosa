@@ -46,6 +46,8 @@
 %x content_range_end
 %x content_range_slash
 %x content_range_length
+%x range_unit
+%x range
 
 separtor [\(\)<>@,;:\\"/\[\]\?={} \t]
 token    [^\(\)<>@,;:\\"/\[\]\?={} \t\r\n\v]+
@@ -90,6 +92,7 @@ cookie_octet [^\r\r\n\v ;",\\]
 <key>(?i:User-Agent)                    BEGIN(colon); return KEY_USER_AGENT;
 <key>(?i:If-Modified-Since)             BEGIN(colon); return KEY_IF_MODIFIED_SINCE;
 <key>(?i:Destination)                   BEGIN(colon); return KEY_DESTINATION;
+<key>(?i:Range){spaces}*:               BEGIN(range_unit); return KEY_RANGE;
 <key>[-_[:alnum:]]+                     BEGIN(colon); SAVE_TEXT; return KEY;
 
 <colon>:                                BEGIN(value);
@@ -108,6 +111,11 @@ cookie_octet [^\r\r\n\v ;",\\]
 <content_range_slash>\/            BEGIN(content_range_length);
 <content_range_length>[[:digit:]]+ yylval->val64 = strtoll(yytext, nullptr, 0); return RANGE_LENGTH;
 <content_range_length>\*           yylval->val64 = -1; return RANGE_LENGTH;
+
+<range_unit>bytes                  BEGIN(range); yylval->val64 = 1; return RANGE_UNIT;
+<range>\-                          return '-';
+<range>,                           return ',';
+<range>[[:digit:]]+                yylval->val64 = strtoll(yytext, nullptr, 0); return VAL64;
 
 <value_accept_encoding>(?i:compress) return COMPRESS;
 <value_accept_encoding>(?i:identity) return IDENTITY;

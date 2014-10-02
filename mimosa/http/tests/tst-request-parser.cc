@@ -223,6 +223,36 @@ namespace mimosa
         EXPECT_EQ(false, rq.parse(str, sizeof (str)));
       }
 
+      TEST(RequestParser, Range1)
+      {
+        const char str[] =
+          "GET https://localhost:19042/file.mov HTTP/1.1\r\n"
+          "Range: bytes=64-128\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+      }
+
+      TEST(RequestParser, Range2)
+      {
+        const char str[] =
+          "GET https://localhost:19042/file.mov HTTP/1.1\r\n"
+          "Range: bytes=-128\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+      }
+
+      TEST(RequestParser, Range3)
+      {
+        const char str[] =
+          "GET https://localhost:19042/file.mov HTTP/1.1\r\n"
+          "Range: bytes=64-\r\n"
+          "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+      }
+
       TEST(RequestParser, HardCookie1)
       {
         const char str[] =

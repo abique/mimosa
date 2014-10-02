@@ -252,26 +252,38 @@ namespace mimosa
       response.setContentLength(st.st_size);
 
       // content-range support
-      if (request.hasContentRange()) {
-        if ((request.contentRangeLength() > 0 &&
-             request.contentRangeLength() != st.st_size) ||
-            request.contentRangeStart() >= request.contentRangeEnd() ||
-            request.contentRangeEnd() >= st.st_size) {
+      if (request.hasRange()) {
+        ByteRange range = request.range().front();
+
+        switch (range.type_) {
+        case ByteRange::kStart:
+          range.end_ = st.st_size;
+          break;
+        case ByteRange::kRange:
+          range.end_++;
+          break;
+        case ByteRange::kSuffix:
+          range.start_ = st.st_size - range.end_;
+          range.end_   = st.st_size;
+          break;
+        }
+
+        if (range.end_ <= range.start_ ||
+            range.end_ > st.st_size ||
+            range.start_ < 0) {
           ::close(fd);
           return ErrorHandler::basicResponse(request, response, kStatusRequestedRangeNotSatisfiable);
         }
 
-        if (request.contentRangeStart() > 0)
-          if (::lseek64(fd, request.contentRangeStart(), SEEK_SET) != request.contentRangeStart()) {
+        if (range.start_ > 0)
+          if (::lseek64(fd, request.contentRangeStart(), SEEK_SET) != range.start_) {
             ::close(fd);
             return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
           }
 
-        length = request.contentRangeEnd() - request.contentRangeStart();
+        length = range.end_ - range.start_;
         response.setStatus(kStatusPartialContent);
-        response.setContentRange(request.contentRangeStart(),
-                                 request.contentRangeStart(),
-                                 st.st_size);
+        response.setContentRange(range.start_, range.end_, st.st_size);
       }
 
       // guess content-type
