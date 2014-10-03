@@ -113,6 +113,7 @@ cookie_octet [^\r\r\n\v ;",\\]
 <content_range_length>\*           yylval->val64 = -1; return RANGE_LENGTH;
 
 <range_unit>bytes                  BEGIN(range); yylval->val64 = 1; return RANGE_UNIT;
+<range>=                           return '=';
 <range>\-                          return '-';
 <range>,                           return ',';
 <range>[[:digit:]]+                yylval->val64 = strtoll(yytext, nullptr, 0); return VAL64;

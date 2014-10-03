@@ -223,6 +223,16 @@ namespace mimosa
         EXPECT_EQ(false, rq.parse(str, sizeof (str)));
       }
 
+      TEST(RequestParser, NoRange)
+      {
+        const char str[] =
+          "GET https://localhost:19042/file.mov HTTP/1.1\r\n"
+          "\r\n";
+        Request rq;
+        ASSERT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(false, rq.hasRange());
+      }
+
       TEST(RequestParser, Range1)
       {
         const char str[] =
@@ -230,7 +240,12 @@ namespace mimosa
           "Range: bytes=64-128\r\n"
           "\r\n";
         Request rq;
-        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(true, rq.hasRange());
+        const ByteRange & br = rq.range()[0];
+        EXPECT_EQ(ByteRange::kRange, br.type_);
+        EXPECT_EQ(64, br.start_);
+        EXPECT_EQ(128, br.end_);
       }
 
       TEST(RequestParser, Range2)
@@ -240,7 +255,12 @@ namespace mimosa
           "Range: bytes=-128\r\n"
           "\r\n";
         Request rq;
-        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(true, rq.hasRange());
+        const ByteRange & br = rq.range()[0];
+        EXPECT_EQ(ByteRange::kSuffix, br.type_);
+        EXPECT_EQ(0, br.start_);
+        EXPECT_EQ(128, br.end_);
       }
 
       TEST(RequestParser, Range3)
@@ -250,7 +270,12 @@ namespace mimosa
           "Range: bytes=64-\r\n"
           "\r\n";
         Request rq;
-        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(true, rq.parse(str, sizeof (str)));
+        ASSERT_EQ(true, rq.hasRange());
+        const ByteRange & br = rq.range()[0];
+        EXPECT_EQ(ByteRange::kStart, br.type_);
+        EXPECT_EQ(64, br.start_);
+        EXPECT_EQ(0, br.end_);
       }
 
       TEST(RequestParser, HardCookie1)

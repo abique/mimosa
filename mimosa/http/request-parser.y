@@ -110,7 +110,7 @@ kv:
 | KEY_CONTENT_RANGE RANGE_UNIT RANGE_START RANGE_END RANGE_LENGTH {
     rq.setContentRange($2 * $3, $2 * $4, $2 * $5);
 }
-| KEY_RANGE RANGE_UNIT byte_range_set {};
+| KEY_RANGE RANGE_UNIT '=' byte_range_set;
 
 accept_encodings: /* epsilon */
 | COMPRESS accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingCompress); }
@@ -134,22 +134,24 @@ byte_range
 | byte_range ',' byte_range_set;
 
 byte_range:
-/* epsilon */
-| VAL64 '-' VAL64 {
+VAL64 '-' VAL64 {
   mimosa::http::ByteRange br;
   br.type_  = mimosa::http::ByteRange::kRange;
   br.start_ = $1;
   br.end_   = $3;
+  rq.addRange(br);
 } | VAL64 '-' {
   mimosa::http::ByteRange br;
   br.type_  = mimosa::http::ByteRange::kStart;
   br.start_ = $1;
   br.end_   = 0;
+  rq.addRange(br);
 } | '-' VAL64 {
   mimosa::http::ByteRange br;
-  br.type_  = mimosa::http::ByteRange::kStart;
+  br.type_  = mimosa::http::ByteRange::kSuffix;
   br.start_ = 0;
   br.end_   = $2;
+  rq.addRange(br);
 };
 
 %%
