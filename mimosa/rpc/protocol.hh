@@ -1,8 +1,9 @@
 #ifndef MIMOSA_RPC_PROTOCOL_HH
 # define MIMOSA_RPC_PROTOCOL_HH
 
-# include <endian.h>
 # include <cstdint>
+
+# include "../endian.hh"
 
 namespace mimosa
 {

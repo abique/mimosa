@@ -1,7 +1,7 @@
-#include <endian.h>
 #include <cassert>
 #include <memory>
 
+#include "../endian.hh"
 #include "../log/log.hh"
 #include "../thread.hh"
 #include "channel.hh"
