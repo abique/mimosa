@@ -5,6 +5,10 @@
 
 #include "flat.hh"
 
+#ifndef MREMAP_MAYMOVE
+# define MREMAP_MAYMOVE 0
+#endif
+
 namespace mimosa
 {
   namespace flat
