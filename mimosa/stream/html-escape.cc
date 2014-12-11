@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cerrno>
 
 #include "html-escape.hh"
 

@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstring>
+#include <cerrno>
 
 #include "buffered-stream.hh"
 

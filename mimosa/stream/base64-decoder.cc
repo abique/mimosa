@@ -1,4 +1,5 @@
 #include <cstring>
+#include <cerrno>
 
 #include "base64-decoder.hh"
 

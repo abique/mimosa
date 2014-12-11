@@ -8,7 +8,7 @@ namespace mimosa
 {
   namespace smtp
   {
-    class Mail;
+    struct Mail;
 
     /**
      * Simple smtp client.

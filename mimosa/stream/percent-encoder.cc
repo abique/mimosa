@@ -1,3 +1,5 @@
+#include <cerrno>
+
 #include "percent-encoder.hh"
 
 namespace mimosa

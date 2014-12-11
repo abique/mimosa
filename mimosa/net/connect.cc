@@ -1,9 +1,12 @@
 #include <netdb.h>
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <arpa/inet.h>
+#include <netinet/in.h>
 
 #include <cstring>
+#include <cerrno>
 #include <memory>
 
 #include "io.hh"

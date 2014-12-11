@@ -1,4 +1,5 @@
 #include <climits>
+#include <cerrno>
 
 #include "io.hh"
 

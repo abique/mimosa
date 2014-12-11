@@ -1,5 +1,6 @@
 #include <cstring>
 #include <memory>
+#include <cerrno>
 
 #include "base16-decoder.hh"
 

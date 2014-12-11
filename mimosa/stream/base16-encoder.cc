@@ -1,3 +1,4 @@
+#include <cerrno>
 #include <memory>
 
 #include "base16-encoder.hh"

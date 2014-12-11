@@ -4,6 +4,7 @@
 # include <pthread.h>
 
 # include <stdexcept>
+# include <new>
 
 # include "time.hh"
 # include "non-copyable.hh"
