@@ -1,4 +1,5 @@
 install(FILES
+  byte-range.hh
   chunked-stream.hh
   client-channel.hh
   coding.hh
@@ -9,18 +10,23 @@ install(FILES
   fs-handler.hh
   handler.hh
   host-handler.hh
-  method.hh
-  method-handler.hh
+  log-handler.hh
+  log.hh
   message-reader.hh
   message-reader.hxx
   message-writer.hh
   message-writer.hxx
-  log.hh
-  log-handler.hh
+  method-handler.hh
+  method.hh
+  mime-db.hh
   redirect.hh
   request.hh
+  request-lexer.hh
+  request-parser.hh
   request-reader.hh
+  request-writer.hh
   response.hh
+  response-reader.hh
   response-writer.hh
   server-channel.hh
   server.hh

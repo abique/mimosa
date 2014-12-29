@@ -2,6 +2,7 @@ install(FILES
   normalize-path.hh
   parse-query.hh
   percent-encoding.hh
+  scheme.hh
   url.hh
   DESTINATION include/mimosa/uri/)
 

@@ -8,6 +8,7 @@ install(FILES
   direct-fd-stream.hh
   fd-stream.hh
   filter.hh
+  filter.hxx
   hash.hh
   hash.hxx
   html-escape.hh

@@ -3,7 +3,7 @@ install(FILES
   bencode.hh
   call.hh
   channel.hh
-  http-service-handler.hh
+  exception.hh
   json.hh
   protocol.hh
   server.hh

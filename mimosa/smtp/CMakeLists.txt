@@ -1,5 +1,6 @@
 install(FILES
   client.hh
+  mail.hh
   DESTINATION include/mimosa/smtp/)
 
 add_library(mimosa-smtp

@@ -4,8 +4,10 @@ install(FILES
   commit.hh
   diff.hh
   patch.hh
+  reference.hh
   repository.hh
   revwalk.hh
+  tag.hh
   tree-entry.hh
   tree.hh
   DESTINATION include/mimosa/git/)

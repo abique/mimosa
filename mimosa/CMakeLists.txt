@@ -4,21 +4,24 @@ install(FILES
   cache.hh
   cache.hxx
   channel.hh
-  cpu-count.hh
-  cpu-foreach.hh
   condition.hh
   container-of.hh
+  cpu-count.hh
+  cpu-foreach.hh
+  endian.hh
   function.hh
   future.hh
   future.hxx
-  init.doch
   init.hh
   intrusive-dlist.hh
+  intrusive-hash-table.hh
+  intrusive-hash-table.hxx
   intrusive-slist.hh
   kvs.hh
   locker.hh
   mutex.hh
   non-copyable.hh
+  priviledge-drop.hh
   process.hh
   recursive-mutex.hh
   ref-countable.hh
@@ -30,8 +33,8 @@ install(FILES
   spin-lock.hh
   spin-lock.hxx
   string-ref.hh
-  thread-pool.hh
   thread.hh
+  thread-pool.hh
   time.hh
   trie.hh
   trie.hxx
