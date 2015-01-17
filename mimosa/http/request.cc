@@ -76,6 +76,14 @@ namespace mimosa
         ok = ok & format::printStatic(stream, "\r\n");
       }
 
+      for (auto & cookie : cookies_) {
+        ok = ok & format::printStatic(stream, "Cookie: ");
+        ok = ok & format::print(stream, cookie.first);
+        ok = ok & format::printStatic(stream, "=");
+        ok = ok & format::print(stream, cookie.second);
+        ok = ok & format::printStatic(stream, "\r\n");
+      }
+
       // end
       ok = ok & format::printStatic(stream, "\r\n");
       return ok;
