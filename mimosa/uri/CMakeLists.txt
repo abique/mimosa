@@ -10,3 +10,8 @@ add_library(mimosa-uri url.cc)
 target_link_libraries(mimosa-uri mimosa)
 
 add_subdirectory(tests)
+
+install(TARGETS mimosa-uri
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib)
