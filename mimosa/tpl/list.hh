@@ -1,4 +1,4 @@
-#ifndef MIMOSA_TPL_VALUE_LIST_HH
+#ifndef MIMOSA_TPL_LIST_HH
 # define MIMOSA_TPL_LIST_HH
 
 # include <vector>
