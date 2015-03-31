@@ -53,6 +53,9 @@ namespace mimosa
       inline void setStatus(int status) { status_ = status; }
       inline int status() const { return status_; }
 
+      inline void setKeepAlive(bool ka) { keep_alive_ = ka; }
+      inline bool keepAlive() const { return keep_alive_; }
+
       inline int64_t contentLength() const { return content_length_; }
       inline void setContentLength(int64_t len) { content_length_ = len; }
 
