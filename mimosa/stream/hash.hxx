@@ -4,8 +4,8 @@ namespace mimosa
   {
     template <typename Ctx,
               void Init(Ctx *),
-              void Update(Ctx *, unsigned, const uint8_t *),
-              void Digest(Ctx *, unsigned, uint8_t *),
+              void Update(Ctx *, size_t, const uint8_t *),
+              void Digest(Ctx *, size_t, uint8_t *),
               size_t Len>
     Hash<Ctx, Init, Update, Digest, Len>::Hash()
     {
@@ -14,8 +14,8 @@ namespace mimosa
 
     template <typename Ctx,
               void Init(Ctx *),
-              void Update(Ctx *, unsigned, const uint8_t *),
-              void Digest(Ctx *, unsigned, uint8_t *),
+              void Update(Ctx *, size_t, const uint8_t *),
+              void Digest(Ctx *, size_t, uint8_t *),
               size_t Len>
     void
     Hash<Ctx, Init, Update, Digest, Len>::reset()
@@ -25,8 +25,8 @@ namespace mimosa
 
     template <typename Ctx,
               void Init(Ctx *),
-              void Update(Ctx *, unsigned, const uint8_t *),
-              void Digest(Ctx *, unsigned, uint8_t *),
+              void Update(Ctx *, size_t, const uint8_t *),
+              void Digest(Ctx *, size_t, uint8_t *),
               size_t Len>
     int64_t
     Hash<Ctx, Init, Update, Digest, Len>::write(const char * data,
@@ -38,8 +38,8 @@ namespace mimosa
 
     template <typename Ctx,
               void Init(Ctx *),
-              void Update(Ctx *, unsigned, const uint8_t *),
-              void Digest(Ctx *, unsigned, uint8_t *),
+              void Update(Ctx *, size_t, const uint8_t *),
+              void Digest(Ctx *, size_t, uint8_t *),
               size_t Len>
     int64_t
     Hash<Ctx, Init, Update, Digest, Len>::read(char *       /*data*/,
@@ -51,8 +51,8 @@ namespace mimosa
 
     template <typename Ctx,
               void Init(Ctx *),
-              void Update(Ctx *, unsigned, const uint8_t *),
-              void Digest(Ctx *, unsigned, uint8_t *),
+              void Update(Ctx *, size_t, const uint8_t *),
+              void Digest(Ctx *, size_t, uint8_t *),
               size_t Len>
     char *
     Hash<Ctx, Init, Update, Digest, Len>::digest()

@@ -15,8 +15,8 @@ namespace mimosa
   {
     template <typename Ctx,
               void Init(Ctx *),
-              void Update(Ctx *, unsigned, const uint8_t *),
-              void Digest(Ctx *, unsigned, uint8_t *),
+              void Update(Ctx *, size_t, const uint8_t *),
+              void Digest(Ctx *, size_t, uint8_t *),
               size_t Len>
     class Hash : public Stream
     {
