@@ -314,11 +314,6 @@ namespace mimosa
       wthread_.join();
       rthread_.cancel();
       rthread_.join();
-
-      // clear write queue
-      stream::Buffer::Ptr buffer;
-      while (!write_queue_.empty())
-        write_queue_.pop(buffer);
     }
   }
 }

@@ -115,6 +115,7 @@ namespace mimosa
       push_cond_.wakeAll();
     }
 
+  private:
     inline bool empty() const
     {
       return queue_.empty();
