@@ -85,6 +85,8 @@ namespace mimosa
       struct stat st;
       if (::stat(real_path.c_str(), &st))
         return ErrorHandler::basicResponse(request, response, kStatusNotFound);
+      response.setContentLength(st.st_size);
+      response.setContentType(MimeDb::instance().mimeType(real_path));
       return true;
     }
 
