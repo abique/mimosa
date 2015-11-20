@@ -18,6 +18,8 @@ namespace mimosa
       env_.push_back(std::make_pair(key, value));
     }
 
+    std::string dump() const;
+
   protected:
     std::string path_;
     std::string wd_;

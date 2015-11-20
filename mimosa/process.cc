@@ -5,6 +5,18 @@
 
 namespace mimosa
 {
+  std::string
+  ProcessConfig::dump() const
+  {
+    std::ostringstream os;
+    if (!wd_.empty())
+      os << "cd " << wd_ << "; ";
+    os << path_;
+    for (auto arg : args_)
+        os << " " << arg;
+    return os.str();
+  }
+
   Process::Process()
   {
   }
