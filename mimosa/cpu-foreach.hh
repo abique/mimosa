@@ -11,7 +11,7 @@ namespace mimosa
    *
    * Thread created in cb will by default keep the same cpu affinity.
    */
-  void cpuForeach(const std::function<void ()>& cb);
+  void cpuForeach(const std::function<void ()>& cb, bool affinity = false, int ratio = 1);
 }
 
 #endif /* !MIMOSA_CPU_FOREACH_HH */

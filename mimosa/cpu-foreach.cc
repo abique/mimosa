@@ -16,36 +16,41 @@
 
 namespace mimosa
 {
-  void cpuForeach(const std::function<void ()>& cb)
-  {
+void cpuForeach(const std::function<void ()>& cb, bool affinity, int ratio)
+{
     std::vector<std::unique_ptr<Thread> > threads;
     int nproc = cpuCount();
     threads.resize(nproc);
 
-    for (int i = 0; i < nproc; ++i)
+    for (int i = 0; i < nproc * ratio; ++i)
     {
-      threads[i].reset(new Thread([i, nproc, &cb] {
+        threads[i].reset(new Thread([i, nproc, &cb, affinity, ratio] {
 #ifdef HAS_SCHED_SETAFFINITY
-            cpu_set_t * set = CPU_ALLOC(nproc);
-            assert(set);
-            CPU_ZERO_S(nproc, set);
-            CPU_SET(i, set);
+            cpu_set_t * set = nullptr;
+            if (affinity)
+            {
+                set = CPU_ALLOC(nproc / ratio);
+                assert(set);
+                CPU_ZERO_S(nproc, set);
+                CPU_SET(i, set);
 
-            sched_setaffinity(0, CPU_ALLOC_SIZE(nproc), set);
+                sched_setaffinity(0, CPU_ALLOC_SIZE(nproc), set);
+            }
 #endif /* HAS_SCHED_SETAFFINITY */
 
             try {
-              cb();
+                cb();
             } catch (...) {
             }
 #ifdef __linux__
-            CPU_FREE(set);
+            if (affinity)
+                CPU_FREE(set);
 #endif
-          }));
-      threads[i]->start();
+        }));
+        threads[i]->start();
     }
 
     for (int i = 0; i < nproc; ++i)
-      threads[i]->join();
-  }
+        threads[i]->join();
+}
 }
