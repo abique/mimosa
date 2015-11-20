@@ -12,7 +12,7 @@ namespace mimosa
     void
     find(const std::string &                                    root,
          uint32_t                                               max_depth,
-         const std::function<bool (const std::string & path)> & cb)
+         const std::function<void (const std::string & path)> & cb)
     {
       DirIterator it(root);
 
