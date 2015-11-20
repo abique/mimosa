@@ -4,36 +4,48 @@ namespace mimosa
 {
   namespace archive
   {
-    static int archiveOpenCb(struct archive * /*archive*/,
-                             void *           ctx)
+    int
+    Reader::openCb(struct archive * /*archive*/,
+                   void *           ctx)
     {
-      stream::Stream * stream = reinterpret_cast<stream::Stream *>(ctx);
-      stream->addRef();
       return 0;
     }
 
-    static ssize_t archiveReadCb(struct archive * /*archive*/,
-                                  void *           ctx,
-                                  const void *     buffer,
-                                  size_t           len)
+    ssize_t
+    Reader::readCb(struct archive * /*archive*/,
+                   void *           ctx,
+                   const void **    buffer)
     {
-      stream::Stream * stream = reinterpret_cast<stream::Stream *>(ctx);
-      return stream->loopRead((const char*)buffer, len);
+      Reader *thiz = reinterpret_cast<Reader *>(ctx);
+      auto rbytes = thiz->stream_->read(
+                  thiz->buffer_->data(), thiz->buffer_->size());
+      *buffer = thiz->buffer_->data();
+      return rbytes;
     }
 
-    static int archiveCloseCb(struct archive * /*archive*/,
-                             void *            ctx)
+    int
+    Reader::closeCb(struct archive * /*archive*/,
+                    void *            ctx)
     {
-      stream::Stream * stream = reinterpret_cast<stream::Stream *>(ctx);
-      stream->releaseRef();
+      Reader *thiz = reinterpret_cast<Reader *>(ctx);
+      thiz->buffer_ = nullptr;
+      thiz->stream_ = nullptr;
       return 0;
     }
 
     int
-    Writer::open(stream::Stream::Ptr stream)
+    Reader::open(stream::Stream::Ptr stream)
     {
+      stream_ = stream;
+      buffer_ = new stream::Buffer();
       return archive_read_open(
-        archive_, stream, archiveOpenCb, archiveReadCb, archiveCloseCb);
+        archive_, this, openCb, readCb, closeCb);
+    }
+
+    int
+    Reader::nextHeader(Entry &entry)
+    {
+      return archive_read_next_header2(archive_, entry);
     }
   }
 }

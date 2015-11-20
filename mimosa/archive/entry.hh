@@ -28,6 +28,11 @@ namespace mimosa
         e.entry_ = nullptr;
         return *this;
       }
+      inline Entry & operator=(struct archive_entry *entry) {
+        archive_entry_free(entry_);
+        entry_ = entry;
+        return *this;
+      }
 
       inline operator struct archive_entry *() const { return entry_; }
 
