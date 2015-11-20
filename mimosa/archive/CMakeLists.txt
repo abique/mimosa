@@ -1,8 +1,10 @@
 add_library(mimosa-archive
+  reader.cc
   writer.cc)
 
 install(FILES
   entry.hh
+  reader.hh
   writer.hh
   DESTINATION include/mimosa/archive/)
 
