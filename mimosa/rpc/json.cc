@@ -29,8 +29,7 @@ namespace mimosa
       for (int i = 0; i < desc->field_count(); ++i) {
         auto field = desc->field(i);
 
-        if ((!field->is_repeated() && !ref->HasField(msg, field)) ||
-            (field->is_repeated() && !ref->FieldSize(msg, field)))
+        if (!field->is_repeated() && !ref->HasField(msg, field))
           continue;
 
         enc.pushString(field->name());
