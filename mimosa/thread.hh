@@ -19,6 +19,8 @@ namespace mimosa
     ~Thread();
 
     inline Thread & setStackSize(uint32_t size) { stack_size_ = size; return *this; }
+    void setName(const std::string &name);
+    static void setCurrentName(const std::string &name);
 
     bool start();
     void join();

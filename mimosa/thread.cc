@@ -81,4 +81,14 @@ namespace mimosa
       return;
     ::pthread_cancel(thread_);
   }
+
+  void Thread::setName(const std::string &name)
+  {
+    pthread_setname_np(thread_, name.c_str());
+  }
+
+  void Thread::setCurrentName(const std::string &name)
+  {
+    pthread_setname_np(pthread_self(), name.c_str());
+  }
 }
