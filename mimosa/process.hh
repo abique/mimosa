@@ -2,6 +2,7 @@
 # define MIMOSA_PROCESS_HH
 
 # include <unistd.h>
+# include <fcntl.h>
 
 # include <string>
 # include <vector>
@@ -17,6 +18,8 @@ namespace mimosa
     inline void setEnv(const std::string & key, const std::string & value) {
       env_.push_back(std::make_pair(key, value));
     }
+    inline void fdMap(int parentFd, int childFd) { fds_.push_back(std::make_pair(parentFd, childFd)); }
+    bool fdMap(const char *path, int childFd, int flags = O_RDONLY, int mode = 0644);
 
     std::string dump() const;
 
@@ -25,6 +28,7 @@ namespace mimosa
     std::string wd_;
     std::vector<std::string> args_;
     std::vector<std::pair<std::string, std::string> > env_;
+    std::vector<std::pair<int, int> > fds_;
   };
 
   class Process : public ProcessConfig

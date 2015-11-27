@@ -17,6 +17,17 @@ namespace mimosa
     return os.str();
   }
 
+  bool
+  ProcessConfig::fdMap(const char *path, int childFd, int flags, int mode)
+  {
+    int fd = ::open(path, flags, mode);
+    if (fd < 0)
+      return false;
+
+    fdMap(fd, childFd);
+    return true;
+  }
+
   Process::Process()
   {
   }
@@ -33,9 +44,13 @@ namespace mimosa
     if (pid_ < 0)
       return false;
 
-    if (pid_ > 0)
+    if (pid_ > 0) {
+      for (auto &fds : fds_)
+        ::close(fds.first);
+
       // in the parent
       return true;
+    }
 
     // set working directory
     if (!wd_.empty() && chdir(wd_.c_str())) {
@@ -50,6 +65,11 @@ namespace mimosa
     // setenv
     for (auto & kv : env_)
       setenv(kv.first.c_str(), kv.second.c_str(), true);
+
+    for (auto &fds : fds_) {
+      ::dup2(fds.first, fds.second);
+      ::close(fds.first);
+    }
 
     // execv
     const char *args[args_.size() + 1];
