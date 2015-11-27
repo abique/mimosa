@@ -18,7 +18,7 @@ namespace mimosa
       {
         if (!copyFile(src, dst))
           return false;
-        if (rm(src, false, true)) {
+        if (!rm(src, false, true)) {
             rm(dst, false, true);
             return false;
         }
