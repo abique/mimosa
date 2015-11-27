@@ -18,9 +18,11 @@ namespace mimosa
 {
 void cpuForeach(const std::function<void ()>& cb, bool affinity, int ratio)
 {
+    assert(ratio >= 1);
+
     std::vector<std::unique_ptr<Thread> > threads;
     int nproc = cpuCount();
-    threads.resize(nproc);
+    threads.resize(nproc * ratio);
 
     for (int i = 0; i < nproc * ratio; ++i)
     {
@@ -29,10 +31,10 @@ void cpuForeach(const std::function<void ()>& cb, bool affinity, int ratio)
             cpu_set_t * set = nullptr;
             if (affinity)
             {
-                set = CPU_ALLOC(nproc / ratio);
+                set = CPU_ALLOC(nproc);
                 assert(set);
                 CPU_ZERO_S(nproc, set);
-                CPU_SET(i, set);
+                CPU_SET(i / ratio, set);
 
                 sched_setaffinity(0, CPU_ALLOC_SIZE(nproc), set);
             }
@@ -50,7 +52,7 @@ void cpuForeach(const std::function<void ()>& cb, bool affinity, int ratio)
         threads[i]->start();
     }
 
-    for (int i = 0; i < nproc; ++i)
+    for (int i = 0; i < nproc * ratio; ++i)
         threads[i]->join();
 }
 }
