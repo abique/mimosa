@@ -8,6 +8,10 @@
 # include <unistd.h>
 # include <sys/time.h>
 
+# ifdef __MACH__
+#  include <mach/clock.h>
+# endif
+
 # ifndef CLOCK_MONOTONIC_COARSE
 #  define CLOCK_MONOTONIC_COARSE CLOCK_MONOTONIC
 # endif
@@ -29,6 +33,35 @@ namespace mimosa
   const Time hour        = 60 * minute;
   const Time day         = 24 * hour;
 
+#ifdef __MACH__
+  inline Time realTime()
+  {
+    ::mach_timespec tp;
+    int ret = ::clock_get_time(CALENDAR_CLOCK, &tp);
+    if (ret)
+      throw std::runtime_error("clock_get_time");
+    return tp.tv_nsec * nanosecond + tp.tv_sec * second;
+  }
+
+  inline Time monotonicTime()
+  {
+    ::mach_timespec tp;
+    int ret = ::clock_get_time(SYSTEM_CLOCK, &tp);
+    if (ret)
+      throw std::runtime_error("clock_get_time");
+    return tp.tv_nsec * nanosecond + tp.tv_sec * second;
+  }
+
+  inline Time realTimeCoarse()
+  {
+    return realTime();
+  }
+
+  inline Time monotonicTimeCoarse()
+  {
+    return monotonicTime();
+  }
+#else
   inline Time realTime()
   {
     ::timespec tp;
@@ -64,6 +97,7 @@ namespace mimosa
       throw std::runtime_error("clock_gettime");
     return tp.tv_nsec * nanosecond + tp.tv_sec * second;
   }
+#endif
 
   inline Time time()
   {

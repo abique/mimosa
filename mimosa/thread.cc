@@ -3,6 +3,8 @@
 #include <cassert>
 #include <memory>
 
+#include <string>
+
 #include "thread.hh"
 
 namespace mimosa
@@ -84,11 +86,18 @@ namespace mimosa
 
   void Thread::setName(const std::string &name)
   {
+#ifdef __MACH__
+#else
     pthread_setname_np(thread_, name.c_str());
+#endif
   }
 
   void Thread::setCurrentName(const std::string &name)
   {
+#ifdef __MACH__
+    pthread_setname_np(name.c_str());
+#else
     pthread_setname_np(pthread_self(), name.c_str());
+#endif
   }
 }

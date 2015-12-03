@@ -25,12 +25,14 @@ namespace mimosa
       if (::pthread_condattr_init(&attr))
         throw std::bad_alloc();
 
+#ifndef __MACH__
       if (::pthread_condattr_setclock(&attr, CLOCK_MONOTONIC) ||
           ::pthread_cond_init(&cond_, &attr))
       {
         ::pthread_condattr_destroy(&attr);
         throw std::bad_alloc();
       }
+#endif
 
       ::pthread_condattr_destroy(&attr);
     }
