@@ -36,15 +36,21 @@ namespace mimosa
 #ifdef __MACH__
   inline Time realTime()
   {
+    ::clock_serv_t cal_clock;
     ::mach_timespec tp;
-    ::clock_get_time(CALENDAR_CLOCK, &tp);
+
+    ::host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &host_clock);
+    ::clock_get_time(cal_clock, &tp);
     return tp.tv_nsec * nanosecond + tp.tv_sec * second;
   }
 
   inline Time monotonicTime()
   {
+    ::clock_serv_t sys_clock;
     ::mach_timespec tp;
-    ::clock_get_time(SYSTEM_CLOCK, &tp);
+
+    ::host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &host_clock);
+    ::clock_get_time(sys_clock, &tp);
     return tp.tv_nsec * nanosecond + tp.tv_sec * second;
   }
 
