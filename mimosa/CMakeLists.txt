@@ -112,7 +112,7 @@ add_library(mimosa
   # core initialisation
   init.cc
   priviledge-drop.cc)
-target_link_libraries(mimosa ${GNUTLS_LIBRARY} nettle lzma ${ZLIB_LIBRARY} pthread rt)
+target_link_libraries(mimosa ${GNUTLS_LIBRARY} nettle lzma ${ZLIB_LIBRARY} pthread)
 
 add_subdirectory(format)
 add_subdirectory(options)
