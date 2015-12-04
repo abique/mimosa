@@ -9,6 +9,7 @@
 # include <sys/time.h>
 
 # ifdef __MACH__
+#  include <mach/mach.h>
 #  include <mach/clock.h>
 # endif
 
@@ -39,7 +40,7 @@ namespace mimosa
     ::clock_serv_t cal_clock;
     ::mach_timespec tp;
 
-    ::host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &host_clock);
+    ::host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cal_clock);
     ::clock_get_time(cal_clock, &tp);
     return tp.tv_nsec * nanosecond + tp.tv_sec * second;
   }
@@ -49,7 +50,7 @@ namespace mimosa
     ::clock_serv_t sys_clock;
     ::mach_timespec tp;
 
-    ::host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &host_clock);
+    ::host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &sys_clock);
     ::clock_get_time(sys_clock, &tp);
     return tp.tv_nsec * nanosecond + tp.tv_sec * second;
   }
