@@ -37,18 +37,14 @@ namespace mimosa
   inline Time realTime()
   {
     ::mach_timespec tp;
-    int ret = ::clock_get_time(CALENDAR_CLOCK, &tp);
-    if (ret)
-      throw std::runtime_error("clock_get_time");
+    ::clock_get_time(CALENDAR_CLOCK, &tp);
     return tp.tv_nsec * nanosecond + tp.tv_sec * second;
   }
 
   inline Time monotonicTime()
   {
     ::mach_timespec tp;
-    int ret = ::clock_get_time(SYSTEM_CLOCK, &tp);
-    if (ret)
-      throw std::runtime_error("clock_get_time");
+    ::clock_get_time(SYSTEM_CLOCK, &tp);
     return tp.tv_nsec * nanosecond + tp.tv_sec * second;
   }
 
