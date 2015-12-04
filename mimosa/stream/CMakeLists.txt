@@ -10,7 +10,6 @@ install(FILES
   filter.hh
   filter.hxx
   hash.hh
-  hash.hxx
   html-escape.hh
   limited-stream.hh
   lzma.hh

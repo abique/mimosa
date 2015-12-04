@@ -13,45 +13,42 @@ namespace mimosa
 {
   namespace stream
   {
-    template <typename Ctx,
-              void Init(Ctx *),
-              void Update(Ctx *, size_t, const uint8_t *),
-              void Digest(Ctx *, size_t, uint8_t *),
-              size_t Len>
-    class Hash : public Stream
-    {
-    public:
-      MIMOSA_DEF_PTR(Hash);
 
-      Hash();
-
-      void reset();
-
-      virtual int64_t write(const char * data, uint64_t nbytes);
-      virtual int64_t read(char * data, uint64_t nbytes);
-
-      char * digest();
-
-      static inline size_t digestLen() { return Len; }
-
-    private:
-      Ctx  ctx_;
-      char digest_[Len];
+#define MIMOSA_NETTLE_HASH(HASH, hash, Class)                           \
+    class Class : public Stream                                         \
+    {                                                                   \
+    public:                                                             \
+      MIMOSA_DEF_PTR(Class);                                            \
+                                                                        \
+      Class() { reset(); }                                              \
+                                                                        \
+      void reset() { hash##_init(&ctx_); }                              \
+                                                                        \
+      virtual int64_t write(const char *data, uint64_t nbytes)          \
+      {                                                                 \
+        hash##_update(&ctx_, nbytes, (const uint8_t *)data);            \
+        return nbytes;                                                  \
+      }                                                                 \
+                                                                        \
+      virtual int64_t read(char *, uint64_t)                            \
+      {                                                                 \
+        assert(false && "invalid operation");                           \
+        errno = EINVAL;                                                 \
+        return -1;                                                      \
+      }                                                                 \
+                                                                        \
+      char * digest()                                                   \
+      {                                                                 \
+        hash##_digest(&ctx_, sizeof (digest_), (uint8_t *)digest_);     \
+        return digest_;                                                 \
+      }                                                                 \
+                                                                        \
+      static inline size_t digestLen() { return HASH##_DIGEST_SIZE; }   \
+                                                                        \
+    private:                                                            \
+      hash##_ctx  ctx_;                                                 \
+      char        digest_[HASH##_DIGEST_SIZE];                          \
     };
-
-#define MIMOSA_NETTLE_HASH(HASH, hash, Class)                   \
-    typedef Hash<struct hash##_ctx,                             \
-                 hash##_init,                                   \
-                 hash##_update,                                 \
-                 hash##_digest,                                 \
-                 HASH##_DIGEST_SIZE> Class;                     \
-                                                                \
-    extern template class Hash<struct hash##_ctx,               \
-                               hash##_init,                     \
-                               hash##_update,                   \
-                               hash##_digest,                   \
-                               HASH##_DIGEST_SIZE>;
-
 
     MIMOSA_NETTLE_HASH(MD2, md2, Md2);
     MIMOSA_NETTLE_HASH(MD5, md5, Md5);
@@ -67,6 +64,6 @@ namespace mimosa
 
 #undef MIMOSA_NETTLE_HASH
   }
-}
+  }
 
 #endif /* !MIMOSA_STREAM_HASH_HH */
