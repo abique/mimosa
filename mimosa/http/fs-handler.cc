@@ -106,12 +106,14 @@ namespace mimosa
         return ErrorHandler::basicResponse(request, response, kStatusNotFound);
 
       if (S_ISREG(st.st_mode)) {
+#ifndef __MACH__
         if (use_xattr_) {
           char xattr_buffer[128];
           getxattr(real_path.c_str(), "user.Content-Type", xattr_buffer, sizeof (xattr_buffer));
           xattr_buffer[sizeof (xattr_buffer) - 1] = '\0';
           response.setContentType(xattr_buffer);
         }
+#endif
         return streamFile(request, response, real_path, st);
       } else if (S_ISDIR(st.st_mode) && can_readdir_)
         return readDir(request, response, real_path);
@@ -136,9 +138,11 @@ namespace mimosa
       if (stream::copy(request, out) < 0)
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
 
+#ifndef __MACH__
       if (use_xattr_)
         setxattr(real_path.c_str(), "user.Content-Type", request.contentType().c_str(),
                  request.contentType().size() + 1, 0);
+#endif
       return true;
     }
 
