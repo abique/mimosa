@@ -40,16 +40,18 @@ namespace mimosa
       ::pthread_rwlock_rdlock(&lock_);
     }
 
-    inline void trySharedMutex()
+    inline void trySharedLock()
     {
       ::pthread_rwlock_tryrdlock(&lock_);
     }
 
-    inline bool timedSharedMutex(Time time)
+#ifndef __MACH__
+    inline bool timedSharedLock(Time time)
     {
       ::timespec tp = toTimeSpec(time);
       return ::pthread_rwlock_timedrdlock(&lock_, &tp);
     }
+#endif
 
     inline void lock()
     {
@@ -61,11 +63,13 @@ namespace mimosa
       ::pthread_rwlock_trywrlock(&lock_);
     }
 
+#ifndef __MACH__
     inline bool timedLock(Time time)
     {
       ::timespec tp = toTimeSpec(time);
       return ::pthread_rwlock_timedwrlock(&lock_, &tp);
     }
+#endif
 
     inline void unlock()
     {
