@@ -1,3 +1,5 @@
+#include <cerrno>
+
 #include "reader.hh"
 
 namespace mimosa
@@ -6,7 +8,7 @@ namespace mimosa
   {
     int
     Reader::openCb(struct archive * /*archive*/,
-                   void *           ctx)
+                   void *           /*ctx*/)
     {
       return 0;
     }
@@ -46,6 +48,20 @@ namespace mimosa
     Reader::nextHeader(Entry &entry)
     {
       return archive_read_next_header2(archive_, entry);
+    }
+
+    int64_t
+    Reader::read(char *data, uint64_t nbytes)
+    {
+      return archive_read_data(archive_, data, nbytes);
+    }
+
+    int64_t
+    Reader::write(const char *, uint64_t)
+    {
+      assert(false && "should not be called");
+      errno = EINVAL;
+      return -1;
     }
   }
 }

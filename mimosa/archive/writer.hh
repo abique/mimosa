@@ -15,13 +15,18 @@ namespace mimosa
      * Note that only a subset of the original calls are present;
      * if you need more of them please send a patch.
      */
-    class Writer : private NonCopyable
+    class Writer : private stream::Stream
     {
     public:
+      MIMOSA_DEF_PTR(Writer);
+
       inline Writer() : archive_(archive_write_new()) {}
       inline ~Writer() { archive_write_free(archive_); }
 
       inline operator struct ::archive * () const { return archive_; }
+
+      int64_t read(char *data, uint64_t nbytes) override;
+      int64_t write(const char *data, uint64_t nbytes) override;
 
       //////////////
       /// Filter ///
@@ -89,7 +94,7 @@ namespace mimosa
 
       int open(stream::Stream::Ptr stream);
 
-      inline int close() { return archive_write_close(archive_); }
+      inline void close() override { archive_write_close(archive_); }
 
     private:
       struct ::archive *archive_;

@@ -11,9 +11,11 @@ namespace mimosa
 {
   namespace archive
   {
-    class Reader : private NonCopyable
+    class Reader : public stream::Stream
     {
     public:
+      MIMOSA_DEF_PTR(Reader);
+
       inline Reader() : archive_(archive_read_new()) {}
       inline ~Reader() { archive_read_free(archive_); }
 
@@ -22,6 +24,9 @@ namespace mimosa
       int open(stream::Stream::Ptr input);
 
       int nextHeader(Entry &e);
+
+      int64_t read(char *data, uint64_t nbytes) override;
+      int64_t write(const char *data, uint64_t nbytes) override;
 
       //////////////
       /// Filter ///
@@ -59,6 +64,8 @@ namespace mimosa
       static ssize_t readCb(struct archive *,
                             void *_client_data, const void **_buffer);
       static int closeCb(struct archive *, void *_client_data);
+
+      void close() { archive_read_close(archive_); }
 
       struct ::archive *archive_;
       stream::Stream::Ptr stream_;

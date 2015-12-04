@@ -1,3 +1,5 @@
+#include <cerrno>
+
 #include "writer.hh"
 
 namespace mimosa
@@ -35,6 +37,20 @@ namespace mimosa
     {
       return archive_write_open(
         archive_, stream, archiveOpenCb, archiveWriteCb, archiveCloseCb);
+    }
+
+    int64_t
+    Writer::write(const char *data, uint64_t nbytes)
+    {
+      return archive_write_data(archive_, data, nbytes);
+    }
+
+    int64_t
+    Writer::read(char *, uint64_t)
+    {
+      assert(false && "should not call");
+      errno = EINVAL;
+      return -1;
     }
   }
 }
