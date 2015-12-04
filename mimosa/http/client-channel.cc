@@ -42,7 +42,7 @@ namespace mimosa
     {
       uri::Url url;
       if (!url.parse(raw_url, nullptr))
-	return nullptr;
+        return nullptr;
 
       RequestWriter rw(*this);
       rw.setUrl(url);

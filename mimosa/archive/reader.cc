@@ -19,7 +19,7 @@ namespace mimosa
                    const void **    buffer)
     {
       Reader *thiz = reinterpret_cast<Reader *>(ctx);
-      auto rbytes = thiz->stream_->read(
+      int64_t rbytes = thiz->stream_->read(
                   thiz->buffer_->data(), thiz->buffer_->size());
       *buffer = thiz->buffer_->data();
       return rbytes;
@@ -62,6 +62,28 @@ namespace mimosa
       assert(false && "should not be called");
       errno = EINVAL;
       return -1;
+    }
+
+    bool
+    Reader::findEntry(const std::string &path, Entry &e)
+    {
+        while (nextHeader(e) == ARCHIVE_OK) {
+            auto pathname = archive_entry_pathname(e);
+            if (path == pathname)
+                return true;
+        }
+        return false;
+    }
+
+    bool
+    Reader::findEntryMatch(const re2::RE2 &match, Entry &e)
+    {
+        while (nextHeader(e) == ARCHIVE_OK) {
+            auto pathname = archive_entry_pathname(e);
+            if (re2::RE2::FullMatch(pathname, match))
+                return true;
+        }
+        return false;
     }
   }
 }

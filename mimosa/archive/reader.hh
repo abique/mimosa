@@ -1,6 +1,10 @@
 #pragma once
 
+#include <string>
+
 #include <archive.h>
+
+#include <re2/re2.h>
 
 #include "../stream/stream.hh"
 #include "../stream/buffer.hh"
@@ -22,8 +26,13 @@ namespace mimosa
       inline operator struct ::archive *() const { return archive_; }
 
       int open(stream::Stream::Ptr input);
+      int open(void *buf, size_t size) { return archive_read_open_memory(archive_, buf, size); }
+      int open(const std::string &str) { return open((void*)str.c_str(), str.size()); }
 
       int nextHeader(Entry &e);
+
+      bool findEntry(const std::string &path, Entry &e);
+      bool findEntryMatch(const re2::RE2 &match, Entry &e);
 
       int64_t read(char *data, uint64_t nbytes) override;
       int64_t write(const char *data, uint64_t nbytes) override;
@@ -32,6 +41,7 @@ namespace mimosa
       /// Filter ///
       //////////////
 
+      inline int filterAll() { return archive_read_support_filter_all(archive_); }
       inline int filterBzip2() { return archive_read_support_filter_bzip2(archive_); }
       inline int filterCompress() { return archive_read_support_filter_compress(archive_); }
       inline int filterGzip() { return archive_read_support_filter_gzip(archive_); }
@@ -49,6 +59,7 @@ namespace mimosa
       /// Format ///
       //////////////
 
+      inline int formatAll() { return archive_read_support_format_all(archive_); }
       inline int format7zip() { return archive_read_support_format_7zip(archive_); }
       inline int formatAr() { return archive_read_support_format_ar(archive_); }
       inline int formatCpio() { return archive_read_support_format_cpio(archive_); }

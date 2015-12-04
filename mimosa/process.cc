@@ -11,9 +11,9 @@ namespace mimosa
     std::ostringstream os;
     if (!wd_.empty())
       os << "cd " << wd_ << "; ";
-    os << path_;
+    os << "[" << path_ << "]";
     for (auto arg : args_)
-        os << " " << arg;
+        os << " \"" << arg << "\"";
     return os.str();
   }
 
