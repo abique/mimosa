@@ -278,7 +278,7 @@ namespace mimosa
         }
 
         if (range.start_ > 0)
-          if (::lseek64(fd, request.contentRangeStart(), SEEK_SET) != range.start_) {
+          if (::lseek(fd, request.contentRangeStart(), SEEK_SET) != range.start_) {
             ::close(fd);
             return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
           }
