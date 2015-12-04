@@ -65,7 +65,7 @@ namespace mimosa
                             void *_client_data, const void **_buffer);
       static int closeCb(struct archive *, void *_client_data);
 
-      void close() { archive_read_close(archive_); }
+      void close() override { archive_read_close(archive_); }
 
       struct ::archive *archive_;
       stream::Stream::Ptr stream_;
