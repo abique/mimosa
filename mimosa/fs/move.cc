@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <cerrno>
 
 #include "move.hh"
 #include "copy.hh"
