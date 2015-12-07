@@ -70,6 +70,7 @@ namespace mimosa
       DEF("jpg", "image/jpeg");
       DEF("js", "application/javascript");
       DEF("json", "application/json");
+      DEF("midi", "audio/midi");
       DEF("mkv", "video/x-matroska");
       DEF("mp3", "audio/mpeg");
       DEF("mp4", "video/mp4");
@@ -86,6 +87,8 @@ namespace mimosa
       DEF("text", "text/plain");
       DEF("txt", "text/plain");
       DEF("wav", "audio/x-wav");
+      DEF("weba", "audio/webm");
+      DEF("webm", "video/webm");
       DEF("xml", "text/xml");
 
       while (std::getline(in, line))
