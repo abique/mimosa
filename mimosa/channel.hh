@@ -36,6 +36,11 @@ namespace mimosa
       max_size_ = max_size;
     }
 
+    inline bool empty() const
+    {
+      return queue_.empty();
+    }
+
     inline void maxSize() const
     {
       return max_size_;
@@ -144,11 +149,6 @@ namespace mimosa
     }
 
   private:
-    inline bool empty() const
-    {
-      return queue_.empty();
-    }
-
     bool      closed_;
     QueueType queue_;
     Mutex     mutex_;
