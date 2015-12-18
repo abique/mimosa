@@ -1,9 +1,8 @@
-#ifndef MIMOSA_INTRUSIVE_HASH_TABLE_HH
-# define MIMOSA_INTRUSIVE_HASH_TABLE_HH
+#pragma once
 
-# include <cstdint>
+#include <cstdint>
 
-# include "non-copyable.hh"
+#include "non-copyable.hh"
 
 namespace mimosa
 {
@@ -52,6 +51,4 @@ namespace mimosa
   };
 }
 
-# include "intrusive-hash-table.hxx"
-
-#endif /* !MIMOSA_INTRUSIVE_HASH_TABLE_HH */
+#include "intrusive-hash-table.hxx"
