@@ -28,6 +28,30 @@ namespace mimosa
     return true;
   }
 
+  int
+  ProcessConfig::pipeInput(int childFd)
+  {
+    int fds[2];
+
+    if (::pipe(fds))
+      return -1;
+
+    fdMap(fds[0], childFd);
+    return fds[1];
+  }
+
+  int
+  ProcessConfig::pipeOutput(int childFd)
+  {
+    int fds[2];
+
+    if (::pipe(fds))
+      return -1;
+
+    fdMap(fds[1], childFd);
+    return fds[0];
+  }
+
   Process::Process()
   {
   }

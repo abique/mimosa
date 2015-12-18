@@ -1,11 +1,10 @@
-#ifndef MIMOSA_PROCESS_HH
-# define MIMOSA_PROCESS_HH
+#pragma once
 
-# include <unistd.h>
-# include <fcntl.h>
+#include <unistd.h>
+#include <fcntl.h>
 
-# include <string>
-# include <vector>
+#include <string>
+#include <vector>
 
 namespace mimosa
 {
@@ -20,6 +19,20 @@ namespace mimosa
     }
     inline void fdMap(int parentFd, int childFd) { fds_.push_back(std::make_pair(parentFd, childFd)); }
     bool fdMap(const char *path, int childFd, int flags = O_RDONLY, int mode = 0644);
+
+    /**
+     * @brief pipeInput create a pipe, readable for the child, writable for the parent
+     * @param childFd the file descriptor to use for the child, for exemple STDIN_FILENO
+     * @return the parent file descriptor
+     */
+    int pipeInput(int childFd);
+
+    /**
+     * @brief pipeOutput create a pipe, writable for the child, readable for the parent
+     * @param childFd the file descriptor to use for the child, for exemple STDOUT_FILENO
+     * @return the parent file descriptor
+     */
+    int pipeOutput(int childFd);
 
     std::string dump() const;
 
@@ -46,5 +59,3 @@ namespace mimosa
     pid_t pid_;
   };
 }
-
-#endif /* !MIMOSA_PROCESS_HH */
