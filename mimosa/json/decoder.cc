@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <limits>
 
 #include "decoder.hh"
 
@@ -249,6 +250,12 @@ namespace mimosa
           rational_ = integer_ * sign;
           return pullRationalExp();
 
+        case 'i':
+          if (got_number || !getc(&c) || c != 'n' || !getc(&c) || c != 'f')
+            throw SyntaxError();
+          rational_ = sign * std::numeric_limits<double>::infinity();
+          return kRational;
+
         default:
           ungetc(c);
           goto ret;
@@ -303,6 +310,7 @@ namespace mimosa
       case '7':
       case '8':
       case '9':
+      case 'i':
         ungetc(c);
         return pullNumber();
 

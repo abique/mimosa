@@ -45,6 +45,18 @@ namespace mimosa
         ASSERT_EQ(ss->str(), "{\"key1\":null,\"key2\":4224}");
       }
 
+      TEST(Encoder, Infinity)
+      {
+        auto ss = new stream::StringStream;
+        Encoder enc(ss);
+
+        ASSERT_EQ(enc.startArray(), true);
+        ASSERT_EQ(enc.pushFloat(std::numeric_limits<double>::infinity()), true);
+        ASSERT_EQ(enc.pushFloat(-std::numeric_limits<double>::infinity()), true);
+        ASSERT_EQ(enc.endArray(), true);
+        ASSERT_EQ(ss->str(), "[inf,-inf]");
+      }
+
       TEST(Encoder, ObjectBadCloseArray)
       {
         auto ss = new stream::StringStream;

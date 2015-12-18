@@ -1,3 +1,5 @@
+#include <limits>
+
 #include <gtest/gtest.h>
 
 #include "../../stream/string-stream.hh"
@@ -92,6 +94,8 @@ namespace mimosa
       TEST_RATIONAL(6E3, "6E3", 6000)
       TEST_RATIONAL(NEg6E3, "-6E3", -6000)
       TEST_RATIONAL(6d40143E3, "6.40143E3", 6401.43)
+      TEST_RATIONAL(Infinity, "inf", std::numeric_limits<double>::infinity())
+      TEST_RATIONAL(MinusInfinity, "-inf", -std::numeric_limits<double>::infinity())
 
       TEST(Decoder, ArrayEmpty)
       {
