@@ -112,7 +112,7 @@ namespace mimosa
       } else if (token == json::Decoder::kInteger) {                    \
         refl->Set##Fn(msg, field, dec.integer());                       \
       } else if (token == json::Decoder::kString) {                     \
-        refl->Add##Fn(msg, field, std::stod(dec.string()));             \
+        refl->Set##Fn(msg, field, std::stod(dec.string()));             \
       } else if (token != json::Decoder::kNull) {                       \
         throw InvalidFormat();                                          \
       }                                                                 \
