@@ -1,3 +1,5 @@
+#include <limits>
+
 #include "encoder.hh"
 #include "../format/format-stream.hh"
 
@@ -181,7 +183,14 @@ namespace mimosa
       if (!pushSeparator())
         return false;
 
-      if (!format::format(*output_, "%v", value))
+      if (value == std::numeric_limits<double>::infinity()) {
+        if (!format::format(*output_, "\"inf\""))
+          return false;
+      } else if (value == -std::numeric_limits<double>::infinity()) {
+        if (!format::format(*output_, "\"-inf\""))
+          return false;
+      }
+      else if (!format::format(*output_, "%v", value))
         return false;
 
       nextState();

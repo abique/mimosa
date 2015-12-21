@@ -97,6 +97,8 @@ namespace mimosa
           refl->Add##Fn(msg, field, dec.rational());                    \
         } else if (token == json::Decoder::kInteger) {                  \
           refl->Add##Fn(msg, field, dec.integer());                     \
+        } else if (token == json::Decoder::kString) {                   \
+          refl->Add##Fn(msg, field, std::stod(dec.string()));           \
         } else if (token != json::Decoder::kNull) {                     \
           throw InvalidFormat();                                        \
         }                                                               \

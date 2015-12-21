@@ -54,7 +54,7 @@ namespace mimosa
         ASSERT_EQ(enc.pushFloat(std::numeric_limits<double>::infinity()), true);
         ASSERT_EQ(enc.pushFloat(-std::numeric_limits<double>::infinity()), true);
         ASSERT_EQ(enc.endArray(), true);
-        ASSERT_EQ(ss->str(), "[inf,-inf]");
+        ASSERT_EQ(ss->str(), "[\"inf\",\"-inf\"]");
       }
 
       TEST(Encoder, ObjectBadCloseArray)
