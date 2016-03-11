@@ -59,7 +59,7 @@ namespace mimosa
 
       // variadic template
       template <typename ...Args>
-      inline Stmt& bind(Args ... args);
+      inline Stmt& bind(Args&& ... args);
 
       int step();
 
@@ -72,7 +72,7 @@ namespace mimosa
        * @return true if we got a row, and false otherwise
        */
       template <typename ... Args>
-      inline bool fetch(Args ... args);
+      inline bool fetch(Args&& ... args);
 
       inline operator sqlite3_stmt * () const
       {
@@ -82,43 +82,43 @@ namespace mimosa
     private:
       inline Stmt& bindChain(int) { return *this; }
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, int value, Args ... args);
+      inline Stmt& bindChain(int pos, int value, Args&& ... args);
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, unsigned int value, Args ... args);
+      inline Stmt& bindChain(int pos, unsigned int value, Args&& ... args);
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, int64_t value, Args ... args);
+      inline Stmt& bindChain(int pos, int64_t value, Args&& ... args);
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, uint64_t value, Args ... args);
+      inline Stmt& bindChain(int pos, uint64_t value, Args&& ... args);
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, double value, Args ... args);
+      inline Stmt& bindChain(int pos, double value, Args&& ... args);
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, const char * value, int nbytes, Args ... args);
+      inline Stmt& bindChain(int pos, const char * value, int nbytes, Args&& ... args);
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, const void * value, int nbytes, Args ... args);
+      inline Stmt& bindChain(int pos, const void * value, int nbytes, Args&& ... args);
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, const std::string & value, Args ... args);
+      inline Stmt& bindChain(int pos, const std::string & value, Args&& ... args);
       template <typename ...Args>
-      inline Stmt& bindChain(int pos, const StringRef & value, Args ... args);
+      inline Stmt& bindChain(int pos, const StringRef & value, Args&& ... args);
 
       inline void fetchChain(int) {}
       template <typename ...Args>
-      inline void fetchChain(int pos, bool * value, Args ... args);
+      inline void fetchChain(int pos, bool * value, Args&& ... args);
       template <typename ...Args>
-      inline void fetchChain(int pos, int * value, Args ... args);
+      inline void fetchChain(int pos, int * value, Args&& ... args);
       template <typename ...Args>
-      inline void fetchChain(int pos, int64_t * value, Args ... args);
+      inline void fetchChain(int pos, int64_t * value, Args&& ... args);
       template <typename ...Args>
-      inline void fetchChain(int pos, uint64_t * value, Args ... args);
+      inline void fetchChain(int pos, uint64_t * value, Args&& ... args);
       template <typename ...Args>
-      inline void fetchChain(int pos, double * value, Args ... args);
+      inline void fetchChain(int pos, double * value, Args&& ... args);
       template <typename ...Args>
-      inline void fetchChain(int pos, const char ** value, int * nbytes, Args ... args);
+      inline void fetchChain(int pos, const char ** value, int * nbytes, Args&& ... args);
       template <typename ...Args>
-      inline void fetchChain(int pos, const void ** value, int * nbytes, Args ... args);
+      inline void fetchChain(int pos, const void ** value, int * nbytes, Args&& ... args);
       template <typename ...Args>
-      inline void fetchChain(int pos, std::string * value, Args ... args);
+      inline void fetchChain(int pos, std::string * value, Args&& ... args);
       template <typename ...Args>
-      inline void fetchChain(int pos, StringRef * value, Args ... args);
+      inline void fetchChain(int pos, StringRef * value, Args&& ... args);
 
       sqlite3_stmt * stmt_;
     };
