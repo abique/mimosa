@@ -18,6 +18,7 @@ namespace mimosa
     static const size_type npos = -1;
 
     inline StringRef() : data_(0), len_(0) {}
+    inline StringRef(const StringRef &str) : data_(str.data()), len_(str.size()) {}
     inline StringRef(const char * string) : data_(string), len_(::strlen(string)) {}
     inline StringRef(const char * string, size_type len) : data_(string), len_(len) {}
     inline StringRef(const char * string, const char * end) : data_(string), len_(end - string) {}
@@ -31,6 +32,13 @@ namespace mimosa
     inline const char *begin() const { return data_; }
     inline const char *end() const { return data_ + len_; }
 
+    inline StringRef& operator=(const StringRef &str)
+    {
+      data_ = str.data_;
+      len_ = str.len_;
+      return *this;
+    }
+
     inline char operator[](size_type pos) const { assert(len_ > pos); return data_[pos]; }
 
     inline bool operator==(const StringRef & other) const {
@@ -41,7 +49,7 @@ namespace mimosa
       return !(*this == other);
     }
 
-    inline operator std::string() const {
+    explicit inline operator std::string() const {
       return std::string(data_, len_);
     }
 
