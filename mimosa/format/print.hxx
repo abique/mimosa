@@ -44,6 +44,11 @@ namespace mimosa
       return stream.loopWrite(str.data(), str.size()) == (int64_t)str.size();
     }
 
+    inline bool print(stream::Stream & stream, const StringRef & str)
+    {
+      return stream.loopWrite(str.data(), str.size()) == (int64_t)str.size();
+    }
+
     inline bool print(stream::Stream & stream, const char *str, size_t len)
     {
       return stream.loopWrite(str, len) == (int64_t)len;

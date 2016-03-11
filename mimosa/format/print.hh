@@ -6,6 +6,7 @@
 
 # include "../time.hh"
 # include "../stream/stream.hh"
+# include "../string-ref.hh"
 
 namespace mimosa
 {
@@ -25,6 +26,7 @@ namespace mimosa
     inline bool print(stream::Stream & stream, const char *str, size_t len);
     inline bool print(stream::Stream & stream, const char *str);
     inline bool print(stream::Stream & stream, const std::string & str);
+    inline bool print(stream::Stream & stream, const StringRef & str);
   }
 }
 

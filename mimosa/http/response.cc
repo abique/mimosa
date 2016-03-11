@@ -246,7 +246,7 @@ namespace mimosa
         else
           keep_alive_ = proto_minor_;
       } else if (key.strcaseeq("Content-Type"))
-        content_type_ = value;
+        content_type_ = (std::string)value;
       else if (key.strcaseeq("Content-Encoding")) {
         if (value.strcaseeq("compress"))
           content_encoding_ = kCodingCompress;
@@ -264,7 +264,7 @@ namespace mimosa
         else if (value.strcaseeq("identity"))
           transfer_encoding_ = kCodingIdentity;
       } else
-        unparsed_headers_.emplace(std::make_pair(key, value));
+        unparsed_headers_.emplace(std::make_pair((std::string)key, (std::string)value));
       return true;
     }
   }

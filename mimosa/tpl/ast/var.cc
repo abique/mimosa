@@ -26,7 +26,7 @@ namespace mimosa
         }
 
         for (auto it = filters_.begin(); it != filters_.end(); ++it)
-          stream = FilterFactory::instance().create(*it, stream);
+          stream = FilterFactory::instance().create((std::string)*it, stream);
 
         if (v)
           v->write(stream);

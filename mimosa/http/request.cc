@@ -187,7 +187,7 @@ namespace mimosa
     {
       url_ = url;
       setRawLocation(url.rawUrl());
-      setHost(url.host());
+      setHost((std::string)url.host());
       setPort(url.port());
     }
   }

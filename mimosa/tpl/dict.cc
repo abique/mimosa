@@ -15,7 +15,7 @@ namespace mimosa
       if (var == ".")
         return this;
 
-      auto it = values_.find(var);
+      auto it = values_.find((std::string)var);
       if (it != values_.end())
         return it->second.get();
 

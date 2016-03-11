@@ -23,7 +23,7 @@ namespace mimosa
     }
 
     bool
-    ClientChannel::connect(const std::string & host, uint16_t port, bool ssl)
+    ClientChannel::connect(const StringRef & host, uint16_t port, bool ssl)
     {
       int fd = net::connectToHost(host, port);
       if (fd < 0)
