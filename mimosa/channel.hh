@@ -41,7 +41,7 @@ namespace mimosa
       return queue_.empty();
     }
 
-    inline void maxSize() const
+    inline size_t maxSize() const
     {
       return max_size_;
     }
