@@ -1,4 +1,6 @@
-#include <sys/wait.h>
+#ifdef __unix__
+# include <sys/wait.h>
+#endif
 
 #include "process.hh"
 #include "log/log.hh"
@@ -88,7 +90,9 @@ namespace mimosa
 
     // setenv
     for (auto & kv : env_)
+	{
       setenv(kv.first.c_str(), kv.second.c_str(), true);
+	}
 
     for (auto &fds : fds_) {
       ::dup2(fds.first, fds.second);

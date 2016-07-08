@@ -20,9 +20,11 @@ namespace mimosa
 
       if (S_ISREG(st.st_mode) ||
           S_ISFIFO(st.st_mode) ||
+#ifndef __WIN32__
           S_ISSOCK(st.st_mode) ||
-          S_ISBLK(st.st_mode) ||
           S_ISLNK(st.st_mode) ||
+#endif
+          S_ISBLK(st.st_mode) ||
           S_ISCHR(st.st_mode)) {
         if (!::unlink(path.c_str()))
           return true;

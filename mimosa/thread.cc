@@ -86,7 +86,8 @@ namespace mimosa
 
   void Thread::setName(const std::string &name)
   {
-#ifdef __MACH__
+#ifdef __WIN32__
+#elif defined(__MACH__)
 #else
     pthread_setname_np(thread_, name.c_str());
 #endif
@@ -96,6 +97,7 @@ namespace mimosa
   {
 #ifdef __MACH__
     pthread_setname_np(name.c_str());
+#elif defined(__WIN32__)
 #else
     pthread_setname_np(pthread_self(), name.c_str());
 #endif

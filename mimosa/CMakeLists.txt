@@ -62,6 +62,7 @@ add_library(mimosa
   thread-pool.cc
   uptime.cc
   process.cc
+  env.cc
 
   # sync
   barrier.cc
