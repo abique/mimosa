@@ -1,3 +1,5 @@
+#include <poll.h>
+
 #include "io.hh"
 #include "accept.hh"
 

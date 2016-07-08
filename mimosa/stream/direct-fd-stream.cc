@@ -38,7 +38,23 @@ namespace mimosa
     int64_t
     DirectFdStream::writev(const struct iovec *iov, int iovcnt)
     {
+#ifdef __unix__
       return ::writev(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
+#elif
+      int64_t nbytes = 0;
+      for (int i = 0; i < iovcnt; ++i) {
+        int64_t ret = write(iov[i].iov_base, iov[i].iov_len);
+
+        if (ret <= 0)
+          return nbytes > 0 ? nbytes : ret;
+
+        if (ret < iov[i].iov_len)
+          return nbytes + ret;
+
+        nbytes += ret;
+      }
+      return nbytes;
+#endif
     }
 
     int64_t
@@ -50,7 +66,23 @@ namespace mimosa
     int64_t
     DirectFdStream::readv(const struct iovec *iov, int iovcnt)
     {
+#ifdef __unix__
       return ::readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
+#elif
+      int64_t nbytes = 0;
+      for (int i = 0; i < iovcnt; ++i) {
+        int64_t ret = read(iov[i].iov_base, iov[i].iov_len);
+
+        if (ret <= 0)
+          return nbytes > 0 ? nbytes : ret;
+
+        if (ret < iov[i].iov_len)
+          return nbytes + ret;
+
+        nbytes += ret;
+      }
+      return nbytes;
+#endif
     }
 
     void

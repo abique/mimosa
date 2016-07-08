@@ -1,4 +1,8 @@
-#include <netdb.h>
+#ifdef __unix__
+# include <poll.h>
+# include <netdb.h>
+#endif
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>

@@ -2,8 +2,6 @@
 
 #include "../compat/uio.hh"
 
-#include <poll.h>
-
 #include "../time.hh"
 
 namespace mimosa

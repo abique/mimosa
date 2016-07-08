@@ -1,10 +1,16 @@
-#ifndef MIMOSA_NET_PRINT_HH
-# define MIMOSA_NET_PRINT_HH
+#pragma once
 
-# include <sys/types.h>
+#include <sys/types.h>
+
+#ifdef __unix__
 # include <sys/socket.h>
+#endif
 
-# include <string>
+#ifdef __WIN32__
+# include <winsock2.h>
+#endif
+
+#include <string>
 
 namespace mimosa
 {
@@ -14,4 +20,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_NET_PRINT_HH */

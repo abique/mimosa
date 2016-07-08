@@ -1,6 +1,10 @@
 #include <climits>
 #include <cerrno>
 
+#ifdef __unix__
+# include <poll.h>
+#endif
+
 #include "io.hh"
 
 namespace mimosa

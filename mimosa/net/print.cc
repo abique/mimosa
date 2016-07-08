@@ -1,4 +1,10 @@
-#include <netdb.h>
+#ifdef __unix__
+# include <netdb.h>
+#endif
+
+#ifdef __WIN32__
+# include <ws2tcpip.h>
+#endif
 
 #include "print.hh"
 
