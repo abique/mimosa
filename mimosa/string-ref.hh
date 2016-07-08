@@ -25,7 +25,8 @@ namespace mimosa
     inline StringRef(const std::string & str) : data_(str.data()), len_(str.size()) {}
 
     inline size_type size() const { return len_; }
-    inline const char * data() const { return data_; }
+    inline const char *data() const { return data_; }
+    inline const char *c_str() const { return data_; }
     inline bool empty() const { return !data_ || !len_; }
     inline void clear() { data_ = nullptr; len_ = 0; }
 
