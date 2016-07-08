@@ -1,10 +1,10 @@
-#ifndef MIMOSA_NET_IO_HH
-# define MIMOSA_NET_IO_HH
+#pragma once
 
-# include <sys/uio.h>
-# include <poll.h>
+#include "../compat/uio.hh"
 
-# include "../time.hh"
+#include <poll.h>
+
+#include "../time.hh"
 
 namespace mimosa
 {
@@ -19,4 +19,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_NET_IO_HH */

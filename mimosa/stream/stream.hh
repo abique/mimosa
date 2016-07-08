@@ -1,16 +1,7 @@
 #ifndef MIMOSA_STREAM_STREAM_HH
 # define MIMOSA_STREAM_STREAM_HH
 
-# include <sys/types.h>
-
-# ifdef __unix__
-#  include <sys/uio.h>
-# else
-struct iovec {
-  void     *iov_base = nullptr;
-  uint64_t *iov_len  = 0;
-};
-# endif
+# include "../compat/uio.hh"
 
 # include <unistd.h>
 # include <limits.h>
