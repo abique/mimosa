@@ -1,7 +1,7 @@
 #include <climits>
 #include <cerrno>
 
-#ifdef __unix__ || __APPLE__
+#if defined(__unix__) || defined(__APPLE__)
 # include <poll.h>
 #endif
 

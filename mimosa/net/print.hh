@@ -2,7 +2,7 @@
 
 #include <sys/types.h>
 
-#ifdef __unix__ || __APPLE__
+#if defined(__unix__) || defined(__APPLE__)
 # include <sys/socket.h>
 #endif
 
