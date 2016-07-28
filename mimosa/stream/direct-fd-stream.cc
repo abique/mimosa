@@ -40,7 +40,7 @@ namespace mimosa
     {
 #ifdef __unix__
       return ::writev(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
-#elif
+#else
       int64_t nbytes = 0;
       for (int i = 0; i < iovcnt; ++i) {
         int64_t ret = write(iov[i].iov_base, iov[i].iov_len);
@@ -68,7 +68,7 @@ namespace mimosa
     {
 #ifdef __unix__
       return ::readv(fd_, iov, iovcnt < IOV_MAX ? iovcnt : IOV_MAX);
-#elif
+#else
       int64_t nbytes = 0;
       for (int i = 0; i < iovcnt; ++i) {
         int64_t ret = read(iov[i].iov_base, iov[i].iov_len);
