@@ -6,8 +6,9 @@ enable_testing()
 
 find_package(ZLIB)
 find_package(GnuTLS)
+find_package(LibArchive)
 
-include_directories(${GNUTLS_INCLUDE_DIR} .)
+include_directories(${GNUTLS_INCLUDE_DIR} ${LIBARCHIVE_INCLUDE_DIR} .)
 
 add_definitions(
   -std=c++11
@@ -17,6 +18,7 @@ add_definitions(
 
 if(GNUTLS_FOUND)
   add_definitions(${GNUTLS_DEFINITIONS})
+  add_definitions(${LIBARCHIVE_DEFINITIONS})
 endif()
 
 include(cmake/Tests.cmake)
@@ -25,6 +27,11 @@ include(cmake/Bison.cmake)
 include(cmake/ProtocMimosa.cmake)
 
 include(CheckFunctionExists)
+
+check_function_exists(writev HAS_WRITEV)
+if(HAS_WRITEV)
+  add_definitions(-DHAS_WRITEV)
+endif()
 
 check_function_exists(strchrnul HAS_STRCHRNUL)
 if(HAS_STRCHRNUL)
