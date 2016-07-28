@@ -8,7 +8,7 @@ find_package(ZLIB)
 find_package(GnuTLS)
 find_package(LibArchive)
 
-include_directories(${GNUTLS_INCLUDE_DIR} ${LIBARCHIVE_INCLUDE_DIR} .)
+include_directories(${GNUTLS_INCLUDE_DIR} ${LibArchive_INCLUDE_DIR} .)
 
 add_definitions(
   -std=c++11
@@ -18,7 +18,7 @@ add_definitions(
 
 if(GNUTLS_FOUND)
   add_definitions(${GNUTLS_DEFINITIONS})
-  add_definitions(${LIBARCHIVE_DEFINITIONS})
+  add_definitions(${LibArchive_DEFINITIONS})
 endif()
 
 include(cmake/Tests.cmake)
