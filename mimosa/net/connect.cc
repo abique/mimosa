@@ -1,4 +1,4 @@
-#ifdef __unix__
+#ifdef __unix__ || __APPLE__
 # include <poll.h>
 # include <netdb.h>
 #endif
