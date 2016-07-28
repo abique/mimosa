@@ -373,6 +373,23 @@ namespace mimosa
         Request rq;
         EXPECT_EQ(true, rq.parse(str, sizeof (str)));
       }
+
+      TEST(RequestParser, GetFailScissy1)
+      {
+        const char str[]=
+            "GET /html/register.html HTTP/1.1\r\n"
+            "Host: 192.168.7.115:19042\r\n"
+            "Connection: keep-alive\r\n"
+            "Accept: application/json, text/plain, */*\r\n"
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36\r\n"
+            "DNT: 1\r\n"
+            "Referer: https://192.168.7.115:19042/\r\n"
+            "Accept-Encoding: gzip, deflate, sdch, br\r\n"
+            "Accept-Language: en-US,en;q=0.8,fr;q=0.6\r\n"
+            "\r\n";
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+      }
     }
   }
 }
