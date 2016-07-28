@@ -1,4 +1,4 @@
-#ifdef __unix__
+#ifdef __unix__ || __APPLE__
 # include <netdb.h>
 #endif
 
