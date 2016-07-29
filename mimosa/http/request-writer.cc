@@ -13,7 +13,7 @@ namespace mimosa
     {
       bool is_ssl = url_.scheme() == uri::kSchemeHttps;
 
-      if (!channel_.connect(url_.host(), url_.port(), is_ssl))
+      if (!channel_.connect(url_.host().asStdString(), url_.port(), is_ssl))
         return false;
 
       if (!sendHeader())

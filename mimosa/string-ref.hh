@@ -51,6 +51,10 @@ namespace mimosa
       return !(*this == other);
     }
 
+    std::string asStdString() const {
+        return std::string(data_, len_);
+    }
+
     explicit inline operator std::string() const {
       return std::string(data_, len_);
     }

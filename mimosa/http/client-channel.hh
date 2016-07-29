@@ -29,7 +29,7 @@ namespace mimosa
         addr_len_ = addr_len;
       }
 
-      bool connect(const StringRef & host, uint16_t port, bool ssl);
+      bool connect(const std::string &host, uint16_t port, bool ssl);
       bool readResponse(Response & rp);
 
       inline const ::sockaddr * remoteAddr() const { return addr_; }

@@ -39,7 +39,7 @@ namespace mimosa
       return ::connect(socket, address, address_len);
     }
 
-    int connectToHost(const StringRef &host, uint16_t port, Time timeout)
+    int connectToHost(const std::string &host, uint16_t port, Time timeout)
     {
       ::hostent * host_entry = gethostbyname(host.c_str());
       if (!host_entry)
