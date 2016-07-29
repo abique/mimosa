@@ -1,11 +1,12 @@
-#ifndef MIMOSA_STRING_REF_HH
-# define MIMOSA_STRING_REF_HH
+#pragma once
 
-# include <cstring>
-# include <cassert>
-# include <string>
-# include <ostream>
-# include <vector>
+#include <cstring>
+#include <cassert>
+#include <string>
+#include <ostream>
+#include <vector>
+
+#include "preproc.hh"
 
 namespace mimosa
 {
@@ -119,11 +120,15 @@ namespace mimosa
     }
 
     inline StringRef getLine(const StringRef & eol = "\n") const {
+#if defined(MIMOSA_UNIX)
       const char  *r = (const char *)memmem(
         (const void *)data_, len_, (const void *)eol.data_, eol.len_);
       if (!r)
         return *this;
       return StringRef(data_, r - data_ + eol.size());
+#else
+	  # error "missing implementation on this platform"
+#endif
     }
 
     inline StringRef consumeLine(const StringRef & eol = "\n") {
@@ -232,5 +237,3 @@ namespace std
     return os;
   }
 }
-
-#endif /* !MIMOSA_STRING_REF_HH */

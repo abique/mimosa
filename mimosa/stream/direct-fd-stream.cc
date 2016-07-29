@@ -43,7 +43,7 @@ namespace mimosa
 #else
       int64_t nbytes = 0;
       for (int i = 0; i < iovcnt; ++i) {
-        int64_t ret = write(iov[i].iov_base, iov[i].iov_len);
+		int64_t ret = write(static_cast<char *>(iov[i].iov_base), iov[i].iov_len);
 
         if (ret <= 0)
           return nbytes > 0 ? nbytes : ret;
@@ -71,7 +71,7 @@ namespace mimosa
 #else
       int64_t nbytes = 0;
       for (int i = 0; i < iovcnt; ++i) {
-        int64_t ret = read(iov[i].iov_base, iov[i].iov_len);
+		int64_t ret = read(static_cast<char *>(iov[i].iov_base), iov[i].iov_len);
 
         if (ret <= 0)
           return nbytes > 0 ? nbytes : ret;

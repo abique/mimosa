@@ -48,4 +48,14 @@ if(HAS_SCHED_SETAFFINITY)
   add_definitions(-DHAS_SCHED_SETAFFINITY)
 endif()
 
+check_function_exists(poll HAS_POLL)
+if(HAS_POLL)
+  add_definitions(-DHAS_POLL)
+endif()
+
+check_function_exists(pipe HAS_PIPE)
+if(HAS_PIPE)
+  add_definitions(-DHAS_PIPE)
+endif()
+
 add_subdirectory(mimosa)

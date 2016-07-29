@@ -1,9 +1,10 @@
-#ifndef MIMOSA_NET_ACCEPT_HH
-# define MIMOSA_NET_ACCEPT_HH
+#pragma once
 
-# include <sys/socket.h>
+#
 
-# include "../time.hh"
+#include <sys/socket.h>
+
+#include "../time.hh"
 
 namespace mimosa
 {
@@ -13,5 +14,3 @@ namespace mimosa
                Time timeout);
   }
 }
-
-#endif /* !MIMOSA_NET_ACCEPT_HH */

@@ -1,10 +1,7 @@
 #include <climits>
 #include <cerrno>
 
-#if defined(__unix__) || defined(__APPLE__)
-# include <poll.h>
-#endif
-
+#include "common.hh"
 #include "io.hh"
 
 namespace mimosa

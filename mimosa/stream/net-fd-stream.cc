@@ -1,5 +1,4 @@
-#include <poll.h>
-#include <sys/socket.h>
+#include "../net/common.hh"
 
 #include "net-fd-stream.hh"
 #include "../net/io.hh"

@@ -1,4 +1,10 @@
-#ifdef __unix__
+#include "preproc.hh"
+
+#ifdef MIMOSA_WIN
+# include <windows.h>
+#endif
+
+#ifdef MIMOSA_UNIX
 # include <sys/wait.h>
 #endif
 

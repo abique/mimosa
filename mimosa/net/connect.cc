@@ -1,10 +1,21 @@
-#if defined(__unix__) || defined(__APPLE__)
-# include <poll.h>
-# include <netdb.h>
-#endif
+#include "../preproc.hh"
 
 #include <sys/types.h>
-#include <sys/socket.h>
+
+#ifdef MIMOSA_WIN
+# include <winsock2.h>
+# include <Ws2tcpip.h>
+
+// Link with ws2_32.lib
+# pragma comment(lib, "Ws2_32.lib")
+#endif
+
+#ifdef MIMOSA_UNIX
+# include <poll.h>
+# include <netdb.h>
+# include <sys/socket.h>
+#endif
+
 #include <sys/un.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
