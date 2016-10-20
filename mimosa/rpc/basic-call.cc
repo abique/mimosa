@@ -32,6 +32,7 @@ namespace mimosa
     {
       if (is_finished_ || is_canceled_)
         return;
+
       Mutex::Locker locker(mutex_);
       if (is_finished_ || is_canceled_)
         return;
@@ -43,6 +44,7 @@ namespace mimosa
     {
       if (is_finished_ || is_canceled_)
         return;
+
       Mutex::Locker locker(mutex_);
       if (is_finished_ || is_canceled_)
         return;

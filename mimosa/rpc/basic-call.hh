@@ -1,12 +1,11 @@
-#ifndef MIMOSA_RPC_BASIC_CALL_HH
-# define MIMOSA_RPC_BASIC_CALL_HH
+#pragma once
 
-# include <google/protobuf/message.h>
+#include <google/protobuf/message.h>
 
-# include "../ref-countable.hh"
-# include "../non-copyable.hh"
-# include "../mutex.hh"
-# include "../condition.hh"
+#include "../ref-countable.hh"
+#include "../non-copyable.hh"
+#include "../mutex.hh"
+#include "../condition.hh"
 
 namespace mimosa
 {
@@ -58,5 +57,3 @@ namespace mimosa
     };
   }
 }
-
-#endif /* !MIMOSA_RPC_BASIC_CALL_HH */
