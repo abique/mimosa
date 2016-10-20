@@ -167,6 +167,7 @@ namespace mimosa
       char *  data = 1 + (char *)&msg.type_;
       if (stream_->loopRead(data, sizeof (msg) - 1) != sizeof (msg) - 1)
         return false;
+
       msg.tag_        = le32toh(msg.tag_);
       msg.service_id_ = le32toh(msg.service_id_);
       msg.method_id_  = le32toh(msg.method_id_);
@@ -179,11 +180,15 @@ namespace mimosa
 
       // read the end of the message
       data = (char *)::malloc(msg.rq_size_);
-      if (!data)
+      if (!data) {
+        sendError(kInternalError, call->tag(), kOriginYou);
         return false;
+      }
+
       if (stream_->loopRead(data, msg.rq_size_) != msg.rq_size_)
       {
         free(data);
+        sendError(kInternalError, call->tag(), kOriginYou);
         return false;
       }
 
