@@ -1,6 +1,8 @@
 #ifndef MIMOSA_RPC_CHANNEL_HH
 # define MIMOSA_RPC_CHANNEL_HH
 
+# include <unordered_map>
+
 # include "../non-copyable.hh"
 # include "../ref-countable.hh"
 # include "../stream/buffer.hh"
@@ -16,6 +18,12 @@ namespace mimosa
   {
     class Server;
 
+    /**
+     * @brief The Channel class can multiplex many output requests/responses
+     * and incoming requests/responses.
+     *
+     * So it has two threads, one for writing and one for reading.
+     */
     class Channel : public RefCountable<Channel>,
                     private NonCopyable
     {
@@ -62,17 +70,17 @@ namespace mimosa
       typedef mimosa::Channel<stream::Buffer::Ptr,
                               stream::Buffer::Slist> write_queue_type;
 
-      stream::BufferedStream::Ptr        stream_;
-      ServiceMap::ConstPtr               service_map_;
-      Mutex                              scalls_mutex_;
-      std::map<uint32_t, BasicCall::Ptr> scalls_; // sent calls
-      Mutex                              rcalls_mutex_;
-      std::map<uint32_t, BasicCall::Ptr> rcalls_; // received calls
-      Status                             status_;
-      uint32_t                           next_tag_;
-      Thread                             wthread_;
-      Thread                             rthread_;
-      write_queue_type                   write_queue_;
+      stream::BufferedStream::Ptr                  stream_;
+      ServiceMap::ConstPtr                         service_map_;
+      Mutex                                        scalls_mutex_;
+      std::unordered_map<uint32_t, BasicCall::Ptr> scalls_; // sent calls
+      Mutex                                        rcalls_mutex_;
+      std::unordered_map<uint32_t, BasicCall::Ptr> rcalls_; // received calls
+      Status                                       status_;
+      uint32_t                                     next_tag_;
+      Thread                                       wthread_;
+      Thread                                       rthread_;
+      write_queue_type                             write_queue_;
     };
   }
 }
