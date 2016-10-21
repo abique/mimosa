@@ -225,6 +225,7 @@ class ServiceGenerator : public gpc::CodeGenerator
       "class $ServiceName$_Client;\n"
       "class $ServiceName$_Server;\n"
       "class $ServiceName$HttpHandler;\n"
+      "class $ServiceName$HttpClient;\n"
       "class $ServiceName$ : public ::mimosa::rpc::Service\n"
       "{\n"
       "public:\n"
@@ -232,12 +233,61 @@ class ServiceGenerator : public gpc::CodeGenerator
       "  typedef $ServiceName$_Client Client;\n"
       "  typedef $ServiceName$_Server Server;\n"
       "  typedef $ServiceName$HttpHandler HttpHandler;\n"
+      "  typedef $ServiceName$HttpClient HttpClient;\n"
       "  inline virtual uint32_t id() const { return $ServiceId$; }\n"
       "  inline virtual const char * name() const { return \"$ServiceFullName$\"; }\n"
       "};\n\n"
       );
 
     return true;
+  }
+
+  static bool generateHttpClient(gpio::Printer &               printer,
+                                 const gp::ServiceDescriptor * service,
+                                 std::string *                 error)
+  {
+      std::map<std::string, std::string> variables;
+      if (!fillServiceDict(service, &variables, error))
+        return false;
+      printer.Print(
+        variables,
+        "class $ServiceName$HttpClient : public ::mimosa::RefCountable<$ServiceName$HttpClient>\n"
+        "{\n"
+        "public:\n"
+        "  MIMOSA_DEF_PTR($ServiceName$HttpClient);\n"
+        "  inline\n"
+        "  $ServiceName$HttpClient(const std::string &base_url)\n"
+        "    : base_url_(base_url)\n"
+        "  {\n"
+        "  }\n"
+        "\n"
+        );
+
+      printer.Indent(); printer.Indent(); printer.Indent();
+      for (int mi = 0; mi < service->method_count(); ++mi)
+      {
+        auto method = service->method(mi);
+        fillMethodDict(method, &variables);
+        printer.Print(
+          variables,
+          "bool $MethodName$(const $RequestType$ &request,\n"
+          "  $ResponseType$ *response)\n"
+          "{\n"
+          "  return ::mimosa::rpc::httpCall(base_url_ + \"/$MethodName$\", request, response);\n"
+          "}\n"
+          );
+      }
+      printer.Outdent(); printer.Outdent(); printer.Outdent();
+
+      printer.Print(
+        variables,
+        "\n"
+        "private:\n"
+        "  std::string base_url_;\n"
+        "};\n\n"
+        );
+
+      return true;
   }
 
   static bool generateHttpHandler(gpio::Printer &               printer,
@@ -376,7 +426,8 @@ class ServiceGenerator : public gpc::CodeGenerator
         "#include <mimosa/rpc/call.hh>\n"
         "#include <mimosa/rpc/channel.hh>\n"
         "#include <mimosa/rpc/json.hh>\n"
-        "#include <mimosa/rpc/exception.hh>\n");
+        "#include <mimosa/rpc/exception.hh>\n"
+        "#include <mimosa/rpc/http-call.hh>\n");
     }
 
     for (int i = 0; i < file->service_count(); ++i)
@@ -390,6 +441,8 @@ class ServiceGenerator : public gpc::CodeGenerator
       if (!generateServiceClient(printer, file->service(i), error))
         return false;
       if (!generateHttpHandler(printer, file->service(i), error))
+        return false;
+      if (!generateHttpClient(printer, file->service(i), error))
         return false;
     }
 
