@@ -273,7 +273,7 @@ class ServiceGenerator : public gpc::CodeGenerator
           "bool $MethodName$(const $RequestType$ &request,\n"
           "  $ResponseType$ *response)\n"
           "{\n"
-          "  return ::mimosa::rpc::httpCall(base_url_ + \"/$MethodName$\", request, response);\n"
+          "  return ::mimosa::rpc::httpCall(base_url_ + \"$MethodName$\", request, response);\n"
           "}\n"
           );
       }
