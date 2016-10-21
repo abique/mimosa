@@ -10,3 +10,6 @@ target_link_libraries(mget mimosa-http)
 
 add_executable(mput mput.cc)
 target_link_libraries(mput mimosa-flat mimosa-http)
+
+add_executable(mpost mpost.cc)
+target_link_libraries(mpost mimosa-flat mimosa-http)
