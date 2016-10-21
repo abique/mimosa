@@ -5,6 +5,7 @@ install(FILES
   channel.hh
   exception.hh
   json.hh
+  log.hh
   protocol.hh
   server.hh
   service.hh
@@ -14,6 +15,7 @@ install(FILES
 add_library(mimosa-rpc
   basic-call.cc
   channel.cc
+  log.cc
   server.cc
   service.cc
   service-map.cc)

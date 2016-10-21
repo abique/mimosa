@@ -4,11 +4,11 @@
 
 namespace mimosa
 {
-  namespace http
+  namespace rpc
   {
     /**
      * @ingroup Http
      */
-    extern log::Origin * http_log;
+    extern log::Origin * rpc_log;
   }
 }
