@@ -100,6 +100,15 @@ namespace mimosa
 	  "",
 	  "",
 	},
+          {
+            "http://192.168.7.115:2510/api/pullTestData",
+            kSchemeHttp,
+            "192.168.7.115",
+            2510,
+            "/api/pullTestData",
+            "",
+            "",
+          },
       };
 
       void test_valid_url(const UrlData & data)

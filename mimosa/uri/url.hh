@@ -16,6 +16,9 @@ namespace mimosa
     public:
       Url();
       Url(const std::string & url);
+      Url(const Url &url);
+
+      Url &operator=(const Url &url);
 
       bool parse(const std::string & url, std::string *parse_error);
 
