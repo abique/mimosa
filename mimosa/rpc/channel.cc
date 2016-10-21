@@ -2,10 +2,10 @@
 #include <memory>
 
 #include "../endian.hh"
-#include "../log/log.hh"
 #include "../thread.hh"
 #include "channel.hh"
 #include "protocol.hh"
+#include "log.hh"
 
 namespace mimosa
 {
@@ -126,6 +126,7 @@ namespace mimosa
         Mutex::Locker locker(scalls_mutex_);
         scalls_.erase(call->tag());
         call->cancel();
+        rpc_log->critical("could not push the buffer into the queue");
       }
     }
 
@@ -182,6 +183,7 @@ namespace mimosa
       data = (char *)::malloc(msg.rq_size_);
       if (!data) {
         sendError(kInternalError, call->tag(), kOriginYou);
+        rpc_log->critical("failed to allocate %d bytes", msg.rq_size_);
         return false;
       }
 
@@ -198,6 +200,7 @@ namespace mimosa
       {
         free(data);
         sendError(kServiceNotFound, call->tag(), kOriginYou);
+        rpc_log->warning("received method call for unknown service: %d", call->serviceId());
         return true;
       }
 
@@ -209,6 +212,7 @@ namespace mimosa
         {
           free(data);
           sendError(kDuplicateTag, call->tag(), kOriginYou);
+          rpc_log->warning("got duplicate tag: %d", msg.tag_);
           return true;
         }
         rcalls_[call->tag()] = call;
