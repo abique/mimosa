@@ -271,7 +271,7 @@ class ServiceGenerator : public gpc::CodeGenerator
         printer.Print(
           variables,
           "bool $MethodName$(const $RequestType$ &request,\n"
-          "  $ResponseType$ *response)\n"
+          "  $ResponseType$ *response) const\n"
           "{\n"
           "  return ::mimosa::rpc::httpCall(base_url_ + \"$MethodName$\", request, response);\n"
           "}\n"
