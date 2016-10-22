@@ -42,7 +42,7 @@ namespace mimosa
     int connectToHost(const std::string &host, uint16_t port, Time timeout)
     {
       ::hostent * host_entry = gethostbyname(host.c_str());
-      if (!host_entry)
+      if (!host_entry || !host_entry->h_addr_list[0])
         return -1;
 
       int fd = ::socket(host_entry->h_addrtype, SOCK_STREAM, 0);
