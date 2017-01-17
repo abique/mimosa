@@ -1,6 +1,6 @@
 %option reentrant noyywrap batch 8bit
 %option bison-bridge stack
-%option warn ansi-definitions ansi-prototypes
+%option warn
 %option prefix="mimosa_http_request_"
 /* %option nodefault */
 %option align
