@@ -12,7 +12,7 @@ install(FILES
   tree.hh
   DESTINATION include/mimosa/git/)
 
-add_library(mimosa-git
+add_library(mimosa-git STATIC
   archive.cc
   reference.cc
   repository.cc

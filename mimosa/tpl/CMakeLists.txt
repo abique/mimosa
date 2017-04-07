@@ -24,7 +24,7 @@ install(FILES
 
   DESTINATION include/mimosa/tpl/ast/)
 
-add_library(mimosa-tpl
+add_library(mimosa-tpl STATIC
   abstract-value.cc
   cache.cc
   dict.cc

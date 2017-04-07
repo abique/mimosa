@@ -2,7 +2,7 @@ install(FILES
   flat.hh
   DESTINATION include/mimosa/flat/)
 
-add_library(mimosa-flat flat.cc)
+add_library(mimosa-flat STATIC flat.cc)
 target_link_libraries(mimosa-flat mimosa)
 
 install(TARGETS mimosa-flat

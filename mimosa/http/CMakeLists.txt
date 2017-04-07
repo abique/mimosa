@@ -37,7 +37,7 @@ install(FILES
 mimosa_flex(request-lexer)
 mimosa_bison(request-parser)
 
-add_library(mimosa-http
+add_library(mimosa-http STATIC
   chunked-stream.cc
   client-channel.cc
   cookie.cc

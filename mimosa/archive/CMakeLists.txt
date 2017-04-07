@@ -1,4 +1,4 @@
-add_library(mimosa-archive
+add_library(mimosa-archive STATIC
   reader.cc
   writer.cc)
 

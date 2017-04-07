@@ -3,7 +3,7 @@ install(FILES
   torrent-parser.hh
   DESTINATION include/mimosa/bittorrent/)
 
-add_library(mimosa-bittorrent
+add_library(mimosa-bittorrent STATIC
   torrent-descriptor.cc
   torrent-parser.cc
   )

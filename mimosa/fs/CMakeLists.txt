@@ -7,7 +7,7 @@ install(FILES
   rm.hh
   DESTINATION include/mimosa/fs/)
 
-add_library(mimosa-fs
+add_library(mimosa-fs STATIC
   copy.cc
   dir-iterator.cc
   exists.cc

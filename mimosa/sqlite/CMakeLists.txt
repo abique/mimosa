@@ -3,7 +3,7 @@ install(FILES
   sqlite.hxx
   DESTINATION include/mimosa/sqlite)
 
-add_library(mimosa-sqlite sqlite.cc)
+add_library(mimosa-sqlite STATIC sqlite.cc)
 target_link_libraries(mimosa-sqlite mimosa)
 
 install(TARGETS mimosa-sqlite

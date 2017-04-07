@@ -3,7 +3,7 @@ install(FILES
   mail.hh
   DESTINATION include/mimosa/smtp/)
 
-add_library(mimosa-smtp
+add_library(mimosa-smtp STATIC
   client.cc
   mail.cc)
 target_link_libraries(mimosa-smtp mimosa)

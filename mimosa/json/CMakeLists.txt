@@ -3,7 +3,7 @@ install(FILES
   encoder.hh
   DESTINATION include/mimosa/json/)
 
-add_library(mimosa-json
+add_library(mimosa-json STATIC
   encoder.cc
   decoder.cc
   )

@@ -13,7 +13,7 @@ install(FILES
   service-map.hh
   DESTINATION include/mimosa/rpc/)
 
-add_library(mimosa-rpc
+add_library(mimosa-rpc STATIC
   basic-call.cc
   channel.cc
   http-call.cc
@@ -23,10 +23,10 @@ add_library(mimosa-rpc
   service-map.cc)
 target_link_libraries(mimosa-rpc mimosa protobuf)
 
-add_library(mimosa-rpc-bencode bencode.cc)
+add_library(mimosa-rpc-bencode STATIC bencode.cc)
 target_link_libraries(mimosa-rpc-bencode mimosa-rpc mimosa-bencode)
 
-add_library(mimosa-rpc-json json.cc)
+add_library(mimosa-rpc-json STATIC json.cc)
 target_link_libraries(mimosa-rpc-json mimosa-rpc mimosa-json)
 
 install(TARGETS mimosa-rpc mimosa-rpc-bencode mimosa-rpc-json
