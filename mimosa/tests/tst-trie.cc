@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+﻿#include <gtest/gtest.h>
 
 #include "../ref-countable.hh"
 #include "../trie.hh"
@@ -6,15 +6,16 @@
 # define FIND(Key, Success)                     \
   do {                                          \
     Value::Ptr item = trie.find(Key);           \
-    if (Success)                                \
-    {                                           \
+    if (Success) {                              \
       EXPECT_NE(nullptr, item);                 \
-      if (item)                                 \
+      if (item) {                               \
         EXPECT_EQ(Key, item->data_);            \
+      }                                         \
       EXPECT_NE(true, trie.empty());            \
     }                                           \
-    else                                        \
+    else {                                      \
       EXPECT_EQ(nullptr, item);                 \
+    }                                           \
   } while (0)
 
 # define INSERT(Key, Success)                                           \
