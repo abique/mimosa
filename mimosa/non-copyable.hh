@@ -1,4 +1,4 @@
-#ifndef MIMOSA_NON_COPYABLE_HH
+﻿#ifndef MIMOSA_NON_COPYABLE_HH
 # define MIMOSA_NON_COPYABLE_HH
 
 namespace mimosa
@@ -12,9 +12,8 @@ namespace mimosa
     inline NonCopyable(NonCopyable &&) {}
     inline NonCopyable & operator=(NonCopyable&&) { return *this; }
 
-  private:
-    NonCopyable(const NonCopyable &);
-    NonCopyable & operator=(const NonCopyable &);
+    NonCopyable(const NonCopyable &) = delete;
+    NonCopyable & operator=(const NonCopyable &) = delete;
   };
 }
 
