@@ -1,5 +1,4 @@
-﻿#ifndef MIMOSA_NON_COPYABLE_HH
-# define MIMOSA_NON_COPYABLE_HH
+﻿#pragma once
 
 namespace mimosa
 {
@@ -16,5 +15,3 @@ namespace mimosa
     NonCopyable & operator=(const NonCopyable &) = delete;
   };
 }
-
-#endif /* !MIMOSA_NON_COPYABLE_HH */
