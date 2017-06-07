@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_AST_TEXT_HH
-# define MIMOSA_TPL_AST_TEXT_HH
+#pragma once
 
 # include "../../string-ref.hh"
 # include "node.hh"
@@ -23,4 +22,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_AST_TEXT_HH */

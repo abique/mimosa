@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_STRING_STREAM_HH
-# define MIMOSA_STREAM_STRING_STREAM_HH
+#pragma once
 
 # include <string>
 
@@ -41,4 +40,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_STRING_STREAM_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_REDIS_REPLY_HH
-# define MIMOSA_REDIS_REPLY_HH
+#pragma once
 
 # include <hiredis/hiredis.h>
 
@@ -36,4 +35,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_REDIS_REPLY_HH */

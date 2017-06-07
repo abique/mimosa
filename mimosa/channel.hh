@@ -1,5 +1,4 @@
-#ifndef MIMOSA_CHANNEL_HH
-# define MIMOSA_CHANNEL_HH
+#pragma once
 
 # include <queue>
 # include <limits>
@@ -158,4 +157,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_CHANNEL_HH */

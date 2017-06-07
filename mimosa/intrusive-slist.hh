@@ -1,5 +1,4 @@
-#ifndef MIMOSA_INTRUSIVE_SLIST_HH
-# define MIMOSA_INTRUSIVE_SLIST_HH
+#pragma once
 
 # include <cassert>
 # include <cstddef>
@@ -141,4 +140,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_INTRUSIVE_SLIST_HH */

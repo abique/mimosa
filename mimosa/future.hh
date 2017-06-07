@@ -1,5 +1,4 @@
-#ifndef MIMOSA_FUTURE_HH
-# define MIMOSA_FUTURE_HH
+#pragma once
 
 # include "ref-countable.hh"
 # include "condition.hh"
@@ -43,4 +42,3 @@ namespace mimosa
 
 # include "future.hxx"
 
-#endif /* !MIMOSA_FUTURE_HH */

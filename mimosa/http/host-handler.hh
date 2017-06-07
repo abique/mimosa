@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_HOST_HANDLER_HH
-# define MIMOSA_HTTP_HOST_HANDLER_HH
+#pragma once
 
 # include <string>
 # include <map>
@@ -30,4 +29,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_HOST_HANDLER_HH */

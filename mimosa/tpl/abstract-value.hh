@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_ABSTRACT_VALUE_HH
-# define MIMOSA_TPL_ABSTRACT_VALUE_HH
+#pragma once
 
 # include "../ref-countable.hh"
 # include "../stream/stream.hh"
@@ -51,4 +50,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_ABSTRACT_VALUE_HH */

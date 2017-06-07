@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_PERCENT_ENCODER_HH
-# define MIMOSA_STREAM_PERCENT_ENCODER_HH
+#pragma once
 
 # include "filter.hh"
 # include "../uri/percent-encoding.hh"
@@ -24,4 +23,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_PERCENT_ENCODER_HH */

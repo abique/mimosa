@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_TEE_STREAM_HH
-# define MIMOSA_STREAM_TEE_STREAM_HH
+#pragma once
 
 # include <vector>
 
@@ -37,4 +36,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_TEE_STREAM_HH */

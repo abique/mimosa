@@ -1,5 +1,4 @@
-#ifndef MIMOSA_URI_URL_HH
-# define MIMOSA_URI_URL_HH
+#pragma once
 
 # include <cstdint>
 
@@ -56,4 +55,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_URI_URL_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_GIT_TREE_ENTRY_HH
-# define MIMOSA_GIT_TREE_ENTRY_HH
+#pragma once
 
 namespace mimosa
 {
@@ -20,4 +19,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_GIT_TREE_ENTRY_HH */

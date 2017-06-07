@@ -1,5 +1,4 @@
-#ifndef MIMOSA_FORMAT_PRINT_HH
-# define MIMOSA_FORMAT_PRINT_HH
+#pragma once
 
 # include <cstdint>
 # include <string>
@@ -32,4 +31,3 @@ namespace mimosa
 
 # include "print.hxx"
 
-#endif /* !MIMOSA_FORMAT_PRINT_HH */

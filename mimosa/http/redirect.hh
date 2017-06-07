@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_REDIRECT_HH
-# define MIMOSA_HTTP_REDIRECT_HH
+#pragma once
 
 # include <string>
 
@@ -16,4 +15,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_REDIRECT_HH */

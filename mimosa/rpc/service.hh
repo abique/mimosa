@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RPC_SERVICE_HH
-# define MIMOSA_RPC_SERVICE_HH
+#pragma once
 
 # include <string>
 
@@ -42,4 +41,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_RPC_SERVICE_HH */

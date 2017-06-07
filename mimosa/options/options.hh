@@ -33,8 +33,7 @@
 /// To reassure yourself about \ref initialisation, it is safe to use the options
 /// framework with C++ static intializers.
 
-#ifndef MIMOSA_OPTIONS_OPTIONS_HH
-# define MIMOSA_OPTIONS_OPTIONS_HH
+#pragma once
 
 # include <string>
 # include <sstream>
@@ -296,4 +295,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_OPTIONS_OPTIONS_HH */

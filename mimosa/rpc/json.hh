@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RPC_JSON_HH
-# define MIMOSA_RPC_JSON_HH
+#pragma once
 
 # include <google/protobuf/message.h>
 # include <google/protobuf/descriptor.h>
@@ -25,4 +24,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_RPC_JSON_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_ARCHIVE_WRITER_HH
-# define MIMOSA_ARCHIVE_WRITER_HH
+#pragma once
 
 # include <archive.h>
 
@@ -102,4 +101,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_ARCHIVE_WRITER_HH */

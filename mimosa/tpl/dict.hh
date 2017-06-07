@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_DICT_HH
-# define MIMOSA_TPL_DICT_HH
+#pragma once
 
 # include <unordered_map>
 
@@ -56,4 +55,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_DICT_HH */

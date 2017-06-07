@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_BASE16_DECODER_HH
-# define MIMOSA_STREAM_BASE16_DECODER_HH
+#pragma once
 
 # include "filter.hh"
 
@@ -25,4 +24,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_BASE16_DECODER_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_SERVER_HH
-# define MIMOSA_HTTP_SERVER_HH
+#pragma once
 
 # include <gnutls/gnutls.h>
 
@@ -46,4 +45,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_SERVER_HH */

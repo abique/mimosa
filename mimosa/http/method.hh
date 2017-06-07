@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_METHOD_HH
-# define MIMOSA_HTTP_METHOD_HH
+#pragma once
 
 namespace mimosa
 {
@@ -40,4 +39,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_METHOD_HH */

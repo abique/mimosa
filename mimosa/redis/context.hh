@@ -1,5 +1,4 @@
-#ifndef MIMOSA_REDIS_CONTEXT_HH
-# define MIMOSA_REDIS_CONTEXT_HH
+#pragma once
 
 # include <hiredis/hiredis.h>
 
@@ -56,4 +55,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_REDIS_CONTEXT_HH */

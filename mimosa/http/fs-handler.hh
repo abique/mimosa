@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_FSHANDLER_HH
-# define MIMOSA_HTTP_FSHANDLER_HH
+#pragma once
 
 # include <string>
 
@@ -73,4 +72,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_FSHANDLER_HH */

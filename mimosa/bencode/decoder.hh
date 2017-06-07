@@ -1,5 +1,4 @@
-#ifndef MIMOSA_BENCODE_DECODER_HH
-# define MIMOSA_BENCODE_DECODER_HH
+#pragma once
 
 # include "../string-ref.hh"
 # include "../stream/stream.hh"
@@ -53,4 +52,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_BENCODE_DECODER_HH */

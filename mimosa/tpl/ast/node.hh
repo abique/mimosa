@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_AST_NODE_HH
-# define MIMOSA_TPL_AST_NODE_HH
+#pragma once
 
 # include "../../ref-countable.hh"
 # include "../../stream/stream.hh"
@@ -37,4 +36,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_AST_NODE_HH */

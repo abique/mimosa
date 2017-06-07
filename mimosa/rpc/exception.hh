@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RPC_EXCEPTION_HH
-# define MIMOSA_RPC_EXCEPTION_HH
+#pragma once
 
 namespace mimosa
 {
@@ -23,4 +22,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_RPC_EXCEPTION_HH */

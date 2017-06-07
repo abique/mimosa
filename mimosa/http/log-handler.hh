@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_LOG_HANDLER_HH
-# define MIMOSA_HTTP_LOG_HANDLER_HH
+#pragma once
 
 # include "handler.hh"
 
@@ -23,4 +22,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_LOG_HANDLER_HH */

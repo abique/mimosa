@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_AST_REPEATED_HH
-# define MIMOSA_TPL_AST_REPEATED_HH
+#pragma once
 
 # include "../../string-ref.hh"
 # include "node.hh"
@@ -28,4 +27,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_AST_REPEATED_HH */

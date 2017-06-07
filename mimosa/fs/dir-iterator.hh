@@ -1,5 +1,4 @@
-#ifndef MIMOSA_FS_DIR_ITERATOR_HH
-# define MIMOSA_FS_DIR_ITERATOR_HH
+#pragma once
 
 # include <sys/types.h>
 # include <dirent.h>
@@ -36,4 +35,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_FS_DIR_ITERATOR_HH */

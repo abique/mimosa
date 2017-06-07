@@ -1,5 +1,4 @@
-#ifndef MIMOSA_GIT_REPOSITORY_HH
-# define MIMOSA_GIT_REPOSITORY_HH
+#pragma once
 
 # include <cstdint>
 # include <string>
@@ -26,4 +25,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_GIT_REPOSITORY_HH */

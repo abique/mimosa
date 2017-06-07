@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_RESPONSE_READER_HH
-# define MIMOSA_HTTP_RESPONSE_READER_HH
+#pragma once
 
 # include "response.hh"
 # include "message-reader.hh"
@@ -16,4 +15,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_RESPONSE_READER_HH */

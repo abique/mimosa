@@ -1,5 +1,4 @@
-#ifndef MIMOSA_FS_FIND_HH
-# define MIMOSA_FS_FIND_HH
+#pragma once
 
 # include <string>
 # include <functional>
@@ -21,4 +20,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_FS_FIND_HH */

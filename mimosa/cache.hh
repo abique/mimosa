@@ -1,5 +1,4 @@
-#ifndef MIMOSA_CACHE_HH
-# define MIMOSA_CACHE_HH
+#pragma once
 
 # include <memory>
 # include <unordered_map>
@@ -78,4 +77,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_CACHE_HH */

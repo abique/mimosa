@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_MIME_DB_HH
-# define MIMOSA_HTTP_MIME_DB_HH
+#pragma once
 
 # include <string>
 # include <unordered_map>
@@ -30,4 +29,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_MIME_DB_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_TLS_STREAM_HH
-# define MIMOSA_STREAM_TLS_STREAM_HH
+#pragma once
 
 # include <gnutls/gnutls.h>
 
@@ -34,4 +33,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_TLS_STREAM_HH */

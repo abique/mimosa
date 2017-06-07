@@ -1,5 +1,4 @@
-#ifndef MIMOSA_FORMAT_FORMAT_HH
-# define MIMOSA_FORMAT_FORMAT_HH
+#pragma once
 
 # include <sstream>
 
@@ -32,4 +31,3 @@ namespace mimosa
 
 # include "format.hxx"
 
-#endif /* !MIMOSA_FORMAT_FORMAT_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_ENDIAN_HH
-# define MIMOSA_ENDIAN_HH
+#pragma once
 
 # ifdef __FreeBSD__
 #  include <sys/endian.h>
@@ -25,4 +24,3 @@
 #  include <endian.h>
 # endif
 
-#endif /* !MIMOSA_ENDIAN_HH */

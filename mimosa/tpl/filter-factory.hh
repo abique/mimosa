@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_FILTER_FACTORY_HH
-# define MIMOSA_TPL_FILTER_FACTORY_HH
+#pragma once
 
 # include <unordered_map>
 # include <string>
@@ -34,4 +33,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_FILTER_FACTORY_HH */

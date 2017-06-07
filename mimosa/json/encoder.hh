@@ -1,5 +1,4 @@
-#ifndef MIMOSA_JSON_ENCODER_HH
-# define MIMOSA_JSON_ENCODER_HH
+#pragma once
 
 # include <vector>
 
@@ -53,4 +52,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_JSON_ENCODER_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_URI_NORMALIZE_PATH_HH
-# define MIMOSA_URI_NORMALIZE_PATH_HH
+#pragma once
 
 # include <cstdint>
 # include <string>
@@ -14,4 +13,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_URI_NORMALIZE_PATH_HH */

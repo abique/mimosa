@@ -1,5 +1,4 @@
-#ifndef MIMOSA_GIT_TREE_HH
-# define MIMOSA_GIT_TREE_HH
+#pragma once
 
 # include <string>
 
@@ -29,4 +28,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_GIT_TREE_HH */

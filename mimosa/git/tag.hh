@@ -1,5 +1,4 @@
-#ifndef MIMOSA_GIT_TAG_HH
-# define MIMOSA_GIT_TAG_HH
+#pragma once
 
 # include <git2.h>
 
@@ -24,4 +23,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_GIT_TAG_HH */

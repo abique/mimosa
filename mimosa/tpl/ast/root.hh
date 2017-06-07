@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_AST_ROOT_HH
-# define MIMOSA_TPL_AST_ROOT_HH
+#pragma once
 
 # include "node.hh"
 
@@ -28,4 +27,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_AST_ROOT_HH */

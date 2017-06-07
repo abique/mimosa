@@ -1,5 +1,4 @@
-#ifndef MIMOSA_CONDITION_HH
-# define MIMOSA_CONDITION_HH
+#pragma once
 
 # include <pthread.h>
 
@@ -62,4 +61,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_CONDITION_HH */

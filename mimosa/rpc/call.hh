@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RPC_CALL_HH
-# define MIMOSA_RPC_CALL_HH
+#pragma once
 
 # include "basic-call.hh"
 
@@ -32,4 +31,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_RPC_CALL_HH */

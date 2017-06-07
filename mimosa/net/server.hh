@@ -1,5 +1,4 @@
-#ifndef MIMOSA_NET_SERVER_HH
-# define MIMOSA_NET_SERVER_HH
+#pragma once
 
 # include <sys/socket.h>
 # include <netinet/in.h>
@@ -48,4 +47,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_NET_SERVER_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_BITTORRENT_TORRENT_DESCRIPTOR_HH
-# define MIMOSA_BITTORRENT_TORRENT_DESCRIPTOR_HH
+#pragma once
 
 # include <cstdint>
 # include <string>
@@ -47,4 +46,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_BITTORRENT_TORRENT_DESCRIPTOR_HH */

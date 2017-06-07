@@ -1,5 +1,4 @@
-#ifndef MIMOSA_GIT_ARCHIVE_HH
-# define MIMOSA_GIT_ARCHIVE_HH
+#pragma once
 
 # include "../archive/writer.hh"
 # include "tree.hh"
@@ -14,4 +13,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_GIT_ARCHIVE_HH */

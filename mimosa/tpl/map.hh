@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_MAP_HH
-# define MIMOSA_TPL_MAP_HH
+#pragma once
 
 # include <unordered_map>
 
@@ -19,4 +18,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MAP_HH */

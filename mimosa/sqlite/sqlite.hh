@@ -1,5 +1,4 @@
-#ifndef MIMOSA_SQLITE_SQLITE_HH
-# define MIMOSA_SQLITE_SQLITE_HH
+#pragma once
 
 # include <string>
 # include <cstdint>
@@ -127,4 +126,3 @@ namespace mimosa
 
 # include "sqlite.hxx"
 
-#endif /* !MIMOSA_SQLITE_SQLITE_HH */

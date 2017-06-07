@@ -1,5 +1,4 @@
-#ifndef MIMOSA_PRIVILEDGE_DROP_HH
-# define MIMOSA_PRIVILEDGE_DROP_HH
+#pragma once
 
 # include <string>
 
@@ -18,4 +17,3 @@ namespace mimosa
   bool priviledgeDrop();
 }
 
-#endif /* !MIMOSA_PRIVILEDGE_DROP_HH */

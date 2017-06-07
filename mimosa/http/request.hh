@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_REQUEST_HH
-# define MIMOSA_HTTP_REQUEST_HH
+#pragma once
 
 # include <vector>
 # include <map>
@@ -196,4 +195,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_REQUEST_HH */

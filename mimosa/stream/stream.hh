@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_STREAM_HH
-# define MIMOSA_STREAM_STREAM_HH
+#pragma once
 
 # include "../compat/uio.hh"
 
@@ -77,4 +76,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_STREAM_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RPC_SERVICE_MAP_HH
-# define MIMOSA_RPC_SERVICE_MAP_HH
+#pragma once
 
 # include <map>
 
@@ -28,4 +27,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_RPC_SERVICE_MAP_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_FILTER_HH
-# define MIMOSA_STREAM_FILTER_HH
+#pragma once
 
 # include <string>
 
@@ -37,4 +36,3 @@ namespace mimosa
 
 # include "filter.hxx"
 
-#endif /* !MIMOSA_STREAM_FILTER_HH */

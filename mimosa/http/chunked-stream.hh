@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_CHUNKED_STREAM_HH
-# define MIMOSA_HTTP_CHUNKED_STREAM_HH
+#pragma once
 
 # include "../stream/filter.hh"
 # include "../stream/buffered-stream.hh"
@@ -29,4 +28,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_CHUNKED_STREAM_HH */

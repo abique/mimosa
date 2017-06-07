@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RPC_CHANNEL_HH
-# define MIMOSA_RPC_CHANNEL_HH
+#pragma once
 
 # include <unordered_map>
 
@@ -85,4 +84,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_RPC_CHANNEL_HH */

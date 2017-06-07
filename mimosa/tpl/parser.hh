@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_PARSER_HH
-# define MIMOSA_TPL_PARSER_HH
+#pragma once
 
 # include <string>
 # include <vector>
@@ -44,4 +43,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_PARSER_HH */

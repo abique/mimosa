@@ -1,5 +1,4 @@
-#ifndef MIMOSA_LOG_LOG_HH
-# define MIMOSA_LOG_LOG_HH
+#pragma once
 
 # include <string>
 
@@ -43,4 +42,3 @@ namespace mimosa
 
 # include "origin.hh"
 
-#endif /* !MIMOSA_LOG_LOG_HH */

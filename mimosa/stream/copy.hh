@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_COPY_HH
-# define MIMOSA_STREAM_COPY_HH
+#pragma once
 
 # include "stream.hh"
 
@@ -13,4 +12,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_COPY_HH */

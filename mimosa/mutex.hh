@@ -1,5 +1,4 @@
-#ifndef MIMOSA_MUTEX_HH
-# define MIMOSA_MUTEX_HH
+#pragma once
 
 # include <pthread.h>
 
@@ -47,4 +46,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_MUTEX_HH */

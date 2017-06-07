@@ -1,5 +1,4 @@
-#ifndef MIMOSA_ARCHIVE_ENTRY_HH
-# define MIMOSA_ARCHIVE_ENTRY_HH
+#pragma once
 
 # include <cstdint>
 
@@ -54,4 +53,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_ARCHIVE_ENTRY_HH */

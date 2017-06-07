@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_HASH_HH
-# define MIMOSA_STREAM_HASH_HH
+#pragma once
 
 # include <nettle/md2.h>
 # include <nettle/md5.h>
@@ -66,4 +65,3 @@ namespace mimosa
   }
   }
 
-#endif /* !MIMOSA_STREAM_HASH_HH */

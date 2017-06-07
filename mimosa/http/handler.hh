@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_HANDLER_HH
-# define MIMOSA_HTTP_HANDLER_HH
+#pragma once
 
 # include "../ref-countable.hh"
 # include "../non-copyable.hh"
@@ -25,4 +24,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_HANDLER_HH */

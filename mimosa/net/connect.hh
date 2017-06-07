@@ -1,5 +1,4 @@
-#ifndef MIMOSA_NET_CONNECT_HH
-# define MIMOSA_NET_CONNECT_HH
+#pragma once
 
 # include <cstdint>
 # include <string>
@@ -24,4 +23,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_NET_CONNECT_HH */

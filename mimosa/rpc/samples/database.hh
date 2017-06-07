@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RPC_SAMPLE_DATABASE_HH
-# define MIMOSA_RPC_SAMPLE_DATABASE_HH
+#pragma once
 
 # include <mimosa/shared-mutex.hh>
 
@@ -30,4 +29,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_RPC_SAMPLE_DATABASE_HH */

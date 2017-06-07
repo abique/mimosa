@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_STATUS_HH
-# define MIMOSA_HTTP_STATUS_HH
+#pragma once
 
 namespace mimosa
 {
@@ -61,4 +60,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_STATUS_HH */

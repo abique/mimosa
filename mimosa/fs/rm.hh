@@ -1,5 +1,4 @@
-#ifndef MIMOSA_FS_RM_HH
-# define MIMOSA_FS_RM_HH
+#pragma once
 
 # include <string>
 
@@ -13,4 +12,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_FS_RM_HH */

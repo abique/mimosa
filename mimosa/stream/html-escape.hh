@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_HTML_ESCAPE_HH
-# define MIMOSA_STREAM_HTML_ESCAPE_HH
+#pragma once
 
 # include "filter.hh"
 
@@ -20,4 +19,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_HTML_ESCAPE_HH */

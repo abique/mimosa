@@ -1,5 +1,4 @@
-#ifndef MIMOSA_SHARED_LOCKER_HH
-# define MIMOSA_SHARED_LOCKER_HH
+#pragma once
 
 # include "non-copyable.hh"
 
@@ -29,4 +28,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_SHARED_LOCKER_HH */

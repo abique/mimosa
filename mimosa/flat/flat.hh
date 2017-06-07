@@ -1,5 +1,4 @@
-#ifndef MIMOSA_FLAT_FLAT_HH
-# define MIMOSA_FLAT_FLAT_HH
+#pragma once
 
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -116,4 +115,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_FLAT_FLAT_HH */

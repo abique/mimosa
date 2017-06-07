@@ -1,5 +1,4 @@
-#ifndef MIMOSA_SMTP_CLIENT_HH
-# define MIMOSA_SMTP_CLIENT_HH
+#pragma once
 
 # include "../non-copyable.hh"
 # include "../stream/net-fd-stream.hh"
@@ -36,4 +35,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_SMTP_CLIENT_HH */

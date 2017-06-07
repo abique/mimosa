@@ -1,5 +1,4 @@
-#ifndef MIMOSA_LOG_ORIGIN_HH
-# define MIMOSA_LOG_ORIGIN_HH
+#pragma once
 
 # include "../format/format.hh"
 # include "../mutex.hh"
@@ -54,4 +53,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_LOG_ORIGIN_HH */

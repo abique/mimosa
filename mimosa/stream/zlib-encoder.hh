@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_ZLIB_ENCODER_HH
-# define MIMOSA_STREAM_ZLIB_ENCODER_HH
+#pragma once
 
 # include <zlib.h>
 
@@ -61,4 +60,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_ZLIB_ENCODER_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RPC_PROTOCOL_HH
-# define MIMOSA_RPC_PROTOCOL_HH
+#pragma once
 
 # include <cstdint>
 
@@ -69,4 +68,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_RPC_PROTOCOL_HH */

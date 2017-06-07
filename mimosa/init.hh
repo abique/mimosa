@@ -1,5 +1,4 @@
-#ifndef MIMOSA_INIT_HH
-# define MIMOSA_INIT_HH
+#pragma once
 
 namespace mimosa
 {
@@ -7,4 +6,3 @@ namespace mimosa
   void deinit();
 }
 
-#endif /* !MIMOSA_INIT_HH */

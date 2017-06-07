@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_RESPONSE_WRITER_HH
-# define MIMOSA_HTTP_RESPONSE_WRITER_HH
+#pragma once
 
 # include "../stream/stream.hh"
 # include "../stream/direct-fd-stream.hh"
@@ -19,4 +18,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_RESPONSE_WRITER_HH */

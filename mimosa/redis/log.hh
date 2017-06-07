@@ -1,5 +1,4 @@
-#ifndef MIMOSA_REDIS_LOG_HH
-# define MIMOSA_REDIS_LOG_HH
+#pragma once
 
 # include "../log/log.hh"
 
@@ -11,4 +10,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_REDIS_LOG_HH */

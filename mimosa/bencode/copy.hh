@@ -1,5 +1,4 @@
-#ifndef MIMOSA_BENCODE_COPY_HH
-# define MIMOSA_BENCODE_COPY_HH
+#pragma once
 
 # include "decoder.hh"
 # include "encoder.hh"
@@ -29,4 +28,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_BENCODE_COPY_HH */

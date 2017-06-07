@@ -1,5 +1,4 @@
-#ifndef MIMOSA_GIT_REFERENCE_HH
-# define MIMOSA_GIT_REFERENCE_HH
+#pragma once
 
 # include <git2.h>
 
@@ -29,4 +28,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_GIT_REFERENCE_HH */

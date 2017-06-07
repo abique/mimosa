@@ -1,5 +1,4 @@
-#ifndef MIMOSA_KVS_HH
-# define MIMOSA_KVS_HH
+#pragma once
 
 # include <string>
 # include <unordered_map>
@@ -10,4 +9,3 @@ namespace mimosa
   typedef std::unordered_multimap<std::string, std::string> kvs;
 }
 
-#endif /* !MIMOSA_KVS_HH */

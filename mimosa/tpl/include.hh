@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_INCLUDE_HH
-# define MIMOSA_TPL_INCLUDE_HH
+#pragma once
 
 # include "template.hh"
 # include "abstract-value.hh"
@@ -27,4 +26,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_INCLUDE_HH */

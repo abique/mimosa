@@ -1,5 +1,4 @@
-#ifndef MIMOSA_REF_COUNTED_PTR_HH
-# define MIMOSA_REF_COUNTED_PTR_HH
+#pragma once
 
 namespace mimosa
 {
@@ -126,4 +125,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_REF_COUNTED_PTR_HH */

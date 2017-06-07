@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_APPEND_HELPER_HH
-# define MIMOSA_TPL_APPEND_HELPER_HH
+#pragma once
 
 # include "value.hh"
 # include "include.hh"
@@ -26,4 +25,3 @@
     append(new Value<U>(name, value));                  \
   }
 
-#endif /* !MIMOSA_TPL_APPEND_HELPER_HH */

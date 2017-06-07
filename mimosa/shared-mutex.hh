@@ -1,5 +1,4 @@
-#ifndef MIMOSA_SHARED_MUTEX_HH
-# define MIMOSA_SHARED_MUTEX_HH
+#pragma once
 
 # include <pthread.h>
 
@@ -81,4 +80,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_SHARED_MUTEX_HH */

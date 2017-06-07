@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_SERVERCHANNEL_HH
-# define MIMOSA_HTTP_SERVERCHANNEL_HH
+#pragma once
 
 # include <sys/types.h>
 # include <sys/socket.h>
@@ -67,4 +66,3 @@ namespace mimosa
   }
 }
 
-#endif // MIMOSA_HTTP_SERVERCHANNEL_HH

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_REQUEST_WRITER_HH
-# define MIMOSA_HTTP_REQUEST_WRITER_HH
+#pragma once
 
 # include "request.hh"
 # include "message-writer.hh"
@@ -31,4 +30,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_REQUEST_WRITER_HH */

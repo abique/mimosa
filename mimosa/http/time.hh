@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_TIME_HH
-# define MIMOSA_HTTP_TIME_HH
+#pragma once
 
 # include <string>
 # include <ctime>
@@ -17,4 +16,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_TIME_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_FORMAT_FORMAT_STREAM_HH
-# define MIMOSA_FORMAT_FORMAT_STREAM_HH
+#pragma once
 
 # include "format.hh"
 # include "../stream/stream.hh"
@@ -24,4 +23,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_FORMAT_FORMAT_STREAM_HH */

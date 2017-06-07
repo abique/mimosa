@@ -1,5 +1,4 @@
-#ifndef MIMOSA_SINGLETON_HH
-# define MIMOSA_SINGLETON_HH
+#pragma once
 
 namespace mimosa
 {
@@ -24,4 +23,3 @@ namespace mimosa
 
 # include "singleton.hxx"
 
-#endif /* !MIMOSA_SINGLETON_HH */

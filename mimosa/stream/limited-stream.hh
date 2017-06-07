@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_LIMITED_STREAM_HH
-# define MIMOSA_STREAM_LIMITED_STREAM_HH
+#pragma once
 
 # include "stream.hh"
 
@@ -28,4 +27,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_LIMITED_STREAM_HH */

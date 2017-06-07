@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_AST_EMPTY_HH
-# define MIMOSA_TPL_AST_EMPTY_HH
+#pragma once
 
 # include "../../string-ref.hh"
 # include "node.hh"
@@ -29,4 +28,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_AST_EMPTY_HH */

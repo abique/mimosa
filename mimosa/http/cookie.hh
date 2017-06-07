@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_COOKIE_HH
-# define MIMOSA_HTTP_COOKIE_HH
+#pragma once
 
 # include <string>
 
@@ -47,4 +46,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_COOKIE_HH */

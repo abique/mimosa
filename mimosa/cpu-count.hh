@@ -1,5 +1,4 @@
-#ifndef MIMOSA_CPU_COUNT_HH
-# define MIMOSA_CPU_COUNT_HH
+#pragma once
 
 namespace mimosa
 {
@@ -9,4 +8,3 @@ namespace mimosa
   int cpuCount();
 }
 
-#endif /* !MIMOSA_CPU_COUNT_HH */

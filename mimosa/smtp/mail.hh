@@ -1,5 +1,4 @@
-#ifndef MIMOSA_SMTP_MAIL_HH
-# define MIMOSA_SMTP_MAIL_HH
+#pragma once
 
 # include <string>
 # include <vector>
@@ -24,4 +23,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_SMTP_MAIL_HH */

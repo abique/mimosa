@@ -1,5 +1,4 @@
-#ifndef MIMOSA_URI_SCHEME_HH
-# define MIMOSA_URI_SCHEME_HH
+#pragma once
 
 namespace mimosa
 {
@@ -13,4 +12,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_URI_SCHEME_HH */

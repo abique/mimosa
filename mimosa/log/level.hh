@@ -1,5 +1,4 @@
-#ifndef MIMOSA_LOG_LEVEL_HH
-# define MIMOSA_LOG_LEVEL_HH
+#pragma once
 
 # include <string>
 
@@ -28,4 +27,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_LOG_LEVEL_HH */

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_CPU_FOREACH_HH
-# define MIMOSA_CPU_FOREACH_HH
+#pragma once
 
 # include <functional>
 
@@ -14,4 +13,3 @@ namespace mimosa
   void cpuForeach(const std::function<void ()>& cb, bool affinity = false, int ratio = 1);
 }
 
-#endif /* !MIMOSA_CPU_FOREACH_HH */

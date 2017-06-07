@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_DISPATCH_HANDLER_HH
-# define MIMOSA_HTTP_DISPATCH_HANDLER_HH
+#pragma once
 
 # include <string>
 # include <map>
@@ -33,4 +32,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_DISPATCH_HANDLER_HH */

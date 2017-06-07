@@ -1,5 +1,4 @@
-#ifndef MIMOSA_LOCKER_HH
-# define MIMOSA_LOCKER_HH
+#pragma once
 
 # include "non-copyable.hh"
 
@@ -19,4 +18,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_LOCKER_HH */

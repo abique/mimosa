@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_ERROR_HANDLER_HH
-# define MIMOSA_HTTP_ERROR_HANDLER_HH
+#pragma once
 
 # include "handler.hh"
 # include "status.hh"
@@ -26,4 +25,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_ERROR_HANDLER_HH */

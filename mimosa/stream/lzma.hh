@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_LZMA_HH
-# define MIMOSA_STREAM_LZMA_HH
+#pragma once
 
 # include <lzma.h>
 
@@ -31,4 +30,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_LZMA_HH */

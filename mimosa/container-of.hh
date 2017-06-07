@@ -1,5 +1,4 @@
-#ifndef MIMOSA_CONTAINER_OF_HH
-# define MIMOSA_CONTAINER_OF_HH
+#pragma once
 
 # include <cstdint>
 
@@ -27,4 +26,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_CONTAINER_OF_HH */

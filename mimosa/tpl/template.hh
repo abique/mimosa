@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_TEMPLATE_HH
-# define MIMOSA_TPL_TEMPLATE_HH
+#pragma once
 
 # include <string>
 
@@ -32,4 +31,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_TEMPLATE_HH */

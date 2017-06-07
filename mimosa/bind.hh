@@ -1,5 +1,4 @@
-#ifndef MIMOSA_BIND_HH
-# define MIMOSA_BIND_HH
+#pragma once
 
 # include <functional>
 
@@ -23,4 +22,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_BIND_HH */

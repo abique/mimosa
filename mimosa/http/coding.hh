@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_CODING_HH
-# define MIMOSA_HTTP_CODING_HH
+#pragma once
 
 namespace mimosa
 {
@@ -22,4 +21,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_CODING_HH */

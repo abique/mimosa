@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_DIRECT_FD_STREAM_HH
-# define MIMOSA_STREAM_DIRECT_FD_STREAM_HH
+#pragma once
 
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -44,4 +43,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_DIRECT_FD_STREAM_HH */

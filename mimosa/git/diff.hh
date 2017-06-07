@@ -1,5 +1,4 @@
-#ifndef MIMOSA_GIT_DIFF_HH
-# define MIMOSA_GIT_DIFF_HH
+#pragma once
 
 # include <git2/diff.h>
 
@@ -22,4 +21,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_GIT_DIFF_HH */

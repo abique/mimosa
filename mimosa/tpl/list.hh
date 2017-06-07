@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_LIST_HH
-# define MIMOSA_TPL_LIST_HH
+#pragma once
 
 # include <vector>
 
@@ -56,4 +55,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_TPL_LIST_HH */

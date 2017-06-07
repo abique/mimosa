@@ -1,5 +1,4 @@
-#ifndef MIMOSA_URI_PARSE_QUERY_HH
-# define MIMOSA_URI_PARSE_QUERY_HH
+#pragma once
 
 # include <string>
 # include <unordered_map>
@@ -17,4 +16,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_URI_PARSE_QUERY_HH */

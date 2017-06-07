@@ -1,5 +1,4 @@
-#ifndef MIMOSA_TPL_VALUE_HH
-# define MIMOSA_TPL_VALUE_HH
+#pragma once
 
 # include "abstract-value.hh"
 
@@ -31,4 +30,3 @@ namespace mimosa
 
 # include "value.hxx"
 
-#endif /* !MIMOSA_TPL_VALUE_HH */

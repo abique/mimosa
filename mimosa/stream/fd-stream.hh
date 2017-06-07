@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_FD_STREAM_HH
-# define MIMOSA_STREAM_FD_STREAM_HH
+#pragma once
 
 # include "buffered-stream.hh"
 # include "direct-fd-stream.hh"
@@ -21,4 +20,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_FD_STREAM_HH */

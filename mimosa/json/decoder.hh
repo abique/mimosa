@@ -1,5 +1,4 @@
-#ifndef MIMOSA_JSON_DECODER_HH
-# define MIMOSA_JSON_DECODER_HH
+#pragma once
 
 #include <vector>
 #include <string>
@@ -108,4 +107,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_JSON_DECODER_HH */

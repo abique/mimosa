@@ -1,5 +1,4 @@
-#ifndef MIMOSA_BARRIER_HH
-# define MIMOSA_BARRIER_HH
+#pragma once
 
 # include <stdexcept>
 
@@ -50,4 +49,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_BARRIER_HH */

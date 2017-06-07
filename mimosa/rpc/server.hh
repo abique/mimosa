@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RPC_SERVER_HH
-# define MIMOSA_RPC_SERVER_HH
+#pragma once
 
 # include "../net/server.hh"
 # include "service-map.hh"
@@ -29,4 +28,3 @@ namespace mimosa
   }
 }
 
-#endif // !MIMOSA_RPC_SERVER_HH

@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_RESPONSE_HH
-# define MIMOSA_HTTP_RESPONSE_HH
+#pragma once
 
 # include <string>
 # include <unordered_map>
@@ -113,4 +112,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_HTTP_RESPONSE_HH */

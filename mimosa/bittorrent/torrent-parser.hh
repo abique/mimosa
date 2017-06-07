@@ -1,5 +1,4 @@
-#ifndef MIMOSA_BITTORRENT_TORRENT_PARSER_HH
-# define MIMOSA_BITTORRENT_TORRENT_PARSER_HH
+#pragma once
 
 # include <string>
 
@@ -58,4 +57,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_BITTORRENT_TORRENT_PARSER_HH */

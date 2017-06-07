@@ -1,5 +1,4 @@
-#ifndef MIMOSA_RECURSIVE_MUTEX_HH
-# define MIMOSA_RECURSIVE_MUTEX_HH
+#pragma once
 
 # include "non-copyable.hh"
 # include "locker.hh"
@@ -41,4 +40,3 @@ namespace mimosa
   };
 }
 
-#endif /* !MIMOSA_RECURSIVE_MUTEX_HH */

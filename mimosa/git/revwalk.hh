@@ -1,5 +1,4 @@
-#ifndef MIMOSA_GIT_REVWALK_HH
-# define MIMOSA_GIT_REVWALK_HH
+#pragma once
 
 # include <git2.h>
 
@@ -21,4 +20,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_GIT_REVWALK_HH */

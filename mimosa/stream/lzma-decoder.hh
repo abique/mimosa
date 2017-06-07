@@ -1,5 +1,4 @@
-#ifndef MIMOSA_STREAM_LZMA_DECODER_HH
-# define MIMOSA_STREAM_LZMA_DECODER_HH
+#pragma once
 
 # include "lzma.hh"
 
@@ -19,4 +18,3 @@ namespace mimosa
   }
 }
 
-#endif /* !MIMOSA_STREAM_LZMA_DECODER_HH */
