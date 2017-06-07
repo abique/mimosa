@@ -1,13 +1,12 @@
-#ifndef MIMOSA_THREAD_HH
-# define MIMOSA_THREAD_HH
+﻿#pragma once
 
-# include <functional>
-# include <stdexcept>
+#include <functional>
+#include <stdexcept>
 
-# include <pthread.h>
+#include <pthread.h>
 
-# include "non-copyable.hh"
-# include "time.hh"
+#include "non-copyable.hh"
+#include "time.hh"
 
 namespace mimosa
 {
@@ -45,5 +44,3 @@ namespace mimosa
     uint32_t                 stack_size_;
   };
 }
-
-#endif /* !MIMOSA_THREAD_HH */

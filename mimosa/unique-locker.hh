@@ -1,10 +1,9 @@
-#ifndef MIMOSA_UNIQUE_LOCKER_HH
-# define MIMOSA_UNIQUE_LOCKER_HH
+﻿#pragma once
 
-# include <cassert>
+#include <cassert>
 
-# include "non-copyable.hh"
-# include "time.hh"
+#include "non-copyable.hh"
+#include "time.hh"
 
 namespace mimosa
 {
@@ -55,5 +54,3 @@ namespace mimosa
     T &  mutex_;
   };
 }
-
-#endif /* !MIMOSA_UNIQUE_LOCKER_HH */

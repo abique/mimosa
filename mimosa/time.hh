@@ -1,25 +1,24 @@
-#ifndef MIMOSA_TIME_HH
-# define MIMOSA_TIME_HH
+﻿#pragma once
 
-# include <cstdint>
-# include <ctime>
-# include <stdexcept>
+#include <cstdint>
+#include <ctime>
+#include <stdexcept>
 
-# include <unistd.h>
-# include <sys/time.h>
+#include <unistd.h>
+#include <sys/time.h>
 
-# ifdef __MACH__
-#  include <mach/mach.h>
-#  include <mach/clock.h>
-# endif
+#ifdef __MACH__
+# include <mach/mach.h>
+# include <mach/clock.h>
+#endif
 
-# ifndef CLOCK_MONOTONIC_COARSE
-#  define CLOCK_MONOTONIC_COARSE CLOCK_MONOTONIC
-# endif
+#ifndef CLOCK_MONOTONIC_COARSE
+# define CLOCK_MONOTONIC_COARSE CLOCK_MONOTONIC
+#endif
 
-# ifndef CLOCK_REALTIME_COARSE
-#  define CLOCK_REALTIME_COARSE CLOCK_REALTIME
-# endif
+#ifndef CLOCK_REALTIME_COARSE
+# define CLOCK_REALTIME_COARSE CLOCK_REALTIME
+#endif
 
 namespace mimosa
 {
@@ -125,5 +124,3 @@ namespace mimosa
 
   inline void sleep(Time duration) { ::usleep(duration / microsecond); }
 }
-
-#endif /* !MIMOSA_TIME_HH */

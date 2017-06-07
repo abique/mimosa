@@ -1,7 +1,6 @@
-#ifndef MIMOSA_HTTP_MESSAGE_READER_HH
-# define MIMOSA_HTTP_MESSAGE_READER_HH
+﻿#pragma once
 
-# include "../stream/stream.hh"
+#include "../stream/stream.hh"
 
 namespace mimosa
 {
@@ -48,5 +47,3 @@ namespace mimosa
     };
   }
 }
-
-#endif /* !MIMOSA_HTTP_MESSAGE_READER_HH */

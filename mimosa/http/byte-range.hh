@@ -1,5 +1,4 @@
-#ifndef MIMOSA_HTTP_BYTE_RANGE_HH
-# define MIMOSA_HTTP_BYTE_RANGE_HH
+﻿#pragma once
 
 namespace mimosa
 {
@@ -19,5 +18,3 @@ namespace mimosa
     };
   }
 }
-
-#endif /* !MIMOSA_HTTP_BYTE_RANGE_HH */

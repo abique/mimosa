@@ -1,9 +1,8 @@
-#ifndef MIMOSA_TRIE_HH
-# define MIMOSA_TRIE_HH
+﻿#pragma once
 
-# include <functional>
+#include <functional>
 
-# include "string-ref.hh"
+#include "string-ref.hh"
 
 namespace mimosa
 {
@@ -65,6 +64,4 @@ namespace mimosa
   };
 }
 
-# include "trie.hxx"
-
-#endif /* !MIMOSA_TRIE_HH */
+#include "trie.hxx"

@@ -1,11 +1,8 @@
-#ifndef MIMOSA_UPTIME_HH
-# define MIMOSA_UPTIME_HH
+﻿#pragma once
 
-# include "time.hh"
+#include "time.hh"
 
 namespace mimosa
 {
   Time uptime();
 }
-
-#endif /* !MIMOSA_UPTIME_HH */

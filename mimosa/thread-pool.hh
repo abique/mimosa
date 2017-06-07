@@ -1,9 +1,8 @@
-#ifndef MIMOSA_THREAD_POOL_HH
-# define MIMOSA_THREAD_POOL_HH
+﻿#pragma once
 
-# include <list>
+#include <list>
 
-# include "thread.hh"
+#include "thread.hh"
 
 namespace mimosa
 {
@@ -33,5 +32,3 @@ namespace mimosa
     std::function<void ()> * fct_;
   };
 }
-
-#endif /* !MIMOSA_THREAD_POOL_HH */

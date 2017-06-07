@@ -1,4 +1,4 @@
-install(FILES
+﻿install(FILES
   byte-range.hh
   chunked-stream.hh
   client-channel.hh
@@ -39,6 +39,7 @@ mimosa_bison(request-parser)
 
 add_library(mimosa-http STATIC
   chunked-stream.cc
+  chunked-stream.hh
   client-channel.cc
   cookie.cc
   crud-handler.cc

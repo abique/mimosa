@@ -1,11 +1,10 @@
-#ifndef MIMOSA_SPINLOCK_HH
-# define MIMOSA_SPINLOCK_HH
+﻿#pragma once
 
-# include <pthread.h>
+#include <pthread.h>
 
-# include "non-copyable.hh"
-# include "locker.hh"
-# include "unique-locker.hh"
+#include "non-copyable.hh"
+#include "locker.hh"
+#include "unique-locker.hh"
 
 namespace mimosa
 {
@@ -35,6 +34,4 @@ namespace mimosa
   };
 }
 
-# include "spinlock.hxx"
-
-#endif /* !MIMOSA_SPINLOCK_HH */
+#include "spinlock.hxx"
