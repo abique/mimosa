@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 
 # include <string>
+# include <memory>
 
 # include "../non-copyable.hh"
 # include "../string-ref.hh"
@@ -31,9 +32,8 @@ namespace mimosa
       bool parseFile(const mimosa::StringRef & path);
       bool parse(stream::Stream::Ptr in);
 
-      /** the reference permits to swap the TorrentDescriptor result */
-      inline TorrentDescriptor *& result() { return desc_; }
-      inline TorrentDescriptor * result() const { return desc_; }
+      inline TorrentDescriptor* result() const { return desc_.get(); }
+      inline std::unique_ptr<TorrentDescriptor>&& result() { return std::move(desc_); }
       inline Error error() const { return error_; }
 
     private:
@@ -46,8 +46,8 @@ namespace mimosa
 
       Error               error_;
       stream::Stream::Ptr in_;
-      bencode::Decoder *  dec_;
-      TorrentDescriptor * desc_;
+      bencode::Decoder *dec_ = nullptr;
+      std::unique_ptr<TorrentDescriptor> desc_;
 
       bool                got_info_name_;
       bool                got_info_length_;

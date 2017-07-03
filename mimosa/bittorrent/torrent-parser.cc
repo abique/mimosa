@@ -1,4 +1,4 @@
-#include "../stream/fd-stream.hh"
+﻿#include "../stream/fd-stream.hh"
 #include "../stream/tee-stream.hh"
 #include "../stream/hash.hh"
 #include "../bencode/decoder.hh"
@@ -21,11 +21,6 @@ namespace mimosa
     {
     }
 
-    TorrentParser::~TorrentParser()
-    {
-      delete desc_;
-    }
-
     bool
     TorrentParser::parseFile(const mimosa::StringRef & path)
     {
@@ -43,8 +38,7 @@ namespace mimosa
       in_ = in;
       bencode::Decoder dec(in_);
       dec_ = &dec;
-      delete desc_;
-      desc_ = new TorrentDescriptor;
+      desc_.reset(new TorrentDescriptor);
 
       parseRoot();
 
