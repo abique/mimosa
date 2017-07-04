@@ -61,5 +61,12 @@ namespace mimosa
       errno = ENOSYS;
       return -1;
     }
+
+    int64_t
+    Base16Encoder::write(Stream::Ptr stream, const char *data, uint64_t nbytes, bool upper)
+    {
+      Base16Encoder enc(stream, upper);
+      return enc.write(data, nbytes);
+    }
   }
 }

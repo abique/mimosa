@@ -17,6 +17,8 @@ namespace mimosa
       virtual int64_t write(const char * data, uint64_t nbytes);
       virtual int64_t read(char * data, uint64_t nbytes);
 
+      static int64_t write(Stream::Ptr stream, const char *data, uint64_t nbytes, bool upper = false);
+
     private:
       const char * base_;
     };
