@@ -9,8 +9,7 @@ namespace mimosa
     TorrentDescriptor::TorrentDescriptor()
       : length_(0),
         piece_length_(0),
-        is_private_(false),
-        pieces_(nullptr)
+        is_private_(false)
     {
     }
 

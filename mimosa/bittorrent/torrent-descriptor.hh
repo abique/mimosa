@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <cstdint>
 #include <string>
@@ -12,7 +12,6 @@ namespace mimosa
     struct TorrentDescriptor
     {
       TorrentDescriptor();
-      ~TorrentDescriptor();
 
       struct File {
         std::string path_;
@@ -42,7 +41,7 @@ namespace mimosa
       std::vector<Tracker> trackers_;
       std::vector<Node>    nodes_;
       Sha1                 info_hash_;
-      Sha1 *               pieces_;
+      std::vector<Sha1>    pieces_;
 
       void dump(std::ostream &stream);
     };
