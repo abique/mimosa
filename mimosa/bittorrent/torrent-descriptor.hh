@@ -1,8 +1,9 @@
 #pragma once
 
-# include <cstdint>
-# include <string>
-# include <vector>
+#include <cstdint>
+#include <string>
+#include <vector>
+#include <ostream>
 
 namespace mimosa
 {
@@ -42,6 +43,8 @@ namespace mimosa
       std::vector<Node>    nodes_;
       Sha1                 info_hash_;
       Sha1 *               pieces_;
+
+      void dump(std::ostream &stream);
     };
   }
 }
