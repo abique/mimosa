@@ -13,11 +13,6 @@ namespace mimosa
     {
     }
 
-    TorrentDescriptor::~TorrentDescriptor()
-    {
-      delete[] pieces_;
-    }
-
     void
     TorrentDescriptor::dump(std::ostream &stream)
     {
