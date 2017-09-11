@@ -4,12 +4,10 @@
 #include <atomic>
 
 #include "ref-counted-ptr.hh"
-#include "non-copyable.hh"
-#include "non-movable.hh"
 
 namespace mimosa
 {
-  class RefCountableBase : private NonCopyable, private NonMovable
+  class RefCountableBase
   {
   public:
     inline RefCountableBase()
@@ -17,14 +15,24 @@ namespace mimosa
     {
     }
 
-    inline RefCountableBase(const RefCountableBase & /*other*/)
+    inline RefCountableBase(const RefCountableBase &)
+      : ref_count_(0)
+    {
+    }
+
+    inline RefCountableBase(RefCountableBase &&)
       : ref_count_(0)
     {
     }
 
     virtual ~RefCountableBase() {}
 
-    inline RefCountableBase & operator=(const RefCountableBase & /*other*/)
+    inline RefCountableBase & operator=(const RefCountableBase &)
+    {
+      return *this;
+    }
+
+    inline RefCountableBase & operator=(RefCountableBase &&)
     {
       return *this;
     }

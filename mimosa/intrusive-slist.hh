@@ -1,14 +1,15 @@
-#pragma once
+﻿#pragma once
 
-# include <cassert>
-# include <cstddef>
+#include <cassert>
+#include <cstddef>
 
-# include "non-copyable.hh"
+#include "non-copyable.hh"
+#include "non-movable.hh"
 
 namespace mimosa
 {
   template <typename Ptr>
-  class IntrusiveSlistHook
+  class IntrusiveSlistHook : private NonMovable
   {
   public:
     inline IntrusiveSlistHook() : next_(nullptr) {}
@@ -58,7 +59,7 @@ namespace mimosa
   };
 
   template <typename T, typename Ptr, IntrusiveSlistHook<Ptr> T::*Member>
-  class IntrusiveSlist : private NonCopyable
+  class IntrusiveSlist : private NonCopyable, private NonMovable
   {
   public:
     typedef IntrusiveSlistIterator<T, Ptr, Member> iterator;

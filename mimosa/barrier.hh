@@ -1,18 +1,19 @@
 ﻿#pragma once
 
-# include <stdexcept>
+#include <stdexcept>
 
-# include "non-copyable.hh"
-# include "ref-countable.hh"
-# include "mutex.hh"
-# include "condition.hh"
+#include "non-copyable.hh"
+#include "non-movable.hh"
+#include "ref-countable.hh"
+#include "mutex.hh"
+#include "condition.hh"
 
 namespace mimosa
 {
   /**
    * @ingroup Sync
    */
-  class Barrier : public RefCountable<Barrier>
+  class Barrier : public RefCountable<Barrier>, private NonCopyable, private NonMovable
   {
   public:
     Barrier();

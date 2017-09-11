@@ -1,15 +1,15 @@
 ﻿#pragma once
 
-# include <unordered_map>
+#include <unordered_map>
 
-# include "../non-copyable.hh"
-# include "../ref-countable.hh"
-# include "../stream/buffer.hh"
-# include "../stream/buffered-stream.hh"
-# include "../channel.hh"
-# include "../thread.hh"
-# include "protocol.hh"
-# include "service-map.hh"
+#include "../non-copyable.hh"
+#include "../ref-countable.hh"
+#include "../stream/buffer.hh"
+#include "../stream/buffered-stream.hh"
+#include "../channel.hh"
+#include "../thread.hh"
+#include "protocol.hh"
+#include "service-map.hh"
 
 namespace mimosa
 {
@@ -23,7 +23,7 @@ namespace mimosa
      *
      * So it has two threads, one for writing and one for reading.
      */
-    class Channel : public RefCountable<Channel>
+    class Channel : public RefCountable<Channel>, private NonCopyable, private NonMovable
     {
     public:
       enum Status

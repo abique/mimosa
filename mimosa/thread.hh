@@ -6,11 +6,12 @@
 #include <pthread.h>
 
 #include "non-copyable.hh"
+#include "non-movable.hh"
 #include "time.hh"
 
 namespace mimosa
 {
-  class Thread : private NonCopyable
+  class Thread : private NonCopyable, private NonMovable
   {
   public:
 

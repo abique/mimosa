@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-# include <queue>
-# include <limits>
+#include <queue>
+#include <limits>
 
-# include "mutex.hh"
-# include "condition.hh"
-# include "ref-countable.hh"
+#include "mutex.hh"
+#include "condition.hh"
+#include "ref-countable.hh"
 
 namespace mimosa
 {
@@ -13,7 +13,7 @@ namespace mimosa
    * @ingroup Sync
    */
   template <typename T, typename QueueType = std::queue<T> >
-  class Channel : public RefCountable<Channel<T, QueueType> >
+  class Channel : public RefCountable<Channel<T, QueueType> >, private NonCopyable, private NonMovable
   {
   public:
     inline Channel()

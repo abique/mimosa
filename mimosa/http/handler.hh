@@ -1,9 +1,10 @@
 ﻿#pragma once
 
-# include "../ref-countable.hh"
-# include "../non-copyable.hh"
-# include "request-reader.hh"
-# include "response-writer.hh"
+#include "../ref-countable.hh"
+#include "../non-copyable.hh"
+#include "../non-movable.hh"
+#include "request-reader.hh"
+#include "response-writer.hh"
 
 namespace mimosa
 {
@@ -14,7 +15,7 @@ namespace mimosa
     /**
      * @ingroup Http
      */
-    class Handler : public RefCountable<Handler>
+    class Handler : public RefCountable<Handler>, private NonCopyable, private NonMovable
     {
     public:
       virtual ~Handler() {}

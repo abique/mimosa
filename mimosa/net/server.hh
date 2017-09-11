@@ -8,13 +8,12 @@
 
 # include "../function.hh"
 # include "../thread.hh"
-# include "../non-copyable.hh"
 
 namespace mimosa
 {
   namespace net
   {
-    class Server : public RefCountable<Server>
+    class Server : public RefCountable<Server>, private NonCopyable, private NonMovable
     {
     public:
       Server();

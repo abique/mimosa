@@ -3,7 +3,6 @@
 #include <google/protobuf/message.h>
 
 #include "../ref-countable.hh"
-#include "../non-copyable.hh"
 #include "../mutex.hh"
 #include "../condition.hh"
 
@@ -13,7 +12,7 @@ namespace mimosa
   {
     class Channel;
 
-    class BasicCall : public RefCountable<BasicCall>
+    class BasicCall : public RefCountable<BasicCall>, private NonCopyable, private NonMovable
     {
     public:
       BasicCall(google::protobuf::Message * request  = nullptr,
@@ -44,8 +43,8 @@ namespace mimosa
       /** we got the response ! */
       void finished();
 
-      google::protobuf::Message * request_;
-      google::protobuf::Message * response_;
+      google::protobuf::Message * request_ = nullptr;
+      google::protobuf::Message * response_ = nullptr;
       Mutex                       mutex_;
       Condition                   condition_;
       bool                        is_canceled_;

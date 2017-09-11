@@ -1,19 +1,20 @@
-#pragma once
+﻿#pragma once
 
-# include <pthread.h>
+#include <pthread.h>
 
-# include <stdexcept>
+#include <stdexcept>
 
-# include "non-copyable.hh"
-# include "time.hh"
-# include "mutex.hh"
+#include "non-copyable.hh"
+#include "non-movable.hh"
+#include "time.hh"
+#include "mutex.hh"
 
 namespace mimosa
 {
   /**
    * @ingroup Sync
    */
-  class Condition : private NonCopyable
+  class Condition : private NonCopyable, private NonMovable
   {
   public:
     inline Condition()

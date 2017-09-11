@@ -1,21 +1,22 @@
 ﻿#pragma once
 
-# include "../compat/uio.hh"
+#include "../compat/uio.hh"
 
-# include <unistd.h>
-# include <limits.h>
+#include <unistd.h>
+#include <limits.h>
 
-# include <string>
+#include <string>
 
-# include "../ref-countable.hh"
-# include "../non-copyable.hh"
-# include "../time.hh"
+#include "../ref-countable.hh"
+#include "../non-copyable.hh"
+#include "../non-movable.hh"
+#include "../time.hh"
 
 namespace mimosa
 {
   namespace stream
   {
-    class Stream : public RefCountable<Stream>
+    class Stream : public RefCountable<Stream>, private NonCopyable, private NonMovable
     {
     public:
       virtual ~Stream();
