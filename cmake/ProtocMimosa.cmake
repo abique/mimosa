@@ -1,4 +1,4 @@
-macro(mimosa_protoc name)
+﻿macro(mimosa_protoc name)
   add_custom_command(OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/${name}.pb.h ${CMAKE_CURRENT_SOURCE_DIR}/${name}.pb.cc
     COMMAND protoc --plugin=${mimosa_BINARY_DIR}/mimosa/rpc/gen/protoc-gen-mimosa --mimosa_out=. ${name}.proto
     DEPENDS protoc-gen-mimosa ${name}.proto
