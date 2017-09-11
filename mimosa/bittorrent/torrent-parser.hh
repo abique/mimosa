@@ -46,7 +46,10 @@ namespace mimosa
 
       Error               error_;
       stream::Stream::Ptr in_;
+
+      // This pointer is temporary and allocated on stack
       bencode::Decoder *dec_ = nullptr;
+
       std::unique_ptr<TorrentDescriptor> desc_;
 
       bool                got_info_name_;
