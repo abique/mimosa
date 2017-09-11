@@ -1,13 +1,15 @@
-﻿#ifndef MIMOSA_REF_COUNTABLE_HH
-# define MIMOSA_REF_COUNTABLE_HH
+﻿#pragma once
 
-# include <cassert>
+#include <cassert>
+#include <atomic>
 
-# include "ref-counted-ptr.hh"
+#include "ref-counted-ptr.hh"
+#include "non-copyable.hh"
+#include "non-movable.hh"
 
 namespace mimosa
 {
-  class RefCountableBase
+  class RefCountableBase : private NonCopyable, private NonMovable
   {
   public:
     inline RefCountableBase()
@@ -29,19 +31,19 @@ namespace mimosa
 
     inline int addRef() const
     {
-      auto ret = __sync_add_and_fetch(&ref_count_, 1);
+      auto ret = ++ref_count_;
       assert(ret >= 1);
       return ret;
     }
 
     inline int releaseRef() const
     {
-      auto ret = __sync_add_and_fetch(&ref_count_, -1);
+      auto ret = --ref_count_;
       assert(ret >= 0);
       return ret;
     }
 
-    mutable int ref_count_;
+    mutable std::atomic<int> ref_count_;
   };
 
   inline void addRef(const RefCountableBase * obj)
@@ -66,5 +68,3 @@ namespace mimosa
     MIMOSA_DEF_PTR(T);
   };
 }
-
-#endif /* !MIMOSA_REF_COUNTABLE_HH */

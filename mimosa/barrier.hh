@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 # include <stdexcept>
 
@@ -12,14 +12,13 @@ namespace mimosa
   /**
    * @ingroup Sync
    */
-  class Barrier : public RefCountable<Barrier>,
-                  private NonCopyable
+  class Barrier : public RefCountable<Barrier>
   {
   public:
     Barrier();
     ~Barrier();
 
-    class Handle : public NonCopyable
+    class Handle : private mimosa::NonCopyable, private mimosa::NonMovable
     {
     public:
       Handle(Handle && handle);

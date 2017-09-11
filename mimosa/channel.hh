@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 # include <queue>
 # include <limits>
@@ -13,8 +13,7 @@ namespace mimosa
    * @ingroup Sync
    */
   template <typename T, typename QueueType = std::queue<T> >
-  class Channel : public RefCountable<Channel<T, QueueType> >,
-                  private NonCopyable
+  class Channel : public RefCountable<Channel<T, QueueType> >
   {
   public:
     inline Channel()

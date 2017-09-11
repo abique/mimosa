@@ -1,4 +1,4 @@
-#include <cassert>
+﻿#include <cassert>
 #include <memory>
 
 #include "../endian.hh"
@@ -318,11 +318,12 @@ namespace mimosa
     Channel::close()
     {
       status_ = kClosed;
-      stream_->close();
+      stream_->shutdown();
       write_queue_.close();
       wthread_.join();
       rthread_.cancel();
       rthread_.join();
+      stream_->close();
     }
   }
 }

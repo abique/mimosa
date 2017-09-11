@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <new>
 #include <cassert>
@@ -93,7 +93,7 @@ namespace mimosa
       throw std::bad_alloc();
 
     if (size_ > 0) {
-      for (int i = 0; i < capacity_; ++i) {
+      for (size_t i = 0; i < capacity_; ++i) {
         while (buckets_[i]) {
           auto   ptr        = buckets_[i];
           auto & hook       = ptr->*Member;
@@ -140,7 +140,7 @@ namespace mimosa
   void
   IntrusiveHashTable<T, Ptr, Member>::clear()
   {
-    for (int i = 0; i < capacity_; ++i) {
+    for (size_t i = 0; i < capacity_; ++i) {
       while (buckets_[i]) {
         auto   ptr        = buckets_[i];
         auto & hook       = ptr->*Member;

@@ -1,4 +1,4 @@
-install(FILES
+﻿install(FILES
   barrier.hh
   bind.hh
   cache.hh
@@ -21,6 +21,7 @@ install(FILES
   locker.hh
   mutex.hh
   non-copyable.hh
+  non-movable.hh
   priviledge-drop.hh
   process.hh
   recursive-mutex.hh

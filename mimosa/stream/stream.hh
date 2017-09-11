@@ -15,11 +15,10 @@ namespace mimosa
 {
   namespace stream
   {
-    class Stream : public RefCountable<Stream>,
-                   private NonCopyable
+    class Stream : public RefCountable<Stream>
     {
     public:
-      inline virtual ~Stream();
+      virtual ~Stream();
 
       virtual int64_t write(const char * data, uint64_t nbytes) = 0;
       virtual int64_t writev(const struct iovec *iov, int iovcnt);

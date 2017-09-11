@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 # include <string>
 
@@ -13,8 +13,7 @@ namespace mimosa
   {
     class Channel;
 
-    class Service : public RefCountable<Service>,
-                    private NonCopyable
+    class Service : public RefCountable<Service>
     {
     public:
 

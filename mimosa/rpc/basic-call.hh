@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <google/protobuf/message.h>
 
@@ -13,8 +13,7 @@ namespace mimosa
   {
     class Channel;
 
-    class BasicCall : public RefCountable<BasicCall>,
-                      private NonCopyable
+    class BasicCall : public RefCountable<BasicCall>
     {
     public:
       BasicCall(google::protobuf::Message * request  = nullptr,

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 # include <sys/socket.h>
 # include <netinet/in.h>
@@ -14,8 +14,7 @@ namespace mimosa
 {
   namespace net
   {
-    class Server : public RefCountable<Server>,
-                   private NonCopyable
+    class Server : public RefCountable<Server>
     {
     public:
       Server();

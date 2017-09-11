@@ -25,8 +25,8 @@ namespace mimosa
       virtual void setWriteIdleTimeout(Time timeout) override;
 
       void shutdownInput() override;
-      void shutdownOutput();
-      void shutdown();
+      void shutdownOutput() override;
+      void shutdown() override;
 
     private:
       Time read_timeout_;

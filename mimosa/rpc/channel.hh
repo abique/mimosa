@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 # include <unordered_map>
 
@@ -23,8 +23,7 @@ namespace mimosa
      *
      * So it has two threads, one for writing and one for reading.
      */
-    class Channel : public RefCountable<Channel>,
-                    private NonCopyable
+    class Channel : public RefCountable<Channel>
     {
     public:
       enum Status

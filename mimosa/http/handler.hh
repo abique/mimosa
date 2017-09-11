@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 # include "../ref-countable.hh"
 # include "../non-copyable.hh"
@@ -14,8 +14,7 @@ namespace mimosa
     /**
      * @ingroup Http
      */
-    class Handler : public RefCountable<Handler>,
-                    private NonCopyable
+    class Handler : public RefCountable<Handler>
     {
     public:
       virtual ~Handler() {}
