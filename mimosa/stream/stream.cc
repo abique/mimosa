@@ -1,4 +1,4 @@
-#include <cerrno>
+﻿#include <cerrno>
 
 #include "stream.hh"
 
@@ -6,6 +6,10 @@ namespace mimosa
 {
   namespace stream
   {
+    Stream::~Stream()
+    {
+    }
+
     int64_t
     Stream::writev(const struct iovec * iov, int iovcnt)
     {
@@ -48,6 +52,34 @@ namespace mimosa
           return bytes;
       }
       return bytes;
+    }
+
+    void Stream::setReadTimeout(Time timeout) { (void)timeout; }
+
+    void Stream::setWriteTimeout(Time timeout) { (void)timeout; }
+
+    void Stream::setTimeout(Time timeout) {
+      setReadTimeout(timeout);
+      setWriteTimeout(timeout);
+    }
+
+    void Stream::setIdleTimeout(Time timeout) {
+      setReadIdleTimeout(timeout);
+      setWriteIdleTimeout(timeout);
+    }
+
+    void Stream::shutdownInput()
+    {
+    }
+
+    void Stream::shutdownOutput()
+    {
+    }
+
+    void Stream::shutdown()
+    {
+      shutdownInput();
+      shutdownOutput();
     }
 
     int64_t

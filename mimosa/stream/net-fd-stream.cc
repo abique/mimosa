@@ -1,4 +1,4 @@
-#include "../net/common.hh"
+﻿#include "../net/common.hh"
 
 #include "net-fd-stream.hh"
 #include "../net/io.hh"
@@ -72,6 +72,21 @@ namespace mimosa
       struct ::timeval tv = toTimeVal(timeout);
       write_idle_timeout_ = timeout;
       ::setsockopt(fd_, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof (tv));
+    }
+
+    void NetFdStream::shutdownInput()
+    {
+      ::shutdown(fd_, ::SHUT_RD);
+    }
+
+    void NetFdStream::shutdownOutput()
+    {
+      ::shutdown(fd_, ::SHUT_WR);
+    }
+
+    void NetFdStream::shutdown()
+    {
+      ::shutdown(fd_, ::SHUT_RDWR);
     }
   }
 }

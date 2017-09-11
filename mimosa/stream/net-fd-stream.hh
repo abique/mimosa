@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 # include "direct-fd-stream.hh"
 
@@ -24,6 +24,10 @@ namespace mimosa
       virtual void setReadIdleTimeout(Time timeout) override;
       virtual void setWriteIdleTimeout(Time timeout) override;
 
+      void shutdownInput() override;
+      void shutdownOutput();
+      void shutdown();
+
     private:
       Time read_timeout_;
       Time write_timeout_;
@@ -32,4 +36,3 @@ namespace mimosa
     };
   }
 }
-
