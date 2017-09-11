@@ -1,4 +1,4 @@
-#include <sstream>
+﻿#include <sstream>
 #include <cassert>
 
 #include <zlib.h> // For crc32
@@ -8,6 +8,7 @@
 #include <google/protobuf/compiler/plugin.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/descriptor.pb.h>
+#include <google/protobuf/io/zero_copy_stream.h>
 #include <google/protobuf/io/printer.h>
 
 #include "../service.hh"
@@ -415,8 +416,9 @@ class ServiceGenerator : public gpc::CodeGenerator
 
     if (file->service_count() > 0)
     {
-      auto stream = generator_context->OpenForInsert(header_filename, "includes");
-      gpio::Printer printer(stream, '$');
+      std::unique_ptr<google::protobuf::io::ZeroCopyOutputStream> stream(
+            generator_context->OpenForInsert(header_filename, "includes"));
+      gpio::Printer printer(stream.get(), '$');
       printer.Print(
         "#include <memory>\n"
         "\n"
@@ -432,8 +434,9 @@ class ServiceGenerator : public gpc::CodeGenerator
 
     for (int i = 0; i < file->service_count(); ++i)
     {
-      auto stream = generator_context->OpenForInsert(header_filename, "namespace_scope");
-      gpio::Printer printer(stream, '$');
+      std::unique_ptr<google::protobuf::io::ZeroCopyOutputStream> stream(
+            generator_context->OpenForInsert(header_filename, "namespace_scope"));
+      gpio::Printer printer(stream.get(), '$');
       if (!generateService(printer, file->service(i), error))
         return false;
       if (!generateServiceServer(printer, file->service(i), error))
