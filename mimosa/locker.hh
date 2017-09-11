@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 
-# include "non-copyable.hh"
+#include "non-copyable.hh"
+#include "non-movable.hh"
 
 namespace mimosa
 {
@@ -8,7 +9,7 @@ namespace mimosa
    * @ingroup Sync
    */
   template <typename T>
-  class Locker : private NonCopyable
+  class Locker : private NonCopyable, private NonMovable
   {
   public:
     inline Locker(T & mutex) : mutex_(mutex) { mutex_.lock(); }

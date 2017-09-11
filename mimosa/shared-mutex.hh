@@ -1,21 +1,22 @@
-#pragma once
+﻿#pragma once
 
-# include <pthread.h>
+#include <pthread.h>
 
-# include <stdexcept>
+#include <stdexcept>
 
-# include "non-copyable.hh"
-# include "time.hh"
-# include "locker.hh"
-# include "shared-locker.hh"
-# include "unique-locker.hh"
+#include "non-copyable.hh"
+#include "non-movable.hh"
+#include "time.hh"
+#include "locker.hh"
+#include "shared-locker.hh"
+#include "unique-locker.hh"
 
 namespace mimosa
 {
   /**
    * @ingroup Sync
    */
-  class SharedMutex : private NonCopyable
+  class SharedMutex : private NonCopyable, private NonMovable
   {
   public:
     typedef mimosa::Locker<SharedMutex>       Locker;

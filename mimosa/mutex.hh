@@ -22,7 +22,7 @@ namespace mimosa
     typedef mimosa::Locker<Mutex> Locker;
     typedef mimosa::UniqueLocker<Mutex> UniqueLocker;
 
-    inline Mutex() throw(std::bad_alloc)
+    inline Mutex()
       : mutex_()
     {
       if (::pthread_mutex_init(&mutex_, nullptr))

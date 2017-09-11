@@ -22,7 +22,7 @@ namespace mimosa
     typedef Locker<RecursiveMutex> Locker;
     typedef UniqueLocker<RecursiveMutex> UniqueLocker;
 
-    inline RecursiveMutex() throw(std::bad_alloc)
+    inline RecursiveMutex()
       : mutex_(nullptr)
     {
       ::pthread_mutexattr_t attr;

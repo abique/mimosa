@@ -3,6 +3,7 @@
 #include <cassert>
 
 #include "non-copyable.hh"
+#include "non-movable.hh"
 #include "time.hh"
 
 namespace mimosa
@@ -11,7 +12,7 @@ namespace mimosa
    * @ingroup Sync
    */
   template <typename T>
-  class UniqueLocker : private NonCopyable
+  class UniqueLocker : private NonCopyable, private NonMovable
   {
   public:
     inline UniqueLocker(T & mutex, bool acquire = true)
