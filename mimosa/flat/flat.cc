@@ -1,3 +1,6 @@
+#ifndef HAS_MREMAP
+# include <stdlib.h>
+#endif
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -96,9 +99,16 @@ namespace mimosa
       if (size <= mapped_size_)
         return true;
 
-      void *addr = mremap(base_, mapped_size_, size, MREMAP_MAYMOVE);
+      void *addr;
+#ifdef HAS_MREMAP
+      addr = mremap(base_, mapped_size_, size, MREMAP_MAYMOVE);
       if (addr == MAP_FAILED)
         return false;
+#else
+      addr = realloc(base_, size);
+      if (addr == NULL)
+        return false;
+#endif
 
       base_        = (uint8_t*)addr;
       mapped_size_ = size;

@@ -58,4 +58,9 @@ if(HAS_PIPE)
   add_definitions(-DHAS_PIPE)
 endif()
 
+check_symbol_exists(mremap sys/mman.h HAS_MREMAP)
+if(HAS_MREMAP)
+  add_definitions(-DHAS_MREMAP)
+endif()
+
 add_subdirectory(mimosa)
