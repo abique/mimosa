@@ -6,7 +6,7 @@
 #elif defined(__APPLE__)
 # define MIMOSA_MAC
 # define MIMOSA_UNIX
-#elif defined(__unix__)
+#elif defined(__unix__) || defined(__HAIKU__)
 # define MIMOSA_UNIX
 #elif defined(__WIN32__)
 # define MIMOSA_WIN
