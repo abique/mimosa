@@ -11,9 +11,9 @@ namespace mimosa
     {
       stream::DirectFdStream srcStream;
 
-      struct ::stat64 st;
+      struct ::stat st;
 
-      if (::stat64(src.c_str(), &st))
+      if (::stat(src.c_str(), &st))
         return false;
 
       if (!srcStream.open(src.c_str(), O_RDONLY))

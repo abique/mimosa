@@ -3,7 +3,7 @@
 # include <sys/types.h>
 # include <cstdint>
 
-# if defined(__unix__) || defined(__APPLE__)
+# if defined(__unix__) || defined(__APPLE__) || defined(__HAIKU__)
 #  include <sys/uio.h>
 # else
 #  define IOV_MAX 128
