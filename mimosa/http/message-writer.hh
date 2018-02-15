@@ -23,7 +23,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(MessageWriter<Channel, Message>);
 
-      MessageWriter(Channel & channel);
+      explicit MessageWriter(Channel & channel);
       ~MessageWriter();
 
       /** Stream related stuff

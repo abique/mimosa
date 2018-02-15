@@ -9,7 +9,7 @@ namespace mimosa
     class Blob
     {
     public:
-      inline Blob(git_blob * blob = nullptr) : blob_(blob) {}
+      inline explicit Blob(git_blob * blob = nullptr) : blob_(blob) {}
       inline ~Blob() { git_blob_free(blob_); }
 
       inline operator git_blob *() { return blob_; }

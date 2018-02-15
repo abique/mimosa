@@ -9,7 +9,7 @@ namespace mimosa
     class Diff
     {
     public:
-      inline Diff(git_diff * diff = nullptr) : diff_(diff) {}
+      inline explicit Diff(git_diff * diff = nullptr) : diff_(diff) {}
       inline ~Diff() { git_diff_free(diff_); }
 
       inline operator git_diff *() { return diff_; }

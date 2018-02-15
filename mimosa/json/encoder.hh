@@ -15,7 +15,7 @@ namespace mimosa
     class Encoder
     {
     public:
-      Encoder(stream::Stream::Ptr output);
+      explicit Encoder(stream::Stream::Ptr output);
 
       bool startObject();
       bool endObject();

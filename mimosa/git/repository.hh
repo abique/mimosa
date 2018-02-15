@@ -12,7 +12,7 @@ namespace mimosa
     class Repository
     {
     public:
-      Repository(const std::string & repo_path);
+      explicit Repository(const std::string & repo_path);
       ~Repository();
 
       inline operator git_repository * () const { return repo_; }

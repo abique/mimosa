@@ -12,7 +12,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(ChunkedStream);
 
-      ChunkedStream(stream::BufferedStream::Ptr stream);
+      explicit ChunkedStream(stream::BufferedStream::Ptr stream);
 
       virtual int64_t write(const char * data, uint64_t nbytes) override;
       virtual int64_t read(char * data, uint64_t nbytes) override;

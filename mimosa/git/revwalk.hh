@@ -9,7 +9,7 @@ namespace mimosa
     class Revwalk
     {
     public:
-      Revwalk(git_repository *repo);
+      explicit Revwalk(git_repository *repo);
       ~Revwalk();
 
       inline operator git_revwalk *() { return walk_; }

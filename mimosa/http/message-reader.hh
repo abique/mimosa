@@ -18,7 +18,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(MessageReader);
 
-      MessageReader(Channel & channel);
+      explicit MessageReader(Channel & channel);
 
       void clear();
 

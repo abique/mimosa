@@ -13,7 +13,7 @@ namespace mimosa
     class Encoder
     {
     public:
-      Encoder(stream::Stream::Ptr output);
+      explicit Encoder(stream::Stream::Ptr output);
 
       bool pushInt(int64_t value);
       bool pushData(const char *data, size_t len);

@@ -15,7 +15,7 @@ namespace mimosa
     class DirIterator
     {
     public:
-      DirIterator(const std::string & path);
+      explicit DirIterator(const std::string & path);
       ~DirIterator();
 
       inline bool ok() const { return dir_; }

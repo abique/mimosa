@@ -31,7 +31,7 @@ namespace mimosa
     class Decoder
     {
     public:
-      Decoder(stream::Stream::Ptr input);
+      explicit Decoder(stream::Stream::Ptr input);
 
       Token pull();
       bool  eatValue();

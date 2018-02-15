@@ -7,7 +7,7 @@ namespace mimosa
     class TreeEntry
     {
     public:
-      inline TreeEntry(git_tree_entry * entry = nullptr) : entry_(entry) {}
+      inline explicit TreeEntry(git_tree_entry * entry = nullptr) : entry_(entry) {}
       inline ~TreeEntry() { git_tree_entry_free(entry_); }
 
       inline operator git_tree_entry *() { return entry_; }

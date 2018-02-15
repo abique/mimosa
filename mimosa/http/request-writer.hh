@@ -15,7 +15,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(RequestWriter);
 
-      inline RequestWriter(ClientChannel & channel)
+      inline explicit RequestWriter(ClientChannel & channel)
         : MessageWriter<ClientChannel, Request> (channel)
       {
       }
