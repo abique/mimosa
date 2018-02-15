@@ -13,7 +13,7 @@ namespace mimosa
     class Parser
     {
     public:
-      Parser(const Template & tpl);
+      explicit Parser(const Template & tpl);
       ~Parser();
 
       void reset();

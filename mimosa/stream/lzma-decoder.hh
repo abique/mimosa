@@ -11,9 +11,9 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(LzmaDecoder);
 
-      LzmaDecoder(Stream::Ptr stream,
-                  uint64_t    memlimit = UINT64_MAX,
-                  uint32_t    flags = 0);
+      explicit LzmaDecoder(Stream::Ptr stream,
+                           uint64_t    memlimit = UINT64_MAX,
+                           uint32_t    flags = 0);
     };
   }
 }

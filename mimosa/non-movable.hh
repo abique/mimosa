@@ -4,8 +4,8 @@ namespace mimosa
 {
   class NonMovable
   {
-  public:
-    inline NonMovable() {}
+  protected:
+    constexpr NonMovable() = default;
 
     inline NonMovable(NonCopyable &&) = delete;
     inline NonMovable & operator=(NonCopyable&&) = delete;

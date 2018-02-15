@@ -15,8 +15,8 @@ namespace mimosa
     class BasicCall : public RefCountable<BasicCall>, private NonCopyable, private NonMovable
     {
     public:
-      BasicCall(google::protobuf::Message * request  = nullptr,
-                google::protobuf::Message * response = nullptr);
+      explicit BasicCall(google::protobuf::Message * request  = nullptr,
+                         google::protobuf::Message * response = nullptr);
       virtual ~BasicCall();
 
       /** waits for the call to finish */

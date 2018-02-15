@@ -51,7 +51,7 @@ namespace mimosa
       return ret;
     }
 
-    mutable std::atomic<int> ref_count_;
+    mutable std::atomic<int32_t> ref_count_;
   };
 
   inline void addRef(const RefCountableBase * obj)

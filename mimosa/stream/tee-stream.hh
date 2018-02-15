@@ -18,7 +18,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(TeeStream);
 
-      TeeStream(Stream::Ptr stream);
+      explicit TeeStream(Stream::Ptr stream);
 
       inline void teeOutput(Stream::Ptr stream) { ostreams_.push_back(stream); }
       inline void teeInput(Stream::Ptr stream) { istreams_.push_back(stream); }

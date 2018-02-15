@@ -11,7 +11,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(NetFdStream);
 
-      NetFdStream(int fd, bool own_fd = true);
+      explicit NetFdStream(int fd, bool own_fd = true);
 
       virtual int64_t write(const char * data, uint64_t nbytes) override;
       virtual int64_t writev(const struct iovec *iov, int iovcnt) override;

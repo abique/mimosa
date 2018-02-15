@@ -14,7 +14,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(Dict);
 
-      Dict(const std::string & name = "");
+      explicit Dict(const std::string & name = "");
 
       virtual const AbstractValue * lookup(const StringRef & var) const;
       virtual void write(stream::Stream::Ptr stream) const;

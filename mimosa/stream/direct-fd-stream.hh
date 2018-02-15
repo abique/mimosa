@@ -16,7 +16,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(DirectFdStream);
 
-      DirectFdStream(int fd = -1, bool own_fd = true);
+      explicit DirectFdStream(int fd = -1, bool own_fd = true);
       virtual ~DirectFdStream();
 
       virtual int64_t write(const char * data, uint64_t nbytes);

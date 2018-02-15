@@ -12,7 +12,7 @@ namespace mimosa
   class Locker : private NonCopyable, private NonMovable
   {
   public:
-    inline Locker(T & mutex) : mutex_(mutex) { mutex_.lock(); }
+    inline explicit Locker(T & mutex) : mutex_(mutex) { mutex_.lock(); }
     inline ~Locker() { mutex_.unlock(); }
   private:
     T & mutex_;

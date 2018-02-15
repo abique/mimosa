@@ -15,7 +15,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(BufferedStream);
 
-      BufferedStream(Stream::Ptr stream, uint64_t buffer_size = 64 * 1024);
+      explicit BufferedStream(Stream::Ptr stream, uint64_t buffer_size = 64 * 1024);
       virtual ~BufferedStream();
 
       /** The number of bytes which are in the read buffer */

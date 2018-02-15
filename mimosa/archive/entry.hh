@@ -12,7 +12,7 @@ namespace mimosa
     {
     public:
       inline Entry() : entry_(archive_entry_new()) {}
-      inline Entry(struct archive * archive) : entry_(archive_entry_new2(archive)) {}
+      inline explicit Entry(struct archive * archive) : entry_(archive_entry_new2(archive)) {}
       inline Entry(const Entry & e) : entry_(archive_entry_clone(e.entry_)) {}
       inline Entry(Entry && e) : entry_(e.entry_) { e.entry_ = nullptr; }
       inline ~Entry() { archive_entry_free(entry_); }

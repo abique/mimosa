@@ -12,8 +12,8 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(Call<Request, Response>);
 
-      inline Call(Request  * request  = nullptr,
-                  Response * response = nullptr)
+      inline explicit Call(Request  * request  = nullptr,
+                           Response * response = nullptr)
         : BasicCall(request ? : new Request(),
                     response ? : new Response())
       {

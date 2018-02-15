@@ -32,8 +32,8 @@ namespace mimosa
         kClosed,
       };
 
-      Channel(stream::BufferedStream::Ptr stream,
-              ServiceMap::ConstPtr        service_map = nullptr);
+      explicit Channel(stream::BufferedStream::Ptr stream,
+                       ServiceMap::ConstPtr        service_map = nullptr);
       ~Channel();
 
       void start();

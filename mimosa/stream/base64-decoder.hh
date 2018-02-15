@@ -11,7 +11,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(Base64Decoder);
 
-      Base64Decoder(Stream::Ptr stream, const char * base = NULL);
+      explicit Base64Decoder(Stream::Ptr stream, const char * base = nullptr);
 
       virtual int64_t write(const char * data, uint64_t nbytes);
       virtual int64_t read(char * data, uint64_t nbytes);

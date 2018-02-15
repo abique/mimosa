@@ -18,7 +18,7 @@ namespace mimosa
     class Buffer : public RefCountable<Buffer>, private NonCopyable, private NonMovable
     {
     public:
-      Buffer(uint64_t size = 64 * 1024);
+      explicit Buffer(uint64_t size = 64 * 1024);
       /** constructs a copy of the data buffer */
       Buffer(const char * data, uint64_t size);
       ~Buffer();

@@ -13,7 +13,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(Filter);
 
-      Filter(Stream::Ptr stream);
+      explicit Filter(Stream::Ptr stream);
 
       virtual int64_t write(const char * data, uint64_t nbytes) = 0;
       virtual int64_t read(char * data, uint64_t nbytes) = 0;

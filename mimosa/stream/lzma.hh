@@ -22,7 +22,7 @@ namespace mimosa
       virtual bool flush();
 
     protected:
-      Lzma(Stream::Ptr stream);
+      explicit Lzma(Stream::Ptr stream);
 
       lzma_stream lzma_;
       Buffer buffer_;

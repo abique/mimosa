@@ -12,7 +12,7 @@ namespace mimosa
     {
     public:
       inline Reply(Reply && reply) : reply_(reply.reply_) { reply.reply_ = nullptr; }
-      inline Reply(void *reply) : reply_(reinterpret_cast<redisReply*> (reply)) {}
+      inline explicit Reply(void *reply) : reply_(reinterpret_cast<redisReply*> (reply)) {}
       inline ~Reply() {
         if (reply_)
           freeReplyObject(reply_);

@@ -44,7 +44,7 @@ void cpuForeach(const std::function<void ()>& cb, bool affinity, int ratio)
                 cb();
             } catch (...) {
             }
-#ifdef __linux__
+#ifdef HAS_SCHED_SETAFFINITY
             if (affinity)
                 CPU_FREE(set);
 #endif

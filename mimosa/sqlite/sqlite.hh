@@ -24,7 +24,7 @@ namespace mimosa
     class Db : private NonCopyable
     {
     public:
-      Db(sqlite3 * db = nullptr);
+      explicit Db(sqlite3 * db = nullptr);
       ~Db();
 
       int open(const char * filename,
@@ -44,7 +44,7 @@ namespace mimosa
     class Stmt : private NonCopyable
     {
     public:
-      Stmt(sqlite3_stmt * stmt = nullptr);
+      explicit Stmt(sqlite3_stmt * stmt = nullptr);
       ~Stmt();
 
       Stmt(Stmt && stmt);

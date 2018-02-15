@@ -15,7 +15,7 @@ namespace mimosa
       Value(const std::string &   name,
             const T &             value);
 
-      Value(const T &             value);
+      explicit Value(const T &             value);
 
       virtual const AbstractValue * lookup(const StringRef & var) const;
       virtual void write(stream::Stream::Ptr stream) const;

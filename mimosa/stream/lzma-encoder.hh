@@ -11,9 +11,9 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(LzmaEncoder);
 
-      LzmaEncoder(Stream::Ptr stream,
-                  uint32_t    preset = 5,
-                  lzma_check  check  = LZMA_CHECK_CRC64);
+      explicit LzmaEncoder(Stream::Ptr stream,
+                           uint32_t    preset = 5,
+                           lzma_check  check  = LZMA_CHECK_CRC64);
     };
   }
 }
