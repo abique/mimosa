@@ -11,7 +11,7 @@ find_package(LibArchive)
 include_directories(${GNUTLS_INCLUDE_DIR} ${LibArchive_INCLUDE_DIR} .)
 
 add_definitions(
-  -std=c++14
+  -std=c++17
   -D_GNU_SOURCE -D_LARGEFILE64_SOURCE
   -Wall -Wextra -Werror=return-type
 )
