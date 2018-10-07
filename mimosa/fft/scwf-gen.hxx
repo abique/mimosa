@@ -6,7 +6,7 @@ namespace mimosa {
 namespace fft {
 
 template <typename fp_type, int len>
-void generatePerfectSawSpectrum(fp_type *spectrum)
+void generateIdealSawSpectrum(fp_type *spectrum)
 {
     static_assert(len & (len - 1) == 0, "len is a power of 2");
     static_assert(len >= 4, "len must be greater or equal to 4");
@@ -21,7 +21,7 @@ void generatePerfectSawSpectrum(fp_type *spectrum)
 }
 
 template <typename fp_type, int len>
-void generatePerfectSawSignal(fp_type *signal)
+void generateIdealSawSignal(fp_type *signal)
 {
     static_assert(len & (len - 1) == 0, "len is a power of 2");
 
@@ -31,7 +31,7 @@ void generatePerfectSawSignal(fp_type *signal)
 }
 
 template <typename fp_type, int len>
-void generatePerfectSquareSpectrum(fp_type *spectrum)
+void generateIdealSquareSpectrum(fp_type *spectrum)
 {
     static_assert(len & (len - 1) == 0, "len is a power of 2");
     static_assert(len >= 4, "len must be greater or equal to 4");
@@ -46,7 +46,7 @@ void generatePerfectSquareSpectrum(fp_type *spectrum)
 }
 
 template <typename fp_type, int len>
-void generatePerfectSquareSignal(fp_type *signal)
+void generateIdealSquareSignal(fp_type *signal)
 {
     static_assert(len & (len - 1) == 0, "len is a power of 2");
 
