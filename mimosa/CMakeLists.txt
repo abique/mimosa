@@ -1,6 +1,5 @@
 ﻿install(FILES
   barrier.hh
-  bind.hh
   cache.hh
   cache.hxx
   channel.hh
