@@ -6,6 +6,7 @@
 # include "../non-copyable.hh"
 # include "../string-ref.hh"
 # include "torrent-descriptor.hh"
+# include "../stream/stream.hh"
 
 namespace mimosa
 {
