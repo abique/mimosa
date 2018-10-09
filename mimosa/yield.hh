@@ -4,5 +4,8 @@
 
 namespace mimosa
 {
-  inline void yield() { ::sched_yield(); }
+  inline void yield()
+  {
+     ::sched_yield();
+  }
 }

@@ -7,7 +7,7 @@ namespace mimosa
   protected:
     constexpr NonMovable() = default;
 
-    inline NonMovable(NonCopyable &&) = delete;
-    inline NonMovable & operator=(NonCopyable&&) = delete;
+    inline NonMovable(NonMovable &&) = delete;
+    inline NonMovable & operator=(NonMovable&&) = delete;
   };
 }

@@ -1,12 +1,6 @@
 namespace mimosa
 {
   inline
-  SpinLock::SpinLock()
-    : lock_(0)
-  {
-  }
-
-  inline
   SpinLock::~SpinLock()
   {
     /* wait for unlock */

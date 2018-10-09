@@ -15,7 +15,7 @@ namespace mimosa
   class UniqueLocker : private NonCopyable, private NonMovable
   {
   public:
-    inline UniqueLocker(T & mutex, bool acquire = true)
+    inline UniqueLocker(T& mutex, bool acquire = true)
       : mutex_(mutex),
         is_locked_(acquire)
     {
@@ -23,7 +23,12 @@ namespace mimosa
         mutex_.lock();
     }
 
-    inline ~UniqueLocker() { if (is_locked_) mutex_.unlock(); }
+    inline ~UniqueLocker()
+    {
+       if (is_locked_)
+          mutex_.unlock();
+    }
+
     inline void lock()
     {
       if (!is_locked_)
@@ -51,7 +56,7 @@ namespace mimosa
     }
 
   private:
-    bool is_locked_;
-    T &  mutex_;
+    bool is_locked_ = false;
+    T&   mutex_;
   };
 }
