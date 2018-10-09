@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
 
-#include "../cache.hh"
-#include "../cache.hxx"
+#include "../expiringcache.hh"
+#include "../expiring-cache.hxx"
 
 namespace mimosa
 {
   namespace
   {
-    class MyCache : public Cache<int, int>
+    class MyCache : public ExpiringCache<int, int>
     {
     protected:
       virtual void cacheMiss(const int & key)
@@ -16,7 +16,7 @@ namespace mimosa
       }
     };
 
-    TEST(Cache, Simple)
+    TEST(ExpiringCache, Simple)
     {
       MyCache cache;
 

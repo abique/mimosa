@@ -1,12 +1,12 @@
 #pragma once
 
-# include <memory>
-# include <unordered_map>
+#include <memory>
+#include <unordered_map>
 
-# include "time.hh"
-# include "thread.hh"
-# include "shared-mutex.hh"
-# include "future.hh"
+#include "time.hh"
+#include "thread.hh"
+#include "shared-mutex.hh"
+#include "future.hh"
 
 namespace mimosa
 {
@@ -14,11 +14,11 @@ namespace mimosa
             typename Value,
             typename Hash = std::hash<Key>,
             typename KeyEqual = std::equal_to<Key> >
-  class Cache : private NonCopyable
+  class ExpiringCache : private NonCopyable
   {
   public:
-    Cache();
-    ~Cache();
+    ExpiringCache();
+    ~ExpiringCache();
 
     typename Future<Value>::Ptr get(const Key & key);
 

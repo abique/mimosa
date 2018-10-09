@@ -1,13 +1,13 @@
 #pragma once
 
-# include "../cache.hh"
-# include "template.hh"
+#include "../expiring-cache.hh"
+#include "template.hh"
 
 namespace mimosa
 {
   namespace tpl
   {
-    class Cache : public mimosa::Cache<std::string, Template::Ptr>
+    class Cache : public mimosa::ExpiringCache<std::string, Template::Ptr>
     {
     public:
       Cache();
@@ -18,5 +18,5 @@ namespace mimosa
   }
 }
 
-extern template class mimosa::Cache<std::string, mimosa::tpl::Template::Ptr>;
+extern template class mimosa::ExpiringCache<std::string, mimosa::tpl::Template::Ptr>;
 

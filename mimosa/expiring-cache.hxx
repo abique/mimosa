@@ -4,7 +4,7 @@ namespace mimosa
             typename Value,
             typename Hash,
             typename KeyEqual>
-  Cache<Key, Value, Hash, KeyEqual>::Cache()
+  ExpiringCache<Key, Value, Hash, KeyEqual>::ExpiringCache()
     : entry_timeout_(0),
       value_timeout_(0),
       lock_(),
@@ -18,7 +18,7 @@ namespace mimosa
             typename Value,
             typename Hash,
             typename KeyEqual>
-  Cache<Key, Value, Hash, KeyEqual>::~Cache()
+  ExpiringCache<Key, Value, Hash, KeyEqual>::~ExpiringCache()
   {
     clear();
     stopCleanupThread();
@@ -29,7 +29,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::setEntryTimeout(Time time)
+  ExpiringCache<Key, Value, Hash, KeyEqual>::setEntryTimeout(Time time)
   {
     entry_timeout_ = time;
   }
@@ -39,7 +39,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::setValueTimeout(Time time)
+  ExpiringCache<Key, Value, Hash, KeyEqual>::setValueTimeout(Time time)
   {
     value_timeout_ = time;
   }
@@ -49,7 +49,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::setCleanupPeriod(Time time)
+  ExpiringCache<Key, Value, Hash, KeyEqual>::setCleanupPeriod(Time time)
   {
     Mutex::Locker locker(cleanup_mutex_);
     cleanup_period_ = time;
@@ -61,7 +61,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::remove(const Key & key)
+  ExpiringCache<Key, Value, Hash, KeyEqual>::remove(const Key & key)
   {
     SharedMutex::Locker locker(lock_);
 
@@ -81,7 +81,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::clear()
+  ExpiringCache<Key, Value, Hash, KeyEqual>::clear()
   {
     SharedMutex::Locker locker(lock_);
 
@@ -97,7 +97,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::cleanup()
+  ExpiringCache<Key, Value, Hash, KeyEqual>::cleanup()
   {
     SharedMutex::Locker locker(lock_);
     Time now = monotonicTime();
@@ -116,7 +116,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::set(const Key &   key,
+  ExpiringCache<Key, Value, Hash, KeyEqual>::set(const Key &   key,
                                          const Value & value)
   {
     SharedMutex::Locker locker(lock_);
@@ -138,7 +138,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   typename Future<Value>::Ptr
-  Cache<Key, Value, Hash, KeyEqual>::get(const Key & key)
+  ExpiringCache<Key, Value, Hash, KeyEqual>::get(const Key & key)
   {
     // check read lock
     {
@@ -184,7 +184,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::startCleanupThread()
+  ExpiringCache<Key, Value, Hash, KeyEqual>::startCleanupThread()
   {
     Mutex::Locker locker(cleanup_mutex_);
     if (cleanup_thread_)
@@ -200,7 +200,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::stopCleanupThread()
+  ExpiringCache<Key, Value, Hash, KeyEqual>::stopCleanupThread()
   {
     {
       Mutex::Locker locker(cleanup_mutex_);
@@ -219,7 +219,7 @@ namespace mimosa
             typename Hash,
             typename KeyEqual>
   void
-  Cache<Key, Value, Hash, KeyEqual>::cleanupLoop()
+  ExpiringCache<Key, Value, Hash, KeyEqual>::cleanupLoop()
   {
     Mutex::Locker locker(cleanup_mutex_);
     while (!cleanup_thread_stop_)

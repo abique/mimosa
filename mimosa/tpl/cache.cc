@@ -1,5 +1,5 @@
 #include "cache.hh"
-#include "../cache.hxx" // contains template definition
+#include "../expiring-cache.hxx" // contains template definition
 
 namespace mimosa
 {
@@ -21,4 +21,4 @@ namespace mimosa
   }
 }
 
-template class mimosa::Cache<std::string, mimosa::tpl::Template::Ptr>;
+template class mimosa::ExpiringCache<std::string, mimosa::tpl::Template::Ptr>;
