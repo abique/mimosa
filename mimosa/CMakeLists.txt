@@ -1,5 +1,4 @@
 ﻿install(FILES
-  barrier.hh
   cache.hh
   cache.hxx
   channel.hh
@@ -64,9 +63,6 @@ add_library(mimosa STATIC
   uptime.cc
   process.cc
   env.cc
-
-  # sync
-  barrier.cc
 
   # streams
   stream/base16-decoder.cc
