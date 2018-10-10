@@ -65,7 +65,7 @@ namespace mimosa
     typedef IntrusiveSlistIterator<T, Ptr, Member> iterator;
     friend class IntrusiveSlistIterator<T, Ptr, Member>;
 
-    inline IntrusiveSlist() : tail_(nullptr), size_(0) {}
+    inline IntrusiveSlist() = default;
     inline ~IntrusiveSlist()
     {
       while (!empty())
@@ -136,8 +136,8 @@ namespace mimosa
     iterator end() const { return iterator(*this, nullptr); }
 
   private:
-    Ptr    tail_;
-    size_t size_;
+    Ptr    tail_ = nullptr;
+    size_t size_ = 0;
   };
 }
 
