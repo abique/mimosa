@@ -16,14 +16,7 @@ namespace mimosa
   class Channel : public RefCountable<Channel<T, QueueType> >, private NonCopyable, private NonMovable
   {
   public:
-    inline Channel()
-      : closed_(false),
-        queue_(),
-        mutex_(),
-        cond_(),
-        max_size_(std::numeric_limits<decltype (max_size_)>::max())
-    {
-    }
+    Channel() = default;
 
     inline void setMaxSize(size_t max_size)
     {
@@ -147,12 +140,11 @@ namespace mimosa
     }
 
   private:
-    bool      closed_;
+    bool      closed_ = false;
     QueueType queue_;
     Mutex     mutex_;
     Condition cond_;
     Condition push_cond_;
-    size_t    max_size_;
+    size_t    max_size_ = std::numeric_limits<size_t>::max();
   };
 }
-
