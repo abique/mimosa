@@ -1,6 +1,7 @@
 #pragma once
 
 # include <cstdint>
+# include <string>
 
 # include <archive_entry.h>
 
@@ -42,6 +43,7 @@ namespace mimosa
       ///////////////
 
       inline void setSize(uint64_t size) { archive_entry_set_size(entry_, size); }
+      inline void setPathname(const std::string &str) { archive_entry_set_pathname_utf8(entry_, str.c_str()); }
 
       ///////////////
       /// GETTERS ///

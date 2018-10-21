@@ -14,13 +14,13 @@ namespace mimosa
      * Note that only a subset of the original calls are present;
      * if you need more of them please send a patch.
      */
-    class Writer : private stream::Stream
+    class Writer : public stream::Stream
     {
     public:
       MIMOSA_DEF_PTR(Writer);
 
       inline Writer() : archive_(archive_write_new()) {}
-      inline ~Writer() { archive_write_free(archive_); }
+      inline ~Writer() override { archive_write_free(archive_); }
 
       inline operator struct ::archive * () const { return archive_; }
 
