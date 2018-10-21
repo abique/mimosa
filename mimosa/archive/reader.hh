@@ -21,7 +21,7 @@ namespace mimosa
       MIMOSA_DEF_PTR(Reader);
 
       inline Reader() : archive_(archive_read_new()) {}
-      inline ~Reader() { archive_read_free(archive_); }
+      inline ~Reader() override { archive_read_free(archive_); }
 
       inline operator struct ::archive *() const { return archive_; }
 
