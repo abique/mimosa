@@ -76,17 +76,17 @@ namespace mimosa
 
     void NetFdStream::shutdownInput()
     {
-      ::shutdown(fd_, ::SHUT_RD);
+      ::shutdown(fd_, SHUT_RD);
     }
 
     void NetFdStream::shutdownOutput()
     {
-      ::shutdown(fd_, ::SHUT_WR);
+      ::shutdown(fd_, SHUT_WR);
     }
 
     void NetFdStream::shutdown()
     {
-      ::shutdown(fd_, ::SHUT_RDWR);
+      ::shutdown(fd_, SHUT_RDWR);
     }
   }
 }
