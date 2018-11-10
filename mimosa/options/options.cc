@@ -12,6 +12,10 @@ namespace mimosa
 {
   namespace options
   {
+    BasicOption::~BasicOption()
+    {
+    }
+
     bool
     MessageOption::parse(int & /*argc*/, char **& /*argv*/)
     {
@@ -176,7 +180,7 @@ namespace mimosa
     void deinit()
     {
       delete parser;
-      parser = nullptr;
+       parser = nullptr;
     }
   }
 }

@@ -55,7 +55,7 @@ namespace mimosa
       {
       }
 
-      virtual ~BasicOption() {}
+      virtual ~BasicOption();
 
       /// this method is called with arguments following -${name}
       /// You are expected to update argc and argv for each argument
@@ -228,7 +228,7 @@ namespace mimosa
       virtual bool parse(int & argc, char **& argv) override;
 
     private:
-      const char * message_;
+      const char * message_ = nullptr;
     };
 
     /// Parses the arguments.
