@@ -1,4 +1,5 @@
 #include <limits>
+#include <utility>
 
 #include "encoder.hh"
 #include "../format/format-stream.hh"
@@ -8,7 +9,7 @@ namespace mimosa
   namespace json
   {
     Encoder::Encoder(stream::Stream::Ptr output)
-      : output_(output)
+      : output_(std::move(output))
     {
     }
 

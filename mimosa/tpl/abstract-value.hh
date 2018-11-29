@@ -11,7 +11,7 @@ namespace mimosa
     class AbstractValue : public RefCountable<AbstractValue>
     {
     public:
-      explicit AbstractValue(const std::string & name = "");
+      explicit AbstractValue(std::string  name = "");
 
       virtual const AbstractValue * lookup(const StringRef & var) const = 0;
       virtual void write(stream::Stream::Ptr stream) const = 0;

@@ -13,7 +13,7 @@ namespace mimosa
     public:
       MIMOSA_DEF_PTR(StringStream);
 
-      explicit StringStream(const std::string & str = "");
+      explicit StringStream(std::string  str = "");
 
       virtual int64_t write(const char * data, uint64_t nbytes);
       virtual int64_t read(char * data, uint64_t nbytes);

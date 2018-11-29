@@ -1,12 +1,14 @@
+#include <utility>
+
 #include "abstract-value.hh"
 
 namespace mimosa
 {
   namespace tpl
   {
-    AbstractValue::AbstractValue(const std::string &   name)
+    AbstractValue::AbstractValue(std::string    name)
       : parent_(nullptr),
-        name_(name)
+        name_(std::move(name))
     {
     }
 

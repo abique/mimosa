@@ -6,6 +6,7 @@
 
 #include <sstream>
 #include <algorithm>
+#include <utility>
 
 #include "../fs/rm.hh"
 #include "../json/encoder.hh"
@@ -23,8 +24,8 @@ namespace mimosa
 {
   namespace http
   {
-    FsHandler::FsHandler(const std::string & root, int nskip)
-      : root_(root),
+    FsHandler::FsHandler(std::string  root, int nskip)
+      : root_(std::move(root)),
         nskip_(nskip),
         can_readdir_(false),
         can_head_(true),

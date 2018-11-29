@@ -14,7 +14,7 @@ namespace mimosa
     class FsHandler : public MethodHandler
     {
     public:
-      FsHandler(const std::string & root, int nskip);
+      FsHandler(std::string  root, int nskip);
 
       virtual bool head(RequestReader & request, ResponseWriter & response) const;
       virtual bool get(RequestReader & request, ResponseWriter & response) const;

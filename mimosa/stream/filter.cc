@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "filter.hh"
 
 namespace mimosa
@@ -5,7 +7,7 @@ namespace mimosa
   namespace stream
   {
     Filter::Filter(Stream::Ptr stream)
-      : stream_(stream)
+      : stream_(std::move(stream))
     {
     }
 

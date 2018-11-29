@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "tee-stream.hh"
 
 namespace mimosa
@@ -5,7 +7,7 @@ namespace mimosa
   namespace stream
   {
     TeeStream::TeeStream(Stream::Ptr stream)
-      : stream_(stream)
+      : stream_(std::move(stream))
     {
     }
 

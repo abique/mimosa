@@ -1,4 +1,5 @@
 #include <cstring>
+#include <utility>
 
 #include "string-stream.hh"
 
@@ -6,9 +7,9 @@ namespace mimosa
 {
   namespace stream
   {
-    StringStream::StringStream(const std::string & str)
+    StringStream::StringStream(std::string  str)
       : read_pos_(0),
-        str_(str)
+        str_(std::move(str))
     {
     }
 

@@ -1,5 +1,6 @@
 ﻿#include <cassert>
 #include <memory>
+#include <utility>
 
 #include "../endian.hh"
 #include "../thread.hh"
@@ -13,8 +14,8 @@ namespace mimosa
   {
     Channel::Channel(stream::BufferedStream::Ptr stream,
                      ServiceMap::ConstPtr        service_map)
-      : stream_(stream),
-        service_map_(service_map),
+      : stream_(std::move(stream)),
+        service_map_(std::move(service_map)),
         scalls_(),
         rcalls_(),
         status_(kOk),
