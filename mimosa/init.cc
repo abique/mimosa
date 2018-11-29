@@ -1,5 +1,5 @@
 #include <sched.h>
-#include <signal.h>
+#include <csignal>
 #include <cassert>
 #include <cstring>
 #include <cerrno>

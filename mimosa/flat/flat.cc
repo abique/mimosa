@@ -1,5 +1,5 @@
 #ifndef HAS_MREMAP
-# include <stdlib.h>
+# include <cstdlib>
 #endif
 #include <sys/mman.h>
 #include <sys/types.h>

@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
+#include <cstdio>
+#include <cerrno>
+#include <cstring>
 
 #include "buffer.hh"
 #include "copy.hh"

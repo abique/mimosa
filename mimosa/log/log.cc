@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <fcntl.h>
-#include <time.h>
+#include <ctime>
 
 #include <ctime>
 #include <sstream>
