@@ -40,12 +40,7 @@ namespace mimosa
 
     struct Output
     {
-      Output()
-        : open_time_(0),
-          path_(),
-          fd_(STDOUT_FILENO)
-      {
-      }
+      Output() = default;
 
       ~Output()
       {
@@ -141,9 +136,9 @@ namespace mimosa
           thread.join();
       }
 
-      Time        open_time_;
+      Time        open_time_{0};
       std::string path_;
-      int         fd_;
+      int         fd_{STDOUT_FILENO};
     };
 
     static Output output;

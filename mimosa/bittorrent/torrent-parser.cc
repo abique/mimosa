@@ -12,7 +12,6 @@ namespace mimosa
   {
     TorrentParser::TorrentParser()
       : error_(kSucceed),
-        dec_(nullptr),
         desc_(nullptr),
         got_info_name_(false),
         got_info_length_(false),
