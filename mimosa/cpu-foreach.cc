@@ -7,6 +7,7 @@
 #include <sched.h>
 
 #include <cassert>
+#include <memory>
 #include <vector>
 #include <memory>
 
@@ -26,7 +27,7 @@ void cpuForeach(const std::function<void ()>& cb, bool affinity, int ratio)
 
     for (int i = 0; i < nproc * ratio; ++i)
     {
-        threads[i].reset(new Thread([i, nproc, &cb, affinity, ratio] {
+        threads[i] = std::make_unique<Thread>([i, nproc, &cb, affinity, ratio] {
 #ifdef HAS_SCHED_SETAFFINITY
             cpu_set_t * set = nullptr;
             if (affinity)
@@ -48,7 +49,7 @@ void cpuForeach(const std::function<void ()>& cb, bool affinity, int ratio)
             if (affinity)
                 CPU_FREE(set);
 #endif
-        }));
+        });
         threads[i]->start();
     }
 

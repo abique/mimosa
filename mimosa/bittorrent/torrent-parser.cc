@@ -1,4 +1,6 @@
-﻿#include "../stream/fd-stream.hh"
+﻿#include <memory>
+
+#include "../stream/fd-stream.hh"
 #include "../stream/tee-stream.hh"
 #include "../stream/hash.hh"
 #include "../bencode/decoder.hh"
@@ -40,8 +42,7 @@ namespace mimosa
       in_ = in;
       bencode::Decoder dec(in_);
       dec_ = &dec;
-      desc_.reset(new TorrentDescriptor);
-
+      desc_ = std::make_unique<TorrentDescriptor>();
       parseRoot();
 
       dec_ = nullptr;
