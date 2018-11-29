@@ -19,7 +19,7 @@ namespace mimosa
         {
         }
 
-        virtual bool parse(int & argc, char **& argv)
+        bool parse(int & argc, char **& argv) override
         {
           if (argc < 1)
             return false;
@@ -30,7 +30,7 @@ namespace mimosa
           return true;
         }
 
-        virtual void showDesc(std::ostream & os)
+        void showDesc(std::ostream & os) override
         {
           os << "  -" << name_ << " [=" << levelName(global_level) << "] (" << desc_ << ")" << std::endl;
         }

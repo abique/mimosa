@@ -19,8 +19,8 @@ uint64_t & TIMEOUT = *options::addOption<uint64_t>("", "timeout", "the read & wr
 
 class HelloHandler : public mimosa::http::Handler
 {
-  virtual bool handle(mimosa::http::RequestReader &  /*request*/,
-                      mimosa::http::ResponseWriter & response) const
+  bool handle(mimosa::http::RequestReader &  /*request*/,
+                      mimosa::http::ResponseWriter & response) const override
   {
     std::ostringstream os;
     os <<
@@ -43,16 +43,16 @@ class HelloHandler : public mimosa::http::Handler
 
 class QueryEchoHandler : public mimosa::http::Handler
 {
-  virtual bool handle(mimosa::http::RequestReader &  request,
-                      mimosa::http::ResponseWriter & response) const
+  bool handle(mimosa::http::RequestReader &  request,
+                      mimosa::http::ResponseWriter & response) const override
   {
     std::ostringstream os;
     os <<
       "<html><head><title>Query Echo!</title></head>"
       "<body>Query Echo!<hr/>"
       "<ul>";
-    for (auto it = request.query().cbegin(); it != request.query().cend(); ++it)
-      os << "<li>" << it->first << " = " << it->second << "</li>";
+    for (const auto & it : request.query())
+      os << "<li>" << it.first << " = " << it.second << "</li>";
     os <<
       "</ul>"
       "</body></html>";
@@ -67,8 +67,8 @@ class QueryEchoHandler : public mimosa::http::Handler
 
 class PostEchoHandler : public mimosa::http::Handler
 {
-  virtual bool handle(mimosa::http::RequestReader &  request,
-                      mimosa::http::ResponseWriter & response) const
+  bool handle(mimosa::http::RequestReader &  request,
+                      mimosa::http::ResponseWriter & response) const override
   {
     stream::Buffer buffer(request.contentLength());
     int64_t rbytes = request.loopRead(buffer.data(), request.contentLength());
@@ -84,8 +84,8 @@ class PostEchoHandler : public mimosa::http::Handler
       "Method: " << methodString(request.method()) << "<br/>"
       "Content-Type: " << request.contentType() << "<br/>"
       "<ul>";
-    for (auto it = form.cbegin(); it != form.cend(); ++it)
-      os << "<li>" << it->first << " = " << it->second << "</li>";
+    for (const auto & it : form)
+      os << "<li>" << it.first << " = " << it.second << "</li>";
     os <<
       "</ul>"
       "<hr/>"

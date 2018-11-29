@@ -402,10 +402,10 @@ class ServiceGenerator : public gpc::CodeGenerator
     return true;
   }
 
-  virtual bool Generate(const gp::FileDescriptor* file,
+  bool Generate(const gp::FileDescriptor* file,
                         const std::string&        parameter,
                         gpc::GeneratorContext*    generator_context,
-                        std::string*              error) const
+                        std::string*              error) const override
   {
     gpc::cpp::CppGenerator cpp_gen;
     if (!cpp_gen.Generate(file, parameter, generator_context, error))

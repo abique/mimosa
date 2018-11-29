@@ -63,8 +63,8 @@ namespace mimosa
 
       /* calculating size to reserve the string */
       uint32_t size = 0;
-      for (auto it = stack.cbegin(); it != stack.cend(); ++it)
-        size += it->size() + 1;
+      for (const auto & it : stack)
+        size += it.size() + 1;
       output->clear();
       output->reserve(size);
 
@@ -75,13 +75,13 @@ namespace mimosa
       }
 
       bool need_slash = is_root;
-      for (auto it = stack.cbegin(); it != stack.cend(); ++it)
+      for (const auto & it : stack)
       {
         if (need_slash)
           output->push_back('/');
         else
           need_slash = true;
-        output->append(it->data(), it->size());
+        output->append(it.data(), it.size());
       }
       if (is_dir)
         output->push_back('/');

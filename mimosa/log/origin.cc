@@ -45,10 +45,10 @@ namespace mimosa
     {
       Mutex::Locker locker(Origins::instance().lock_);
 
-      for (auto it = Origins::instance().list_.begin(); it != Origins::instance().list_.end(); ++it)
-        if (!::strcasecmp(origin.c_str(), it->name_))
+      for (auto & it : Origins::instance().list_)
+        if (!::strcasecmp(origin.c_str(), it.name_))
         {
-          it->level_ = level;
+          it.level_ = level;
           return;
         }
 
@@ -111,7 +111,7 @@ namespace mimosa
         {
         }
 
-        virtual bool parse(int & argc, char **& argv)
+        bool parse(int & argc, char **& argv) override
         {
           if (argc < 1)
             return false;
@@ -134,11 +134,11 @@ namespace mimosa
         {
         }
 
-        virtual bool parse(int & /*argc*/, char **& /*argv*/)
+        bool parse(int & /*argc*/, char **& /*argv*/) override
         {
           auto & list = Origins::instance().list_;
-          for (auto it = list.begin(); it != list.end(); ++it)
-            std::cout << " - " << it->name_ << " (" << levelName(it->level_)
+          for (auto & it : list)
+            std::cout << " - " << it.name_ << " (" << levelName(it.level_)
                       << ")" << std::endl;
           ::exit(0);
           return true;

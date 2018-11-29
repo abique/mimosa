@@ -69,9 +69,9 @@ namespace mimosa
         EXPECT_EQ(ht.capacity(), 1);
       }
 
-      for (int i = 0; i < 5; ++i) {
-        auto item2 = ht.find(items[i]->hook_.hash_, [] (Item *) { return true; });
-        EXPECT_EQ(item2, items[i]);
+      for (auto & item : items) {
+        auto item2 = ht.find(item->hook_.hash_, [] (Item *) { return true; });
+        EXPECT_EQ(item2, item);
       }
 
       for (int i = 0; i < 5; ++i) {
@@ -83,8 +83,8 @@ namespace mimosa
       EXPECT_EQ(ht.empty(), true);
       EXPECT_EQ(ht.capacity(), 1);
 
-      for (int i = 0; i < 5; ++i)
-        delete items[i];
+      for (auto & item : items)
+        delete item;
     }
   }
 }

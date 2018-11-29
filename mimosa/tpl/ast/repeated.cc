@@ -26,9 +26,9 @@ namespace mimosa
 
         for (auto it = v->begin(); !it->end(); it->next())
         {
-          for (auto child = childs_.begin(); child != childs_.end(); ++child)
+          for (auto & child : childs_)
             if (it->value())
-              child->execute(stream, *it->value());
+              child.execute(stream, *it->value());
         }
       }
     }

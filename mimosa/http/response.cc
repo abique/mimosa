@@ -99,39 +99,39 @@ namespace mimosa
         break;
       }
 
-      for (auto it = cookies_.begin(); it != cookies_.end(); ++it)
+      for (auto & cookie : cookies_)
       {
         ok = ok & format::printStatic(stream, "Set-Cookie: ");
-        ok = ok & format::print(stream, it->key());
+        ok = ok & format::print(stream, cookie.key());
         ok = ok & format::printStatic(stream, "=");
-        ok = ok & format::print(stream, it->value());
-        if (!it->domain().empty())
+        ok = ok & format::print(stream, cookie.value());
+        if (!cookie.domain().empty())
         {
           ok = ok & format::printStatic(stream, "; Domain=");
-          ok = ok & format::print(stream, it->domain());
+          ok = ok & format::print(stream, cookie.domain());
         }
-        if (!it->path().empty())
+        if (!cookie.path().empty())
         {
           ok = ok & format::printStatic(stream, "; Path=");
-          ok = ok & format::print(stream, it->path());
+          ok = ok & format::print(stream, cookie.path());
         }
-        if (!it->expires().empty())
+        if (!cookie.expires().empty())
         {
           ok = ok & format::printStatic(stream, "; Expires=");
-          ok = ok & format::print(stream, it->expires());
+          ok = ok & format::print(stream, cookie.expires());
         }
-        if (it->isSecure())
+        if (cookie.isSecure())
           ok = ok & format::printStatic(stream, "; Secure");
-        if (it->isHttpOnly())
+        if (cookie.isHttpOnly())
           ok = ok & format::printStatic(stream, "; HttpOnly");
         ok = ok & format::printStatic(stream, "\r\n");
       }
 
-      for (auto it = unparsed_headers_.begin(); it != unparsed_headers_.end(); ++it)
+      for (const auto & unparsed_header : unparsed_headers_)
       {
-        ok = ok & format::print(stream, it->first);
+        ok = ok & format::print(stream, unparsed_header.first);
         ok = ok & format::printStatic(stream, ": ");
-        ok = ok & format::print(stream, it->second);
+        ok = ok & format::print(stream, unparsed_header.second);
         ok = ok & format::printStatic(stream, "\r\n");
       }
 

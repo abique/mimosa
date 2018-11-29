@@ -365,11 +365,11 @@ namespace mimosa
       std::sort(directories.begin(), directories.end());
       std::sort(files.begin(), files.end());
 
-      for (auto it = directories.begin(); it != directories.end(); ++it)
-        os << "<a href=\"" << *it << "/\">" << *it << "/</a><br/>";
+      for (auto & directorie : directories)
+        os << "<a href=\"" << directorie << "/\">" << directorie << "/</a><br/>";
 
-      for (auto it = files.begin(); it != files.end(); ++it)
-        os << "<a href=\"" << *it << "\">" << *it << "</a><br/>";
+      for (auto & file : files)
+        os << "<a href=\"" << file << "\">" << file << "</a><br/>";
 
       os << "</body></html>";
 

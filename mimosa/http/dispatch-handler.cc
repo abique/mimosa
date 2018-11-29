@@ -22,9 +22,9 @@ namespace mimosa
     bool
     DispatchHandler::handle(RequestReader & request, ResponseWriter & response) const
     {
-      for (auto it = handlers_.cbegin(); it != handlers_.cend(); ++it)
-        if (!::fnmatch(it->first.c_str(), request.location().c_str(), 0))
-          return it->second->handle(request, response);
+      for (const auto & handler : handlers_)
+        if (!::fnmatch(handler.first.c_str(), request.location().c_str(), 0))
+          return handler.second->handle(request, response);
       return error_handler_->handle(request, response, kStatusNotFound);
     }
   }

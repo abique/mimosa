@@ -40,10 +40,10 @@ namespace mimosa
   void
   ThreadPool::join()
   {
-    for (auto it = threads_.begin(); it != threads_.end(); ++it)
+    for (auto & thread : threads_)
     {
-      (*it)->join();
-      delete *it;
+      thread->join();
+      delete thread;
     }
     threads_.clear();
   }

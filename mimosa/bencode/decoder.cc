@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "decoder.hh"
 
 namespace mimosa
@@ -5,7 +7,7 @@ namespace mimosa
   namespace bencode
   {
     Decoder::Decoder(stream::Stream::Ptr input)
-      : input_(input),
+      : input_(std::move(input)),
         data_(),
         int_(0)
     {
@@ -67,7 +69,7 @@ namespace mimosa
         if (c == '-') {
           if (minus)
             return kParseError;
-          minus = 1;
+          minus = true;
           continue;
         }
 

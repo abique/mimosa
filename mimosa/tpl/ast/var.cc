@@ -18,15 +18,15 @@ namespace mimosa
       {
         const AbstractValue * v = &value;
 
-        for (auto it = vars_.begin(); it != vars_.end(); ++it)
+        for (const auto & var : vars_)
         {
-          v = v->lookup(*it);
+          v = v->lookup(var);
           if (!v)
             goto not_found;
         }
 
-        for (auto it = filters_.begin(); it != filters_.end(); ++it)
-          stream = FilterFactory::instance().create((std::string)*it, stream);
+        for (const auto & filter : filters_)
+          stream = FilterFactory::instance().create((std::string)filter, stream);
 
         if (v)
           v->write(stream);

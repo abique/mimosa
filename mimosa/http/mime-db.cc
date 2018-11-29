@@ -24,8 +24,8 @@ namespace mimosa
       else
         ext = filename;
 
-      for (auto it = ext.begin(); it != ext.end(); ++it)
-        *it = ::tolower(*it);
+      for (char & it : ext)
+        it = ::tolower(it);
 
       auto mime_type = mime_types_.find(ext);
       if (mime_type == mime_types_.end())

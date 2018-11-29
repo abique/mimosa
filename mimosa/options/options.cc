@@ -146,14 +146,14 @@ namespace mimosa
 
       std::map<std::string, std::vector<BasicOption *> > groups;
 
-      for (auto it = options_.begin(); it != options_.end(); ++it)
-        groups[it->second->group_].push_back(it->second.get());
+      for (auto & option : options_)
+        groups[option.second->group_].push_back(option.second.get());
 
-      for (auto group = groups.begin(); group != groups.end(); ++group)
+      for (auto & group : groups)
       {
-        if (!group->first.empty())
-          std::cout << std::endl << "[" << group->first << "]" << std::endl;
-        for (auto it = group->second.begin(); it != group->second.end(); ++it)
+        if (!group.first.empty())
+          std::cout << std::endl << "[" << group.first << "]" << std::endl;
+        for (auto it = group.second.begin(); it != group.second.end(); ++it)
           (*it)->showDesc(std::cout);
       }
       exit(0);

@@ -15,8 +15,8 @@ namespace mimosa
       auto bytes = stream_->write(data, nbytes);
       if (bytes < 0)
         return bytes;
-      for (auto it = ostreams_.begin(); it != ostreams_.end(); ++it)
-        (*it)->write(data, bytes);
+      for (auto & ostream : ostreams_)
+        ostream->write(data, bytes);
       return bytes;
     }
 
@@ -26,8 +26,8 @@ namespace mimosa
       auto bytes = stream_->read(data, nbytes);
       if (bytes < 0)
         return bytes;
-      for (auto it = istreams_.begin(); it != istreams_.end(); ++it)
-        (*it)->write(data, bytes);
+      for (auto & istream : istreams_)
+        istream->write(data, bytes);
       return bytes;
     }
 
@@ -35,20 +35,20 @@ namespace mimosa
     TeeStream::close()
     {
       stream_->close();
-      for (auto it = istreams_.begin(); it != istreams_.end(); ++it)
-        (*it)->close();
-      for (auto it = ostreams_.begin(); it != ostreams_.end(); ++it)
-        (*it)->close();
+      for (auto & istream : istreams_)
+        istream->close();
+      for (auto & ostream : ostreams_)
+        ostream->close();
     }
 
     bool
     TeeStream::flush()
     {
       auto ret = stream_->flush();
-      for (auto it = istreams_.begin(); it != istreams_.end(); ++it)
-        (*it)->flush();
-      for (auto it = ostreams_.begin(); it != ostreams_.end(); ++it)
-        (*it)->flush();
+      for (auto & istream : istreams_)
+        istream->flush();
+      for (auto & ostream : ostreams_)
+        ostream->flush();
       return ret;
     }
   }

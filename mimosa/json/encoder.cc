@@ -114,12 +114,12 @@ namespace mimosa
       if (output_->loopWrite("\"", 1) != 1)
         return false;
 
-      for (auto it = data.begin(); it != data.end(); ++it) {
-        if (*it == '\\' || *it == '"')
+      for (const char & it : data) {
+        if (it == '\\' || it == '"')
           if (output_->loopWrite("\\", 1) != 1)
             return false;
 
-        switch (*it) {
+        switch (it) {
         case '\r':
           if (output_->loopWrite("\\r", 2) != 2)
             return false;
@@ -146,7 +146,7 @@ namespace mimosa
           break;
 
         default:
-          if (output_->loopWrite(&*it, 1) != 1)
+          if (output_->loopWrite(&it, 1) != 1)
             return false;
         }
       }
