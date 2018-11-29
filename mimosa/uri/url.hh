@@ -45,9 +45,9 @@ namespace mimosa
       void parseAnchor(StringRef & in);
 
       std::string	raw_url_;
-      Scheme		scheme_;
+      Scheme		scheme_{kSchemeUnknown};
       StringRef		host_;
-      uint16_t		port_;
+      uint16_t		port_{0};
       StringRef		path_;
       StringRef		query_;
       StringRef		anchor_;

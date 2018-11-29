@@ -56,6 +56,6 @@ namespace mimosa
     inline pid_t pid() const { return pid_; }
 
   private:
-    pid_t pid_;
+    pid_t pid_ = -1;
   };
 }

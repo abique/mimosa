@@ -1,3 +1,4 @@
+#include <utility>
 #include <vector>
 
 #include "../string-ref.hh"
@@ -56,7 +57,7 @@ namespace mimosa
     Template::execute(stream::Stream::Ptr   stream,
                       const AbstractValue & value) const
     {
-      root_->execute(stream, value);
+      root_->execute(std::move(stream), value);
     }
   }
 }

@@ -20,7 +20,7 @@ namespace mimosa
     if (!wd_.empty())
       os << "cd " << wd_ << "; ";
     os << "[" << path_ << "]";
-    for (auto arg : args_)
+    for (const auto& arg : args_)
         os << " \"" << arg << "\"";
     return os.str();
   }
