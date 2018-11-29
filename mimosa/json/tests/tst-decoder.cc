@@ -201,7 +201,7 @@ namespace mimosa
 
       TEST(Decoder, Object2)
       {
-        auto ss = new stream::StringStream("{\"key\":\"tutu\",\"value\":\"tata\"}");
+        auto ss = new stream::StringStream(R"({"key":"tutu","value":"tata"})");
         Decoder dec(ss);
 
         ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
@@ -218,7 +218,7 @@ namespace mimosa
 
       TEST(Decoder, Object3)
       {
-        auto ss = new stream::StringStream("{\"key\":\"tutu\",\"value\":\"tata\",\"opt\":\"toptop\"}");
+        auto ss = new stream::StringStream(R"({"key":"tutu","value":"tata","opt":"toptop"})");
         Decoder dec(ss);
 
         ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
@@ -239,7 +239,7 @@ namespace mimosa
 
       TEST(Decoder, Object4)
       {
-        auto ss = new stream::StringStream("{\"auth\":{\"user\":\"abique\",\"token\":\"73fb9b3572145e1f77687614204a97c6a06e369e4685dfe59bfdf558204df7ec\"},\"grp\":\"tutu\",\"desc\":\"tata\"}");
+        auto ss = new stream::StringStream(R"({"auth":{"user":"abique","token":"73fb9b3572145e1f77687614204a97c6a06e369e4685dfe59bfdf558204df7ec"},"grp":"tutu","desc":"tata"})");
         Decoder dec(ss);
 
         ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
@@ -282,7 +282,7 @@ namespace mimosa
 
       TEST(Decoder, EatValue2)
       {
-        auto ss = new stream::StringStream("{\"key\":\"tutu\",\"value\":\"tata\"}");
+        auto ss = new stream::StringStream(R"({"key":"tutu","value":"tata"})");
         Decoder dec(ss);
 
         ASSERT_EQ(Decoder::kObjectBegin, dec.pull());
@@ -298,7 +298,7 @@ namespace mimosa
 
       TEST(Decoder, EatValue3)
       {
-        auto ss = new stream::StringStream("[21,{\"key\":\"tutu\",\"value\":\"tata\"},45]");
+        auto ss = new stream::StringStream(R"([21,{"key":"tutu","value":"tata"},45])");
         Decoder dec(ss);
 
         ASSERT_EQ(Decoder::kArrayBegin, dec.pull());
