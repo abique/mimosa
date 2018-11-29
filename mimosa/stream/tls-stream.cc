@@ -1,5 +1,6 @@
 #include <limits>
 #include <cstring>
+#include <utility>
 
 #include "tls-stream.hh"
 
@@ -26,7 +27,7 @@ namespace mimosa
     }
 
     TlsStream::TlsStream(Stream::Ptr stream, bool is_server)
-      : Filter(stream),
+      : Filter(std::move(stream)),
         session_()
     {
       int err = gnutls_init(&session_, is_server ? GNUTLS_SERVER : GNUTLS_CLIENT);

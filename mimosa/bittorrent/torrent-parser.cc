@@ -37,7 +37,7 @@ namespace mimosa
     }
 
     bool
-    TorrentParser::parse(stream::Stream::Ptr in)
+    TorrentParser::parse(const stream::Stream::Ptr& in)
     {
       in_ = in;
       bencode::Decoder dec(in_);

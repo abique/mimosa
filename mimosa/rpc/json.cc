@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "json.hh"
 #include "exception.hh"
 
@@ -81,7 +83,7 @@ namespace mimosa
     void jsonEncode(stream::Stream::Ptr               output,
                     const google::protobuf::Message & msg)
     {
-      json::Encoder enc(output);
+      json::Encoder enc(std::move(output));
       jsonEncode(enc, msg);
     }
 
@@ -266,7 +268,7 @@ namespace mimosa
     void jsonDecode(stream::Stream::Ptr         input,
                     google::protobuf::Message * msg)
     {
-      json::Decoder dec(input);
+      json::Decoder dec(std::move(input));
       jsonDecode(dec, msg);
     }
   }

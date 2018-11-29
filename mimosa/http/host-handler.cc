@@ -13,7 +13,7 @@ namespace mimosa
     }
 
     void
-    HostHandler::registerHandler(const std::string & pattern, Handler::ConstPtr handler)
+    HostHandler::registerHandler(const std::string & pattern, const Handler::ConstPtr& handler)
     {
       handlers_[pattern] = handler;
     }

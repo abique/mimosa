@@ -1,6 +1,7 @@
 #include <cerrno>
 #include <algorithm>
 #include <utility>
+#include <utility>
 
 #include "limited-stream.hh"
 
@@ -9,7 +10,7 @@ namespace mimosa
   namespace stream
   {
     LimitedStream::LimitedStream(Stream::Ptr stream)
-      : stream_(std::move(stream)),
+      : stream_(std::move(std::move(stream))),
         rbytes_left_(0),
         wbytes_left_(0)
     {

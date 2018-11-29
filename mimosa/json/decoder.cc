@@ -2,6 +2,7 @@
 #include <cmath>
 #include <limits>
 #include <utility>
+#include <utility>
 
 #include "decoder.hh"
 
@@ -10,7 +11,7 @@ namespace mimosa
   namespace json
   {
     Decoder::Decoder(stream::Stream::Ptr input)
-      : input_(std::move(input)),
+      : input_(std::move(std::move(input))),
         has_c_(false)
     {
     }

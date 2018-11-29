@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "lzma.hh"
 
 namespace mimosa
@@ -5,7 +7,7 @@ namespace mimosa
   namespace stream
   {
     Lzma::Lzma(Stream::Ptr stream)
-      : Filter(stream),
+      : Filter(std::move(stream)),
         lzma_(LZMA_STREAM_INIT),
         buffer_(4096)
     {

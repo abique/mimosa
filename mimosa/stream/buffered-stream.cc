@@ -1,6 +1,7 @@
 #include <cassert>
 #include <cstring>
 #include <cerrno>
+#include <utility>
 
 #include "buffered-stream.hh"
 
@@ -9,7 +10,7 @@ namespace mimosa
   namespace stream
   {
     BufferedStream::BufferedStream(Stream::Ptr stream, uint64_t buffer_size)
-      : Filter(stream),
+      : Filter(std::move(stream)),
         buffer_size_(buffer_size),
         wbuffer_(buffer_size_),
         wpos_(0),

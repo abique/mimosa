@@ -33,7 +33,7 @@ namespace mimosa
     }
 
     int
-    Writer::open(stream::Stream::Ptr stream)
+    Writer::open(const stream::Stream::Ptr& stream)
     {
       return archive_write_open(
         archive_, stream, archiveOpenCb, archiveWriteCb, archiveCloseCb);

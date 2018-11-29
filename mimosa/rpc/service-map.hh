@@ -17,8 +17,8 @@ namespace mimosa
 
       Service::Ptr find(uint32_t service_id) const;
 
-      void add(Service::Ptr service);
-      void remove(Service::Ptr service);
+      void add(const Service::Ptr& service);
+      void remove(const Service::Ptr& service);
 
     private:
       mutable SharedMutex              lock_;

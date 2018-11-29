@@ -36,7 +36,7 @@ namespace mimosa
     }
 
     int
-    Reader::open(stream::Stream::Ptr stream)
+    Reader::open(const stream::Stream::Ptr& stream)
     {
       stream_ = stream;
       buffer_ = new stream::Buffer();

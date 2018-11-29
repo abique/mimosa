@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <exception>
+#include <utility>
 
 #include "zlib-encoder.hh"
 
@@ -14,7 +15,7 @@ namespace mimosa
                              int         window_bits,
                              int         mem_level,
                              int         strategy)
-      : Filter(stream),
+      : Filter(std::move(stream)),
         buffer_(4096)
     {
       ::memset(&zstream_, 0, sizeof (zstream_));
@@ -95,7 +96,7 @@ namespace mimosa
                                    int         window_bits,
                                    int         mem_level,
                                    int         strategy)
-      : ZlibEncoder(stream, level, method, window_bits,
+      : ZlibEncoder(std::move(stream), level, method, window_bits,
                     mem_level, strategy)
     {
     }
@@ -106,7 +107,7 @@ namespace mimosa
                              int         window_bits,
                              int         mem_level,
                              int         strategy)
-      : ZlibEncoder(stream, level, method, window_bits,
+      : ZlibEncoder(std::move(stream), level, method, window_bits,
                     mem_level, strategy)
     {
     }

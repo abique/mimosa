@@ -25,7 +25,7 @@ namespace mimosa
 
       inline operator struct ::archive *() const { return archive_; }
 
-      int open(stream::Stream::Ptr input);
+      int open(const stream::Stream::Ptr& input);
       int open(void *buf, size_t size) { return archive_read_open_memory(archive_, buf, size); }
       int open(const std::string &str) { return open((void*)str.c_str(), str.size()); }
 

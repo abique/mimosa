@@ -37,7 +37,7 @@ namespace mimosa
     TEST(RefCountable, CopyConstructor)
     {
       A::Ptr obj = new A;
-      A::Ptr obj2(obj);
+      const A::Ptr& obj2(obj);
     }
   }
 }

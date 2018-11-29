@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "log.hh"
 #include "filter-factory.hh"
 #include "../stream/html-escape.hh"
@@ -10,17 +12,17 @@ namespace mimosa
   {
     static stream::Filter::Ptr createHtmlFilter(stream::Stream::Ptr stream)
     {
-      return new stream::HtmlEscape(stream);
+      return new stream::HtmlEscape(std::move(stream));
     }
 
     static stream::Filter::Ptr createPercentEncoder(stream::Stream::Ptr stream)
     {
-      return new stream::PercentEncoder(stream, uri::kRfc3986);
+      return new stream::PercentEncoder(std::move(stream), uri::kRfc3986);
     }
 
     static stream::Filter::Ptr createBase16Encoder(stream::Stream::Ptr stream)
     {
-      return new stream::Base16Encoder(stream);
+      return new stream::Base16Encoder(std::move(stream));
     }
 
     FilterFactory::FilterFactory()

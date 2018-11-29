@@ -1,5 +1,7 @@
 #include <utility>
 
+#include <utility>
+
 #include "encoder.hh"
 
 namespace mimosa
@@ -7,7 +9,7 @@ namespace mimosa
   namespace bencode
   {
     Encoder::Encoder(stream::Stream::Ptr output)
-      : output_(std::move(output))
+      : output_(std::move(std::move(output)))
     {
     }
 

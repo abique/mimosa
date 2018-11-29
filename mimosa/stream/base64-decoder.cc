@@ -1,5 +1,6 @@
 #include <cstring>
 #include <cerrno>
+#include <utility>
 
 #include "base64-decoder.hh"
 
@@ -13,7 +14,7 @@ namespace mimosa
       "0123456789+/";
 
     Base64Decoder::Base64Decoder(Stream::Ptr stream, const char * base)
-      : Filter(stream),
+      : Filter(std::move(stream)),
         base_(base ? : BASE16_DICT),
         off_(0),
         pad_(0)

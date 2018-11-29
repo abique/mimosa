@@ -1,5 +1,7 @@
 #include <utility>
 
+#include <utility>
+
 #include "include.hh"
 
 namespace mimosa
@@ -9,7 +11,7 @@ namespace mimosa
     Include::Include(const std::string & name,
                      Template::ConstPtr  tpl)
       : AbstractValue(name),
-        tpl_(std::move(tpl))
+        tpl_(std::move(std::move(tpl)))
     {
     }
 

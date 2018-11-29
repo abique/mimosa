@@ -1,5 +1,7 @@
 #include <utility>
 
+#include <utility>
+
 #include "error-handler.hh"
 #include "server-channel.hh"
 
@@ -9,8 +11,8 @@ namespace mimosa
   {
     ServerChannel::ServerChannel(stream::BufferedStream::Ptr stream,
                                  Handler::Ptr                handler)
-      : stream_(std::move(stream)),
-        handler_(std::move(handler)),
+      : stream_(std::move(std::move(stream))),
+        handler_(std::move(std::move(handler))),
         request_(new RequestReader(*this)),
         response_(new ResponseWriter(*this)),
         addr_(nullptr),

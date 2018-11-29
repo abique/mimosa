@@ -31,7 +31,7 @@ namespace mimosa
       ~TorrentParser();
 
       bool parseFile(const mimosa::StringRef & path);
-      bool parse(stream::Stream::Ptr in);
+      bool parse(const stream::Stream::Ptr& in);
 
       inline TorrentDescriptor* result() const { return desc_.get(); }
       inline std::unique_ptr<TorrentDescriptor>&& result() { return std::move(desc_); }

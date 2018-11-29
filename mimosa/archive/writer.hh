@@ -91,7 +91,7 @@ namespace mimosa
         return archive_write_open_memory(archive_, buffer, size, used);
       }
 
-      int open(stream::Stream::Ptr stream);
+      int open(const stream::Stream::Ptr& stream);
 
       inline void close() override { archive_write_close(archive_); }
 

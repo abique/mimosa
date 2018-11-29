@@ -20,14 +20,14 @@ namespace mimosa
     }
 
     void
-    ServiceMap::add(Service::Ptr service)
+    ServiceMap::add(const Service::Ptr& service)
     {
       SharedMutex::Locker locker(lock_);
       services_[service->id()] = service;
     }
 
     void
-    ServiceMap::remove(Service::Ptr service)
+    ServiceMap::remove(const Service::Ptr& service)
     {
       SharedMutex::Locker locker(lock_);
       services_.erase(service->id());

@@ -1,6 +1,7 @@
 #include <cstring>
 #include <memory>
 #include <cerrno>
+#include <utility>
 
 #include "base16-decoder.hh"
 
@@ -9,7 +10,7 @@ namespace mimosa
   namespace stream
   {
     Base16Decoder::Base16Decoder(Stream::Ptr stream, const char * base)
-      : Filter(stream),
+      : Filter(std::move(stream)),
         base_(base)
     {
     }

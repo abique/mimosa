@@ -1,4 +1,5 @@
 #include <cerrno>
+#include <utility>
 
 #include "percent-encoder.hh"
 
@@ -8,7 +9,7 @@ namespace mimosa
   {
     PercentEncoder::PercentEncoder(Stream::Ptr       stream,
                                    uri::EncodingType enc)
-      : Filter(stream),
+      : Filter(std::move(stream)),
         enc_(enc)
     {
     }

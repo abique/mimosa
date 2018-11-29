@@ -1,6 +1,7 @@
 ﻿#include <cassert>
 #include <memory>
 #include <utility>
+#include <utility>
 
 #include "../endian.hh"
 #include "../thread.hh"
@@ -14,8 +15,8 @@ namespace mimosa
   {
     Channel::Channel(stream::BufferedStream::Ptr stream,
                      ServiceMap::ConstPtr        service_map)
-      : stream_(std::move(stream)),
-        service_map_(std::move(service_map)),
+      : stream_(std::move(std::move(stream))),
+        service_map_(std::move(std::move(service_map))),
         scalls_(),
         rcalls_(),
         status_(kOk),
@@ -97,7 +98,7 @@ namespace mimosa
     }
 
     void
-    Channel::sendCall(BasicCall::Ptr call)
+    Channel::sendCall(const BasicCall::Ptr& call)
     {
       call->setTag(nextTag());
 
@@ -132,7 +133,7 @@ namespace mimosa
     }
 
     void
-    Channel::sendResponse(BasicCall::Ptr call)
+    Channel::sendResponse(const BasicCall::Ptr& call)
     {
       uint32_t rp_size  = call->response_->ByteSize();
       stream::Buffer::Ptr buffer = new stream::Buffer(rp_size + sizeof (MsgResult));

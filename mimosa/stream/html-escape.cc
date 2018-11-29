@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cerrno>
+#include <utility>
 
 #include "html-escape.hh"
 
@@ -8,7 +9,7 @@ namespace mimosa
   namespace stream
   {
     HtmlEscape::HtmlEscape(Stream::Ptr stream)
-      : Filter(stream)
+      : Filter(std::move(stream))
     {
     }
 

@@ -9,7 +9,7 @@ namespace mimosa
 {
   namespace http
   {
-    ChunkedStream::ChunkedStream(stream::BufferedStream::Ptr stream)
+    ChunkedStream::ChunkedStream(const stream::BufferedStream::Ptr& stream)
       : Filter(stream.get()),
         stream_(stream),
         bytes_left_(0),

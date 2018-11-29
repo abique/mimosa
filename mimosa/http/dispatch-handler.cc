@@ -14,7 +14,7 @@ namespace mimosa
     }
 
     void
-    DispatchHandler::registerHandler(const std::string & pattern, Handler::ConstPtr handler)
+    DispatchHandler::registerHandler(const std::string & pattern, const Handler::ConstPtr& handler)
     {
       handlers_[pattern] = handler;
     }

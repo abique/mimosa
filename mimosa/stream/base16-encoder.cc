@@ -1,5 +1,6 @@
 #include <cerrno>
 #include <memory>
+#include <utility>
 
 #include "base16-encoder.hh"
 
@@ -8,13 +9,13 @@ namespace mimosa
   namespace stream
   {
     Base16Encoder::Base16Encoder(Stream::Ptr stream, bool upper)
-      : Filter(stream),
+      : Filter(std::move(stream)),
         base_(upper ? "0123456789ABCDEF" : "0123456789abcdef")
     {
     }
 
     Base16Encoder::Base16Encoder(Stream::Ptr stream, const char * base)
-      : Filter(stream),
+      : Filter(std::move(stream)),
         base_(base)
     {
     }
@@ -65,7 +66,7 @@ namespace mimosa
     int64_t
     Base16Encoder::write(Stream::Ptr stream, const char *data, uint64_t nbytes, bool upper)
     {
-      Base16Encoder enc(stream, upper);
+      Base16Encoder enc(std::move(stream), upper);
       return enc.write(data, nbytes);
     }
   }
