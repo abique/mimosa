@@ -114,7 +114,7 @@ namespace mimosa
       // split the a.b.c.d
       var->vars_ = var->filters_[0].tokens('.');
       if (var->vars_.empty())
-        var->vars_.push_back(".");
+        var->vars_.emplace_back(".");
 
       // remove a.b.c.d from the filters
       var->filters_.erase(var->filters_.begin());

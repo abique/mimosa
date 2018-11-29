@@ -358,9 +358,9 @@ namespace mimosa
           continue;
 
         if (S_ISDIR(st.st_mode))
-          directories.push_back(entry->d_name);
+          directories.emplace_back(entry->d_name);
         else
-          files.push_back(entry->d_name);
+          files.emplace_back(entry->d_name);
       }
 
       std::sort(directories.begin(), directories.end());

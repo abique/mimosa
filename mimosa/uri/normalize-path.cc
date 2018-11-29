@@ -57,7 +57,7 @@ namespace mimosa
           }
           break;
         }
-        stack.push_back(StringRef(token, token_end));
+        stack.emplace_back(token, token_end);
         is_dir = false;
       }
 
