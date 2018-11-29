@@ -76,7 +76,7 @@ namespace mimosa
       int ret;
 
       if (!priority_cache_) {
-        ret = ::gnutls_priority_init(&priority_cache_, "NORMAL", NULL);
+        ret = ::gnutls_priority_init(&priority_cache_, "NORMAL", nullptr);
         if (ret != GNUTLS_E_SUCCESS)
           throw nullptr;
       }

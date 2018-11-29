@@ -55,7 +55,7 @@ namespace mimosa
     bool
     Lzma::flush()
     {
-      lzma_.next_in = NULL;
+      lzma_.next_in = nullptr;
       lzma_.avail_in = 0;
 
       while (true)

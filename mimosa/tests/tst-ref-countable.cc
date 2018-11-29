@@ -14,7 +14,7 @@ namespace mimosa
     TEST(RefCountable, Simple)
     {
       A::Ptr obj = new A;
-      obj = 0;
+      obj = nullptr;
     }
 
     TEST(RefCountable, SimplePtr)

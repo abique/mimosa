@@ -106,7 +106,7 @@ namespace mimosa
         return false;
 #else
       addr = realloc(base_, size);
-      if (addr == NULL)
+      if (addr == nullptr)
         return false;
 #endif
 

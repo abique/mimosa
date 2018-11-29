@@ -84,7 +84,7 @@ namespace mimosa
     int connectToUnixSocket(const std::string & path,
                             Time timeout)
     {
-      size_t addr_len = ((size_t) (((::sockaddr_un *) 0)->sun_path)) + path.size() + 1;
+      size_t addr_len = ((size_t) (((::sockaddr_un *) nullptr)->sun_path)) + path.size() + 1;
       std::unique_ptr<char[]> data(new char[addr_len]);
       ::sockaddr_un & addr = *(::sockaddr_un*)data.get();
       addr.sun_family = AF_UNIX;

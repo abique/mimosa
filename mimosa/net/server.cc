@@ -91,7 +91,7 @@ namespace mimosa
     {
       LISTEN_COMMON_1(AF_UNIX);
 
-      char data[((size_t) (((::sockaddr_un *) 0)->sun_path)) + path.size() + 1];
+      char data[((size_t) (((::sockaddr_un *) nullptr)->sun_path)) + path.size() + 1];
       ::sockaddr_un & addr = *(::sockaddr_un*)data;
       addr.sun_family = AF_UNIX;
       ::memcpy(addr.sun_path, path.c_str(), path.size() + 1);

@@ -13,7 +13,7 @@ namespace mimosa
   {
     std::unique_ptr<std::function<void ()> > x(fct);
     (*fct)();
-    return 0;
+    return nullptr;
   }
 
   Thread::Thread(std::function<void ()> && fct)
@@ -65,7 +65,7 @@ namespace mimosa
     if (state_ != kRunning)
       return;
 
-    ::pthread_join(thread_, NULL);
+    ::pthread_join(thread_, nullptr);
     state_ = kJoined;
   }
 

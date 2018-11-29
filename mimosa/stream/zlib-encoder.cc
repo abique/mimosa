@@ -68,7 +68,7 @@ namespace mimosa
     bool
     ZlibEncoder::flush()
     {
-      zstream_.next_in = NULL;
+      zstream_.next_in = nullptr;
       zstream_.avail_in = 0;
 
       while (true)
