@@ -61,8 +61,7 @@ namespace mimosa
   }
 
   Process::Process()
-  {
-  }
+  = default;
 
   Process::Process(const ProcessConfig & cfg)
     : ProcessConfig(cfg)

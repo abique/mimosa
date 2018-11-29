@@ -7,8 +7,7 @@ namespace mimosa
   namespace stream
   {
     Stream::~Stream()
-    {
-    }
+    = default;
 
     int64_t
     Stream::writev(const struct iovec * iov, int iovcnt)

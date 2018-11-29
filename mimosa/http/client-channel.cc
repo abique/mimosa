@@ -19,8 +19,7 @@ namespace mimosa
     }
 
     ClientChannel::~ClientChannel()
-    {
-    }
+    = default;
 
     bool
     ClientChannel::connect(const std::string &host, uint16_t port, bool ssl)

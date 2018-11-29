@@ -9,8 +9,7 @@ namespace mimosa
   namespace smtp
   {
     Client::Client()
-    {
-    }
+    = default;
 
     bool
     Client::connect(const std::string & host, uint16_t port)

@@ -20,8 +20,7 @@ namespace mimosa
     }
 
     ServerChannel::~ServerChannel()
-    {
-    }
+    = default;
 
     void
     ServerChannel::run()

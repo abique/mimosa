@@ -7,8 +7,7 @@ namespace mimosa
   namespace rpc
   {
     Server::Server()
-    {
-    }
+    = default;
 
     void
     Server::serve(int                fd,

@@ -13,8 +13,7 @@ namespace mimosa
   namespace options
   {
     BasicOption::~BasicOption()
-    {
-    }
+    = default;
 
     bool
     MessageOption::parse(int & /*argc*/, char **& /*argv*/)

@@ -22,8 +22,7 @@ namespace mimosa
     }
 
     TorrentParser::~TorrentParser()
-    {
-    }
+    = default;
 
     bool
     TorrentParser::parseFile(const mimosa::StringRef & path)
