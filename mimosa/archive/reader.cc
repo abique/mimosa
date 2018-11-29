@@ -18,7 +18,7 @@ namespace mimosa
                    void *           ctx,
                    const void **    buffer)
     {
-      Reader *thiz = reinterpret_cast<Reader *>(ctx);
+      auto *thiz = reinterpret_cast<Reader *>(ctx);
       int64_t rbytes = thiz->stream_->read(
                   thiz->buffer_->data(), thiz->buffer_->size());
       *buffer = thiz->buffer_->data();
@@ -29,7 +29,7 @@ namespace mimosa
     Reader::closeCb(struct archive * /*archive*/,
                     void *            ctx)
     {
-      Reader *thiz = reinterpret_cast<Reader *>(ctx);
+      auto *thiz = reinterpret_cast<Reader *>(ctx);
       thiz->buffer_ = nullptr;
       thiz->stream_ = nullptr;
       return 0;

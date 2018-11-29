@@ -5,7 +5,9 @@ install(FILES
 
 add_library(mimosa-bittorrent STATIC
   torrent-descriptor.cc
+  torrent-descriptor.hh
   torrent-parser.cc
+  torrent-parser.hh
   )
 target_link_libraries(mimosa-bittorrent
   mimosa-bencode

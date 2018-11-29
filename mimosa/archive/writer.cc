@@ -9,7 +9,7 @@ namespace mimosa
     static int archiveOpenCb(struct archive * /*archive*/,
                              void *           ctx)
     {
-      stream::Stream * stream = reinterpret_cast<stream::Stream *>(ctx);
+      auto * stream = reinterpret_cast<stream::Stream *>(ctx);
       stream->addRef();
       return 0;
     }
@@ -19,14 +19,14 @@ namespace mimosa
                                   const void *     buffer,
                                   size_t           len)
     {
-      stream::Stream * stream = reinterpret_cast<stream::Stream *>(ctx);
+      auto * stream = reinterpret_cast<stream::Stream *>(ctx);
       return stream->loopWrite((const char*)buffer, len);
     }
 
     static int archiveCloseCb(struct archive * /*archive*/,
                              void *            ctx)
     {
-      stream::Stream * stream = reinterpret_cast<stream::Stream *>(ctx);
+      auto * stream = reinterpret_cast<stream::Stream *>(ctx);
       stream->flush();
       stream->releaseRef();
       return 0;

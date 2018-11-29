@@ -102,7 +102,7 @@ namespace mimosa
 
       uint32_t rq_size = call->request_->ByteSize();
       stream::Buffer::Ptr buffer = new stream::Buffer(rq_size + sizeof (MsgCall));
-      MsgCall * msg    = reinterpret_cast<MsgCall *> (buffer->data());
+      auto * msg    = reinterpret_cast<MsgCall *> (buffer->data());
       msg->type_       = kCall;
       msg->tag_        = htole32(call->tag());
       msg->service_id_ = htole32(call->serviceId());
@@ -135,7 +135,7 @@ namespace mimosa
     {
       uint32_t rp_size  = call->response_->ByteSize();
       stream::Buffer::Ptr buffer = new stream::Buffer(rp_size + sizeof (MsgResult));
-      MsgResult * msg  = reinterpret_cast<MsgResult *> (buffer->data());
+      auto * msg  = reinterpret_cast<MsgResult *> (buffer->data());
       msg->type_       = kResult;
       msg->tag_        = htole32(call->tag());
       msg->rp_size_    = htole32(rp_size);
@@ -150,7 +150,7 @@ namespace mimosa
     Channel::sendError(ErrorType error, uint32_t tag, TagOrigin tag_origin)
     {
       stream::Buffer::Ptr buffer = new stream::Buffer(sizeof (MsgError));
-      MsgError * msg   = reinterpret_cast<MsgError *> (buffer->data());
+      auto * msg   = reinterpret_cast<MsgError *> (buffer->data());
       msg->type_       = kError;
       msg->error_      = error;
       msg->tag_        = htole32(tag);
