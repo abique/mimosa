@@ -153,8 +153,8 @@ namespace mimosa
       {
         if (!group.first.empty())
           std::cout << std::endl << "[" << group.first << "]" << std::endl;
-        for (auto it = group.second.begin(); it != group.second.end(); ++it)
-          (*it)->showDesc(std::cout);
+        for (auto & it : group.second)
+          it->showDesc(std::cout);
       }
       exit(0);
     }

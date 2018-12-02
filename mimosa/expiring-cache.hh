@@ -18,7 +18,7 @@ namespace mimosa
   {
   public:
     ExpiringCache();
-    ~ExpiringCache();
+    virtual ~ExpiringCache();
 
     typename Future<Value>::Ptr get(const Key & key);
 

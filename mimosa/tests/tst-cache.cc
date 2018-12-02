@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../expiringcache.hh"
+#include "../expiring-cache.hh"
 #include "../expiring-cache.hxx"
 
 namespace mimosa

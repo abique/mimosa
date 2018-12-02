@@ -11,6 +11,7 @@ namespace mimosa
     {
     public:
       Cache();
+      virtual ~Cache() = default;
 
     protected:
       virtual void cacheMiss(const std::string & key);

@@ -17,13 +17,10 @@ namespace mimosa
                      ServiceMap::ConstPtr        service_map)
       : stream_(std::move(std::move(stream))),
         service_map_(std::move(std::move(service_map))),
-        scalls_(),
-        rcalls_(),
         status_(kOk),
         next_tag_(0),
         wthread_([this] { this->writeLoop(); }),
-        rthread_([this] { this->readLoop(); }),
-        write_queue_()
+        rthread_([this] { this->readLoop(); })
     {
     }
 
