@@ -47,11 +47,11 @@ namespace mimosa
       google::protobuf::Message * response_ = nullptr;
       Mutex                       mutex_;
       Condition                   condition_;
-      bool                        is_canceled_;
-      bool                        is_finished_;
-      uint32_t                    service_id_;
-      uint32_t                    method_id_;
-      uint32_t                    tag_;
+      bool                        is_canceled_ = false;
+      bool                        is_finished_ = false;
+      uint32_t                    service_id_ = 0;
+      uint32_t                    method_id_ = 0;
+      uint32_t                    tag_ = 0;
     };
   }
 }

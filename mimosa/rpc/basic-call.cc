@@ -7,14 +7,7 @@ namespace mimosa
     BasicCall::BasicCall(google::protobuf::Message * request,
                          google::protobuf::Message * response)
       : request_(request),
-        response_(response),
-        mutex_(),
-        condition_(),
-        is_canceled_(false),
-        is_finished_(false),
-        service_id_(0),
-        method_id_(0),
-        tag_(0)
+        response_(response)
     {
     }
 
