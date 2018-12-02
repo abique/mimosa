@@ -58,12 +58,12 @@ namespace mimosa
     // Stmt
     /////////////
 
-    Stmt::Stmt(sqlite3_stmt * stmt)
+    Stmt::Stmt(sqlite3_stmt * stmt) noexcept
       : stmt_(stmt)
     {
     }
 
-    Stmt::Stmt(Stmt && stmt)
+    Stmt::Stmt(Stmt && stmt) noexcept
       : NonCopyable(std::move(stmt)),
         stmt_(stmt.stmt_)
     {
@@ -71,19 +71,27 @@ namespace mimosa
     }
 
     Stmt &
-    Stmt::operator=(Stmt && stmt)
+    Stmt::operator=(Stmt && stmt) noexcept
     {
-      std::swap(stmt_, stmt.stmt_);
+      clear();
+      stmt_ = stmt.stmt_;
+      stmt.stmt_ = nullptr;
       return *this;
     }
 
     Stmt::~Stmt()
     {
-      if (stmt_)
-      {
-        sqlite3_finalize(stmt_);
-        stmt_ = nullptr;
-      }
+      clear();
+    }
+
+    void
+    Stmt::clear()
+    {
+       if (stmt_)
+       {
+         sqlite3_finalize(stmt_);
+         stmt_ = nullptr;
+       }
     }
 
     Stmt &

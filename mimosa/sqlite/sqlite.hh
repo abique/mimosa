@@ -44,12 +44,13 @@ namespace mimosa
     class Stmt : private NonCopyable
     {
     public:
-      explicit Stmt(sqlite3_stmt * stmt = nullptr);
+      explicit Stmt(sqlite3_stmt * stmt = nullptr) noexcept;
       ~Stmt();
 
-      Stmt(Stmt && stmt);
-      Stmt & operator=(Stmt && stmt);
+      Stmt(Stmt && stmt) noexcept;
+      Stmt & operator=(Stmt && stmt) noexcept;
 
+      void clear();
       void reset();
 
       Stmt& prepare(sqlite3 *    db,
