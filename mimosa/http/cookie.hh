@@ -40,8 +40,8 @@ namespace mimosa
       std::string domain_;
       std::string path_;
       std::string expires_;
-      bool        is_secure_;
-      bool        is_http_only_;
+      bool        is_secure_ = false;
+      bool        is_http_only_ = false;
     };
   }
 }
