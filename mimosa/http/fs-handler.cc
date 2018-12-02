@@ -59,8 +59,8 @@ namespace mimosa
             path = StringRef("/");
             break;
           }
-          else
-            return "";
+
+          return "";
         }
         path = path.substr(pos);
       }
@@ -83,7 +83,7 @@ namespace mimosa
         return ErrorHandler::basicResponse(request, response, kStatusInternalServerError);
       }
 
-      struct stat st;
+      struct stat st{};
       if (::stat(real_path.c_str(), &st))
         return ErrorHandler::basicResponse(request, response, kStatusNotFound);
       response.setContentLength(st.st_size);
@@ -116,7 +116,9 @@ namespace mimosa
         }
 #endif
         return streamFile(request, response, real_path, st);
-      } else if (S_ISDIR(st.st_mode) && can_readdir_)
+      }
+
+      if (S_ISDIR(st.st_mode) && can_readdir_)
         return readDir(request, response, real_path);
       return ErrorHandler::basicResponse(request, response, kStatusForbidden);
     }

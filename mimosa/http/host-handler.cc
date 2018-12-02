@@ -7,8 +7,7 @@ namespace mimosa
   namespace http
   {
     HostHandler::HostHandler()
-      : handlers_(),
-        error_handler_(new ErrorHandler)
+      : error_handler_(new ErrorHandler)
     {
     }
 

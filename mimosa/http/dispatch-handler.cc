@@ -8,8 +8,7 @@ namespace mimosa
   namespace http
   {
     DispatchHandler::DispatchHandler()
-      : handlers_(),
-        error_handler_(new ErrorHandler)
+      : error_handler_(new ErrorHandler)
     {
     }
 
