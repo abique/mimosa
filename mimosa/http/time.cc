@@ -19,7 +19,7 @@ namespace mimosa
 
     ::time_t time(const std::string & str)
     {
-      tm tm;
+      tm tm{};
 
       strptime(str.c_str(), "%a %b %d %H:%M:%S %Y", &tm);
       return mktime(&tm); // local time

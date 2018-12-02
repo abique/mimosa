@@ -11,7 +11,7 @@ namespace mimosa
     bool
     waitForFdReady(int fd, int events, Time timeout)
     {
-      ::pollfd pfd;
+      ::pollfd pfd{};
       int      ret;
 
       if (timeout == 0)
@@ -37,10 +37,7 @@ namespace mimosa
         return false;
       }
 
-      if (pfd.revents & events)
-        return true;
-
-      return false;
+      return (pfd.revents & events) != 0;
 
       err_timeout:
       errno = ETIMEDOUT;

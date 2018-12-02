@@ -8,8 +8,6 @@
 #include "../uri/percent-encoding.hh"
 #include "../format/print.hh"
 
-int mimosa_http_request_parse(yyscan_t scanner, mimosa::http::Request & request);
-
 namespace mimosa
 {
   namespace http

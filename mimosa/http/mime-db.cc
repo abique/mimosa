@@ -8,7 +8,6 @@ namespace mimosa
   namespace http
   {
     MimeDb::MimeDb()
-      : mime_types_()
     {
       load();
     }

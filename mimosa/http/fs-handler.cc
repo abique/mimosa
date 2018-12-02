@@ -355,7 +355,7 @@ namespace mimosa
 
         std::string file_path(tmp.str());
 
-        struct ::stat st;
+        struct ::stat st{};
         if (::stat(file_path.c_str(), &st))
           continue;
 
@@ -405,7 +405,7 @@ namespace mimosa
         tmp << real_path << '/' << entry->d_name;
 
         std::string file_path(tmp.str());
-        struct ::stat st;
+        struct ::stat st{};
         if (::stat(file_path.c_str(), &st))
           continue;
 

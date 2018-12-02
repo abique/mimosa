@@ -59,7 +59,7 @@ namespace mimosa
     {
       LISTEN_COMMON_1(AF_INET);
 
-      struct sockaddr_in addr;
+      struct sockaddr_in addr{};
       ::memset(&addr, 0, sizeof (addr));
       addr.sin_addr.s_addr = interface ? interface->s_addr : INADDR_ANY;
       addr.sin_family      = AF_INET;
@@ -77,7 +77,7 @@ namespace mimosa
       static const int disable = 0;
       ::setsockopt(fd_, IPPROTO_IPV6, IPV6_V6ONLY, &disable, sizeof (disable));
 
-      struct sockaddr_in6 addr;
+      struct sockaddr_in6 addr{};
       ::memset(&addr, 0, sizeof (addr));
       addr.sin6_addr   = interface ? *interface : ::in6addr_any;
       addr.sin6_family = AF_INET6;
@@ -116,7 +116,7 @@ namespace mimosa
         ::sockaddr_in in_addr;
         ::sockaddr_in6 in6_addr;
         ::sockaddr_un un_addr;
-      } addr;
+      } addr{};
       ::socklen_t addr_len = sizeof (addr);
 
       int fd = accept(&addr.addr, &addr_len, accept_timeout);

@@ -51,7 +51,7 @@ namespace mimosa
 
       if (host_entry->h_addrtype == AF_INET)
       {
-        sockaddr_in addr;
+        sockaddr_in addr{};
         ::memset(&addr, 0, sizeof (addr));
         addr.sin_family = AF_INET;
         addr.sin_port   = htons(port);
@@ -65,7 +65,7 @@ namespace mimosa
       }
       if (host_entry->h_addrtype == AF_INET6)
       {
-        sockaddr_in6 addr;
+        sockaddr_in6 addr{};
         ::memset(&addr, 0, sizeof (addr));
         addr.sin6_family = AF_INET6;
         addr.sin6_port   = htons(port);
