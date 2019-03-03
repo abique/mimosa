@@ -23,11 +23,11 @@ namespace mimosa
     typedef mimosa::Locker<SpinLock> Locker;
     typedef mimosa::UniqueLocker<SpinLock> UniqueLocker;
 
-    SpinLock() = default;
-    inline ~SpinLock();
-    inline void lock();
-    inline bool tryLock();
-    inline void unlock();
+    SpinLock() noexcept = default;
+    inline ~SpinLock() noexcept;
+    inline void lock() noexcept;
+    inline bool tryLock() noexcept;
+    inline void unlock() noexcept;
 
   private:
     int lock_ = 0;

@@ -1,7 +1,11 @@
+#pragma once
+
+#include "spin-lock.hh"
+
 namespace mimosa
 {
   inline
-  SpinLock::~SpinLock()
+  SpinLock::~SpinLock() noexcept
   {
     /* wait for unlock */
     while (lock_)
@@ -9,20 +13,20 @@ namespace mimosa
   }
 
   inline void
-  SpinLock::lock()
+  SpinLock::lock() noexcept
   {
     while (!__sync_bool_compare_and_swap(&lock_, 0, 1))
       ;
   }
 
   inline bool
-  SpinLock::tryLock()
+  SpinLock::tryLock() noexcept
   {
     return __sync_bool_compare_and_swap(&lock_, 0, 1);
   }
 
   inline void
-  SpinLock::unlock()
+  SpinLock::unlock() noexcept
   {
     lock_ = 0;
   }
