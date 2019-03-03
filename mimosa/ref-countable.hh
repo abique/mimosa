@@ -10,48 +10,58 @@ namespace mimosa
   class RefCountableBase
   {
   public:
-    inline RefCountableBase()
-      : ref_count_(0)
+    inline constexpr RefCountableBase() noexcept = default;
+
+    inline constexpr RefCountableBase(const RefCountableBase &) noexcept
     {
     }
 
-    inline RefCountableBase(const RefCountableBase &)
-      : ref_count_(0)
+    inline constexpr RefCountableBase(RefCountableBase &&) noexcept
     {
     }
 
-    inline RefCountableBase(RefCountableBase &&)
-      : ref_count_(0)
+    virtual ~RefCountableBase() noexcept
     {
+       assert(ref_count_ == 0 || ref_count_ == 1);
     }
 
-    virtual ~RefCountableBase() {}
-
-    inline RefCountableBase & operator=(const RefCountableBase &)
+    inline constexpr RefCountableBase & operator=(const RefCountableBase &) noexcept
     {
       return *this;
     }
 
-    inline RefCountableBase & operator=(RefCountableBase &&)
+    inline constexpr RefCountableBase & operator=(RefCountableBase &&) noexcept
     {
       return *this;
     }
 
-    inline int addRef() const
+    inline int addRef() const noexcept
     {
       auto ret = ++ref_count_;
       assert(ret >= 1);
       return ret;
     }
 
-    inline int releaseRef() const
+    inline int releaseRef() const noexcept
     {
       auto ret = --ref_count_;
       assert(ret >= 0);
       return ret;
     }
 
-    mutable std::atomic<int32_t> ref_count_;
+    inline constexpr int32_t refCount() const noexcept
+    {
+       return ref_count_;
+    }
+
+    inline void allocatedOnStack() noexcept
+    {
+       assert(ref_count_ == 0);
+       addRef();
+    }
+
+  private:
+    mutable std::atomic<int32_t> ref_count_ = {0};
   };
 
   inline void addRef(const RefCountableBase * obj)

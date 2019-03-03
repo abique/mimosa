@@ -9,7 +9,7 @@ namespace mimosa
    */
   template <typename T, typename U>
   T *
-  containerOf(U * u, U T::*Member)
+  containerOf(U * u, U T::*Member) noexcept
   {
     union {
       T *       obj;
