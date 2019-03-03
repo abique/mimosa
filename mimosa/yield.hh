@@ -4,7 +4,7 @@
 
 namespace mimosa
 {
-  inline void yield()
+  inline void yield() noexcept
   {
      ::sched_yield();
   }
