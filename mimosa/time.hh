@@ -34,7 +34,7 @@ namespace mimosa
   const Time day         = 24 * hour;
 
 #ifdef __MACH__
-  inline Time realTime()
+  inline Time realTime() noexcept
   {
     ::clock_serv_t cal_clock;
     ::mach_timespec tp;
@@ -44,7 +44,7 @@ namespace mimosa
     return tp.tv_nsec * nanosecond + tp.tv_sec * second;
   }
 
-  inline Time monotonicTime()
+  inline Time monotonicTime() noexcept
   {
     ::clock_serv_t sys_clock;
     ::mach_timespec tp;
@@ -54,12 +54,12 @@ namespace mimosa
     return tp.tv_nsec * nanosecond + tp.tv_sec * second;
   }
 
-  inline Time realTimeCoarse()
+  inline Time realTimeCoarse() noexcept
   {
     return realTime();
   }
 
-  inline Time monotonicTimeCoarse()
+  inline Time monotonicTimeCoarse() noexcept
   {
     return monotonicTime();
   }
@@ -106,7 +106,7 @@ namespace mimosa
     return monotonicTimeCoarse();
   }
 
-  inline ::timespec toTimeSpec(Time time)
+  inline ::timespec toTimeSpec(Time time) noexcept
   {
     ::timespec tp;
     tp.tv_sec  = time / second;
@@ -114,7 +114,7 @@ namespace mimosa
     return tp;
   }
 
-  inline ::timeval toTimeVal(Time time)
+  inline ::timeval toTimeVal(Time time) noexcept
   {
     ::timeval tv;
     tv.tv_sec  = time / second;
@@ -122,5 +122,8 @@ namespace mimosa
     return tv;
   }
 
-  inline void sleep(Time duration) { ::usleep(duration / microsecond); }
+  inline void sleep(Time duration) noexcept
+  {
+     ::usleep(duration / microsecond);
+  }
 }
