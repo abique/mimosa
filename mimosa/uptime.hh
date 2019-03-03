@@ -4,5 +4,5 @@
 
 namespace mimosa
 {
-  Time uptime();
+  Time uptime() noexcept;
 }

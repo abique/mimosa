@@ -2,7 +2,7 @@
 
 namespace mimosa
 {
-  Time uptime()
+  Time uptime() noexcept
   {
     static const Time start = monotonicTimeCoarse();
     return monotonicTimeCoarse() - start;
