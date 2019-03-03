@@ -58,10 +58,8 @@ namespace mimosa
     inline void repack();
 
     Value                  value_;
-    Trie<Value, GetKey> ** childs_;
-    uint32_t               depth_;
-    uint32_t               size_;
+    Trie<Value, GetKey> ** childs_ = nullptr;
+    uint32_t               depth_ = 0;
+    uint32_t               size_ = 0;
   };
 }
-
-#include "trie.hxx"

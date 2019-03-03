@@ -1,12 +1,14 @@
+#pragma once
+
+#include "trie.hh"
+
 namespace mimosa
 {
   template <typename Value, StringRef (*GetKey)(Value value)>
   inline
   Trie<Value, GetKey>::Trie(uint32_t depth)
     : value_(nullptr),
-      childs_(nullptr),
       depth_(depth),
-      size_(0)
   {
   }
 

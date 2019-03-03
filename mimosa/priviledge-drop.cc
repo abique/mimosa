@@ -31,7 +31,7 @@ namespace mimosa
     return 0;
   }();
 
-  static bool isNumber(const std::string & str)
+  static bool isNumber(const std::string & str) noexcept
   {
     for (auto & c : str)
       if (c < '0' || '9' < c)
