@@ -5,6 +5,6 @@ namespace mimosa
   /**
    * @return the number of available CPU
    */
-  int cpuCount();
+  int cpuCount() noexcept;
 }
 

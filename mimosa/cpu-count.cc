@@ -8,7 +8,7 @@
 
 namespace mimosa
 {
-  int cpuCount()
+  int cpuCount() noexcept
   {
 #ifdef __WIN32__
 	SYSTEM_INFO info;
