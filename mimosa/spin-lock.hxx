@@ -1,7 +1,5 @@
 #pragma once
 
-#include "spin-lock.hh"
-
 namespace mimosa
 {
   inline

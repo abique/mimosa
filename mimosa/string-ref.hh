@@ -18,36 +18,36 @@ namespace mimosa
 
     static const size_type npos = -1;
 
-    inline StringRef() : data_(0), len_(0) {}
-    inline StringRef(const StringRef &str) : data_(str.data()), len_(str.size()) {}
-    inline StringRef(const char * string) : data_(string), len_(::strlen(string)) {}
-    inline StringRef(const char * string, size_type len) : data_(string), len_(len) {}
-    inline StringRef(const char * string, const char * end) : data_(string), len_(end - string) {}
-    inline StringRef(const std::string & str) : data_(str.data()), len_(str.size()) {}
+    constexpr StringRef() noexcept = default;
+    constexpr StringRef(const StringRef &str) noexcept : data_(str.data()), len_(str.size()) {}
+    inline StringRef(const char * string) noexcept : data_(string), len_(::strlen(string)) {}
+    constexpr inline StringRef(const char * string, size_type len) noexcept : data_(string), len_(len) {}
+    constexpr inline StringRef(const char * string, const char * end) noexcept : data_(string), len_(end - string) { assert(end >= string); }
+    inline StringRef(const std::string & str) noexcept : data_(str.data()), len_(str.size()) {}
 
-    inline size_type size() const { return len_; }
-    inline const char *data() const { return data_; }
-    inline const char *c_str() const { return data_; }
-    inline bool empty() const { return !data_ || !len_; }
-    inline void clear() { data_ = nullptr; len_ = 0; }
+    constexpr size_type size() const noexcept { return len_; }
+    constexpr const char *data() const noexcept { return data_; }
+    constexpr const char *c_str() const noexcept { return data_; }
+    constexpr bool empty() const noexcept { return !data_ || !len_; }
+    void clear() noexcept { data_ = nullptr; len_ = 0; }
 
-    inline const char *begin() const { return data_; }
-    inline const char *end() const { return data_ + len_; }
+    constexpr const char *begin() const noexcept { return data_; }
+    constexpr const char *end() const noexcept { return data_ + len_; }
 
-    inline StringRef& operator=(const StringRef &str)
+    inline StringRef& operator=(const StringRef &str) noexcept
     {
       data_ = str.data_;
       len_ = str.len_;
       return *this;
     }
 
-    inline char operator[](size_type pos) const { assert(len_ > pos); return data_[pos]; }
+    constexpr char operator[](size_type pos) const noexcept { assert(len_ > pos); return data_[pos]; }
 
-    inline bool operator==(const StringRef & other) const {
+    constexpr bool operator==(const StringRef & other) const noexcept {
       return memeq(other);
     }
 
-    inline bool operator!=(const StringRef & other) const {
+    constexpr bool operator!=(const StringRef & other) const noexcept {
       return !(*this == other);
     }
 
@@ -59,14 +59,14 @@ namespace mimosa
       return std::string(data_, len_);
     }
 
-    inline size_type find(char c, size_type pos = 0) const {
+    inline size_type find(char c, size_type pos = 0) const noexcept {
       if (pos >= len_)
         return npos;
       const char * found = static_cast<const char *>(::memchr(data_ + pos, c, len_ - pos));
       return found ? found - data_ : npos;
     }
 
-    inline size_type find(const char * str, size_type pos, size_type n) const {
+    inline size_type find(const char * str, size_type pos, size_type n) const noexcept {
       if (n + pos > len_ || n == 0)
         return npos;
 
@@ -83,31 +83,31 @@ namespace mimosa
       return npos;
     }
 
-    inline size_type find(const char * str, size_type pos = 0) const {
+    inline size_type find(const char * str, size_type pos = 0) const noexcept {
       return find(str, pos, ::strlen(str));
     }
 
-    inline size_type find(const std::string & str, size_type pos = 0) const {
+    inline size_type find(const std::string & str, size_type pos = 0) const noexcept {
       return find(str.c_str(), pos, str.size());
     }
 
-    inline bool memeq(const StringRef & other) const {
+    inline bool memeq(const StringRef & other) const noexcept {
       return other.len_ == len_ && (other.data_ == data_ || !::memcmp(other.data_, data_, len_));
     }
 
-    inline bool streq(const StringRef & other) const {
+    inline bool streq(const StringRef & other) const noexcept {
       return other.len_ == len_ && (other.data_ == data_ || !::strncmp(other.data_, data_, len_));
     }
 
-    inline bool strcaseeq(const StringRef & other) const {
+    inline bool strcaseeq(const StringRef & other) const noexcept {
       return other.len_ == len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, len_));
     }
 
-    inline bool strncaseeq(const StringRef & other) const {
+    inline bool strncaseeq(const StringRef & other) const noexcept {
       return other.len_ <= len_ && (other.data_ == data_ || !::strncasecmp(other.data_, data_, other.len_));
     }
 
-    inline StringRef substr(size_type start = 0, size_type n = npos) const {
+    inline StringRef substr(size_type start = 0, size_type n = npos) const noexcept {
       if (start >= len_)
         return StringRef();
       if (n == npos || start + n >= len_)
@@ -115,7 +115,7 @@ namespace mimosa
       return StringRef(data_ + start, n);
     }
 
-    inline void eatWhitespaces(const StringRef & sp) {
+    inline void eatWhitespaces(const StringRef & sp) noexcept {
       auto it = begin();
       auto e = end();
       for (; it < e && sp.find(*it) != npos; ++it)
@@ -123,7 +123,7 @@ namespace mimosa
       *this = substr(it - data_);
     }
 
-    inline StringRef getLine(const StringRef & eol = "\n") const {
+    inline StringRef getLine(const StringRef & eol = "\n") const noexcept {
 #if defined(MIMOSA_UNIX)
       const char  *r = (const char *)memmem(
         (const void *)data_, len_, (const void *)eol.data_, eol.len_);
@@ -135,13 +135,13 @@ namespace mimosa
 #endif
     }
 
-    inline StringRef consumeLine(const StringRef & eol = "\n") {
+    inline StringRef consumeLine(const StringRef & eol = "\n") noexcept {
       StringRef r = getLine(eol);
       *this = substr(r.size());
       return r;
     }
 
-    inline StringRef getToken(const StringRef & sep = " \t\r\n\v") const {
+    inline StringRef getToken(const StringRef & sep = " \t\r\n\v") const noexcept {
       auto it = begin();
       auto e = end();
       for (; it < e && sep.find(*it) == npos; ++it)
@@ -150,14 +150,14 @@ namespace mimosa
       return r;
     }
 
-    inline StringRef consumeToken(const StringRef & sep = " \t\r\n\v") {
+    inline StringRef consumeToken(const StringRef & sep = " \t\r\n\v") noexcept {
       StringRef r = getToken(sep);
       *this = substr(r.size());
       return r;
     }
 
     template <typename Int>
-    inline Int atoi() const {
+    inline Int atoi() const noexcept {
       if (empty())
         return 0;
 
@@ -176,7 +176,7 @@ namespace mimosa
     }
 
     template <typename Int>
-    inline Int atoiHex() const {
+    inline Int atoiHex() const noexcept {
       if (empty())
         return 0;
 
@@ -202,7 +202,7 @@ namespace mimosa
       return value * sign;
     }
 
-    inline std::vector<StringRef> tokens(char c) const
+    inline std::vector<StringRef> tokens(char c) const noexcept
     {
       std::vector<StringRef> toks;
 
@@ -227,8 +227,8 @@ namespace mimosa
     }
 
   private:
-    const char * data_;
-    size_type    len_;
+    const char * data_ = nullptr;
+    size_type    len_ = 0;
   };
 }
 
