@@ -25,12 +25,12 @@ namespace mimosa
        assert(ref_count_ == 0 || ref_count_ == 1);
     }
 
-    inline constexpr RefCountableBase & operator=(const RefCountableBase &) noexcept
+    inline RefCountableBase & operator=(const RefCountableBase &) noexcept
     {
       return *this;
     }
 
-    inline constexpr RefCountableBase & operator=(RefCountableBase &&) noexcept
+    inline RefCountableBase & operator=(RefCountableBase &&) noexcept
     {
       return *this;
     }

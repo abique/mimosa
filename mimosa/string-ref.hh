@@ -22,7 +22,7 @@ namespace mimosa
     constexpr StringRef(const StringRef &str) noexcept : data_(str.data()), len_(str.size()) {}
     inline StringRef(const char * string) noexcept : data_(string), len_(::strlen(string)) {}
     constexpr inline StringRef(const char * string, size_type len) noexcept : data_(string), len_(len) {}
-    constexpr inline StringRef(const char * string, const char * end) noexcept : data_(string), len_(end - string) { assert(end >= string); }
+    inline StringRef(const char * string, const char * end) noexcept : data_(string), len_(end - string) { assert(end >= string); }
     inline StringRef(const std::string & str) noexcept : data_(str.data()), len_(str.size()) {}
 
     constexpr size_type size() const noexcept { return len_; }
@@ -41,7 +41,7 @@ namespace mimosa
       return *this;
     }
 
-    constexpr char operator[](size_type pos) const noexcept { assert(len_ > pos); return data_[pos]; }
+    char operator[](size_type pos) const noexcept { assert(len_ > pos); return data_[pos]; }
 
     bool operator==(const StringRef & other) const noexcept {
       return memeq(other);
