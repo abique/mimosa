@@ -14,8 +14,8 @@ Mimosa provides:
  - intrusive containers
  - streams
  - rpc
- - http server
- - templating system
+ - http client and server
+ - text template engine
  - bencode parser
  - and more ... :-)
 
