@@ -5,6 +5,7 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <thread>
 
 #include "../options/options.hh"
 #include "../time.hh"
@@ -102,7 +103,7 @@ namespace mimosa
           return;
 
         std::string path(path_);
-        Thread thread([path] {
+        std::thread thread([path] {
             std::string new_file(path);
             if (!::strcasecmp(COMPRESSION.c_str(), "gzip"))
               new_file.append(".gz");
@@ -131,9 +132,11 @@ namespace mimosa
             if (out->flush())
               ::unlink(path.c_str());
           });
-        thread.start();
+
         if (join)
           thread.join();
+        else
+          thread.detach();
       }
 
       Time        open_time_{0};

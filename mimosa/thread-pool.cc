@@ -3,48 +3,32 @@
 namespace mimosa
 {
   ThreadPool::ThreadPool(std::function<void ()> && fct)
-    : stack_size_(128 * 1024),
-      threads_(),
-      fct_(new std::function<void ()>(fct))
+    : fct_(std::move(fct)),
+      threads_()
   {
   }
 
   ThreadPool::~ThreadPool()
   {
     join();
-    delete fct_;
-    fct_ = nullptr;
   }
 
-  bool
-  ThreadPool::startThread()
+  void ThreadPool::startThread()
   {
-    return startThread(std::function<void ()> (*fct_));
+    threads_.emplace_back(fct_);
   }
 
-  bool
-  ThreadPool::startThread(std::function<void ()> && fct)
+  void ThreadPool::startThreads(uint32_t nb)
   {
-    auto thread = new Thread(std::move(fct));
-    thread->setStackSize(stack_size_);
-    if (!thread->start())
-    {
-      delete thread;
-      return false;
-    }
-
-    threads_.push_back(thread);
-    return true;
+    for (uint32_t i = 0; i < nb; ++i)
+      startThread();
   }
 
   void
   ThreadPool::join()
   {
     for (auto & thread : threads_)
-    {
-      thread->join();
-      delete thread;
-    }
+      thread.join();
     threads_.clear();
   }
 }

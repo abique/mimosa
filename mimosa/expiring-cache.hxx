@@ -1,19 +1,9 @@
+#pragma once
+
+#include "expiring-cache.hh"
+
 namespace mimosa
 {
-  template <typename Key,
-            typename Value,
-            typename Hash,
-            typename KeyEqual>
-  ExpiringCache<Key, Value, Hash, KeyEqual>::ExpiringCache()
-    : entry_timeout_(0),
-      value_timeout_(0),
-      lock_(),
-      cleanup_thread_(nullptr),
-      cache_(),
-      fetch_()
-  {
-  }
-
   template <typename Key,
             typename Value,
             typename Hash,
@@ -187,11 +177,10 @@ namespace mimosa
   ExpiringCache<Key, Value, Hash, KeyEqual>::startCleanupThread()
   {
     Mutex::Locker locker(cleanup_mutex_);
-    if (cleanup_thread_)
+    if (cleanup_thread_.joinable())
       return;
 
-    cleanup_thread_.reset(new Thread([this] { this->cleanupLoop(); }));
-    cleanup_thread_->start();
+    cleanup_thread_ = std::thread([this] { cleanupLoop(); });
     cleanup_thread_stop_ = false;
   }
 
@@ -204,14 +193,13 @@ namespace mimosa
   {
     {
       Mutex::Locker locker(cleanup_mutex_);
-      if (!cleanup_thread_)
+      if (!cleanup_thread_.joinable())
         return;
 
       cleanup_thread_stop_ = true;
       cleanup_cond_.wakeAll();
     }
-    cleanup_thread_->join();
-    cleanup_thread_ = nullptr;
+    cleanup_thread_.join();
   }
 
   template <typename Key,

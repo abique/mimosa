@@ -31,7 +31,6 @@ int main(int argc, char ** argv)
 
   /* establish the rpc channel */
   rpc::Channel::Ptr channel(new rpc::Channel(new stream::FdStream(fd)));
-  channel->start();
 
   /* create our service client */
   rpc::samples::pb::Database::Client db(channel);

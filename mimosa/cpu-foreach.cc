@@ -9,6 +9,7 @@
 #include <cassert>
 #include <memory>
 #include <vector>
+#include <thread>
 
 #include "cpu-count.hh"
 #include "cpu-foreach.hh"
@@ -20,13 +21,13 @@ void cpuForeach(const std::function<void ()>& cb, bool affinity, int ratio)
 {
     assert(ratio >= 1);
 
-    std::vector<std::unique_ptr<Thread> > threads;
+    std::vector<std::thread> threads;
     int nproc = cpuCount();
-    threads.resize(nproc * ratio);
+    threads.reserve(nproc * ratio);
 
     for (int i = 0; i < nproc * ratio; ++i)
     {
-        threads[i].reset(new Thread([i, nproc, &cb, affinity, ratio] {
+      threads.emplace_back([i, nproc, &cb, affinity, ratio] {
 #ifdef HAS_SCHED_SETAFFINITY
             cpu_set_t * set = nullptr;
             if (affinity)
@@ -48,11 +49,10 @@ void cpuForeach(const std::function<void ()>& cb, bool affinity, int ratio)
             if (affinity)
                 CPU_FREE(set);
 #endif
-        }));
-        threads[i]->start();
+        });
     }
 
     for (int i = 0; i < nproc * ratio; ++i)
-        threads[i]->join();
+        threads[i].join();
 }
 }
