@@ -43,11 +43,11 @@ namespace mimosa
 
     constexpr char operator[](size_type pos) const noexcept { assert(len_ > pos); return data_[pos]; }
 
-    constexpr bool operator==(const StringRef & other) const noexcept {
+    bool operator==(const StringRef & other) const noexcept {
       return memeq(other);
     }
 
-    constexpr bool operator!=(const StringRef & other) const noexcept {
+    bool operator!=(const StringRef & other) const noexcept {
       return !(*this == other);
     }
 

@@ -49,7 +49,7 @@ namespace mimosa
       return ret;
     }
 
-    inline constexpr int32_t refCount() const noexcept
+    inline int32_t refCount() const noexcept
     {
        return ref_count_;
     }
