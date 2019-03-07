@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #include <list>
-#include <thread>
-#include <functional>
+
+#include "thread.hh"
 
 namespace mimosa
 {
@@ -12,13 +12,23 @@ namespace mimosa
     ThreadPool(std::function<void ()> && fct);
     ~ThreadPool();
 
-    void startThread();
-    void startThreads(uint32_t nb);
+    inline ThreadPool & setStackSize(uint32_t size) { stack_size_ = size; return *this; }
+
+    bool startThread();
+    inline uint32_t startThreads(uint32_t nb) {
+      for (uint32_t i = 0; i < nb; ++i)
+        if (!startThread())
+          return i;
+      return nb;
+    }
+
+    bool startThread(std::function<void ()> && fct);
 
     void join();
 
   private:
-    const std::function<void ()> fct_;
-    std::list<std::thread>       threads_;
+    uint32_t                 stack_size_;
+    std::list<Thread *>      threads_;
+    std::function<void ()> * fct_;
   };
 }

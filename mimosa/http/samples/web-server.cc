@@ -128,7 +128,12 @@ int main(int argc, char ** argv)
     if (!CERT.empty() && !KEY.empty())
       server->setSecure(CERT, KEY);
 
-    server->listenInet4(PORT);
+    auto ret = server->listenInet4(PORT);
+    if (!ret)
+    {
+      puts("failed to listen");
+      return 1;
+    }
     printf("listen on %d succeed\n", PORT);
 
     cpuForeach([server] {

@@ -2,9 +2,9 @@
 
 #include <memory>
 #include <unordered_map>
-#include <thread>
 
 #include "time.hh"
+#include "thread.hh"
 #include "shared-mutex.hh"
 #include "future.hh"
 
@@ -17,7 +17,7 @@ namespace mimosa
   class ExpiringCache : private NonCopyable
   {
   public:
-    ExpiringCache() = default;
+    ExpiringCache();
     virtual ~ExpiringCache();
 
     typename Future<Value>::Ptr get(const Key & key);
@@ -61,16 +61,16 @@ namespace mimosa
     virtual void cacheMiss(const Key & key) = 0;
     void cleanupLoop();
 
-    Time entry_timeout_ = 0;
-    Time value_timeout_ = 0;
-    Time cleanup_period_ = 0;
+    Time entry_timeout_;
+    Time value_timeout_;
+    Time cleanup_period_;
 
     SharedMutex lock_;
 
-    bool        cleanup_thread_stop_;
-    std::thread cleanup_thread_;
-    Mutex       cleanup_mutex_;
-    Condition   cleanup_cond_;
+    bool                    cleanup_thread_stop_;
+    std::unique_ptr<Thread> cleanup_thread_;
+    Mutex                   cleanup_mutex_;
+    Condition               cleanup_cond_;
 
     cache_type cache_;
     fetch_type fetch_;

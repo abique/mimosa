@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include <unordered_map>
-#include <thread>
 
 #include "../non-copyable.hh"
 #include "../ref-countable.hh"
@@ -37,6 +36,7 @@ namespace mimosa
                        ServiceMap::ConstPtr        service_map = nullptr);
       ~Channel();
 
+      void start();
       inline Status status() const { return status_; }
       void close();
       void wait();
@@ -76,8 +76,8 @@ namespace mimosa
       std::unordered_map<uint32_t, BasicCall::Ptr> rcalls_; // received calls
       Status                                       status_;
       uint32_t                                     next_tag_;
-      std::thread                                  wthread_;
-      std::thread                                  rthread_;
+      Thread                                       wthread_;
+      Thread                                       rthread_;
       write_queue_type                             write_queue_;
     };
   }

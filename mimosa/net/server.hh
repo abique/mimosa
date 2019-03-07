@@ -1,15 +1,13 @@
 ﻿#pragma once
 
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
 
-#include <string>
+# include <string>
 
-#include "../function.hh"
-#include "../thread.hh"
-#include "../non-copyable.hh"
-#include "../non-movable.hh"
+# include "../function.hh"
+# include "../thread.hh"
 
 namespace mimosa
 {
@@ -18,12 +16,12 @@ namespace mimosa
     class Server : public RefCountable<Server>, private NonCopyable, private NonMovable
     {
     public:
-      constexpr Server() = default;
-      ~Server() noexcept;
+      Server();
+      ~Server();
 
-      void listenUnix(const std::string & path);
-      void listenInet4(uint16_t port, const struct ::in_addr * interface = nullptr);
-      void listenInet6(uint16_t port, const struct ::in6_addr * interface = nullptr);
+      bool listenUnix(const std::string & path);
+      bool listenInet4(uint16_t port, const struct ::in_addr * interface = 0);
+      bool listenInet6(uint16_t port, const struct ::in6_addr * interface = 0);
 
       inline int fd() const { return fd_; }
       int accept(::sockaddr *  address     = nullptr,
@@ -42,7 +40,7 @@ namespace mimosa
                          socklen_t          address_len) const;
 
     private:
-      int  fd_ = -1;
+      int  fd_;
     };
   }
 }

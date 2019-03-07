@@ -1,12 +1,9 @@
-#include <cassert>
-#include <cstring>
-#include <memory>
-#include <stdexcept>
-#include <thread>
-
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <cassert>
+#include <cstring>
+#include <memory>
 
 #include "server.hh"
 #include "accept.hh"
@@ -17,7 +14,12 @@ namespace mimosa
 {
   namespace net
   {
-    Server::~Server() noexcept
+    Server::Server()
+      : fd_(-1)
+    {
+    }
+
+    Server::~Server()
     {
       if (fd_ >= 0)
         ::close(fd_);
@@ -30,7 +32,7 @@ namespace mimosa
                                                         \
       fd_ = ::socket(Domain, SOCK_STREAM, 0);           \
       if (fd_ < 0)                                      \
-        throw std::system_error();                      \
+        return false;                                   \
                                                         \
       static const int enable = 1;                      \
       ::setsockopt(fd_, SOL_SOCKET, SO_REUSEADDR,       \
@@ -39,20 +41,20 @@ namespace mimosa
 
 #define LISTEN_COMMON_2()                                       \
     do {                                                        \
-      if (::bind(fd_, reinterpret_cast<struct sockaddr *>(&addr), sizeof (addr))) \
+      if (::bind(fd_, (struct sockaddr *)&addr, sizeof (addr))) \
         goto failure;                                           \
       if (::listen(fd_, 10))                                    \
         goto failure;                                           \
-      return;                                                   \
+      return true;                                              \
                                                                 \
       failure:                                                  \
       ::close(fd_);                                             \
       fd_ = -1;                                                 \
-      throw std::system_error();                                \
+      return false;                                             \
     } while (0)
 
 
-    void
+    bool
     Server::listenInet4(uint16_t port, const struct ::in_addr * interface)
     {
       LISTEN_COMMON_1(AF_INET);
@@ -66,7 +68,7 @@ namespace mimosa
       LISTEN_COMMON_2();
     }
 
-    void
+    bool
     Server::listenInet6(uint16_t port, const::in6_addr *interface)
     {
       LISTEN_COMMON_1(AF_INET6);
@@ -84,7 +86,7 @@ namespace mimosa
       LISTEN_COMMON_2();
     }
 
-    void
+    bool
     Server::listenUnix(const std::string & path)
     {
       LISTEN_COMMON_1(AF_UNIX);
@@ -122,12 +124,12 @@ namespace mimosa
       {
         Server::ConstPtr server(this);
         if (new_thread)
-          std::thread([server, fd, addr, addr_len] {
+          Thread([server, fd, addr, addr_len] {
               try {
                 server->serve(fd, &addr.addr, addr_len);
               } catch (...) {
               }
-            }).detach();
+            }).start();
         else
           serve(fd, &addr.addr, addr_len);
       } else

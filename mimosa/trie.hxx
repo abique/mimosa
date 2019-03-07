@@ -8,7 +8,7 @@ namespace mimosa
   inline
   Trie<Value, GetKey>::Trie(uint32_t depth)
     : value_(nullptr),
-      depth_(depth)
+      depth_(depth),
   {
   }
 

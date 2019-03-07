@@ -19,8 +19,8 @@ namespace mimosa
         service_map_(std::move(std::move(service_map))),
         status_(kOk),
         next_tag_(0),
-        wthread_(&Channel::readLoop, this),
-        rthread_(&Channel::writeLoop, this)
+        wthread_([this] { this->writeLoop(); }),
+        rthread_([this] { this->readLoop(); })
     {
     }
 
@@ -33,6 +33,13 @@ namespace mimosa
     Channel::nextTag()
     {
       return __sync_add_and_fetch(&next_tag_, 1);
+    }
+
+    void
+    Channel::start()
+    {
+      wthread_.start();
+      rthread_.start();
     }
 
     void
@@ -213,14 +220,14 @@ namespace mimosa
       // call method
       Channel::Ptr channel(this);
       auto data_size = msg.rq_size_;
-      std::thread([channel, call, data, data_size, service] () {
+      Thread([channel, call, data, data_size, service] () {
           auto ret = service->callMethod(call, data, data_size);
           free(data);
           if (ret != Service::kSucceed)
             channel->sendError(static_cast<ErrorType> (ret), call->tag(), kOriginYou);
           else
             channel->sendResponse(call);
-        }).detach();
+        }).start();
       return true;
     }
 
@@ -313,7 +320,7 @@ namespace mimosa
       stream_->shutdown();
       write_queue_.close();
       wthread_.join();
-      pthread_cancel(rthread_.native_handle());
+      rthread_.cancel();
       rthread_.join();
       stream_->close();
     }
