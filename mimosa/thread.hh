@@ -15,7 +15,7 @@ namespace mimosa
   {
   public:
 
-    Thread(std::function<void ()> && fct);
+    explicit Thread(std::function<void ()> && fct);
     ~Thread();
 
     inline Thread & setStackSize(uint32_t size) { stack_size_ = size; return *this; }
