@@ -17,6 +17,7 @@ add_library(mimosa-rpc STATIC
   basic-call.cc
   channel.cc
   http-call.cc
+  json.cc
   log.cc
   server.cc
   service.cc
