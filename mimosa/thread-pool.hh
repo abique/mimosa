@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <list>
+#include <vector>
 
 #include "thread.hh"
 
