@@ -1,10 +1,12 @@
 #pragma once
 
+#include <cstddef>
+
 namespace mimosa
 {
   /**
    * @return the number of available CPU
    */
-  int cpuCount() noexcept;
+  size_t cpuCount() noexcept;
 }
 

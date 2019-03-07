@@ -11,18 +11,23 @@
 
 namespace mimosa
 {
-  class Thread : private NonCopyable, private NonMovable
+  class Thread
   {
   public:
-
-    explicit Thread(std::function<void ()> && fct);
+    Thread() = default;
+    Thread(const Thread& other) = delete;
+    Thread(Thread && other) noexcept;
     ~Thread();
 
-    inline Thread & setStackSize(uint32_t size) { stack_size_ = size; return *this; }
+    Thread& operator=(const Thread& other) = delete;
+    Thread& operator=(Thread&& other) = delete;
+
     void setName(const std::string &name);
     static void setCurrentName(const std::string &name);
 
-    bool start();
+    bool start(std::function<void ()> && fct);
+    bool start(void *(*fct)(void *ctx), void *ctx);
+
     void join();
     void detach();
     void cancel();
@@ -30,7 +35,6 @@ namespace mimosa
     inline pthread_t threadId() const { return thread_; }
 
   private:
-
     enum State
     {
       kNotRunning,
@@ -39,9 +43,7 @@ namespace mimosa
       kJoined,
     };
 
-    pthread_t                thread_;
-    std::function<void ()> * fct_;
-    State                    state_;
-    uint32_t                 stack_size_;
+    pthread_t thread_;
+    State     state_ = kNotRunning;
   };
 }

@@ -74,8 +74,8 @@ namespace mimosa
       std::unordered_map<uint32_t, BasicCall::Ptr> scalls_; // sent calls
       Mutex                                        rcalls_mutex_;
       std::unordered_map<uint32_t, BasicCall::Ptr> rcalls_; // received calls
-      Status                                       status_;
-      uint32_t                                     next_tag_;
+      Status                                       status_ = kOk;
+      uint32_t                                     next_tag_ = 0;
       Thread                                       wthread_;
       Thread                                       rthread_;
       write_queue_type                             write_queue_;

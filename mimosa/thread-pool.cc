@@ -25,15 +25,11 @@ namespace mimosa
   bool
   ThreadPool::startThread(std::function<void ()> && fct)
   {
-    auto thread = new Thread(std::move(fct));
-    thread->setStackSize(stack_size_);
-    if (!thread->start())
-    {
-      delete thread;
+    Thread t;
+    if (!t.start(std::move(fct)))
       return false;
-    }
 
-    threads_.push_back(thread);
+    threads_.emplace_back(std::move(t));
     return true;
   }
 
@@ -41,10 +37,7 @@ namespace mimosa
   ThreadPool::join()
   {
     for (auto & thread : threads_)
-    {
-      thread->join();
-      delete thread;
-    }
+      thread.join();
     threads_.clear();
   }
 }

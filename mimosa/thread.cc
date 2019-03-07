@@ -12,56 +12,56 @@ namespace mimosa
   static void* startWrapper(std::function<void ()> * fct)
   {
     std::unique_ptr<std::function<void ()> > x(fct);
-    (*fct)();
+    (*x)();
     return nullptr;
   }
 
-  Thread::Thread(std::function<void ()> && fct)
-    : thread_(),
-      fct_(new std::function<void ()>(fct)),
-      state_(kNotRunning),
-      stack_size_(64 * 1024)
-      //stack_size_(PTHREAD_STACK_MIN)
-  {
-  }
-
   bool
-  Thread::start()
+  Thread::start(std::function<void ()> && fct)
   {
     assert(state_ == kNotRunning);
 
-    pthread_attr_t attrs;
-    if (pthread_attr_init(&attrs))
-      return false;
-
-    if (pthread_attr_setstacksize(&attrs, stack_size_))
-    {
-      pthread_attr_destroy(&attrs);
-      return false;
-    }
-
-    if (::pthread_create(&thread_, &attrs,
+    auto f = new std::function<void ()>(std::move(fct));
+    if (::pthread_create(&thread_, nullptr,
                          reinterpret_cast<void*(*)(void*)>(startWrapper),
-                         static_cast<void*>(fct_)))
+                         static_cast<void*>(f)))
     {
-      pthread_attr_destroy(&attrs);
+      delete f;
       return false;
     }
 
-    pthread_attr_destroy(&attrs);
-    fct_ = nullptr;
     state_ = kRunning;
     return true;
   }
 
+  bool
+  Thread::start(void *(*fct)(void *ctx), void *ctx)
+  {
+    assert(state_ == kNotRunning);
+
+    if (::pthread_create(&thread_, nullptr, fct, ctx))
+      return false;
+
+    state_ = kRunning;
+    return true;
+  }
+
+  Thread::Thread(Thread &&other) noexcept
+    : thread_(other.thread_),
+      state_(other.state_)
+  {
+    other.state_ = kDetached;
+  }
+
   Thread::~Thread()
   {
-    delete fct_;
-    detach();
+    assert(state_ == kDetached || state_ == kJoined);
   }
 
   void Thread::join()
   {
+    assert(state_ == kRunning);
+
     if (state_ != kRunning)
       return;
 
@@ -71,6 +71,8 @@ namespace mimosa
 
   void Thread::detach()
   {
+    assert(state_ == kRunning);
+
     if (state_ != kRunning)
       return;
     ::pthread_detach(thread_);
@@ -79,13 +81,21 @@ namespace mimosa
 
   void Thread::cancel()
   {
+    assert(state_ == kRunning);
+
     if (state_ != kRunning)
       return;
+
     ::pthread_cancel(thread_);
   }
 
   void Thread::setName(const std::string &name)
   {
+    assert(state_ == kRunning);
+
+    if (state_ != kRunning)
+      return;
+
 #ifdef __WIN32__
 #elif defined(__MACH__)
 #elif defined(__HAIKU__)

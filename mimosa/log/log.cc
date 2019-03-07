@@ -102,7 +102,8 @@ namespace mimosa
           return;
 
         std::string path(path_);
-        Thread thread([path] {
+        Thread thread;
+        thread.start([path] {
             std::string new_file(path);
             if (!::strcasecmp(COMPRESSION.c_str(), "gzip"))
               new_file.append(".gz");
@@ -131,7 +132,7 @@ namespace mimosa
             if (out->flush())
               ::unlink(path.c_str());
           });
-        thread.start();
+        thread.join();
         if (join)
           thread.join();
       }

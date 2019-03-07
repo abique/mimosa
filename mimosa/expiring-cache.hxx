@@ -1,3 +1,5 @@
+#include "expiring-cache.hh"
+
 namespace mimosa
 {
   template <typename Key,
@@ -190,8 +192,8 @@ namespace mimosa
     if (cleanup_thread_)
       return;
 
-    cleanup_thread_.reset(new Thread([this] { this->cleanupLoop(); }));
-    cleanup_thread_->start();
+    cleanup_thread_.reset(new Thread);
+    cleanup_thread_->start([this] { this->cleanupLoop(); });
     cleanup_thread_stop_ = false;
   }
 

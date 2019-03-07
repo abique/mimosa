@@ -9,7 +9,7 @@ namespace mimosa
   class ThreadPool
   {
   public:
-    ThreadPool(std::function<void ()> && fct);
+    explicit ThreadPool(std::function<void ()> && fct);
     ~ThreadPool();
 
     inline ThreadPool & setStackSize(uint32_t size) { stack_size_ = size; return *this; }
@@ -28,7 +28,7 @@ namespace mimosa
 
   private:
     uint32_t                 stack_size_;
-    std::list<Thread *>      threads_;
+    std::vector<Thread>      threads_;
     std::function<void ()> * fct_;
   };
 }

@@ -124,12 +124,16 @@ namespace mimosa
       {
         Server::ConstPtr server(this);
         if (new_thread)
-          Thread([server, fd, addr, addr_len] {
+        {
+          Thread t;
+          t.start([server, fd, addr, addr_len] {
               try {
                 server->serve(fd, &addr.addr, addr_len);
               } catch (...) {
               }
-            }).start();
+            });
+          t.detach();
+        }
         else
           serve(fd, &addr.addr, addr_len);
       } else

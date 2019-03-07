@@ -8,14 +8,14 @@
 
 namespace mimosa
 {
-  int cpuCount() noexcept
+  size_t cpuCount() noexcept
   {
 #ifdef __WIN32__
 	SYSTEM_INFO info;
 	GetSystemInfo(&info);
 	return info.dwNumberOfProcessors;
 #else
-    return sysconf(_SC_NPROCESSORS_ONLN);
+    return static_cast<size_t>(sysconf(_SC_NPROCESSORS_ONLN));
 #endif
   }
 }
