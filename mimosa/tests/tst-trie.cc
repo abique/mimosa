@@ -1,7 +1,7 @@
 ﻿#include <gtest/gtest.h>
 
 #include "../ref-countable.hh"
-#include "../trie.hh"
+#include "../trie.hxx"
 
 # define FIND(Key, Success)                     \
   do {                                          \
