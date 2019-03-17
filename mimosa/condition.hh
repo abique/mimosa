@@ -42,7 +42,7 @@ namespace mimosa
     template <typename Mutex>
     inline void wait(Mutex & mutex)
     {
-      ::pthread_cond_wait(&cond_, &mutex.mutex_);
+      ::pthread_cond_wait(&cond_, &mutex.nativeHandle());
     }
 
     /**
@@ -51,7 +51,7 @@ namespace mimosa
     inline bool timedWait(Mutex & mutex, Time time)
     {
       ::timespec tp = toTimeSpec(time);
-      return !::pthread_cond_timedwait(&cond_, &mutex.mutex_, &tp);
+      return !::pthread_cond_timedwait(&cond_, &mutex.nativeHandle(), &tp);
     }
 
     inline void wakeOne() { ::pthread_cond_signal(&cond_); }

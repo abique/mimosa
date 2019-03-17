@@ -23,7 +23,6 @@ namespace mimosa
     typedef UniqueLocker<RecursiveMutex> UniqueLocker;
 
     inline RecursiveMutex()
-      : mutex_(nullptr)
     {
       ::pthread_mutexattr_t attr;
 
@@ -38,9 +37,27 @@ namespace mimosa
     }
 
     inline ~RecursiveMutex() { ::pthread_mutex_destroy(&mutex_); }
-    inline void lock() { ::pthread_mutex_lock(&mutex_); }
-    inline void unlock() { ::pthread_mutex_unlock(&mutex_); }
-    inline bool tryLock() { return !::pthread_mutex_trylock(&mutex_); }
+    inline void lock()
+    {
+       if (::pthread_mutex_lock(&mutex_))
+          throw std::runtime_error("pthread_mutex_lock() failed");
+    }
+
+    inline void unlock()
+    {
+       if (::pthread_mutex_unlock(&mutex_))
+          throw std::runtime_error("pthread_mutex_lock() failed");
+    }
+
+    inline bool tryLock()
+    {
+       return !::pthread_mutex_trylock(&mutex_);
+    }
+
+    inline ::pthread_mutex_t& nativeHandle()
+    {
+      return mutex_;
+    }
 
   private:
     friend class Condition;

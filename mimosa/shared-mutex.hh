@@ -24,7 +24,6 @@ namespace mimosa
     typedef mimosa::UniqueLocker<SharedMutex> UniqueLocker;
 
     inline SharedMutex()
-      : lock_()
     {
       if (::pthread_rwlock_init(&lock_, nullptr))
         throw std::bad_alloc();
@@ -37,12 +36,13 @@ namespace mimosa
 
     inline void sharedLock()
     {
-      ::pthread_rwlock_rdlock(&lock_);
+      if (::pthread_rwlock_rdlock(&lock_))
+         throw std::runtime_error("pthread_rw_rdlock() failed");
     }
 
-    inline void trySharedLock()
+    inline bool trySharedLock()
     {
-      ::pthread_rwlock_tryrdlock(&lock_);
+      return !::pthread_rwlock_tryrdlock(&lock_);
     }
 
 #ifndef __MACH__
@@ -55,12 +55,13 @@ namespace mimosa
 
     inline void lock()
     {
-      ::pthread_rwlock_wrlock(&lock_);
+      if (::pthread_rwlock_wrlock(&lock_))
+         throw std::runtime_error("pthread_rwlock_wrlock() failed");
     }
 
-    inline void tryLock()
+    inline bool tryLock()
     {
-      ::pthread_rwlock_trywrlock(&lock_);
+      return !::pthread_rwlock_trywrlock(&lock_);
     }
 
 #ifndef __MACH__
@@ -73,7 +74,13 @@ namespace mimosa
 
     inline void unlock()
     {
-      ::pthread_rwlock_unlock(&lock_);
+      if (::pthread_rwlock_unlock(&lock_))
+         throw std::runtime_error("pthread_rwlock_unlock() failed");
+    }
+
+    inline ::pthread_rwlock_t nativeHandle()
+    {
+       return lock_;
     }
 
   private:
