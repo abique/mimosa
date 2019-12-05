@@ -28,7 +28,7 @@ namespace mimosa
       if (git_tree_entry_bypath(entry.ref(), root, directory.c_str()))
         return;
 
-      if (git_tree_entry_type(entry) != GIT_OBJ_TREE)
+      if (git_tree_entry_type(entry) != GIT_OBJECT_TREE)
         return;
 
       git_tree_lookup(&tree_, repo, git_tree_entry_id(entry));
