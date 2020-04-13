@@ -16,7 +16,8 @@
 
 namespace mimosa
 {
-void cpuForeach(const std::function<void ()>& cb, bool affinity, size_t ratio)
+template <typename Callback>
+void cpuForeach(const Callback& cb, bool affinity, size_t ratio)
 {
   assert(ratio >= 1);
 
