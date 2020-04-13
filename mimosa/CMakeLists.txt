@@ -6,6 +6,7 @@
   container-of.hh
   cpu-count.hh
   cpu-foreach.hh
+  cpu-foreach.hxx
   endian.hh
   function.hh
   future.hh
@@ -57,7 +58,6 @@ add_library(mimosa STATIC
 
   # runtime
   cpu-count.cc
-  cpu-foreach.cc
   thread.cc
   thread-pool.cc
   uptime.cc

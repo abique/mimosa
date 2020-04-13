@@ -1,6 +1,6 @@
 #pragma once
 
-# include <functional>
+#include <functional>
 
 namespace mimosa
 {
@@ -10,6 +10,8 @@ namespace mimosa
    *
    * Thread created in cb will by default keep the same cpu affinity.
    */
-  void cpuForeach(const std::function<void ()>& cb, bool affinity = false, size_t ratio = 1);
+  template <typename Callback>
+  void cpuForeach(const Callback& cb, bool affinity = false, size_t ratio = 1);
 }
 
+#include "cpu-foreach.hxx"
