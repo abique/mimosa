@@ -51,7 +51,7 @@ void cpuForeach(const std::function<void ()>& cb, bool affinity, size_t ratio)
     });
   }
 
-  for (int i = 0; i < nproc * ratio; ++i)
+  for (size_t i = 0; i < nproc * ratio; ++i)
     threads[i].join();
 }
 }
