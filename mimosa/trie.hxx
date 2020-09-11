@@ -164,9 +164,11 @@ namespace mimosa {
       if (value_)
          callback(value_);
 
-      if (childs_)
-         for (auto *child : (*childs_))
-            if (child)
-               child->foreach (callback);
+      if (!childs_)
+         return;
+
+      for (auto &child : (*childs_))
+         if (child)
+            child->foreach (callback);
    }
 } // namespace mimosa
