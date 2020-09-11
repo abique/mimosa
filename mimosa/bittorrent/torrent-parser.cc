@@ -82,8 +82,10 @@ namespace mimosa
             }
 
             stream::Sha1::Ptr sha1(new stream::Sha1);
+            stream::Sha256::Ptr sha2(new stream::Sha256);
             stream::TeeStream::Ptr tee(new stream::TeeStream(in_));
             tee->teeInput(sha1.get());
+            tee->teeInput(sha2.get());
             dec_->setInput(tee.get());
 
             if (!parseInfo())
@@ -92,7 +94,8 @@ namespace mimosa
             dec_->setInput(in_);
 
             got_info = true;
-            memcpy(desc_->info_hash_.bytes_, sha1->digest(), 20);
+            memcpy(desc_->info_hash_v1_.bytes_, sha1->digest(), 20);
+            memcpy(desc_->info_hash_v2_.bytes_, sha2->digest(), 32);
           } else if (!dec_->eatValue()) {
             error_ = kInputError;
             return false;

@@ -1,6 +1,7 @@
 #include "torrent-descriptor.hh"
 #include "../stream/base16-encoder.hh"
 #include "../format/print.hh"
+#include "mimosa/stream/filter.hh"
 
 namespace mimosa
 {
@@ -30,7 +31,8 @@ namespace mimosa
       stream << "Nodes: " << std::endl;
       for (auto &node : nodes_)
         stream << node.host_ << " " << node.port_ << std::endl;
-      stream << "Info Hash: " << std::endl;
+      stream << "Info Hash v1: " << stream::filter<stream::Base16Encoder>(reinterpret_cast<const char *>(info_hash_v1_.bytes_), 20) << std::endl;
+      stream << "Info Hash v2: " << stream::filter<stream::Base16Encoder>(reinterpret_cast<const char *>(info_hash_v2_.bytes_), 32) << std::endl;
     }
   }
 }
