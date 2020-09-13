@@ -1,8 +1,8 @@
 ﻿cmake_minimum_required(VERSION 3.4)
 
-project(mimosa C CXX)
-
 enable_testing()
+project(mimosa C CXX)
+set(CMAKE_CXX_STANDARD 17)
 
 find_package(ZLIB)
 find_package(GnuTLS)
