@@ -1,33 +1,19 @@
 #pragma once
 
-# include <sstream>
+#include <sstream>
 
-namespace mimosa
-{
-  namespace format
-  {
-    inline
-    std::ostream & format(std::ostream & os,
-                          const char *   fmt);
+namespace mimosa { namespace format {
+   inline std::ostream &format(std::ostream &os, const char *fmt);
 
-    template <typename T, typename ... Args>
-    inline
-    std::ostream & format(std::ostream & os,
-                          const char *   fmt,
-                          const T &      value,
-                          Args ...       args);
+   template <typename T, typename... Args>
+   inline std::ostream &format(std::ostream &os, const char *fmt, const T &value, Args... args);
 
-    template <typename ... Args>
-    inline
-    std::string str(const char *   fmt,
-                    Args ...       args)
-    {
+   template <typename... Args>
+   inline std::string str(const char *fmt, Args... args) {
       std::ostringstream os;
       format(os, fmt, args...);
       return os.str();
-    }
-  }
-}
+   }
+}} // namespace mimosa::format
 
-# include "format.hxx"
-
+#include "format.hxx"

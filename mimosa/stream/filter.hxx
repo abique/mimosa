@@ -1,22 +1,21 @@
 #include "string-stream.hh"
 
-namespace mimosa
-{
-  namespace stream
-  {
-    template <typename T>
-    inline std::string filter(const char * data, uint64_t nbytes)
-    {
+namespace mimosa { namespace stream {
+   template <typename T>
+   inline std::string filter(const char *data, uint64_t nbytes) {
       mimosa::stream::StringStream::Ptr s = new mimosa::stream::StringStream;
       T filter(s.get());
       filter.write(data, nbytes);
       return s->moveStr();
-    }
+   }
 
-    template <typename T>
-    inline std::string filter(const std::string & data)
-    {
+   template <typename T>
+   inline std::string filter(const std::string &data) {
       return filter<T>(data.data(), data.size());
-    }
-  }
-}
+   }
+
+   template <typename T>
+   inline std::string filter(const std::string_view &data) {
+      return filter<T>(data.data(), data.size());
+   }
+}} // namespace mimosa::stream
