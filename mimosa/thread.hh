@@ -14,7 +14,7 @@ namespace mimosa
   class Thread
   {
   public:
-    Thread() = default;
+    constexpr Thread() = default;
     Thread(const Thread& other) = delete;
     Thread(Thread && other) noexcept;
     ~Thread();
@@ -43,7 +43,7 @@ namespace mimosa
       kJoined,
     };
 
-    pthread_t thread_;
+    pthread_t thread_ = 0;
     State     state_ = kNotRunning;
   };
 }

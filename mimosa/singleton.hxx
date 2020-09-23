@@ -1,15 +1,17 @@
 namespace mimosa
 {
   template <typename T>
-  T * Singleton<T>::instance_ = nullptr;
+  std::atomic<T *> Singleton<T>::instance_ = {nullptr};
 
   template <typename T>
   T &
   Singleton<T>::instance()
   {
     if (!instance_) {
-      instance_ = (T*)1;
-      instance_ = new T;
+      T *t = new T;
+      T *n = nullptr;
+      if (!instance_.compare_exchange_weak(n, t))
+        delete t;
     }
     return *instance_;
   }
@@ -18,7 +20,8 @@ namespace mimosa
   void
   Singleton<T>::release()
   {
-    delete instance_;
-    instance_ = nullptr;
+    T *t = instance_;
+    if (instance_.compare_exchange_strong(t, nullptr))
+      delete t;
   }
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <atomic>
+
 namespace mimosa
 {
   /**
@@ -17,7 +19,7 @@ namespace mimosa
     static void release();
 
   protected:
-    static T * instance_;
+    static std::atomic<T *> instance_;
   };
 }
 

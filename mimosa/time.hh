@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <cstdint>
+#include <cstddef>
 #include <ctime>
 #include <stdexcept>
 
@@ -23,7 +24,7 @@
 namespace mimosa
 {
   // signed to ease time substraction
-  typedef ::int64_t Time;
+  using Time = std::int64_t;
 
   const Time nanosecond  = 1;
   const Time microsecond = 1000 * nanosecond;
