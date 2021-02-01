@@ -54,6 +54,11 @@ namespace mimosa
         return write(str.data(), str.size());
       }
 
+      /** helper */
+      inline int64_t write(const std::string_view & str) {
+        return write(str.data(), str.size());
+      }
+
       /**
        * Shutdown is useful for sockets, when they're used from multiple threads.
        * It allows one thread to stop the I/O without closing the fd.
