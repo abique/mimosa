@@ -62,7 +62,7 @@
 %token <ival> VALUE_CONNECTION PORT
 %token <val64> VAL64
 %token <val64> RANGE_UNIT RANGE_START RANGE_END RANGE_LENGTH
-%token COMPRESS IDENTITY DEFLATE GZIP SDCH
+%token COMPRESS IDENTITY DEFLATE GZIP SDCH ZSTD BR
 
 %destructor { delete $$; } <text>
 
@@ -95,8 +95,7 @@ method:
 kvs: kv kvs | /* epsilon */ ;
 
 kv:
-  KEY VALUE { rq.addHeader(*$1, *$2); delete $1; delete $2; }
-| KEY_ACCEPT_ENCODING accept_encodings
+  KEY_ACCEPT_ENCODING accept_encodings
 | KEY_CONNECTION VALUE_CONNECTION { rq.setKeepAlive($2); }
 | KEY_COOKIE cookies
 | KEY_CONTENT_LENGTH VAL64 { rq.setContentLength($2); }
@@ -110,13 +109,16 @@ kv:
 | KEY_CONTENT_RANGE RANGE_UNIT RANGE_START RANGE_END RANGE_LENGTH {
     rq.setContentRange($2 * $3, $2 * $4, $2 * $5);
 }
-| KEY_RANGE RANGE_UNIT '=' byte_range_set;
+| KEY_RANGE RANGE_UNIT '=' byte_range_set
+| KEY VALUE { rq.addHeader(*$1, *$2); delete $1; delete $2; };
 
 accept_encodings: /* epsilon */
 | COMPRESS accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingCompress); }
 | IDENTITY accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingIdentity); }
 | DEFLATE  accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingDeflate); }
 | GZIP     accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingGzip); }
+| ZSTD     accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingZstd); }
+| BR       accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingBr); }
 | SDCH     accept_encodings { rq.setAcceptEncoding(rq.acceptEncoding() | mimosa::http::kCodingSdch); };
 
 cookies:

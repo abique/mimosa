@@ -376,7 +376,7 @@ namespace mimosa
 
       TEST(RequestParser, GetFailScissy1)
       {
-        const char str[]=
+        const char str[] =
             "GET /html/register.html HTTP/1.1\r\n"
             "Host: 192.168.7.115:19042\r\n"
             "Connection: keep-alive\r\n"
@@ -389,6 +389,21 @@ namespace mimosa
             "\r\n";
         Request rq;
         EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+      }
+
+      TEST(RequestParser, HefurIssue39)
+      {
+        const char str[] = "GET /html/register.html HTTP/1.1\r\n"
+          "Host: tracker.domain.com\r\n"
+          "User-Agent: Transmission/3.00\r\n"
+          "Accept: */*\r\n"
+          "Accept-Encoding: deflate, gzip, br, zstd\r\n"
+          "X-Forwarded-For: 42.42.42.42\r\n"
+          "\r\n";
+
+        Request rq;
+        EXPECT_EQ(true, rq.parse(str, sizeof (str)));
+        EXPECT_EQ(kCodingIdentity | kCodingDeflate | kCodingGzip | kCodingBr | kCodingZstd, rq.acceptEncoding());
       }
     }
   }

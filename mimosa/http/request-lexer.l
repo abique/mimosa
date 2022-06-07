@@ -123,6 +123,8 @@ cookie_octet [^\r\r\n\v ;",\\]
 <value_accept_encoding>(?i:deflate)  return DEFLATE;
 <value_accept_encoding>(?i:gzip)     return GZIP;
 <value_accept_encoding>(?i:sdch)     return SDCH;
+<value_accept_encoding>(?i:zstd)     return ZSTD;
+<value_accept_encoding>(?i:br)       return BR;
 <value_accept_encoding>;|[qQ]|=[01](.[0-9]{1,3})?|,
 
 <value_cookie_attr>{token}      BEGIN(value_cookie_eq); SAVE_TEXT; return ATTR;
