@@ -1,12 +1,13 @@
-﻿cmake_minimum_required(VERSION 3.4)
+﻿cmake_minimum_required(VERSION 3.16)
 
 enable_testing()
 project(mimosa C CXX)
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(ZLIB)
-find_package(GnuTLS)
-find_package(LibArchive)
+find_package(ZLIB REQUIRED)
+find_package(GnuTLS REQUIRED)
+find_package(LibArchive REQUIRED)
+find_package(Protobuf REQUIRED)
 
 include_directories(${GNUTLS_INCLUDE_DIR} ${LibArchive_INCLUDE_DIR} .)
 

@@ -95,7 +95,7 @@ namespace mimosa
     {
       call->setTag(nextTag());
 
-      uint32_t rq_size = call->request_->ByteSize();
+      uint32_t rq_size = call->request_->ByteSizeLong();
       stream::Buffer::Ptr buffer = new stream::Buffer(rq_size + sizeof (MsgCall));
       auto * msg    = reinterpret_cast<MsgCall *> (buffer->data());
       msg->type_       = kCall;
@@ -128,7 +128,7 @@ namespace mimosa
     void
     Channel::sendResponse(const BasicCall::Ptr& call)
     {
-      uint32_t rp_size  = call->response_->ByteSize();
+      uint32_t rp_size  = call->response_->ByteSizeLong();
       stream::Buffer::Ptr buffer = new stream::Buffer(rp_size + sizeof (MsgResult));
       auto * msg  = reinterpret_cast<MsgResult *> (buffer->data());
       msg->type_       = kResult;

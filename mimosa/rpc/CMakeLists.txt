@@ -22,7 +22,7 @@ add_library(mimosa-rpc STATIC
   server.cc
   service.cc
   service-map.cc)
-target_link_libraries(mimosa-rpc mimosa protobuf)
+target_link_libraries(mimosa-rpc mimosa ${Protobuf_LIBRARIES})
 
 add_library(mimosa-rpc-bencode STATIC bencode.cc)
 target_link_libraries(mimosa-rpc-bencode mimosa-rpc mimosa-bencode)

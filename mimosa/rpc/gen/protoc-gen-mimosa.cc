@@ -4,14 +4,12 @@
 #include <zlib.h> // For crc32
 
 #include <google/protobuf/compiler/code_generator.h>
-#include <google/protobuf/compiler/cpp/cpp_generator.h>
+#include <google/protobuf/compiler/cpp/generator.h>
 #include <google/protobuf/compiler/plugin.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/io/zero_copy_stream.h>
 #include <google/protobuf/io/printer.h>
-
-#include "../service.hh"
 
 namespace gp   = google::protobuf;
 namespace gpio = google::protobuf::io;
