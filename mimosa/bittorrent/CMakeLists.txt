@@ -9,7 +9,7 @@ add_library(mimosa-bittorrent STATIC
   torrent-parser.cc
   torrent-parser.hh
   )
-target_link_libraries(mimosa-bittorrent
+target_link_libraries(mimosa-bittorrent PUBLIC
   mimosa-bencode
   mimosa)
 

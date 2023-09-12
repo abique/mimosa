@@ -66,7 +66,7 @@ add_library(mimosa-http STATIC
   server-channel.cc
   time.cc
   )
-target_link_libraries(mimosa-http
+target_link_libraries(mimosa-http PUBLIC
   mimosa-json
   mimosa-uri
   mimosa-fs

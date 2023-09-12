@@ -7,7 +7,7 @@ install(FILES
   DESTINATION include/mimosa/uri/)
 
 add_library(mimosa-uri STATIC url.cc)
-target_link_libraries(mimosa-uri mimosa)
+target_link_libraries(mimosa-uri PUBLIC mimosa)
 
 add_subdirectory(tests)
 

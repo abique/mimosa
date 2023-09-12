@@ -8,7 +8,7 @@ install(FILES
   writer.hh
   DESTINATION include/mimosa/archive/)
 
-target_link_libraries(mimosa-archive mimosa archive)
+target_link_libraries(mimosa-archive PUBLIC mimosa archive)
 
 install(TARGETS mimosa-archive
   RUNTIME DESTINATION bin

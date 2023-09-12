@@ -4,7 +4,7 @@ install(FILES
   DESTINATION include/mimosa/sqlite)
 
 add_library(mimosa-sqlite STATIC sqlite.cc)
-target_link_libraries(mimosa-sqlite mimosa)
+target_link_libraries(mimosa-sqlite PUBLIC mimosa)
 
 install(TARGETS mimosa-sqlite
   RUNTIME DESTINATION bin

@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(ZLIB REQUIRED)
 find_package(GnuTLS REQUIRED)
 find_package(LibArchive REQUIRED)
-find_package(Protobuf REQUIRED)
+find_package(Protobuf CONFIG REQUIRED)
 
 include_directories(${GNUTLS_INCLUDE_DIR} ${LibArchive_INCLUDE_DIR} .)
 

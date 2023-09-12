@@ -9,7 +9,7 @@ add_library(mimosa-bencode STATIC
   decoder.cc
   encoder.cc
   )
-target_link_libraries(mimosa-bencode mimosa)
+target_link_libraries(mimosa-bencode PUBLIC mimosa)
 
 install(TARGETS mimosa-bencode
   RUNTIME DESTINATION bin

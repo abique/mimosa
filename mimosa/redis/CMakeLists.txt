@@ -6,4 +6,4 @@ install(FILES
   DESTINATION include/mimosa/redis/)
 
 add_library(mimosa-redis STATIC log.cc)
-target_link_libraries(mimosa-redis mimosa)
+target_link_libraries(mimosa-redis PUBLIC mimosa)

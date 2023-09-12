@@ -6,7 +6,7 @@ install(FILES
 add_library(mimosa-smtp STATIC
   client.cc
   mail.cc)
-target_link_libraries(mimosa-smtp mimosa)
+target_link_libraries(mimosa-smtp PUBLIC mimosa)
 
 install(TARGETS mimosa-smtp
   RUNTIME DESTINATION bin

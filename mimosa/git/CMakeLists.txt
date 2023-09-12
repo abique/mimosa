@@ -20,7 +20,7 @@ add_library(mimosa-git STATIC
   tree.cc
   )
 
-target_link_libraries(mimosa-git
+target_link_libraries(mimosa-git PUBLIC
   mimosa-archive
   mimosa)
 

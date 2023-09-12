@@ -41,7 +41,7 @@ add_library(mimosa-tpl STATIC
   ast/text.cc
   ast/var.cc
   )
-target_link_libraries(mimosa-tpl mimosa)
+target_link_libraries(mimosa-tpl PUBLIC mimosa)
 
 install(TARGETS mimosa-tpl
   RUNTIME DESTINATION bin
