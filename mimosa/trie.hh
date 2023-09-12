@@ -62,26 +62,24 @@ namespace mimosa {
       }
 
       inline Trie<Value, GetKey> *getOrCreateChild(uint8_t index) {
-        assert(childs_);
-        auto child = (*childs_)[index].get();
-        if (child)
-          return child;
+         assert(childs_);
+         auto child = (*childs_)[index].get();
+         if (child)
+            return child;
 
-        child = new Trie<Value, GetKey>(depth_ + 1);
-        setChild(index, child);
-        return child;
+         child = new Trie<Value, GetKey>(depth_ + 1);
+         setChild(index, child);
+         return child;
       }
 
-      inline void setChild(uint8_t index, Trie<Value, GetKey> *child) noexcept
-      {
-        assert(childs_);
-        (*childs_)[index].reset(child);
+      inline void setChild(uint8_t index, Trie<Value, GetKey> *child) noexcept {
+         assert(childs_);
+         (*childs_)[index].reset(child);
       }
 
-      inline void eraseChild(uint8_t index) noexcept
-      {
-        assert(childs_);
-        (*childs_)[index].reset();
+      inline void eraseChild(uint8_t index) noexcept {
+         assert(childs_);
+         (*childs_)[index].reset();
       }
 
       using childs_array_type = std::array<std::unique_ptr<Trie<Value, GetKey>>, 256>;

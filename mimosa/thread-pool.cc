@@ -3,17 +3,13 @@
 namespace mimosa
 {
   ThreadPool::ThreadPool(std::function<void ()> && fct)
-    : stack_size_(128 * 1024),
-      threads_(),
-      fct_(new std::function<void ()>(fct))
+    : fct_(std::make_unique<std::function<void ()>>(std::move(fct)))
   {
   }
 
   ThreadPool::~ThreadPool()
   {
     join();
-    delete fct_;
-    fct_ = nullptr;
   }
 
   bool

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <vector>
+#include <memory>
 
 #include "thread.hh"
 
@@ -27,8 +28,8 @@ namespace mimosa
     void join();
 
   private:
-    uint32_t                 stack_size_;
+    uint32_t                 stack_size_ = 128 * 1024;
     std::vector<Thread>      threads_;
-    std::function<void ()> * fct_;
+    std::unique_ptr<std::function<void ()>> fct_;
   };
 }
