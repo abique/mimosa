@@ -1,7 +1,7 @@
 #include "torrent-descriptor.hh"
 #include "../stream/base16-encoder.hh"
 #include "../format/print.hh"
-#include "mimosa/stream/filter.hh"
+#include "../stream/filter.hh"
 
 namespace mimosa
 {

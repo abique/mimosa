@@ -8,9 +8,9 @@
 %option extra-type="std::string *"
 
 %{
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
+#include <cstdlib>
+#include <cstring>
+#include <cstdint>
 #include <string>
 
 #include "request.hh"

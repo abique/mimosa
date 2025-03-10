@@ -1,9 +1,9 @@
 %debug
-%pure-parser
+%define api.pure
 %start request
 %defines
-%error-verbose
-%name-prefix "mimosa_http_request_"
+%define parse.error verbose
+%define api.prefix {mimosa_http_request_}
 
 %lex-param {void * yyscanner}
 %parse-param {void * yyscanner}
