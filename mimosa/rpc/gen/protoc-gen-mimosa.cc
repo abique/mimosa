@@ -4,7 +4,11 @@
 #include <zlib.h> // For crc32
 
 #include <google/protobuf/compiler/code_generator.h>
+#if GOOGLE_PROTOBUF_VERSION >= 5030000
+#include <google/protobuf/compiler/cpp/cpp_generator.h>
+#else
 #include <google/protobuf/compiler/cpp/generator.h>
+#endif
 #include <google/protobuf/compiler/plugin.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/descriptor.pb.h>
