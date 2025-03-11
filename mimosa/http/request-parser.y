@@ -1,18 +1,22 @@
 %debug
-%define api.pure
+%pure-parser
+// %define api.pure
 %start request
 %defines
-%define parse.error verbose
-%define api.prefix {mimosa_http_request_}
+%error-verbose
+%name-prefix "mimosa_http_request_"
+// %define parse.error verbose
+// %define api.prefix {mimosa_http_request_}
 
 %lex-param {void * yyscanner}
 %parse-param {void * yyscanner}
 %parse-param {mimosa::http::Request & rq}
 
 %{
-#include <stdio.h>
+#include <cstdio>
 #include <utility>
 #include <string>
+#include <cstdint>
 
 #include "request.hh"
 #include "request-parser.hh"
