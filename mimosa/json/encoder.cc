@@ -108,7 +108,7 @@ namespace mimosa
     }
 
     bool
-    Encoder::pushString(const std::string & data)
+    Encoder::pushString(const std::string_view & data)
     {
       if (!pushSeparator())
         return false;

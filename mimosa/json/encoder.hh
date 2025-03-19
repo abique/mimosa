@@ -23,7 +23,7 @@ namespace mimosa
       bool startArray();
       bool endArray();
 
-      bool pushString(const std::string & data);
+      bool pushString(const std::string_view & data);
       bool pushNumber(int64_t value);
       bool pushFloat(double value);
       bool pushBoolean(bool value);

@@ -1,11 +1,12 @@
-﻿#include <sstream>
+﻿#include <string>
+#include <sstream>
 #include <cassert>
 
 #include <zlib.h> // For crc32
 
 #include <google/protobuf/compiler/code_generator.h>
 #if GOOGLE_PROTOBUF_VERSION >= 5030000
-#include <google/protobuf/compiler/cpp/cpp_generator.h>
+//#include <google/protobuf/compiler/cpp/cpp_generator.h>
 #else
 #include <google/protobuf/compiler/cpp/generator.h>
 #endif
@@ -21,7 +22,7 @@ namespace gpc  = google::protobuf::compiler;
 
 class ServiceGenerator : public gpc::CodeGenerator
 {
-  static uint32_t computeId(const std::string & str)
+  static uint32_t computeId(const std::string_view & str)
   {
     const uint32_t init = ::crc32(0L, Z_NULL, 0);
     return ::crc32(init, (const Bytef *)str.data(), str.size());
@@ -37,7 +38,7 @@ class ServiceGenerator : public gpc::CodeGenerator
     return computeId(service->full_name());
   }
 
-  static std::string cppFullName(const std::string & input)
+  static std::string cppFullName(const std::string_view & input)
   {
     std::ostringstream os;
 
@@ -413,7 +414,7 @@ class ServiceGenerator : public gpc::CodeGenerator
     if (!cpp_gen.Generate(file, parameter, generator_context, error))
       return false;
 
-    std::string header_filename = file->name();
+    std::string header_filename(file->name());
     header_filename.replace(header_filename.end() - 5, header_filename.end(), "pb.h");
 
     if (file->service_count() > 0)
