@@ -6,7 +6,7 @@
 
 #include <google/protobuf/compiler/code_generator.h>
 #if GOOGLE_PROTOBUF_VERSION >= 5030000
-//#include <google/protobuf/compiler/cpp/cpp_generator.h>
+#include <google/protobuf/compiler/cpp/cpp_generator.h>
 #else
 #include <google/protobuf/compiler/cpp/generator.h>
 #endif
