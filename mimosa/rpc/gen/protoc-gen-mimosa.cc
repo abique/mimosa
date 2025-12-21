@@ -5,7 +5,11 @@
 #include <zlib.h> // For crc32
 
 #include <google/protobuf/compiler/code_generator.h>
-#if GOOGLE_PROTOBUF_VERSION >= 5030000
+#if GOOGLE_PROTOBUF_VERSION >= 6031000
+#include <google/protobuf/compiler/cpp/generator.h>
+#elif GOOGLE_PROTOBUF_VERSION >= 6030000
+#error "Incompatible version of protobuf. Please upgrade."
+#elif GOOGLE_PROTOBUF_VERSION >= 5030000
 #include <google/protobuf/compiler/cpp/cpp_generator.h>
 #else
 #include <google/protobuf/compiler/cpp/generator.h>
