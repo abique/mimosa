@@ -5,6 +5,7 @@
 # include <nettle/sha1.h>
 # include <nettle/sha2.h>
 # include <nettle/sha3.h>
+# include <nettle/version.h>
 
 # include "stream.hh"
 
@@ -12,6 +13,12 @@ namespace mimosa
 {
   namespace stream
   {
+
+#if NETTLE_VERSION_MAJOR >= 4
+#define MIMOSA_NETTLE_DIGEST_FUNC(hash, ctx_, digest_) hash##_digest(&ctx_, (uint8_t *)digest_)
+#else
+#define MIMOSA_NETTLE_DIGEST_FUNC(hash, ctx_, digest_) hash##_digest(&ctx_, sizeof (digest_), (uint8_t *)digest_)
+#endif
 
 #define MIMOSA_NETTLE_HASH(HASH, hash, Class)                           \
     class Class : public Stream                                         \
@@ -38,7 +45,7 @@ namespace mimosa
                                                                         \
       char * digest()                                                   \
       {                                                                 \
-        hash##_digest(&ctx_, sizeof (digest_), (uint8_t *)digest_);     \
+        MIMOSA_NETTLE_DIGEST_FUNC(hash, ctx_, digest_);                 \
         return digest_;                                                 \
       }                                                                 \
                                                                         \
@@ -61,6 +68,7 @@ namespace mimosa
     MIMOSA_NETTLE_HASH(SHA3_384, sha3_384, Sha3_384);
     MIMOSA_NETTLE_HASH(SHA3_512, sha3_512, Sha3_512);
 
+#undef MIMOSA_NETTLE_DIGEST_FUNC
 #undef MIMOSA_NETTLE_HASH
   }
   }
